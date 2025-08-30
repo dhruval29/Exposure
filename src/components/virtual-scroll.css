@@ -1,0 +1,13 @@
+.virtual-scroll-container {
+  position: absolute;
+  width: 100%;
+  height: 700vh; /* Back to original value */
+  pointer-events: none;
+  z-index: -1;
+}
+
+.scroll-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}

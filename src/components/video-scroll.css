@@ -1,0 +1,237 @@
+.video-scroll-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: white;
+}
+
+.videos-wrapper {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.scroll-video {
+  width: 373px;  /* Original size */
+  height: 202px; /* Original aspect ratio */
+  position: absolute;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+}
+
+.scroll-video.fullscreen {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
+@font-face {
+  font-family: 'PP Editorial New';
+  src: url('/fonts/PPEditorialNew-Regular-BF644b214ff145f.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bespoke Slab';
+  src: url('/fonts/BespokeSlab_Complete/Fonts/WEB/fonts/BespokeSlab-Extrabold.woff2') format('woff2'),
+       url('/fonts/BespokeSlab_Complete/Fonts/WEB/fonts/BespokeSlab-Extrabold.woff') format('woff'),
+       url('/fonts/BespokeSlab_Complete/Fonts/WEB/fonts/BespokeSlab-Extrabold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Enhanced sliding page animations */
+.sliding-page {
+  position: fixed;
+  left: 0;
+  top: 100%;
+  width: 100vw;
+  height: 536.5vh; /* Back to original height */
+  z-index: 1000;
+  transform: translateY(0);
+  will-change: transform;
+  visibility: hidden;
+  overflow: visible; /* Changed to allow zoom image to show */
+}
+
+/* Light blue background for first two sections */
+.sliding-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200vh;
+  background-color: #CAF3F5;
+}
+
+/* First page - Text section */
+.sliding-page-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 4rem;
+}
+
+.image-stack-section {
+  position: absolute;
+  top: 100vh;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sliding-page-text {
+  color: black;
+  font-size: 52px;
+  font-family: 'PP Editorial New', serif;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: left;
+  width: 765px;
+  margin-bottom: 2rem;
+  position: relative;
+  left: 39px; /* Match the original margin-left of images */
+}
+
+
+.sliding-page-images {
+  display: flex;
+  position: relative;
+  margin-left: 39px;
+  gap: 52px;
+}
+
+.sliding-page-image.forest {
+  width: 672px;
+  height: 378px;
+  object-fit: cover;
+}
+
+.sliding-page-image.building {
+  width: 579px;
+  height: 629px;
+  object-fit: cover;
+  margin-top: -201px;  /* Align with text box */
+}
+
+.video-title {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 72px;
+  font-family: 'Bespoke Slab', serif;
+  font-weight: 800;  /* ExtraBold weight */
+  font-style: normal;
+  text-transform: uppercase;
+  line-height: 82px;
+  word-wrap: break-word;
+  z-index: 10;
+  text-align: center;
+  white-space: pre;
+  letter-spacing: -1px;
+  width: 100%;
+  max-width: 1000px;
+  transform-origin: center center;
+  will-change: transform;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Add this to ensure scrolling works */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 535vh; /* Height adjusted after removing Contact Us section */
+  overflow-x: hidden;
+}
+
+/* Fade in animation for navigation menu background */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Polygon glow animation for enhanced visual appeal */
+@keyframes polygonGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(242, 133, 142, 0.3);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(242, 133, 142, 0.5);
+    filter: brightness(1.05);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(242, 133, 142, 0.3);
+    filter: brightness(1);
+  }
+}
+
+/* Polygon floating animation for more engaging movement */
+@keyframes polygonFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Text pulse animation for enhanced visual appeal */
+@keyframes textPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Individual letter floating animation */
+@keyframes letterFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}

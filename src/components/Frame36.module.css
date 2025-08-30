@@ -1,0 +1,99 @@
+.withLoveFromGoaParent {
+  width: 100%;
+  position: relative;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: transparent;
+  height: 776px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 99.46px;
+  color: #f2f2f2;
+  font-family: Helvetica;
+}
+.withLoveFromContainer {
+  position: absolute;
+  top: 112px;
+  left: 94px;
+}
+.withLove {
+  margin: 0;
+  letter-spacing: -0.04em;
+  line-height: 111%;
+  font-weight: 400;
+}
+.fromGoa {
+  margin: 0;
+  font-weight: 400;
+}
+.withLoveFromGoaParent_fromGoa {
+  letter-spacing: -0.04em;
+  line-height: 111%;
+}
+.span {
+  line-height: 105%;
+}
+.nationalInstituteOfContainer {
+  position: absolute;
+  top: 559px;
+  left: 94px;
+ 
+  font-size: 33.8px;
+  line-height: 105%;
+}
+.instagramSvgrepoCom2Icon {
+  position: absolute;
+  top: 654px;
+  left: 84px;
+  width: 62.5px;
+  height: 62.5px;
+  overflow: hidden;
+  filter: brightness(0) invert(92%);
+}
+.youtubeSvgrepoCom2Icon {
+  position: absolute;
+  top: 654px;
+  left: 169.33px;
+  width: 62.5px;
+  height: 62.5px;
+  overflow: hidden;
+  filter: brightness(0) invert(92%);
+}
+.linkedinSvgrepoCom12 {
+  position: absolute;
+  top: 664.14px;
+  left: 261.43px;
+  width: 45.6px;
+  height: 45.6px;
+  overflow: hidden;
+  filter: brightness(0) invert(92%);
+}
+.svgviewerOutput2Icon {
+  position: absolute;
+  top: 658.22px;
+  left: 335.78px;
+  width: 53.2px;
+  height: 53.2px;
+  overflow: hidden;
+  filter: brightness(0) invert(92%);
+}
+.copyrightIcon {
+  position: absolute;
+  /* Positioned ~70.75px from bottom with icon height considered */
+  top: 630px; /* 776 - 70.75 - 36 (will adjust with new size below) */
+  left: 1055px;
+  width: 86px;
+  height: 86px;
+  overflow: hidden;
+  filter: brightness(0) invert(92%);
+}
+.exposureExplorers {
+  position: absolute;
+  top: 636px;
+  left: 1160.75px;
+  font-size: 40.49px;
+  letter-spacing: 0.03em;
+  line-height: 97%;
+  font-family: 'PP Editorial New';
+  color: #f2f2f2;
+}
+

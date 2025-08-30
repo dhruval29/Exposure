@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Looping Motion Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .feature-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .feature-list h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .feature-list ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .feature-list li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        .demo-link {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 20px 0;
+            transition: background 0.3s ease;
+        }
+        .demo-link:hover {
+            background: #0056b3;
+        }
+        .code-example {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎯 Enhanced Looping Motion Effect</h1>
+        
+        <p>I've enhanced your mouse follow image trail effect with <strong>automatic looping motion</strong>! Now the images move continuously in beautiful patterns while still following your mouse cursor.</p>
+        
+        <div class="feature-list">
+            <h3>✨ New Features Added:</h3>
+            <ul>
+                <li><strong>Automatic Looping Motion:</strong> Images now move in continuous circular patterns</li>
+                <li><strong>Staggered Animation:</strong> Each image has slightly different timing for organic movement</li>
+                <li><strong>Subtle Rotation:</strong> Images gently rotate as they move</li>
+                <li><strong>Enhanced Visual Effects:</strong> Drop shadows and improved button styling</li>
+                <li><strong>Responsive Motion:</strong> Motion adapts to different screen sizes</li>
+            </ul>
+        </div>
+
+        <h3>🔧 How the Looping Motion Works:</h3>
+        <div class="code-example">
+// Each image moves in a circular pattern
+const loopTime = time + (col * 0.3) + (row * 0.2); // Staggered timing
+const loopX = Math.sin(loopTime) * settings.loopRadius;
+const loopY = Math.cos(loopTime * 0.7) * settings.loopRadius;
+
+// Images follow mouse AND have automatic motion
+const x = baseX + loopX;  // Grid position + looping motion
+const y = baseY + loopY;
+        </div>
+
+        <h3>🎮 Try It Out:</h3>
+        <a href="mouse-follow-effect.html" class="demo-link">🚀 Open Enhanced Demo</a>
+        
+        <h3>⚙️ Customization Options:</h3>
+        <div class="feature-list">
+            <ul>
+                <li><strong>Loop Speed:</strong> Adjust <code>settings.loopSpeed</code> (default: 0.5)</li>
+                <li><strong>Motion Radius:</strong> Change <code>settings.loopRadius</code> for bigger/smaller circles</li>
+                <li><strong>Staggering:</strong> Modify the timing multipliers for different motion patterns</li>
+                <li><strong>Rotation:</strong> Adjust the rotation amount in the animation loop</li>
+            </ul>
+        </div>
+
+        <h3>🎨 What You'll See:</h3>
+        <ul>
+            <li>Images constantly moving in smooth circular patterns</li>
+            <li>Mouse following effect still works perfectly</li>
+            <li>Images scale up when close to cursor, down when far</li>
+            <li>Beautiful staggered motion creates organic flow</li>
+            <li>Subtle rotation adds depth and interest</li>
+        </ul>
+
+        <div class="feature-list">
+            <h3>🚀 Performance Features:</h3>
+            <ul>
+                <li>60fps smooth animation</li>
+                <li>Efficient canvas rendering</li>
+                <li>Responsive design for all devices</li>
+                <li>Touch device detection and optimization</li>
+            </ul>
+        </div>
+
+        <p><strong>Ready to see the magic?</strong> Click the demo link above to experience the enhanced looping motion effect!</p>
+    </div>
+</body>
+</html>

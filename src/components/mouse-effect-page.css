@@ -1,0 +1,96 @@
+/* Import the necessary styles from video-scroll.css */
+@import './video-scroll.css';
+
+/* Mouse Effect Page specific styles */
+.mouse-effect-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: #d8d7d1; /* Match the beige background from mouse-follow-styles.css */
+  overflow-x: hidden;
+}
+
+/* Mouse Effect Canvas Container */
+.mouse-effect-canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.mouse-effect-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.mouse-effect-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: #1a1915;
+  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Override some video-scroll styles for mouse effect page */
+.mouse-effect-container .sliding-page {
+  position: absolute; /* Changed from fixed to absolute for better mouse effect integration */
+  left: 0;
+  top: 100%;
+  width: 100vw;
+  height: 536.5vh;
+  z-index: 1000;
+  transform: translateY(0);
+  will-change: transform;
+  visibility: visible; /* Always visible for mouse effect */
+  overflow: visible;
+}
+
+/* Ensure proper stacking for mouse effects */
+.mouse-effect-container .capture-polygon,
+.mouse-effect-container .explore-polygon,
+.mouse-effect-container .live-polygon {
+  position: absolute;
+  z-index: 100;
+}
+
+/* Mouse interaction states */
+.mouse-effect-container .capture-polygon:hover,
+.mouse-effect-container .explore-polygon:hover,
+.mouse-effect-container .live-polygon:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mouse-effect-loading {
+    font-size: 16px;
+    padding: 15px;
+  }
+}
+
+/* Fade in animation for navigation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

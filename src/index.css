@@ -1,0 +1,470 @@
+/* Custom Fonts */
+@font-face {
+  font-family: 'Bespoke Slab';
+  src: url('/fonts/Geist-Black.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PP Editorial New';
+  src: url('/fonts/PPEditorialNew-Regular-BF644b214ff145f.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Helvetica family (served locally from public/fonts) */
+@font-face {
+  font-family: 'Helvetica';
+  src: url('/fonts/helvetica-light-587ebe5a59211.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Helvetica';
+  src: url('/fonts/Helvetica.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Helvetica';
+  src: url('/fonts/Helvetica-Oblique.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Helvetica';
+  src: url('/fonts/Helvetica-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #000000; /* Black text for light background */
+  background-color: white; /* Light background */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+#root {
+  background-color: white;
+  width: 100%;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #ffffff;
+    background-color: #121212;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #1a1a1a;
+  }
+}
+
+/* Basic smooth scrolling */
+html {
+  height: 100vh;
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Responsive font scaling for very small screens */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Responsive font scaling for tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1920px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+/* Landing Page Styles */
+.landing-page {
+  background: white;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.landing-page .border-overlay {
+  position: absolute;
+  border: 1px solid black;
+  inset: 0;
+  pointer-events: none;
+}
+
+.landing-page .hero-title {
+  position: absolute;
+  font-family: 'Bespoke Slab', serif;
+  height: 84px;
+  line-height: 1.227;
+  font-style: normal;
+  color: black;
+  font-size: 33.964px;
+  text-align: left;
+  letter-spacing: 1.3586px;
+  text-transform: uppercase;
+  width: 219px;
+  top: calc(50% + 3684.5px);
+  left: calc(88.462% - 96.846px);
+}
+
+.landing-page .hero-title p {
+  display: block;
+  margin-bottom: 0;
+}
+
+.landing-page .storytelling-section {
+  position: absolute;
+  font-family: 'PP Editorial New', serif;
+  line-height: 1.227;
+  left: 30px;
+  font-style: normal;
+  color: black;
+  font-size: 67.803px;
+  text-align: left;
+  white-space: pre;
+  top: 1128px;
+}
+
+.landing-page .storytelling-section p {
+  display: block;
+  margin-bottom: 0;
+}
+
+.landing-page .photo-gallery {
+  position: absolute;
+  background: white;
+  height: 1024px;
+  left: 0;
+  overflow: hidden;
+  top: 2015px;
+  width: 1440px;
+}
+
+.landing-page .photo-grid {
+  position: absolute;
+  height: 360px;
+  left: 50%;
+  overflow: hidden;
+  top: 332px;
+  transform: translateX(-50%);
+  width: 654px;
+}
+
+.landing-page .photo-item {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-page .photo-item .rotated-photo {
+  flex: none;
+  background: #e5e7eb;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.landing-page .zoom-section {
+  position: absolute;
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 0;
+  font-style: normal;
+  color: black;
+  font-size: 63.158px;
+  text-align: left;
+  white-space: pre;
+  top: 4888px;
+  left: calc(50% - 201px);
+}
+
+.landing-page .zoom-section p {
+  display: block;
+  line-height: normal;
+  white-space: pre;
+}
+
+.landing-page .nav-section {
+  position: absolute;
+  background: white;
+  height: 116px;
+  overflow: hidden;
+  width: 778px;
+}
+
+.landing-page .nav-section .nav-content {
+  position: absolute;
+  background: transparent;
+  height: 115.789px;
+  left: 0;
+  top: 0;
+  width: 888.158px;
+}
+
+.landing-page .nav-section .nav-border {
+  position: absolute;
+  border: 0 0 1.316px black solid;
+  bottom: -0.66px;
+  left: 0;
+  pointer-events: none;
+  right: 0;
+  top: 0;
+}
+
+.landing-page .nav-section .nav-text {
+  position: absolute;
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 0;
+  left: 22.74px;
+  font-style: normal;
+  color: black;
+  font-size: 63.158px;
+  text-align: left;
+  white-space: pre;
+  top: 17.11px;
+}
+
+.landing-page .nav-section .nav-text p {
+  display: block;
+  line-height: normal;
+  white-space: pre;
+}
+
+.landing-page .nav-section .nav-accent {
+  position: absolute;
+  background: #f2858e;
+  height: 116px;
+  left: 0;
+  top: 116px;
+  width: 778px;
+}
+
+.landing-page .nav-section.hall-of-fame {
+  top: 5691px;
+  left: calc(38.462% + 74.154px);
+}
+
+.landing-page .nav-section.gallery {
+  top: 5807px;
+  left: calc(38.462% + 74.154px);
+}
+
+.landing-page .nav-section.team {
+  top: 5923px;
+  left: calc(38.462% + 74.154px);
+}
+
+.landing-page .nav-section.latest-releases {
+  top: 6039px;
+  left: calc(38.462% + 73.154px);
+}
+
+.landing-page .decorative-shape {
+  position: absolute;
+  height: 801px;
+  width: 1505px;
+}
+
+.landing-page .decorative-shape svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+
+.landing-page .decorative-shape.shape-1 {
+  left: -34px;
+  top: 3039px;
+}
+
+.landing-page .decorative-shape.shape-2 {
+  left: -35px;
+  top: 4124px;
+}
+
+.landing-page .decorative-shape.shape-3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: -34px;
+  top: 3580px;
+  width: 1505px;
+}
+
+.landing-page .decorative-shape.shape-3 .rotated {
+  flex: none;
+  transform: rotate(180deg) scaleY(-1);
+}
+
+.landing-page .footer-section {
+  position: absolute;
+  font-family: 'Helvetica', Arial, sans-serif;
+  line-height: 0;
+  left: 72px;
+  font-style: normal;
+  color: black;
+  font-size: 126.997px;
+  text-align: left;
+  white-space: pre;
+  top: 6864px;
+}
+
+.landing-page .footer-section p {
+  display: block;
+  line-height: 1.11;
+  margin-bottom: 0;
+  letter-spacing: -0.64px;
+}
+
+.landing-page .footer-section .goa-text span {
+  line-height: 1.11;
+  letter-spacing: -0.64px;
+}
+
+.landing-page .footer-section .goa-text .period {
+  line-height: 1.05;
+}
+
+.landing-page .address-section {
+  position: absolute;
+  font-family: 'Helvetica', Arial, sans-serif;
+  line-height: 1.05;
+  left: 69px;
+  font-style: normal;
+  color: black;
+  font-size: 40px;
+  text-align: left;
+  white-space: pre;
+  top: 7360px;
+}
+
+.landing-page .address-section p {
+  display: block;
+  margin-bottom: 0;
+}
+
+.landing-page .social-icon {
+  position: absolute;
+  width: 74px;
+  height: 74px;
+  top: 7544px;
+}
+
+.landing-page .social-icon.instagram {
+  left: 61px;
+}
+
+.landing-page .social-icon.youtube {
+  left: calc(7.692% + 51.231px);
+}
+
+.landing-page .social-icon.linkedin {
+  width: 54px;
+  height: 54px;
+  top: 7556px;
+  left: calc(15.385% + 49.462px);
+}
+
+.landing-page .social-icon.email {
+  width: 63px;
+  height: 63px;
+  top: 7549px;
+  left: calc(23.077% + 26.692px);
+}
+
+.landing-page .social-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+
+.landing-page .copyright {
+  position: absolute;
+  bottom: 1.32%;
+  left: 75%;
+  right: 19.86%;
+  top: 97.72%;
+}
+
+.landing-page .copyright svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+}

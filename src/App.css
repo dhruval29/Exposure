@@ -1,0 +1,153 @@
+/* Fresh start - Basic reset and setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow: visible;
+  position: relative;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.app-wrapper {
+  min-height: 100vh;
+}
+
+.landing {
+  width: 100%;
+}
+
+.landing-section {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Global custom cursor */
+html, body, * {
+  cursor: url('/W/cursor final.png') 0 0, pointer;
+}
+
+/* Ensure interactive elements keep the custom cursor */
+a, a:hover, button, button:hover, [role="button"],
+.nav-link, .nav-link:hover, .nav-logo, .nav-logo:hover,
+.navigation, .nav-container, .nav-links {
+  cursor: url('/W/cursor final.png') 0 0, pointer !important;
+}
+
+/* Use custom text cursor over selectable text elements */
+/* We'll show a larger custom text cursor via overlay; keep native to avoid double cursors */
+input[type="text"], textarea, [contenteditable="true"],
+.text, .text-reveal, #headline-reveal, #headline-reveal * {
+  cursor: url('/W/Vector.png') 0 0, text;
+}
+
+/* Keep existing styles for the home page components */
+.virtual-scroll-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.scroll-container {
+  position: relative;
+  z-index: 1;
+}
+
+.app {
+  position: relative;
+}
+
+/* Font faces available for new design */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PPEditorialNew';
+  src: url('/fonts/PPEditorialNew-Regular-BF644b214ff145f.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PPEditorialNew';
+  src: url('/fonts/PPEditorialNew-Italic-BF644b214fb0c0a.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Sliding-page headline brush reveal */
+.text-reveal {
+  position: relative;
+  --reveal: 0%;
+  --softness: 8%;
+}
+
+.text-reveal__bottom,
+.text-reveal__top {
+  font-family: 'PPEditorialNew', serif;
+  font-weight: 400;
+  font-size: 71.61px;
+  line-height: 87.87px;
+}
+
+.text-reveal__bottom {
+  color: #000000;
+}
+
+.text-reveal__top {
+  color: #d8d7d1;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Show light layer to the right of the brush, hide on the left */
+  -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--reveal) - var(--softness)), #fff var(--reveal), #fff 100%);
+  mask-image: linear-gradient(90deg, transparent calc(var(--reveal) - var(--softness)), #fff var(--reveal), #fff 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-mode: luminance;
+}
+
+/* Letter-by-letter reveal styles */
+.headline-container { position: relative; }
+.headline-bottom, .headline-top {
+  font-family: 'PPEditorialNew', serif;
+  font-weight: 400;
+  font-size: 71.61px;
+  line-height: 87.87px;
+}
+.headline-bottom { color: #d8d7d1; }
+.headline-top { position: absolute; inset: 0; pointer-events: none; }
+.headline-top .reveal-letter { color: #000; opacity: 0; }
