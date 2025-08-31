@@ -28,7 +28,59 @@ export const useMouseEffect = (options = {}) => {
     rows: 0
   });
 
-  // Image data
+  // Local image data from pictures folder - replacing external CDN dependencies
+  const localImageData = [
+    // From pictures directory
+    { id: 'IMG_20250105_140531-2', ratio: 600 / 651, path: '/pictures/IMG_20250105_140531-2.jpg' },
+    { id: 'IMG_20241129_052647', ratio: 600 / 522, path: '/pictures/IMG_20241129_052647.jpg' },
+    { id: 'IMG_20241226_200855', ratio: 600 / 420, path: '/pictures/IMG_20241226_200855.jpg' },
+    { id: 'IMG_20250105_135654', ratio: 600 / 612, path: '/pictures/IMG_20250105_135654.jpg' },
+    { id: 'IMG_20241227_151324', ratio: 600 / 417, path: '/pictures/IMG_20241227_151324.jpg' },
+    { id: 'IMG_20250106_201327', ratio: 600 / 559, path: '/pictures/IMG_20250106_201327.jpg' },
+    { id: 'IMG_20241129_044846', ratio: 600 / 583, path: '/pictures/IMG_20241129_044846.jpg' },
+    { id: 'IMG_20241229_133606', ratio: 600 / 544, path: '/pictures/IMG_20241229_133606.jpg' },
+    { id: 'IMG_20250105_143206', ratio: 600 / 663, path: '/pictures/IMG_20250105_143206.jpg' },
+    { id: 'IMG_20250105_192834', ratio: 600 / 428, path: '/pictures/IMG_20250105_192834.jpg' },
+    { id: 'IMG_20250114_093607', ratio: 600 / 428, path: '/pictures/IMG_20250114_093607.jpg' },
+    { id: 'IMG_20250114_191924', ratio: 600 / 428, path: '/pictures/IMG_20250114_191924.jpg' },
+    { id: 'IMG_20250114_201656', ratio: 600 / 428, path: '/pictures/IMG_20250114_201656.jpg' },
+    { id: 'IMG_20250108_165155', ratio: 600 / 428, path: '/pictures/IMG_20250108_165155.jpg' },
+    { id: 'IMG_20250108_164936', ratio: 600 / 428, path: '/pictures/IMG_20250108_164936.jpg' },
+    { id: 'IMG_20250108_151138', ratio: 600 / 428, path: '/pictures/IMG_20250108_151138.jpg' },
+    { id: 'IMG_20250106_191442-2', ratio: 600 / 428, path: '/pictures/IMG_20250106_191442-2.jpg' },
+    { id: 'IMG_20250105_140531', ratio: 600 / 428, path: '/pictures/IMG_20250105_140531.jpg' },
+    { id: 'IMG_20250105_133713', ratio: 600 / 428, path: '/pictures/IMG_20250105_133713.jpg' },
+    { id: 'IMG_20250101_151523', ratio: 600 / 428, path: '/pictures/IMG_20250101_151523.jpg' },
+    { id: 'IMG_20250101_120715', ratio: 600 / 428, path: '/pictures/IMG_20250101_120715.jpg' },
+    { id: 'IMG_20250101_101901', ratio: 600 / 428, path: '/pictures/IMG_20250101_101901.jpg' },
+    { id: 'IMG_20241231_163537', ratio: 600 / 428, path: '/pictures/IMG_20241231_163537.jpg' },
+    { id: 'IMG_20241229_142232', ratio: 600 / 428, path: '/pictures/IMG_20241229_142232.jpg' },
+    { id: 'IMG_20241229_134149', ratio: 600 / 428, path: '/pictures/IMG_20241229_134149.jpg' },
+    { id: 'IMG_20241229_133635', ratio: 600 / 428, path: '/pictures/IMG_20241229_133635.jpg' },
+    { id: 'IMG_20241229_133432', ratio: 600 / 428, path: '/pictures/IMG_20241229_133432.jpg' },
+    { id: 'IMG_20241227_220159', ratio: 600 / 428, path: '/pictures/IMG_20241227_220159.jpg' },
+    { id: 'IMG_20241227_151216', ratio: 600 / 428, path: '/pictures/IMG_20241227_151216.jpg' },
+    { id: 'IMG_20241227_150607', ratio: 600 / 428, path: '/pictures/IMG_20241227_150607.jpg' },
+    { id: 'IMG_20241227_145117', ratio: 600 / 428, path: '/pictures/IMG_20241227_145117.jpg' },
+    { id: 'IMG_20241227_144906', ratio: 600 / 428, path: '/pictures/IMG_20241227_144906.jpg' },
+    { id: 'IMG_20241227_143955', ratio: 600 / 428, path: '/pictures/IMG_20241227_143955.jpg' },
+    { id: 'IMG_20241227_143524', ratio: 600 / 428, path: '/pictures/IMG_20241227_143524.jpg' },
+    { id: 'IMG_20241227_143322', ratio: 600 / 428, path: '/pictures/IMG_20241227_143322.jpg' },
+    { id: 'IMG_20241227_103029', ratio: 600 / 428, path: '/pictures/IMG_20241227_103029.jpg' },
+    { id: 'IMG_20241227_102353', ratio: 600 / 428, path: '/pictures/IMG_20241227_102353.jpg' },
+    { id: 'IMG_20241225_153158-2', ratio: 600 / 428, path: '/pictures/IMG_20241225_153158-2.jpg' },
+    { id: 'IMG_20241129_081550', ratio: 600 / 428, path: '/pictures/IMG_20241129_081550.jpg' },
+    { id: 'IMG_20241129_045140-2', ratio: 600 / 428, path: '/pictures/IMG_20241129_045140 (2).jpg' },
+    { id: 'forest', ratio: 600 / 428, path: '/pictures/forest.jpg' },
+    { id: 'a4127d727720d4c092e45fefaf0b05c0c79fe2d4', ratio: 600 / 428, path: '/pictures/a4127d727720d4c092e45fefaf0b05c0c79fe2d4.jpg' },
+    { id: '66b90841dac09204196c2799eb092dfc82cb4d49', ratio: 600 / 428, path: '/pictures/66b90841dac09204196c2799eb092dfc82cb4d49.jpg' },
+    { id: '4ca5bc212bb689a1f9a15d95833b43b8ebb3b9ab', ratio: 600 / 428, path: '/pictures/4ca5bc212bb689a1f9a15d95833b43b8ebb3b9ab.jpg' },
+    { id: '_SV16657', ratio: 600 / 428, path: '/pictures/_SV16657.jpg' },
+    { id: '_SV16608', ratio: 600 / 428, path: '/pictures/_SV16608.jpg' },
+    { id: '_SV16461', ratio: 600 / 428, path: '/pictures/_SV16461.jpg' }
+  ];
+
+  // Legacy image data (kept for reference but not used)
   const imageData = [
     { id: 'sports-outdoor1', ratio: 600 / 651 },
     { id: 'sports-outdoor2', ratio: 600 / 522 },
@@ -91,16 +143,16 @@ export const useMouseEffect = (options = {}) => {
   // Load images
   const loadImages = async () => {
     try {
-      // If custom image URLs are provided, use them; otherwise fall back to CDN set
+      // If custom image URLs are provided, use them; otherwise use local images from IMAGES folder
       const sourceList = (Array.isArray(imageUrls) && imageUrls.length > 0)
         ? imageUrls.map((item) => {
             if (typeof item === 'string') return { url: item };
             if (item && typeof item === 'object' && item.url) return { url: item.url, ratio: item.ratio };
             return null;
           }).filter(Boolean)
-        : imageData.flatMap(data =>
+        : localImageData.flatMap(data =>
             Array(6).fill(null).map((_, index) => ({
-              url: `https://cdn.telescope.fyi/landing/hero/${data.id}/${index}.jpg`,
+              url: data.path,
               ratio: data.ratio
             }))
           );

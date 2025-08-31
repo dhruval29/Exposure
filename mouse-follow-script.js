@@ -9,11 +9,6 @@ function onMouseMove(e) {
     mouse.y = Math.max(0, Math.min(e.clientY, window.innerHeight));
     mouse.nX = (mouse.x / window.innerWidth) * 2 - 1;
     mouse.nY = -(mouse.y / window.innerHeight) * 2 + 1;
-    
-    // Debug mouse tracking
-    if (time % 60 === 0) { // Log every second
-        console.log('Mouse position:', mouse.x, mouse.y);
-    }
 }
 
 // Touch detection
@@ -25,9 +20,18 @@ function isTouch() {
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
+// Performance optimization: Use high DPI canvas
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    
+    ctx.scale(dpr, dpr);
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    
     updateSettings();
 }
 
@@ -44,34 +48,88 @@ let settings = {
 
 function updateSettings() {
     if (window.innerWidth >= 1024) {
-        settings.imgSize = window.innerHeight * 0.075;
-        settings.maxDistance = window.innerHeight * 0.3;
+        settings.imgSize = window.innerHeight * 0.25;
+        settings.maxDistance = window.innerHeight * 0.5;
     } else {
-        settings.imgSize = window.innerHeight * 0.05;
-        settings.maxDistance = window.innerHeight * 0.2;
+        settings.imgSize = window.innerHeight * 0.18;
+        settings.maxDistance = window.innerHeight * 0.35;
     }
-    settings.gap = window.innerHeight * 0.06;
+    settings.gap = window.innerHeight * 0.45;
     settings.step = settings.imgSize + settings.gap;
     
-    // Ensure we have enough images to cover the screen - REDUCED
-    settings.cols = Math.ceil(window.innerWidth / settings.step) + 2; // Reduced from +6 to +2
-    settings.rows = Math.ceil(window.innerHeight / settings.step) + 2; // Reduced from +6 to +2
+    // Single uniform grid layout - no extra coverage
+    settings.cols = Math.ceil(window.innerWidth / settings.step);
+    settings.rows = Math.ceil(window.innerHeight / settings.step);
+    
+    // Update pre-calculated dimensions for all loaded images when settings change
+    if (images.length > 0) {
+        images.forEach(image => {
+            if (image.ratio >= 1) {
+                image.baseWidth = settings.imgSize;
+                image.baseHeight = settings.imgSize / image.ratio;
+            } else {
+                image.baseHeight = settings.imgSize;
+                image.baseWidth = settings.imgSize * image.ratio;
+            }
+            
+            // Ensure very long images don't get compressed - let them extend beyond slot if needed
+            if (image.ratio < 0.5) { // Very long/tall images
+                image.baseHeight = settings.imgSize * 1.5; // Allow extra height
+                image.baseWidth = image.baseHeight * image.ratio; // Maintain aspect ratio
+            }
+        });
+    }
 }
 
-// Image data - exactly like the original
+// Image data - updated to use compressed images from Downloads folder
 const imageData = [
-    { id: 'sports-outdoor1', ratio: 600 / 651 },
-    { id: 'sports-outdoor2', ratio: 600 / 522 },
-    { id: 'sports-outdoor3', ratio: 600 / 420 },
-    { id: 'home-tech1', ratio: 600 / 612 },
-    { id: 'home-tech2', ratio: 600 / 417 },
-    { id: 'fashion1', ratio: 600 / 559 },
-    { id: 'fashion2', ratio: 600 / 488 },
-    { id: 'fashion3', ratio: 600 / 583 },
-    { id: 'eat-drinks1', ratio: 600 / 544 },
-    { id: 'eat-drinks2', ratio: 600 / 663 },
-    { id: 'eac1', ratio: 600 / 428 },
-    { id: 'eac2', ratio: 600 / 428 }
+    { id: 'IMG_20250105_140531-2', ratio: 600 / 651, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_140531-2.jpg' },
+    { id: 'IMG_20241129_052647', ratio: 600 / 522, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241129_052647.jpg' },
+    { id: 'IMG_20241226_200855', ratio: 600 / 420, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241226_200855.jpg' },
+    { id: 'IMG_20250105_135654', ratio: 600 / 612, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_135654.jpg' },
+    { id: 'IMG_20241227_151324', ratio: 600 / 417, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_151324.jpg' },
+    { id: 'IMG_20250106_201327', ratio: 600 / 559, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250106_201327.jpg' },
+    { id: 'IMG_20241129_044846', ratio: 600 / 583, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241129_044846.jpg' },
+    { id: 'IMG_20241229_133606', ratio: 600 / 544, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241229_133606.jpg' },
+    { id: 'IMG_20250105_143206', ratio: 600 / 663, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_143206.jpg' },
+    { id: 'IMG_20250105_192834', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_192834.jpg' },
+    { id: 'IMG_20250114_093607', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250114_093607.jpg' },
+    { id: 'IMG_20250114_191924', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250114_191924.jpg' },
+    { id: 'IMG_20250114_201656', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250114_201656.jpg' },
+    { id: 'IMG_20250108_165155', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250108_165155.jpg' },
+    { id: 'IMG_20250108_164936', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250108_164936.jpg' },
+    { id: 'IMG_20250108_151138', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250108_151138.jpg' },
+    { id: 'IMG_20250106_191442-2', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250106_191442-2.jpg' },
+    { id: 'IMG_20250105_140531', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_140531.jpg' },
+    { id: 'IMG_20250105_133713', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_133713.jpg' },
+    { id: 'IMG_20250101_151523', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250101_151523.jpg' },
+    { id: 'IMG_20250101_120715', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250101_120715.jpg' },
+    { id: 'IMG_20250101_101901', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250101_101901.jpg' },
+    { id: 'IMG_20241231_163537', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241231_163537.jpg' },
+    { id: 'IMG_20241229_142232', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241229_142232.jpg' },
+    { id: 'IMG_20241229_134149', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241229_134149.jpg' },
+    { id: 'IMG_20241229_133635', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241229_133635.jpg' },
+    { id: 'IMG_20241229_133432', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241229_133432.jpg' },
+    { id: 'IMG_20241227_220159', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20250105_140531-2.jpg' },
+    { id: 'IMG_20241227_151216', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_151216.jpg' },
+    { id: 'IMG_20241227_150607', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_150607.jpg' },
+    { id: 'IMG_20241227_145117', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_145117.jpg' },
+    { id: 'IMG_20241227_144906', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_144906.jpg' },
+    { id: 'IMG_20241227_143955', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_143955.jpg' },
+    { id: 'IMG_20241227_143524', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_143524.jpg' },
+    { id: 'IMG_20241227_143322', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_143322.jpg' },
+    { id: 'IMG_20241227_103029', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_103029.jpg' },
+    { id: 'IMG_20241227_102353', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241227_102353.jpg' },
+    { id: 'IMG_20241225_153158-2', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241225_153158-2.jpg' },
+    { id: 'IMG_20241129_081550', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241129_081550.jpg' },
+    { id: 'IMG_20241129_045140-2', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/IMG_20241129_045140 (2).jpg' },
+    { id: 'forest', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/forest.jpg' },
+    { id: 'a4127d727720d4c092e45fefaf0b05c0c79fe2d4', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/a4127d727720d4c092e45fefaf0b05c0c79fe2d4.jpg' },
+    { id: '66b90841dac09204196c2799eb092dfc82cb4d49', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/66b90841dac09204196c2799eb092dfc82cb4d49.jpg' },
+    { id: '4ca5bc212bb689a1f9a15d95833b43b8ebb3b9ab', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/4ca5bc212bb689a1f9a15d95833b43b8ebb3b9ab.jpg' },
+    { id: '_SV16657', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/_SV16657.jpg' },
+    { id: '_SV16608', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/_SV16608.jpg' },
+    { id: '_SV16461', ratio: 600 / 428, path: 'C:/Users/dhruv/Downloads/iloveimg-compressed (1)/_SV16461.jpg' }
 ];
 
 let images = [];
@@ -82,23 +140,68 @@ let forceScale = 0;
 let centerX = 0, centerY = 0;
 let centerRadius = 0;
 
+// Performance optimization: Frame rate limiting
+let lastFrameTime = 0;
+const targetFPS = 30; // Reduced from 60fps to 30fps for better performance
+const frameInterval = 1000 / targetFPS;
+
+// Performance optimization: Throttle mouse events
+let lastMouseUpdate = 0;
+const mouseThrottleMs = 16; // ~60fps for mouse updates
+
+function onMouseMove(e) {
+    const now = performance.now();
+    if (now - lastMouseUpdate < mouseThrottleMs) return;
+    
+    lastMouseUpdate = now;
+    mouse.x = Math.max(0, Math.min(e.clientX, window.innerWidth));
+    mouse.y = Math.max(0, Math.min(e.clientY, window.innerHeight));
+    mouse.nX = (mouse.x / window.innerWidth) * 2 - 1;
+    mouse.nY = -(mouse.y / window.innerHeight) * 2 + 1;
+}
+
 // Load images
 async function loadImages() {
-    // Create 6 copies of each image type like the original
+    // Create only 1 copy of each image type for minimal, impactful images
     const imageUrls = imageData.flatMap(data => 
-        Array(6).fill(null).map((_, index) => ({
-            url: `https://cdn.telescope.fyi/landing/hero/${data.id}/${index}.jpg`,
+        Array(1).fill(null).map((_, index) => ({
+            url: data.path,
             ratio: data.ratio
         }))
     );
     
-    // Shuffle the images like the original
-    const shuffled = imageUrls.sort(() => Math.random() - 0.5);
+    // Take only the first 20 images for a cleaner, more uniform grid
+    const limitedImageUrls = imageUrls.slice(0, 20);
+    
+    // Shuffle the limited set of images
+    const shuffled = limitedImageUrls.sort(() => Math.random() - 0.5);
     
     const promises = shuffled.map(data => {
         return new Promise((resolve) => {
             const img = new Image();
-            img.onload = () => resolve({ ...data, img });
+            img.onload = () => {
+                const ratio = img.naturalWidth / img.naturalHeight; // true aspect
+                
+                // Pre-calculate base dimensions for performance
+                let baseWidth, baseHeight;
+                if (ratio >= 1) {
+                    // Landscape: width = settings.imgSize, height = width / ratio
+                    baseWidth = settings.imgSize;
+                    baseHeight = settings.imgSize / ratio;
+                } else {
+                    // Portrait: height = settings.imgSize, width = height * ratio
+                    baseHeight = settings.imgSize;
+                    baseWidth = settings.imgSize * ratio;
+                }
+                
+                // Ensure very long images don't get compressed - let them extend beyond slot if needed
+                if (ratio < 0.5) { // Very long/tall images
+                    baseHeight = settings.imgSize * 1.5; // Allow extra height
+                    baseWidth = baseHeight * ratio; // Maintain aspect ratio
+                }
+                
+                resolve({ ...data, ratio, img, baseWidth, baseHeight });
+            };
             img.onerror = () => {
                 // Create a colored rectangle as fallback
                 const fallbackCanvas = document.createElement('canvas');
@@ -118,7 +221,27 @@ async function loadImages() {
                 fallbackCtx.fillRect(50, 50, 100, 100);
                 
                 const fallbackImg = new Image();
-                fallbackImg.onload = () => resolve({ ...data, img: fallbackImg });
+                fallbackImg.onload = () => {
+                    const ratio = fallbackImg.naturalWidth / fallbackImg.naturalHeight; // true aspect
+                    
+                    // Pre-calculate base dimensions for fallback images too
+                    let baseWidth, baseHeight;
+                    if (ratio >= 1) {
+                        baseWidth = settings.imgSize;
+                        baseHeight = settings.imgSize / ratio;
+                    } else {
+                        baseHeight = settings.imgSize;
+                        baseWidth = settings.imgSize * ratio;
+                    }
+                    
+                    // Ensure very long images don't get compressed - let them extend beyond slot if needed
+                    if (ratio < 0.5) { // Very long/tall images
+                        baseHeight = settings.imgSize * 1.5; // Allow extra height
+                        baseWidth = baseHeight * ratio; // Maintain aspect ratio
+                    }
+                    
+                    resolve({ ...data, ratio, img: fallbackImg, baseWidth, baseHeight });
+                };
                 fallbackImg.src = fallbackCanvas.toDataURL();
             };
             img.src = data.url;
@@ -136,120 +259,83 @@ async function loadImages() {
     }
 }
 
-// Main animation loop - smooth infinite scrolling without jerks
-function animate() {
+// Main animation loop - optimized for performance
+function animate(currentTime) {
     if (!isActive) return;
-    
-    time += 0.016; // 60fps timing
-    
-    // Reset time periodically to prevent it from getting too large
-    // This prevents performance issues while maintaining smooth animation
-    if (time > 1000) {
-        time = 0;
+
+    // Frame rate limiting
+    if (currentTime - lastFrameTime < frameInterval) {
+        animationId = requestAnimationFrame(animate);
+        return;
     }
-    
+    lastFrameTime = currentTime;
+
+    time += 0.016;
+    if (time > 1000) time = 0;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Calculate center point for touch devices (like the original)
+
+    // Mouse or touch center
     if (isTouch()) {
         centerX = window.innerWidth * 0.5 + centerRadius * 0.75 * Math.cos(time * 0.75);
         centerY = window.innerHeight * 0.5 + centerRadius * Math.sin(time * 0.75);
     } else {
-        // Use mouse position directly for mouse following
         centerX = mouse.x;
         centerY = mouse.y;
     }
-    
-    // Calculate the total grid size needed for infinite scrolling - REDUCED
-    const totalCols = Math.ceil(window.innerWidth / settings.step) + 2; // Reduced from +8 to +2
-    const totalRows = Math.ceil(window.innerHeight / settings.step) + 2; // Reduced from +8 to +2
-    
+
+    const totalCols = settings.cols;
+    const totalRows = settings.rows;
     let imagesDrawn = 0;
-    
-    // Draw images in grid pattern with smooth infinite looping
+
+    // Performance optimization: Only draw images that are likely visible
+    const visibleRange = Math.ceil(settings.maxDistance / settings.step) + 2;
+
     for (let row = 0; row < totalRows; row++) {
         for (let col = 0; col < totalCols; col++) {
-            const imageIndex = (col + row * totalCols) % images.length;
+            const imageIndex = (row * totalCols + col) % images.length;
             const image = images[imageIndex];
-            
             if (!image || !image.img) continue;
-            
-            // Calculate position with smooth continuous scrolling
-            const baseX = col * settings.step;
-            const baseY = row * settings.step;
-            
-            // Smooth scrolling motion without modulo resets
-            const scrollX = time * 50;
-            const scrollY = time * 30;
-            
-            const x = baseX - scrollX;
-            const y = baseY - scrollY;
-            
-            // Smooth wrapping around screen edges without jerks
-            let wrappedX = x;
-            let wrappedY = y;
-            
-            // Wrap X position smoothly
-            while (wrappedX < -settings.step) {
-                wrappedX += window.innerWidth + settings.step;
+
+            // Slot center
+            const slotX = col * settings.step + settings.imgSize / 2;
+            const slotY = row * settings.step + settings.imgSize / 2;
+
+            // Distance-based scaling
+            const dx = slotX - centerX;
+            const dy = slotY - centerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            let scale = 0;
+            if (distance < settings.maxDistance) {
+                scale = Math.max(0, 4 - (distance / settings.maxDistance) * 4) * forceScale;
             }
-            while (wrappedX > window.innerWidth) {
-                wrappedX -= window.innerWidth + settings.step;
-            }
-            
-            // Wrap Y position smoothly
-            while (wrappedY < -settings.step) {
-                wrappedY += window.innerHeight + settings.step;
-            }
-            while (wrappedY > window.innerHeight) {
-                wrappedY -= window.innerHeight + settings.step;
-            }
-            
-            // Only draw if image is visible on screen
-            if (wrappedX + settings.imgSize > 0 && wrappedX < window.innerWidth && 
-                wrappedY + settings.imgSize > 0 && wrappedY < window.innerHeight) {
-                
-                // Calculate aspect ratio and dimensions
-                let drawWidth, drawHeight;
-                if (image.ratio > 1) {
-                    drawWidth = settings.imgSize;
-                    drawHeight = drawWidth / image.ratio;
-                } else {
-                    drawHeight = settings.imgSize;
-                    drawWidth = drawHeight * image.ratio;
-                }
-                
-                // Calculate distance from center (mouse or touch center)
-                const dx = wrappedX + (settings.imgSize - drawWidth) / 2 + settings.imgSize * 0.5 - centerX;
-                const dy = wrappedY + (settings.imgSize - drawHeight) / 2 + settings.imgSize * 0.5 - centerY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                // Scale based on distance
-                if (distance < settings.maxDistance) {
-                    const scale = Math.max(0, 4 - (distance / settings.maxDistance) * 4) * forceScale;
-                    const finalWidth = drawWidth * scale;
-                    const finalHeight = drawHeight * scale;
-                    
-                    if (finalWidth > 0 && finalHeight > 0) {
-                        ctx.drawImage(
-                            image.img,
-                            wrappedX + (settings.imgSize - finalWidth) / 2,
-                            wrappedY + (settings.imgSize - finalHeight) / 2,
-                            finalWidth,
-                            finalHeight
-                        );
-                        imagesDrawn++;
-                    }
-                }
+
+            // Performance optimization: Skip drawing if scale is too small
+            if (scale < 0.1) continue;
+
+            const finalWidth = image.baseWidth * scale;
+            const finalHeight = image.baseHeight * scale;
+
+            if (finalWidth > 2 && finalHeight > 2) {
+                const drawX = slotX - finalWidth / 2;
+                const drawY = slotY - finalHeight / 2;
+                ctx.drawImage(image.img, drawX, drawY, finalWidth, finalHeight);
+                imagesDrawn++;
             }
         }
     }
-    
-    // Debug info every second
-    if (Math.floor(time * 60) % 60 === 0) {
-        console.log(`Images drawn: ${imagesDrawn}, Time: ${time.toFixed(2)}, Mouse: (${centerX.toFixed(0)}, ${centerY.toFixed(0)})`);
+
+    // Reduced logging frequency
+    if (Math.floor(time * 30) % 30 === 0) {
+        console.log(`Images drawn: ${imagesDrawn}`);
+        
+        // Update performance monitor if available
+        if (window.performanceMonitor && typeof window.performanceMonitor.updateImagesDrawn === 'function') {
+            window.performanceMonitor.updateImagesDrawn(imagesDrawn);
+        }
     }
-    
+
     animationId = requestAnimationFrame(animate);
 }
 
@@ -352,7 +438,7 @@ async function init() {
     centerX = window.innerWidth * 0.5;
     centerY = window.innerHeight * 0.5;
     
-    // Event listeners
+    // Event listeners with passive option for better performance
     window.addEventListener('mousemove', onMouseMove, { passive: true });
     window.addEventListener('resize', resizeCanvas);
     

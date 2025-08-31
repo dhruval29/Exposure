@@ -66,8 +66,8 @@ const MouseEffectPage = () => {
             and ultimately inspire people.
           </div>
           <div className="sliding-page-images">
-            <img src="/forest.png" alt="Forest" className="sliding-page-image forest" />
-            <img src="/Building.png" alt="Building" className="sliding-page-image building" />
+            <img src="/pictures/IMG_20250101_101901.jpg" alt="Nature Scene" className="sliding-page-image forest" />
+            <img src="/pictures/IMG_20241227_144906.jpg" alt="Urban Scene" className="sliding-page-image building" />
           </div>
         </div>
         
@@ -278,7 +278,7 @@ const MouseEffectPage = () => {
               height: '100vh'
             }}>
               <img 
-                src="/pictures/e6598e5c25c54119d943da26c46ea508e5daf7cf.png"
+                src="/pictures/IMG_20250114_093607.jpg"
                 style={{
                   width: '100%',
                   height: '100%',
