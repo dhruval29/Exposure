@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import './StaggeredMenu.css';
+import '../styles/StaggeredMenu.css';
 
 export const StaggeredMenu = ({
   position = 'right',

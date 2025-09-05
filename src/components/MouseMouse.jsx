@@ -16,9 +16,7 @@ const PerformanceMonitor = {
       this.frameCount = 0;
       this.lastTime = currentTime;
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`Mouse Follow Effect FPS: ${this.fps}`);
-      }
+      // FPS monitoring disabled for production
     }
   }
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageStack from './ImageStack';
-import './virtual-scroll.css';
+import '../styles/virtual-scroll.css';
 
 const Home = () => {
   return (

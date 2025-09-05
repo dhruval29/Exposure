@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import StaggeredMenu from './StaggeredMenu';
-import './Gallery.css';
+import '../styles/Gallery.css';
 
 const Gallery = () => {
   const [loading, setLoading] = useState(true);
@@ -123,8 +123,8 @@ const Gallery = () => {
         colors={['#B19EEF', '#5227FF']}
         logoUrl="/src/assets/logos/reactbits-gh-white.svg"
         accentColor="#ff6b6b"
-        onMenuOpen={() => console.log('Menu opened')}
-        onMenuClose={() => console.log('Menu closed')}
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
       />
 
       {/* Main Content */}

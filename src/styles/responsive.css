@@ -1,0 +1,72 @@
+/* Responsive layout styles */
+/* Ensures the layout scales proportionally across all screen sizes */
+
+.landing {
+  /* Ensure the container scales with viewport */
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Responsive image container */
+.responsive-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Responsive text scaling */
+.responsive-text {
+  font-size: clamp(12px, 2.5vw, 24px);
+  line-height: 1.2;
+}
+
+/* Responsive loading title */
+.responsive-loading-title {
+  position: absolute;
+  top: 21.7vh; /* 314px / 1440px * 100vh */
+  left: 34.9vw; /* 503px / 1440px * 100vw */
+  width: 36.8vw; /* 530px / 1440px * 100vw */
+  height: 8.55vh; /* 171px / 2000px * 100vh */
+}
+
+/* Responsive image positioning */
+.responsive-image {
+  position: absolute;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.responsive-image:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .responsive-loading-title {
+    font-size: clamp(24px, 8vw, 48px);
+  }
+  
+  .responsive-text {
+    font-size: clamp(10px, 4vw, 18px);
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-loading-title {
+    font-size: clamp(18px, 6vw, 36px);
+  }
+  
+  .responsive-text {
+    font-size: clamp(8px, 3vw, 16px);
+  }
+}
+
+/* Ensure images don't overflow on small screens */
+@media (max-width: 1024px) {
+  .responsive-image {
+    max-width: 100%;
+    height: auto;
+  }
+}
