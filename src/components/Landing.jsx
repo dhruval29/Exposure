@@ -514,7 +514,12 @@ const Landing = () => {
   const SLIDING_HEIGHT = 2768
 
   return (
-    <div className="landing" style={{ width: '100%', height: `calc(200vh + ${SLIDING_HEIGHT}px)` }}>
+    <div className="landing" style={{ 
+      width: '100%', 
+      height: `calc(200vh + ${SLIDING_HEIGHT}px)`,
+      overflowX: 'hidden',
+      maxWidth: '100vw'
+    }}>
       {/* Top Navigation Bar */}
       <Rectangle18 />
       
@@ -583,28 +588,54 @@ const Landing = () => {
       {/* Sliding page content - positioned after 100vh */}
       <div
         ref={slidingRef}
+        className="sliding-section"
         style={{
           position: 'absolute',
           top: '100vh',
-          left: 0,
-          right: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
           height: SLIDING_HEIGHT,
           background: 'white',
-          border: '3px solid red',
           zIndex: 999,
           overflow: 'hidden',
-          isolation: 'isolate'
+          isolation: 'isolate',
+          width: '100vw',
+          maxWidth: '100vw'
         }}
       >
-          <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white', overflow: 'hidden' }}>
-            <div style={{ 
-              left: '6.3vw', 
-              top: '6.25vh', 
-              position: 'absolute', 
-              zIndex: 10
+          <div style={{ 
+            width: '100%', 
+            height: '100%', 
+            position: 'relative', 
+            background: 'white', 
+            overflow: 'hidden',
+            maxWidth: '100vw',
+            clipPath: 'inset(0)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start'
+          }}>
+            {/* Centered content container */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '1536px', // Match the base design width
+              height: '100%',
+              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
             }}>
-              <StorytellingHero />
-            </div>
+              <div style={{ 
+                left: '6.3vw', 
+                top: '6.25vh', 
+                position: 'absolute', 
+                zIndex: 10,
+                width: 'min(1400px, 90vw)',
+                maxWidth: '90vw'
+              }}>
+                <StorytellingHero />
+              </div>
             <HoverImage 
               src="/assets/images/ui/1.webp" 
               style={responsiveImagePositions.image1}
@@ -681,6 +712,7 @@ const Landing = () => {
                style={responsiveImagePositions.image15}
                caption=""
              />
+            </div> {/* End centered content container */}
           </div>
         </div>
 
