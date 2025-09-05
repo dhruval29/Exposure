@@ -1,0 +1,139 @@
+.theTeam {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  height: 100vh;
+  overflow-x: hidden;
+  text-align: left;
+  font-size: 172.84px;
+  color: rgba(193, 174, 174, 0.69);
+  font-family: Helvetica;
+}
+
+.lineParent {
+  position: absolute;
+  top: 119px;
+  left: 82px;
+  width: 1330px;
+  height: 575px;
+}
+
+.frameChild {
+  position: absolute;
+  top: 229.5px;
+  left: -0.5px;
+  border-top: 1px solid rgba(168, 156, 156, 0.6);
+  box-sizing: border-box;
+  width: 1331px;
+  height: 1px;
+}
+
+.frameItem {
+  position: absolute;
+  top: 344.5px;
+  left: -0.5px;
+  border-top: 1px solid rgba(168, 156, 156, 0.6);
+  box-sizing: border-box;
+  width: 1331px;
+  height: 1px;
+}
+
+.frameInner {
+  position: absolute;
+  top: 459.5px;
+  left: -0.5px;
+  border-top: 1px solid rgba(168, 156, 156, 0.6);
+  box-sizing: border-box;
+  width: 1331px;
+  height: 1px;
+}
+
+.lineDiv {
+  position: absolute;
+  top: 574.5px;
+  left: -0.5px;
+  border-top: 1px solid rgba(168, 156, 156, 0.6);
+  box-sizing: border-box;
+  width: 1331px;
+  height: 1px;
+}
+
+.lanyard0 {
+  position: absolute;
+  top: 0;
+  left: 2%;
+  width: 18%;
+  height: 525px;
+  z-index: 3;
+}
+
+.lanyard1 {
+  position: absolute;
+  top: 0;
+  left: 22%;
+  width: 18%;
+  height: 420px;
+  z-index: 5;
+}
+
+.lanyard2 {
+  position: absolute;
+  top: 0;
+  left: 42%;
+  width: 18%;
+  height: 480px;
+  z-index: 2;
+}
+
+.lanyard3 {
+  position: absolute;
+  top: 0;
+  left: 62%;
+  width: 18%;
+  height: 420px;
+  z-index: 4;
+}
+
+.lanyard4 {
+  position: absolute;
+  top: 0;
+  left: 82%;
+  width: 16%;
+  height: 570px;
+  z-index: 6;
+}
+
+.the {
+  position: absolute;
+  top: 5vh;
+  left: 5vw;
+  letter-spacing: 0.04em;
+  line-height: 122.71%;
+}
+
+.team {
+  position: absolute;
+  top: 15vh;
+  left: 15vw;
+  letter-spacing: 0.04em;
+  line-height: 122.71%;
+}
+
+.lanyardNumber {
+  position: absolute;
+  top: -30px;
+  left: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}

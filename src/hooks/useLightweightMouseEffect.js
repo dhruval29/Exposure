@@ -25,11 +25,11 @@ const useLightweightMouseEffect = (containerRef) => {
 
   // Simplified image data - using sliding content images
   const localImageData = [
-    { id: 'sliding-1', ratio: 600 / 400, path: '/New folder/images/sliding content/1.webp' },
-    { id: 'sliding-2', ratio: 600 / 400, path: '/New folder/images/sliding content/2.webp' },
-    { id: 'sliding-3', ratio: 600 / 400, path: '/New folder/images/sliding content/3.webp' },
-    { id: 'sliding-4', ratio: 600 / 400, path: '/New folder/images/sliding content/4.webp' },
-    { id: 'sliding-5', ratio: 600 / 400, path: '/New folder/images/sliding content/5.webp' }
+    { id: 'sliding-1', ratio: 600 / 400, path: '/assets/images/ui/1.webp' },
+    { id: 'sliding-2', ratio: 600 / 400, path: '/assets/images/ui/2.webp' },
+    { id: 'sliding-3', ratio: 600 / 400, path: '/assets/images/ui/3.webp' },
+    { id: 'sliding-4', ratio: 600 / 400, path: '/assets/images/ui/4.webp' },
+    { id: 'sliding-5', ratio: 600 / 400, path: '/assets/images/ui/5.webp' }
   ];
 
   // Touch detection

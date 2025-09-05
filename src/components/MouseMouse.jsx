@@ -97,21 +97,21 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
 
   // Image data (using sliding content images) - memoized for performance
   const imageData = useMemo(() => [
-    { id: 'img1', path: '/New folder/images/sliding content/1.webp' },
-    { id: 'img2', path: '/New folder/images/sliding content/2.webp' },
-    { id: 'img3', path: '/New folder/images/sliding content/3.webp' },
-    { id: 'img4', path: '/New folder/images/sliding content/4.webp' },
-    { id: 'img5', path: '/New folder/images/sliding content/5.webp' },
-    { id: 'img6', path: '/New folder/images/sliding content/6.webp' },
-    { id: 'img7', path: '/New folder/images/sliding content/7.webp' },
-    { id: 'img8', path: '/New folder/images/sliding content/8.webp' },
-    { id: 'img9', path: '/New folder/images/sliding content/9.webp' },
-    { id: 'img10', path: '/New folder/images/sliding content/10.webp' },
-    { id: 'img11', path: '/New folder/images/sliding content/11.webp' },
-    { id: 'img12', path: '/New folder/images/sliding content/12.webp' },
-    { id: 'img13', path: '/New folder/images/sliding content/13.webp' },
-    { id: 'img14', path: '/New folder/images/sliding content/14.webp' },
-    { id: 'img15', path: '/New folder/images/sliding content/15.webp' }
+    { id: 'img1', path: '/assets/images/ui/1.webp' },
+    { id: 'img2', path: '/assets/images/ui/2.webp' },
+    { id: 'img3', path: '/assets/images/ui/3.webp' },
+    { id: 'img4', path: '/assets/images/ui/4.webp' },
+    { id: 'img5', path: '/assets/images/ui/5.webp' },
+    { id: 'img6', path: '/assets/images/ui/6.webp' },
+    { id: 'img7', path: '/assets/images/ui/7.webp' },
+    { id: 'img8', path: '/assets/images/ui/8.webp' },
+    { id: 'img9', path: '/assets/images/ui/9.webp' },
+    { id: 'img10', path: '/assets/images/ui/10.webp' },
+    { id: 'img11', path: '/assets/images/ui/11.webp' },
+    { id: 'img12', path: '/assets/images/ui/12.webp' },
+    { id: 'img13', path: '/assets/images/ui/13.webp' },
+    { id: 'img14', path: '/assets/images/ui/14.webp' },
+    { id: 'img15', path: '/assets/images/ui/15.webp' }
   ], []);
 
   // Load images with error handling and fallbacks

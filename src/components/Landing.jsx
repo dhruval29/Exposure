@@ -13,7 +13,7 @@ import StorytellingHero from './StorytellingHero'
 import Frame36 from './Frame36'
 import HoverImage from './HoverImage'
 import useLightweightMouseEffect from '../hooks/useLightweightMouseEffect'
-import { responsiveImagePositions, responsiveLoadingTitle } from '../utils/positionConverter'
+import { responsiveImagePositions } from '../utils/positionConverter'
 
 
 // Inline ZoomReveal so Landing is self-contained
@@ -32,7 +32,7 @@ const DEFAULT_ZR_CONFIG = {
   pinSpacing: true
 }
 
-const ZoomReveal = ({ imageSrc = '/New folder/images/zoom reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
+const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
   const containerRef = useRef(null)
   const imageRef = useRef(null)
   const leftTextRef = useRef(null)
@@ -432,15 +432,11 @@ const Landing = () => {
   const [showMouseOverlay, setShowMouseOverlay] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [overlayVisible, setOverlayVisible] = useState(true)
-  const [showLoadingTitle, setShowLoadingTitle] = useState(false)
   // Mouse effect removed - page left blank as requested
 
   // Smooth scroll + slide-up behavior
   useEffect(() => {
-    // Simple landing loading gate (2s)
-    const textTimer = setTimeout(() => setShowLoadingTitle(true), 1000)
-    const loadTimer = setTimeout(() => setIsLoading(false), 3000)
-    const removeTimer = setTimeout(() => setOverlayVisible(false), 4000)
+    // Video duration will be set dynamically when video loads
 
     // Additional scroll listener to ensure MouseMouse visibility works in both directions
     const handleScroll = () => {
@@ -509,9 +505,6 @@ const Landing = () => {
     setTimeout(() => ScrollTrigger.refresh(), 0)
 
     return () => {
-      clearTimeout(textTimer)
-      clearTimeout(loadTimer)
-      clearTimeout(removeTimer)
       if (lenisRef.current) lenisRef.current.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
       window.removeEventListener('scroll', handleScroll)
@@ -525,7 +518,7 @@ const Landing = () => {
       {/* Top Navigation Bar */}
       <Rectangle18 />
       
-      {/* Loading overlay - 2s gate */}
+      {/* Loading overlay - video duration */}
       {overlayVisible && (
         <div
           style={{
@@ -541,46 +534,29 @@ const Landing = () => {
             opacity: isLoading ? 1 : 0
           }}
         >
-          {/* keyframes for per-letter reveal */}
-          <style>{`
-            @keyframes landingCharIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-          `}</style>
-          {showLoadingTitle && (
-            <div style={responsiveLoadingTitle}>
-              {/* Line 1 */}
-              <div style={{
-                letterSpacing: '-0.02em',
-                lineHeight: '97%',
-                color: '#ffffff',
-                fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
-                fontSize: 96,
-                textAlign: 'left',
-                opacity: isLoading ? 1 : 0,
-                transition: 'opacity 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-              }}>
-                {Array.from('EXPOSURE ').map((ch, i) => (
-                  <span key={`l1-${i}`} style={{ display: 'inline-block', opacity: 0, transform: 'translateY(16px)', animation: `landingCharIn 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`, animationDelay: `${200 + i * 50}ms` }}>{ch}</span>
-                ))}
-              </div>
-              {/* Line 2 */}
-              <div style={{
-                letterSpacing: '-0.02em',
-                lineHeight: '97%',
-                color: '#ffffff',
-                fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
-                fontSize: 96,
-                textAlign: 'left',
-                opacity: isLoading ? 1 : 0,
-                transition: 'opacity 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                display: 'flex',
-                flexWrap: 'nowrap'
-              }}>
-                {Array.from('EXPLORERS').map((ch, i) => (
-                  <span key={`l2-${i}`} style={{ display: 'inline-block', opacity: 0, transform: 'translateY(16px)', animation: `landingCharIn 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`, animationDelay: `${200 + 9 * 50 + i * 50}ms` }}>{ch}</span>
-                ))}
-              </div>
-            </div>
-          )}
+          <video
+            ref={(video) => {
+              if (video) {
+                video.addEventListener('loadedmetadata', () => {
+                  const duration = video.duration * 1000 // Convert to milliseconds
+                  // Update loading timers based on actual video duration
+                  setTimeout(() => setIsLoading(false), duration)
+                  setTimeout(() => setOverlayVisible(false), duration + 1000)
+                })
+              }
+            }}
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 1
+            }}
+            src="/videos/loading.webm"
+          />
         </div>
       )}
       {/* Mouse trail overlay on top of all content */}
@@ -614,7 +590,7 @@ const Landing = () => {
           right: 0,
           height: SLIDING_HEIGHT,
           background: 'white',
-          border: '1px solid red',
+          border: '3px solid red',
           zIndex: 999,
           overflow: 'hidden',
           isolation: 'isolate'
@@ -622,86 +598,86 @@ const Landing = () => {
       >
           <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white', overflow: 'hidden' }}>
             <div style={{ 
-              left: 91, 
-              top: 125, 
+              left: '6.3vw', 
+              top: '6.25vh', 
               position: 'absolute', 
-              zIndex: 1000
+              zIndex: 10
             }}>
               <StorytellingHero />
             </div>
             <HoverImage 
-              src="/New folder/images/sliding content/1.webp" 
+              src="/assets/images/ui/1.webp" 
               style={responsiveImagePositions.image1}
               caption=""
             />
                          <HoverImage 
-               src="/New folder/images/sliding content/2.webp" 
+               src="/assets/images/ui/2.webp" 
                style={responsiveImagePositions.image2}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/3.webp" 
+               src="/assets/images/ui/3.webp" 
                style={responsiveImagePositions.image3}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/4.webp" 
+               src="/assets/images/ui/4.webp" 
                style={responsiveImagePositions.image4}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/5.webp" 
+               src="/assets/images/ui/5.webp" 
                style={responsiveImagePositions.image5}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/6.webp" 
+               src="/assets/images/ui/6.webp" 
                style={responsiveImagePositions.image6}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/7.webp" 
+               src="/assets/images/ui/7.webp" 
                style={responsiveImagePositions.image7}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/8.webp" 
+               src="/assets/images/ui/8.webp" 
                style={responsiveImagePositions.image8}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/9.webp" 
+               src="/assets/images/ui/9.webp" 
                style={responsiveImagePositions.image9}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/10.webp" 
+               src="/assets/images/ui/10.webp" 
                style={responsiveImagePositions.image10}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/11.webp" 
+               src="/assets/images/ui/11.webp" 
                style={responsiveImagePositions.image11}
                caption=""
              />
 
                          <HoverImage 
-               src="/New folder/images/sliding content/12.webp" 
+               src="/assets/images/ui/12.webp" 
                style={responsiveImagePositions.image12}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/13.webp" 
+               src="/assets/images/ui/13.webp" 
                style={responsiveImagePositions.image13}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/14.webp" 
+               src="/assets/images/ui/14.webp" 
                style={responsiveImagePositions.image14}
                caption=""
              />
                          <HoverImage 
-               src="/New folder/images/sliding content/15.webp" 
+               src="/assets/images/ui/15.webp" 
                style={responsiveImagePositions.image15}
                caption=""
              />
@@ -720,7 +696,7 @@ const Landing = () => {
             zIndex: 998
           }}
         >
-                     <ZoomReveal imageSrc="/New folder/images/zoom reveal.webp" />
+                     <ZoomReveal imageSrc="/assets/images/ui/zoom-reveal.webp" />
         </div>
     </div>
   )

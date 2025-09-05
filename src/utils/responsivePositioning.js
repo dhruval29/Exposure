@@ -2,8 +2,8 @@
 // Maintains exact same layout proportions across all screen sizes
 
 // Base design dimensions (what you designed for)
-const BASE_WIDTH = 1440;
-const BASE_HEIGHT = 2000; // Approximate height based on your max top values
+const BASE_WIDTH = 1536; // Original design width
+const BASE_HEIGHT = 3004; // Original design height
 
 /**
  * Converts pixel values to responsive units that maintain the same proportions

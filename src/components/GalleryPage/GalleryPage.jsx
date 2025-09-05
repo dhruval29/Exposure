@@ -10,52 +10,66 @@ const GalleryPage = () => {
   const galleryImages = [
     {
       id: 1,
-      src: '/pictures/4ca5bc212bb689a1f9a15d95833b43b8ebb3b9ab.png',
+      src: '/assets/images/gallery/66b90841dac09204196c2799eb092dfc82cb4d49.png',
       alt: 'Gallery Image 1',
       category: 'nature',
       title: 'Natural Landscape'
     },
     {
       id: 2,
-      src: '/pictures/66b90841dac09204196c2799eb092dfc82cb4d49.png',
+      src: '/assets/images/gallery/a4127d727720d4c092e45fefaf0b05c0c79fe2d4.png',
       alt: 'Gallery Image 2',
       category: 'urban',
       title: 'Urban Scene'
     },
     {
       id: 3,
-      src: '/pictures/forest.png',
+      src: '/assets/images/backgrounds/forest.png',
       alt: 'Forest Scene',
       category: 'nature',
       title: 'Forest View'
     },
     {
       id: 4,
-      src: '/pictures/e6598e5c25c54119d943da26c46ea508e5daf7cf.png',
+      src: '/assets/images/gallery/e6598e5c25c54119d943da26c46ea508e5daf7cf.png',
       alt: 'Gallery Image 4',
       category: 'abstract',
       title: 'Abstract Art'
     },
     {
       id: 5,
-      src: '/pictures/fea9ef66f94ec76e2005159a55ddfbe0fc03f4b9.png',
+      src: '/assets/images/gallery/fea9ef66f94ec76e2005159a55ddfbe0fc03f4b9.png',
       alt: 'Gallery Image 5',
       category: 'nature',
       title: 'Natural Beauty'
     },
     {
       id: 6,
-      src: '/pictures/e7643725a3b70e0bc912211e0911b18522585aa2.png',
+      src: '/assets/images/gallery/e7643725a3b70e0bc912211e0911b18522585aa2.png',
       alt: 'Gallery Image 6',
       category: 'urban',
       title: 'City Life'
     },
     {
       id: 7,
-      src: '/pictures/a4127d727720d4c092e45fefaf0b05c0c79fe2d4.png',
+      src: '/assets/images/gallery/7f12ea1300756f144a0fb5daaf68dbfc01103a46.png',
       alt: 'Gallery Image 7',
       category: 'abstract',
       title: 'Modern Design'
+    },
+    {
+      id: 8,
+      src: '/assets/images/gallery/80cd277005dfbb076b97f3443adc9855fec1e19c.png',
+      alt: 'Gallery Image 8',
+      category: 'nature',
+      title: 'Scenic View'
+    },
+    {
+      id: 9,
+      src: '/assets/images/gallery/f5e2cfa883ff3d24c1567c79d5a6e57231b2ef45.png',
+      alt: 'Gallery Image 9',
+      category: 'urban',
+      title: 'City Architecture'
     }
   ];
 

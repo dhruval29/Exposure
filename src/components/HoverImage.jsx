@@ -7,6 +7,7 @@ const HoverImage = ({ src, style, caption }) => {
     <div
       style={{
         position: 'absolute',
+        zIndex: 20,
         ...style
       }}
       onMouseEnter={() => setHovered(true)}

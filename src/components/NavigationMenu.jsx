@@ -14,10 +14,10 @@ const NavigationMenu = ({ isExiting }) => {
   const isMenuVisible = useRef(false);
 
   const menuItems = [
-    { id: 'our-journey', label: 'Our Journey', image: '/Building.png' },
-    { id: 'gallery', label: 'Gallery', image: '/forest.png' },
-    { id: 'team', label: 'Team', image: '/e6598e5c25c54119d943da26c46ea508e5daf7cf.png' },
-    { id: 'latest-releases', label: 'Latest Releases', image: '/f5e2cfa883ff3d24c1567c79d5a6e57231b2ef45.png' }
+    { id: 'our-journey', label: 'Our Journey', image: '/assets/images/backgrounds/Building.png' },
+    { id: 'gallery', label: 'Gallery', image: '/assets/images/backgrounds/forest.png' },
+    { id: 'team', label: 'Team', image: '/assets/images/gallery/e6598e5c25c54119d943da26c46ea508e5daf7cf.png' },
+    { id: 'latest-releases', label: 'Latest Releases', image: '/assets/images/gallery/f5e2cfa883ff3d24c1567c79d5a6e57231b2ef45.png' }
   ];
 
   useEffect(() => {
@@ -166,8 +166,7 @@ const NavigationMenu = ({ isExiting }) => {
   const handleClick = (itemId) => {
     switch (itemId) {
       case 'gallery':
-        // Open the standalone gallery HTML page
-        window.location.href = '/gallery-simple.html';
+        navigate('/gallery');
         break;
       case 'team':
         navigate('/team');
@@ -279,7 +278,7 @@ const NavigationMenu = ({ isExiting }) => {
           style={{
             position: 'relative',
             height: '80px',
-            cursor: "url('/W/cursor final.png') 0 0, pointer",
+            cursor: "url('/assets/icons/cursor final.png') 0 0, pointer",
             overflow: 'visible',
             width: '100%'
           }}

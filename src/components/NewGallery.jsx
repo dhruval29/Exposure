@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import StaggeredMenu from './StaggeredMenu';
 import '../styles/Gallery.css';
 
-const Gallery = () => {
+const NewGallery = () => {
   const [loading, setLoading] = useState(true);
   const rightSideImageRef = useRef(null);
   const loadingPageRef = useRef(null);
@@ -22,39 +22,41 @@ const Gallery = () => {
   ];
 
   const images = [
-    { src: '/assets/images/ui/1.webp', title: 'UI Design 1' },
-    { src: '/assets/images/ui/2.webp', title: 'UI Design 2' },
-    { src: '/assets/images/ui/3.webp', title: 'UI Design 3' },
-    { src: '/assets/images/ui/4.webp', title: 'UI Design 4' },
-    { src: '/assets/images/ui/5.webp', title: 'UI Design 5' },
-    { src: '/assets/images/ui/6.webp', title: 'UI Design 6' },
-    { src: '/assets/images/ui/7.webp', title: 'UI Design 7' },
-    { src: '/assets/images/ui/8.webp', title: 'UI Design 8' },
-    { src: '/assets/images/ui/9.webp', title: 'UI Design 9' },
-    { src: '/assets/images/ui/10.webp', title: 'UI Design 10' },
-    { src: '/assets/images/ui/11.webp', title: 'UI Design 11' },
-    { src: '/assets/images/ui/12.webp', title: 'UI Design 12' },
-    { src: '/assets/images/ui/13.webp', title: 'UI Design 13' },
-    { src: '/assets/images/ui/14.webp', title: 'UI Design 14' },
-    { src: '/assets/images/ui/15.webp', title: 'UI Design 15' }
+    { src: 'https://picsum.photos/400/400?random=1', title: 'Photo 1' },
+    { src: 'https://picsum.photos/400/400?random=2', title: 'Photo 2' },
+    { src: 'https://picsum.photos/400/400?random=3', title: 'Photo 3' },
+    { src: 'https://picsum.photos/400/400?random=4', title: 'Photo 4' },
+    { src: 'https://picsum.photos/400/400?random=5', title: 'Photo 5' },
+    { src: 'https://picsum.photos/400/400?random=6', title: 'Photo 6' },
+    { src: 'https://picsum.photos/400/400?random=7', title: 'Photo 7' },
+    { src: 'https://picsum.photos/400/400?random=8', title: 'Photo 8' },
+    { src: 'https://picsum.photos/400/400?random=9', title: 'Photo 9' },
+    { src: 'https://picsum.photos/400/400?random=10', title: 'Photo 10' },
+    { src: 'https://picsum.photos/400/400?random=11', title: 'Photo 11' },
+    { src: 'https://picsum.photos/400/400?random=12', title: 'Photo 12' },
+    { src: 'https://picsum.photos/400/400?random=13', title: 'Photo 13' },
+    { src: 'https://picsum.photos/400/400?random=14', title: 'Photo 14' },
+    { src: 'https://picsum.photos/400/400?random=15', title: 'Photo 15' },
+    { src: 'https://picsum.photos/400/400?random=16', title: 'Photo 16' }
   ];
 
   const previewImages = [
-    { src: '/assets/images/ui/1.webp', title: 'UI Design 1' },
-    { src: '/assets/images/ui/2.webp', title: 'UI Design 2' },
-    { src: '/assets/images/ui/3.webp', title: 'UI Design 3' },
-    { src: '/assets/images/ui/4.webp', title: 'UI Design 4' },
-    { src: '/assets/images/ui/5.webp', title: 'UI Design 5' },
-    { src: '/assets/images/ui/6.webp', title: 'UI Design 6' },
-    { src: '/assets/images/ui/7.webp', title: 'UI Design 7' },
-    { src: '/assets/images/ui/8.webp', title: 'UI Design 8' },
-    { src: '/assets/images/ui/9.webp', title: 'UI Design 9' },
-    { src: '/assets/images/ui/10.webp', title: 'UI Design 10' },
-    { src: '/assets/images/ui/11.webp', title: 'UI Design 11' },
-    { src: '/assets/images/ui/12.webp', title: 'UI Design 12' },
-    { src: '/assets/images/ui/13.webp', title: 'UI Design 13' },
-    { src: '/assets/images/ui/14.webp', title: 'UI Design 14' },
-    { src: '/assets/images/ui/15.webp', title: 'UI Design 15' }
+    { src: 'https://picsum.photos/600/800?random=1', title: 'Photo 1' },
+    { src: 'https://picsum.photos/600/800?random=2', title: 'Photo 2' },
+    { src: 'https://picsum.photos/600/800?random=3', title: 'Photo 3' },
+    { src: 'https://picsum.photos/600/800?random=4', title: 'Photo 4' },
+    { src: 'https://picsum.photos/600/800?random=5', title: 'Photo 5' },
+    { src: 'https://picsum.photos/600/800?random=6', title: 'Photo 6' },
+    { src: 'https://picsum.photos/600/800?random=7', title: 'Photo 7' },
+    { src: 'https://picsum.photos/600/800?random=8', title: 'Photo 8' },
+    { src: 'https://picsum.photos/600/800?random=9', title: 'Photo 9' },
+    { src: 'https://picsum.photos/600/800?random=10', title: 'Photo 10' },
+    { src: 'https://picsum.photos/600/800?random=11', title: 'Photo 11' },
+    { src: 'https://picsum.photos/600/800?random=12', title: 'Photo 12' },
+    { src: 'https://picsum.photos/600/800?random=13', title: 'Photo 13' },
+    { src: 'https://picsum.photos/600/800?random=14', title: 'Photo 14' },
+    { src: 'https://picsum.photos/600/800?random=15', title: 'Photo 15' },
+    { src: 'https://picsum.photos/600/800?random=16', title: 'Photo 16' }
   ];
 
   useEffect(() => {
@@ -129,7 +131,7 @@ const Gallery = () => {
         menuButtonColor="#000"
         openMenuButtonColor="#000"
         changeMenuColorOnOpen={true}
-        colors={['#fff7ed', '#f9fafb']}
+        colors={['#B19EEF', '#5227FF']}
         logoUrl="/src/assets/logos/reactbits-gh-white.svg"
         accentColor="#ff6b6b"
         onMenuOpen={() => {}}
@@ -190,4 +192,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default NewGallery;

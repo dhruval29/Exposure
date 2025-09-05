@@ -31,51 +31,60 @@ export const convertToResponsive = (style) => {
  * Pre-converted responsive positions for your specific images
  * These maintain the exact same layout proportions across all screen sizes
  */
+// Fixed pixel positioning for massive canvas (no responsive scaling)
+export const fixedImagePositions = (top, left, width, height) => ({
+  position: 'absolute',
+  top: `${top}px`,
+  left: `${left}px`,
+  width: `${width}px`,
+  height: `${height}px`
+});
+
 export const responsiveImagePositions = {
-  // Image 1
-  image1: responsivePosition(1307, 86, 483, 281),
+  // Image 1 - IMG_20250105_140531-2.jpg
+  image1: fixedImagePositions(1307, 86, 483, 281),
   
-  // Image 2
-  image2: responsivePosition(1706, 446, 313, 556),
+  // Image 2 - IMG_20241129_052647.jpg
+  image2: fixedImagePositions(1706, 446, 313, 556),
   
-  // Image 3
-  image3: responsivePosition(947, 451, 541, 304),
+  // Image 3 - IMG_20241226_200855.jpg
+  image3: fixedImagePositions(947, 451, 541, 304),
   
-  // Image 4
-  image4: responsivePosition(480, 611, 234, 416),
+  // Image 4 - IMG_20250105_135654.jpg
+  image4: fixedImagePositions(480, 611, 234, 416),
   
-  // Image 5
-  image5: responsivePosition(1307, 632, 343, 343),
+  // Image 5 - IMG_20241227_151324.jpg
+  image5: fixedImagePositions(1307, 632, 343, 343),
   
-  // Image 6
-  image6: responsivePosition(942, 86, 315, 315),
+  // Image 6 - IMG_20250106_201327.jpg
+  image6: fixedImagePositions(942, 86, 315, 315),
   
-  // Image 7
-  image7: responsivePosition(1706, 804, 646, 364),
+  // Image 7 - IMG_20241129_012410.jpg
+  image7: fixedImagePositions(1706, 804, 646, 364),
   
-  // Image 8
-  image8: responsivePosition(621, 902, 548, 275),
+  // Image 8 - IMG_20241129_044846.jpg
+  image8: fixedImagePositions(621, 902, 548, 275),
   
-  // Image 9
-  image9: responsivePosition(947, 1050, 400, 703),
+  // Image 9 - IMG_20241229_133606.jpg
+  image9: fixedImagePositions(947, 1050, 400, 703),
   
-  // Image 10
-  image10: responsivePosition(1638, 87, 314, 624),
+  // Image 10 - IMG_20241227_143524.jpg
+  image10: fixedImagePositions(1638, 87, 314, 624),
   
-  // Image 11
-  image11: responsivePosition(600, 91, 478, 286),
+  // Image 11 - IMG_20250105_143206.jpg
+  image11: fixedImagePositions(600, 91, 478, 286),
   
-  // Image 12
-  image12: responsivePosition(2312, 86, 673, 357),
+  // Image 12 - IMG_20241225_153158.jpg
+  image12: fixedImagePositions(2312, 86, 673, 357),
   
-  // Image 13
-  image13: responsivePosition(2126, 804, 323, 574),
+  // Image 13 - IMG_20241229_134141.jpg
+  image13: fixedImagePositions(2126, 804, 323, 574),
   
-  // Image 14
-  image14: responsivePosition(2130, 1168, 282, 283),
+  // Image 14 - IMG_20241227_151216.jpg
+  image14: fixedImagePositions(2130, 1168, 282, 283),
   
-  // Image 15
-  image15: responsivePosition(2442, 1168, 282, 282)
+  // Image 15 - IMG_20250114_093607.jpg
+  image15: fixedImagePositions(2442, 1168, 282, 282)
 };
 
 /**

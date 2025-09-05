@@ -1,0 +1,1149 @@
+#f9fafb<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="New Gallery - A modern, interactive photo gallery with smooth animations and responsive design">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5">
+    <link rel="icon" type="image/svg+xml" href="snail.svg">
+    <title>New Gallery</title>
+    <!-- GSAP Script -->
+    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background: #f2f2f2;
+            color: #222222;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* White left side background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 100vh;
+            background: #ffffff;
+            z-index: -1;
+        }
+        
+        /* Loading Page */
+        .c-loading-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity;
+        }
+        
+        .c-loading-page__content {
+            text-align: center;
+        }
+        
+        .c-loading-page__text {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 72px;
+            font-weight: 400;
+            letter-spacing: normal;
+            opacity: 1;
+            transform: none;
+            visibility: hidden;
+        }
+        
+        /* Per-letter animation for loading title */
+        .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(12px);
+            animation: charIn 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        
+        @keyframes charIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Main Content */
+        .main {
+            padding-top: 0;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Grid Mode */
+        .p-home-grid-mode {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .p-home-grid-mode__contents {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 120px);
+            gap: 50px;
+            padding: 30px;
+            margin: 0;
+            align-self: center;
+            justify-self: center;
+            justify-content: center;
+            height: 100%;
+            align-items: center;
+            margin-left: 60px;
+        }
+        
+        .p-home-grid-mode__item {
+            display: flex;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            position: relative;
+            transform: scale(1);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        }
+        
+        .p-home-grid-mode__item:hover {
+            opacity: 0.8;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .p-home-grid-mode__item-num {
+            font-size: 12px;
+            font-weight: 600;
+            color: #000000;
+            position: absolute;
+            top: 0;
+            left: -20px;
+            z-index: 2;
+            letter-spacing: -0.2px;
+        }
+        
+        .p-home-grid-mode__item-image {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .p-home-grid-mode__item-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            aspect-ratio: 1 / 1;
+        }
+        
+        .p-home-grid-mode__item:hover .p-home-grid-mode__item-image img {
+            filter: grayscale(0%);
+        }
+        
+        /* Plus sign overlay on hover */
+        .p-home-grid-mode__item-image::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+        
+        .p-home-grid-mode__item-image::before {
+            content: "+";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 22px;
+            color: #ffffff;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+        
+        .p-home-grid-mode__item:hover .p-home-grid-mode__item-image::after {
+            opacity: 0.7;
+        }
+        
+        .p-home-grid-mode__item:hover .p-home-grid-mode__item-image::before {
+            opacity: 1;
+        }
+        
+        /* Left Section Container */
+        .p-home-left-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Right Side Component */
+        .p-home-right-component {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            height: 100vh;
+            padding-left: 0;
+            overflow: visible;
+            position: relative;
+            margin-left: auto;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .p-home-right-component__image-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: visible;
+            margin-bottom: 80px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            max-height: calc(100vh - 200px);
+            flex: 1;
+            margin: 0 auto;
+            margin-left: 180px;
+        }
+        
+        .p-home-right-component__image-container img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: calc(100vh - 300px);
+            object-fit: contain;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .p-home-right-component__text {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 32px;
+            font-weight: 400;
+            color: #000000;
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            margin-left: 83px;
+            font-family: 'Helvetica', sans-serif;
+            opacity: 0;
+            animation: textFadeIn 700ms cubic-bezier(0.22, 1, 0.36, 1) 400ms forwards;
+        }
+        
+        @keyframes textFadeIn {
+            from { opacity: 0; filter: blur(2px); transform: translateX(-50%) translateY(6px); }
+            to { opacity: 1; filter: blur(0); transform: translateX(-50%) translateY(0); }
+        }
+        
+        .p-home-right-component__text .line {
+            width: 80px;
+            height: 2px;
+            background: #000000;
+        }
+        
+        /* StaggeredMenu Styles */
+        .staggered-menu-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 40;
+        }
+
+        .staggered-menu-header {
+            position: fixed;
+            top: 20px;
+            right: 40px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0;
+            background: transparent;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .staggered-menu-header > * {
+            pointer-events: auto;
+        }
+
+        .sm-logo {
+            display: none;
+            align-items: center;
+            user-select: none;
+        }
+
+        .sm-logo-img {
+            display: block;
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .sm-toggle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #000000;
+            font-weight: 500;
+            line-height: 1;
+            overflow: visible;
+            width: 30px;
+            height: 30px;
+        }
+
+        .sm-toggle:focus-visible {
+            outline: 2px solid #000000aa;
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        .sm-toggle:hover .sm-icon-line {
+            background: #666666;
+        }
+
+        .sm-toggle-textWrap {
+            position: relative;
+            display: inline-block;
+            height: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            width: var(--sm-toggle-width, auto);
+            min-width: var(--sm-toggle-width, auto);
+        }
+
+        .sm-toggle-textInner {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .sm-toggle-line {
+            display: block;
+            height: 1em;
+            line-height: 1;
+        }
+
+        .sm-icon {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            flex: 0 0 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+        }
+
+        .sm-panel-itemWrap {
+            position: relative;
+            overflow: hidden;
+            line-height: 1;
+        }
+
+        .sm-icon-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            will-change: transform;
+            transition: all 0.3s ease;
+        }
+        
+        .sm-icon-line:first-child {
+            top: 6px;
+        }
+
+        .sm-icon-line:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .sm-icon-line:last-child {
+            bottom: 6px;
+        }
+
+        .staggered-menu-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: clamp(260px, 38vw, 420px);
+            height: 100vh;
+            background: white;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            padding: 6em 2em 2em 2em;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        [data-position='left'] .staggered-menu-panel {
+            right: auto;
+            left: 0;
+        }
+
+        .sm-prelayers {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: clamp(260px, 38vw, 420px);
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        [data-position='left'] .sm-prelayers {
+            right: auto;
+            left: 0;
+        }
+
+        .sm-prelayer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 100%;
+            transform: translateX(0);
+        }
+
+        .sm-panel-inner {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .sm-socials {
+            margin-top: auto;
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sm-socials-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--sm-accent, #ff0000);
+        }
+
+        .sm-socials-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .sm-socials-list .sm-socials-link {
+            opacity: 1;
+        }
+
+        .sm-socials-list:hover .sm-socials-link {
+            opacity: 0.35;
+        }
+
+        .sm-socials-list:hover .sm-socials-link:hover {
+            opacity: 1;
+        }
+
+        .sm-socials-link:focus-visible {
+            outline: 2px solid var(--sm-accent, #ff0000);
+            outline-offset: 3px;
+        }
+
+        .sm-socials-list:focus-within .sm-socials-link {
+            opacity: 0.35;
+        }
+
+        .sm-socials-list:focus-within .sm-socials-link:focus-visible {
+            opacity: 1;
+        }
+
+        .sm-socials-link {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #111;
+            text-decoration: none;
+            position: relative;
+            padding: 2px 0;
+            display: inline-block;
+            transition:
+                color 0.3s ease,
+                opacity 0.3s ease;
+        }
+
+        .sm-socials-link:hover {
+            color: var(--sm-accent, #ff0000);
+        }
+
+        .sm-panel-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .sm-panel-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sm-panel-item {
+            position: relative;
+            color: #000;
+            font-weight: 600;
+            font-size: 3.5rem;
+            cursor: pointer;
+            line-height: 1;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            transition:
+                background 0.25s,
+                color 0.25s;
+            display: inline-block;
+            text-decoration: none;
+            padding-right: 1.4em;
+        }
+
+        .staggered-menu-panel .sm-socials-list .sm-socials-link {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .staggered-menu-panel .sm-socials-list:hover .sm-socials-link:not(:hover) {
+            opacity: 0.35;
+        }
+
+        .staggered-menu-panel .sm-socials-list:focus-within .sm-socials-link:not(:focus-visible) {
+            opacity: 0.35;
+        }
+
+        .staggered-menu-panel .sm-socials-list .sm-socials-link:hover,
+        .staggered-menu-panel .sm-socials-list .sm-socials-link:focus-visible {
+            opacity: 1;
+        }
+
+        .sm-panel-itemLabel {
+            display: inline-block;
+            will-change: transform;
+            transform-origin: 50% 100%;
+        }
+
+        .sm-panel-item:hover {
+            color: var(--sm-accent, #5227ff);
+        }
+
+        .sm-panel-list[data-numbering] {
+            counter-reset: smItem;
+        }
+
+        .sm-panel-list[data-numbering] .sm-panel-item::after {
+            counter-increment: smItem;
+            content: counter(smItem, decimal-leading-zero);
+            position: absolute;
+            top: 0.1em;
+            right: 2.8em;
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--sm-accent, #5227ff);
+            letter-spacing: 0;
+            pointer-events: none;
+            user-select: none;
+            opacity: var(--sm-num-opacity, 0);
+        }
+
+        @media (max-width: 1024px) {
+            .staggered-menu-panel {
+                width: 100%;
+                left: 0;
+                right: 0;
+            }
+
+            .staggered-menu-wrapper[data-open] .sm-logo-img {
+                filter: invert(100%);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .staggered-menu-panel {
+                width: 100%;
+                left: 0;
+                right: 0;
+            }
+
+            .staggered-menu-wrapper[data-open] .sm-logo-img {
+                filter: invert(100%);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 767px) {
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .p-home-grid-mode { flex-direction: column; padding: 0 20px; }
+            .p-home-grid-mode__contents {
+                width: 100%;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+                padding: 40px;
+                margin-bottom: 40px;
+                max-width: 500px;
+            }
+            .p-home-right-component { 
+                width: 100%; 
+                padding: 20px; 
+            }
+            .p-home-right-component__image-container { 
+                height: 300px; 
+                margin-bottom: 80px;
+                max-height: 300px;
+            }
+            .p-home-right-component__text {
+                bottom: 60px;
+                font-size: 28px;
+                font-family: 'Helvetica', sans-serif;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .c-loading-page__text,
+            .p-home-right-component__text {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- StaggeredMenu Container -->
+    <div id="staggered-menu-container"></div>
+
+    <!-- Loading Page -->
+    <div class="c-loading-page" id="loadingPage">
+        <div class="c-loading-page__content">
+            <p class="c-loading-page__text">New Gallery</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="p-home">
+            <section class="p-home-grid-mode">
+                <!-- Left Section Container -->
+                <div class="p-home-left-section">
+                    <!-- Grid Contents -->
+                    <div class="p-home-grid-mode__contents">
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="1">
+                            <p class="p-home-grid-mode__item-num">1</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=1" alt="Photo 1" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="2">
+                            <p class="p-home-grid-mode__item-num">2</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=2" alt="Photo 2" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="3">
+                            <p class="p-home-grid-mode__item-num">3</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=3" alt="Photo 3" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="4">
+                            <p class="p-home-grid-mode__item-num">4</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=4" alt="Photo 4" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="5">
+                            <p class="p-home-grid-mode__item-num">5</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=5" alt="Photo 5" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="6">
+                            <p class="p-home-grid-mode__item-num">6</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=6" alt="Photo 6" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="7">
+                            <p class="p-home-grid-mode__item-num">7</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=7" alt="Photo 7" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="8">
+                            <p class="p-home-grid-mode__item-num">8</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=8" alt="Photo 8" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="9">
+                            <p class="p-home-grid-mode__item-num">9</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=9" alt="Photo 9" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="10">
+                            <p class="p-home-grid-mode__item-num">10</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=10" alt="Photo 10" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="11">
+                            <p class="p-home-grid-mode__item-num">11</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=11" alt="Photo 11" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="12">
+                            <p class="p-home-grid-mode__item-num">12</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=12" alt="Photo 12" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="13">
+                            <p class="p-home-grid-mode__item-num">13</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=13" alt="Photo 13" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="14">
+                            <p class="p-home-grid-mode__item-num">14</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=14" alt="Photo 14" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="15">
+                            <p class="p-home-grid-mode__item-num">15</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=15" alt="Photo 15" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                        <a href="#" class="p-home-grid-mode__item" data-image-index="16">
+                            <p class="p-home-grid-mode__item-num">16</p>
+                            <div class="p-home-grid-mode__item-image">
+                                <img src="https://picsum.photos/400/400?random=16" alt="Photo 16" width="200" height="300" loading="lazy">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side Component -->
+                <div class="p-home-right-component">
+                    <div class="p-home-right-component__image-container">
+                        <img src="https://picsum.photos/600/800?random=1" alt="Default image" id="rightSideImage">
+                    </div>
+                    <div class="p-home-right-component__text">
+                        <span>2024</span>
+                        <span class="line"></span>
+                        <span>2025</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // StaggeredMenu Component (vanilla JavaScript version)
+        function createStaggeredMenu(props) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'staggered-menu-wrapper';
+            wrapper.setAttribute('data-position', props.position || 'right');
+            if (props.accentColor) {
+                wrapper.style.setProperty('--sm-accent', props.accentColor);
+            }
+
+            // Pre-layers
+            const preLayers = document.createElement('div');
+            preLayers.className = 'sm-prelayers';
+            preLayers.setAttribute('aria-hidden', 'true');
+            
+            const colors = props.colors || ['#B19EEF', '#5227FF'];
+            colors.slice(0, 2).forEach((color, i) => {
+                const layer = document.createElement('div');
+                layer.className = 'sm-prelayer';
+                layer.style.background = color;
+                preLayers.appendChild(layer);
+            });
+
+            // Header
+            const header = document.createElement('header');
+            header.className = 'staggered-menu-header';
+            header.setAttribute('aria-label', 'Main navigation header');
+
+            // Logo
+            const logo = document.createElement('div');
+            logo.className = 'sm-logo';
+            logo.setAttribute('aria-label', 'Logo');
+            const logoImg = document.createElement('img');
+            logoImg.src = props.logoUrl || '/src/assets/logos/reactbits-gh-white.svg';
+            logoImg.alt = 'Logo';
+            logoImg.className = 'sm-logo-img';
+            logoImg.draggable = false;
+            logoImg.width = 110;
+            logoImg.height = 24;
+            logo.appendChild(logoImg);
+
+            // Toggle button
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'sm-toggle';
+            toggleBtn.setAttribute('aria-label', 'Open menu');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.setAttribute('aria-controls', 'staggered-menu-panel');
+            toggleBtn.type = 'button';
+
+            // Text wrap
+            const textWrap = document.createElement('span');
+            textWrap.className = 'sm-toggle-textWrap';
+            textWrap.setAttribute('aria-hidden', 'true');
+            const textInner = document.createElement('span');
+            textInner.className = 'sm-toggle-textInner';
+            const menuText = document.createElement('span');
+            menuText.className = 'sm-toggle-line';
+            menuText.textContent = 'Menu';
+            const closeText = document.createElement('span');
+            closeText.className = 'sm-toggle-line';
+            closeText.textContent = 'Close';
+            textInner.appendChild(menuText);
+            textInner.appendChild(closeText);
+            textWrap.appendChild(textInner);
+
+            // Icon
+            const icon = document.createElement('span');
+            icon.className = 'sm-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            const line1 = document.createElement('span');
+            line1.className = 'sm-icon-line';
+            const line2 = document.createElement('span');
+            line2.className = 'sm-icon-line sm-icon-line-v';
+            icon.appendChild(line1);
+            icon.appendChild(line2);
+
+            toggleBtn.appendChild(textWrap);
+            toggleBtn.appendChild(icon);
+
+            header.appendChild(logo);
+            header.appendChild(toggleBtn);
+
+            // Panel
+            const panel = document.createElement('aside');
+            panel.id = 'staggered-menu-panel';
+            panel.className = 'staggered-menu-panel';
+            panel.setAttribute('aria-hidden', 'true');
+
+            const panelInner = document.createElement('div');
+            panelInner.className = 'sm-panel-inner';
+
+            // Menu items
+            const menuList = document.createElement('ul');
+            menuList.className = 'sm-panel-list';
+            menuList.setAttribute('role', 'list');
+            if (props.displayItemNumbering) {
+                menuList.setAttribute('data-numbering', '');
+            }
+
+            if (props.items && props.items.length) {
+                props.items.forEach((item, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'sm-panel-itemWrap';
+                    const link = document.createElement('a');
+                    link.className = 'sm-panel-item';
+                    link.href = item.link;
+                    link.setAttribute('aria-label', item.ariaLabel);
+                    link.setAttribute('data-index', idx + 1);
+                    const label = document.createElement('span');
+                    label.className = 'sm-panel-itemLabel';
+                    label.textContent = item.label;
+                    link.appendChild(label);
+                    li.appendChild(link);
+                    menuList.appendChild(li);
+                });
+            }
+
+            panelInner.appendChild(menuList);
+
+            // Social links
+            if (props.displaySocials && props.socialItems && props.socialItems.length) {
+                const socials = document.createElement('div');
+                socials.className = 'sm-socials';
+                socials.setAttribute('aria-label', 'Social links');
+                
+                const socialTitle = document.createElement('h3');
+                socialTitle.className = 'sm-socials-title';
+                socialTitle.textContent = 'Socials';
+                
+                const socialList = document.createElement('ul');
+                socialList.className = 'sm-socials-list';
+                socialList.setAttribute('role', 'list');
+                
+                props.socialItems.forEach((social, i) => {
+                    const li = document.createElement('li');
+                    li.className = 'sm-socials-item';
+                    const link = document.createElement('a');
+                    link.href = social.link;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.className = 'sm-socials-link';
+                    link.textContent = social.label;
+                    li.appendChild(link);
+                    socialList.appendChild(li);
+                });
+                
+                socials.appendChild(socialTitle);
+                socials.appendChild(socialList);
+                panelInner.appendChild(socials);
+            }
+
+            panel.appendChild(panelInner);
+
+            // Assemble the menu
+            wrapper.appendChild(preLayers);
+            wrapper.appendChild(header);
+            wrapper.appendChild(panel);
+
+            // Menu functionality
+            let isOpen = false;
+            const offscreen = props.position === 'left' ? -100 : 100;
+            
+            // Initialize positions
+            gsap.set([panel, ...preLayers.querySelectorAll('.sm-prelayer')], { xPercent: offscreen });
+            gsap.set(icon, { rotate: 0 });
+            gsap.set(textInner, { yPercent: 0 });
+            gsap.set(toggleBtn, { color: props.menuButtonColor });
+
+            toggleBtn.addEventListener('click', function() {
+                isOpen = !isOpen;
+                wrapper.setAttribute('data-open', isOpen || undefined);
+                toggleBtn.setAttribute('aria-expanded', isOpen);
+                toggleBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+                panel.setAttribute('aria-hidden', !isOpen);
+
+                if (isOpen) {
+                    props.onMenuOpen?.();
+                    // Open animation
+                    gsap.to([...preLayers.querySelectorAll('.sm-prelayer'), panel], {
+                        xPercent: 0,
+                        duration: 0.5,
+                        ease: 'power4.out',
+                        stagger: 0.07
+                    });
+                    gsap.to(icon, { rotate: 225, duration: 0.8, ease: 'power4.out' });
+                    gsap.to(textInner, { yPercent: -50, duration: 0.5, ease: 'power4.out' });
+                    gsap.to(toggleBtn, { color: props.openMenuButtonColor, delay: 0.18, duration: 0.3 });
+                } else {
+                    props.onMenuClose?.();
+                    // Close animation
+                    gsap.to([...preLayers.querySelectorAll('.sm-prelayer'), panel], {
+                        xPercent: offscreen,
+                        duration: 0.32,
+                        ease: 'power3.in'
+                    });
+                    gsap.to(icon, { rotate: 0, duration: 0.35, ease: 'power3.inOut' });
+                    gsap.to(textInner, { yPercent: 0, duration: 0.35, ease: 'power3.inOut' });
+                    gsap.to(toggleBtn, { color: props.menuButtonColor, duration: 0.3 });
+                }
+            });
+
+            return wrapper;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Letter-by-letter animation for loading title
+            const loadingTitleEl = document.querySelector('.c-loading-page__text');
+            if (loadingTitleEl) {
+                const original = loadingTitleEl.textContent;
+                const parts = [];
+                const baseDelay = 100; // ms
+                const step = 45; // ms per character
+                for (let i = 0; i < original.length; i++) {
+                    const ch = original[i];
+                    if (ch === ' ') {
+                        parts.push(' ');
+                    } else {
+                        parts.push('<span class="char" style="animation-delay:' + (baseDelay + i * step) + 'ms">' + ch + '</span>');
+                    }
+                }
+                loadingTitleEl.innerHTML = parts.join('');
+                loadingTitleEl.style.visibility = 'visible';
+            }
+
+            // Hide loading page after 1 second
+            setTimeout(function() {
+                const loadingPage = document.getElementById('loadingPage');
+                if (loadingPage) {
+                    loadingPage.style.opacity = '0';
+                    setTimeout(function() {
+                        loadingPage.style.display = 'none';
+                    }, 600);
+                }
+            }, 1000);
+            
+            // Add hover event listeners to all grid items
+            const gridItems = document.querySelectorAll('.p-home-grid-mode__item');
+            const rightSideImage = document.getElementById('rightSideImage');
+            
+            // Array of images for the right side
+            const images = [
+                { src: 'https://picsum.photos/600/800?random=1', title: 'Photo 1' },
+                { src: 'https://picsum.photos/600/800?random=2', title: 'Photo 2' },
+                { src: 'https://picsum.photos/600/800?random=3', title: 'Photo 3' },
+                { src: 'https://picsum.photos/600/800?random=4', title: 'Photo 4' },
+                { src: 'https://picsum.photos/600/800?random=5', title: 'Photo 5' },
+                { src: 'https://picsum.photos/600/800?random=6', title: 'Photo 6' },
+                { src: 'https://picsum.photos/600/800?random=7', title: 'Photo 7' },
+                { src: 'https://picsum.photos/600/800?random=8', title: 'Photo 8' },
+                { src: 'https://picsum.photos/600/800?random=9', title: 'Photo 9' },
+                { src: 'https://picsum.photos/600/800?random=10', title: 'Photo 10' },
+                { src: 'https://picsum.photos/600/800?random=11', title: 'Photo 11' },
+                { src: 'https://picsum.photos/600/800?random=12', title: 'Photo 12' },
+                { src: 'https://picsum.photos/600/800?random=13', title: 'Photo 13' },
+                { src: 'https://picsum.photos/600/800?random=14', title: 'Photo 14' },
+                { src: 'https://picsum.photos/600/800?random=15', title: 'Photo 15' },
+                { src: 'https://picsum.photos/600/800?random=16', title: 'Photo 16' }
+            ];
+            
+            for (let i = 0; i < gridItems.length; i++) {
+                gridItems[i].addEventListener('mouseenter', function() {
+                    const imageIndex = parseInt(this.getAttribute('data-image-index'));
+                    if (rightSideImage && imageIndex >= 1 && imageIndex <= images.length) {
+                        // Add fade out effect
+                        rightSideImage.style.opacity = '0';
+                        rightSideImage.style.transform = 'scale(0.95)';
+                        
+                        // Wait for fade out, then change image and fade in
+                        setTimeout(function() {
+                            rightSideImage.src = images[imageIndex - 1].src;
+                            rightSideImage.alt = images[imageIndex - 1].title;
+                            
+                            // Force reflow to ensure the new image loads
+                            rightSideImage.offsetHeight;
+                            
+                            // Fade in
+                            rightSideImage.style.opacity = '1';
+                            rightSideImage.style.transform = 'scale(1)';
+                        }, 300);
+                    }
+                });
+            }
+
+            // Initialize StaggeredMenu
+            const menuContainer = document.getElementById('staggered-menu-container');
+            if (menuContainer) {
+                const menuItems = [
+                    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+                    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
+                    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
+                    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
+                ];
+
+                const socialItems = [
+                    { label: 'Twitter', link: 'https://twitter.com' },
+                    { label: 'GitHub', link: 'https://github.com' },
+                    { label: 'LinkedIn', link: 'https://linkedin.com' }
+                ];
+
+                // Create StaggeredMenu using vanilla JavaScript
+                const StaggeredMenuElement = createStaggeredMenu({
+                    position: 'right',
+                    items: menuItems,
+                    socialItems: socialItems,
+                    displaySocials: true,
+                    displayItemNumbering: true,
+                    menuButtonColor: '#000',
+                    openMenuButtonColor: '#000',
+                    changeMenuColorOnOpen: true,
+                    colors: ['#B19EEF', '#5227FF'],
+                    logoUrl: '/src/assets/logos/reactbits-gh-white.svg',
+                    accentColor: '#ff6b6b',
+                    onMenuOpen: () => console.log('Menu opened'),
+                    onMenuClose: () => console.log('Menu closed')
+                });
+
+                menuContainer.appendChild(StaggeredMenuElement);
+            }
+        });
+    </script>
+</body>
+</html>

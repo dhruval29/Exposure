@@ -7,7 +7,7 @@ import Frame50 from './components/Frame50'
 import ScrollTracker from './components/ScrollTracker'
 import TestPage from './components/TestPage'
 import MembersPage from './components/MembersPage'
-import GalleryPage from './components/GalleryPage'
+import Gallery from './components/Gallery'
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
-          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/members" element={<MembersPage />} />
         </Routes>
