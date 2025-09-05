@@ -9,7 +9,7 @@ const Rectangle18 = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const viewportHeight = window.innerHeight; // 776px from ScrollTracker
+      const viewportHeight = window.innerHeight;
 
       // Show "EXPOSURE EXPLORERS" text when the initial 100vh section is scrolled past
       // This corresponds to when the sliding page effectively "reaches the top of the window"
@@ -20,8 +20,8 @@ const Rectangle18 = () => {
       }
 
       // Hide nav bar when reaching the zoom component
-      // Based on ScrollTracker, trigger-1 (likely ZoomReveal) starts at 3544px
-      const zoomComponentActualStart = 3544; // From ScrollTracker trigger-1 start
+      // ZoomReveal component starts at 3544px
+      const zoomComponentActualStart = 3544;
       if (scrollTop >= zoomComponentActualStart) {
         setIsSlidingUp(true);
         // Hide completely after slide animation

@@ -446,7 +446,7 @@ const Landing = () => {
       
       // Show MouseMouse when we're in the sliding section (after 100vh, before zoom component)
       const slidingSectionStart = viewportHeight
-      const zoomComponentStart = 3544 // From ScrollTracker data
+      const zoomComponentStart = 3544 // Zoom component start position
       
       if (scrollTop >= slidingSectionStart && scrollTop < zoomComponentStart) {
         setShowMouseOverlay(true)

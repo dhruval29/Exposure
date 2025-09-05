@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Landing from './components/Landing'
 import TextCursorOverlay from './components/TextCursorOverlay'
 import Frame50 from './components/Frame50'
-import ScrollTracker from './components/ScrollTracker'
 import TestPage from './components/TestPage'
 import MembersPage from './components/MembersPage'
 import Gallery from './components/Gallery'
@@ -15,7 +14,6 @@ function App() {
     <Router>
       <div className="app-wrapper">
         <TextCursorOverlay />
-        <ScrollTracker defaultVisible={true} />
         <Frame50 />
         <Routes>
           <Route path="/" element={<Landing />} />
