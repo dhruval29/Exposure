@@ -21,24 +21,16 @@ const NavigationMenu = ({ isExiting }) => {
   ];
 
   useEffect(() => {
-    console.log('Initial setup effect running...', {
-      textRefs: textRefs.current,
-      borderRefs: borderRefs.current
-    });
-    
     // Wait for refs to be properly set
     const checkRefs = () => {
       if (textRefs.current && borderRefs.current && 
           textRefs.current.length > 0 && borderRefs.current.length > 0) {
-        console.log('Refs ready, setting up...');
         try {
           setupScrollTrigger();
-          console.log('Setup complete!');
         } catch (error) {
-          console.error('Navigation menu setup error:', error);
+          // Silent error handling
         }
       } else {
-        console.log('Refs not ready yet, retrying in 100ms...');
         setTimeout(checkRefs, 100);
       }
     };
@@ -48,15 +40,11 @@ const NavigationMenu = ({ isExiting }) => {
 
   // Animate in when component mounts and refs are ready
   useEffect(() => {
-    console.log('NavigationMenu mounted, waiting for refs...');
-    
     const waitForRefsAndAnimate = () => {
       if (textRefs.current && borderRefs.current && 
           textRefs.current.length > 0 && borderRefs.current.length > 0) {
-        console.log('Refs ready, starting entrance animation...');
         animateMenuIn();
       } else {
-        console.log('Refs not ready yet, retrying in 100ms...');
         setTimeout(waitForRefsAndAnimate, 100);
       }
     };
@@ -67,7 +55,6 @@ const NavigationMenu = ({ isExiting }) => {
   // Watch for exit signal and play exit animation (force even if visible flag missed)
   useEffect(() => {
     if (isExiting) {
-      console.log('Exit signal received, playing exit animation...');
       animateMenuOut();
     }
   }, [isExiting]);
@@ -119,33 +106,21 @@ const NavigationMenu = ({ isExiting }) => {
       }, 0.05);
       isMenuVisible.current = false;
     } catch (error) {
-      console.error('Reverse animation error:', error);
+      // Silent error handling
     }
   };
 
   const animateMenuIn = () => {
-    console.log('animateMenuIn called!', {
-      textRefs: textRefs.current,
-      borderRefs: borderRefs.current,
-      isMenuVisible: isMenuVisible.current
-    });
-    
     if (!textRefs.current || !borderRefs.current || 
         textRefs.current.length === 0 || borderRefs.current.length === 0) {
-      console.log('Refs not ready or empty, returning early');
       return;
     }
     
     if (isMenuVisible.current) {
-      console.log('Menu already visible, returning early');
       return;
     }
     
     try {
-      console.log('Starting menu animation...');
-      console.log('Text refs found:', textRefs.current.filter(Boolean).length);
-      console.log('Border refs found:', borderRefs.current.filter(Boolean).length);
-      
       isMenuVisible.current = true;
       const tl = gsap.timeline();
       
@@ -183,17 +158,16 @@ const NavigationMenu = ({ isExiting }) => {
         },
         0 // Start at the same time as text animation
       );
-      
-      console.log('Animation timeline created successfully');
     } catch (error) {
-      console.error('Animation error:', error);
+      // Silent error handling
     }
   };
 
   const handleClick = (itemId) => {
     switch (itemId) {
       case 'gallery':
-        navigate('/gallery');
+        // Open the standalone gallery HTML page
+        window.location.href = '/gallery-simple.html';
         break;
       case 'team':
         navigate('/team');

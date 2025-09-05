@@ -1,47 +1,4 @@
-/* Custom Fonts */
-@font-face {
-  font-family: 'Bespoke Slab';
-  src: url('/fonts/Geist-Black.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: 'PP Editorial New';
-  src: url('/fonts/PPEditorialNew-Regular-BF644b214ff145f.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* Helvetica family (served locally from public/fonts) */
-@font-face {
-  font-family: 'Helvetica';
-  src: url('/fonts/helvetica-light-587ebe5a59211.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Helvetica';
-  src: url('/fonts/Helvetica.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Helvetica';
-  src: url('/fonts/Helvetica-Oblique.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Helvetica';
-  src: url('/fonts/Helvetica-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -108,9 +65,10 @@ button:focus-visible {
 }
 
 @media (prefers-color-scheme: dark) {
+  /* Force light background even in dark mode to avoid dark bands behind fixed sections */
   :root {
-    color: #ffffff;
-    background-color: #121212;
+    color: #000000;
+    background-color: #ffffff;
   }
   a:hover {
     color: #747bff;
@@ -125,6 +83,7 @@ html {
   height: 100vh;
   scroll-behavior: smooth;
   overflow-x: hidden; /* Prevent horizontal scroll */
+  background: white;
 }
 
 /* Responsive font scaling for very small screens */

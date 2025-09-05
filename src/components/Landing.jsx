@@ -1,10 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react'
+import MouseMouse from './MouseMouse'
+import Rectangle18 from './Rectangle18'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger)
+
 import Lenis from '@studio-freight/lenis'
 // import { useMouseEffect } from './MouseEffectPage/useMouseEffect' // REMOVED - duplicate effect causing performance issues
 import NavigationMenu from './NavigationMenu'
-import WeUseThePowerOfStorytellingToFireTheImaginationStirTheSoulAndUltimatelyInspirePeople from './WeUseThePowerOfStorytellingToFireTheImaginationStirTheSoulAndUltimatelyInspirePeople'
+import StorytellingHero from './StorytellingHero'
 import Frame36 from './Frame36'
 // Note: Scroll/Lenis removed per request for a static wireframe
 
@@ -33,13 +39,13 @@ const useLightweightMouseEffect = (containerRef) => {
     rows: 0
   });
 
-  // Simplified image data - just a few images for performance
+  // Simplified image data - using sliding content images
   const localImageData = [
-    { id: 'forest', ratio: 600 / 428, path: '/pictures/forest.jpg' },
-    { id: 'IMG_20250105_140531-2', ratio: 600 / 651, path: '/pictures/IMG_20250105_140531-2.jpg' },
-    { id: 'IMG_20241129_052647', ratio: 600 / 522, path: '/pictures/IMG_20241129_052647.jpg' },
-    { id: 'IMG_20241226_200855', ratio: 600 / 420, path: '/pictures/IMG_20241226_200855.jpg' },
-    { id: 'IMG_20250105_135654', ratio: 600 / 612, path: '/pictures/IMG_20250105_135654.jpg' }
+    { id: 'sliding-1', ratio: 600 / 400, path: '/New folder/images/sliding content/1.webp' },
+    { id: 'sliding-2', ratio: 600 / 400, path: '/New folder/images/sliding content/2.webp' },
+    { id: 'sliding-3', ratio: 600 / 400, path: '/New folder/images/sliding content/3.webp' },
+    { id: 'sliding-4', ratio: 600 / 400, path: '/New folder/images/sliding content/4.webp' },
+    { id: 'sliding-5', ratio: 600 / 400, path: '/New folder/images/sliding content/5.webp' }
   ];
 
   // Touch detection
@@ -89,18 +95,14 @@ const useLightweightMouseEffect = (containerRef) => {
   // Load images
   const loadImages = async () => {
     try {
-      console.log('Starting to load images for mouse effect...');
       const promises = localImageData.map(data => {
-        console.log('Loading image:', data.path);
         return new Promise((resolve) => {
           const img = new Image();
           img.onload = () => {
             const ratio = data.ratio || (img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1);
-            console.log('Image loaded successfully:', data.path, 'ratio:', ratio);
             resolve({ ...data, ratio, img });
           };
           img.onerror = () => {
-            console.warn('Image failed to load, using fallback:', data.path);
             // Create a colored rectangle as fallback
             const fallbackCanvas = document.createElement('canvas');
             fallbackCanvas.width = 200;
@@ -127,9 +129,7 @@ const useLightweightMouseEffect = (containerRef) => {
       const loadedImages = await Promise.all(promises);
       setImages(loadedImages);
       setIsLoading(false);
-      console.log('Lightweight mouse effect images loaded:', loadedImages.length);
     } catch (error) {
-      console.error('Error loading images:', error);
       setIsLoading(false);
     }
   };
@@ -165,7 +165,6 @@ const useLightweightMouseEffect = (containerRef) => {
   
   const animate = (currentTime) => {
     if (!isActive || !canvasRef.current) {
-      console.log('Animation not active or canvas not ready:', { isActive, hasCanvas: !!canvasRef.current });
       return;
     }
     
@@ -239,17 +238,12 @@ const useLightweightMouseEffect = (containerRef) => {
       }
     }
     
-    // Log every 30 frames for debugging
-    if (Math.floor(timeRef.current * 30) % 30 === 0) {
-      console.log('Mouse effect animation running:', { imagesDrawn, centerX, centerY, settings: settingsRef.current });
-    }
     
     animationRef.current = requestAnimationFrame(animate);
   };
 
   // Start animation
   const startAnimation = () => {
-    console.log('Starting mouse effect animation...');
     setIsActive(true);
     forceScaleRef.current = 1;
     animate();
@@ -257,7 +251,6 @@ const useLightweightMouseEffect = (containerRef) => {
 
   // Stop animation
   const stopAnimation = () => {
-    console.log('Stopping mouse effect animation...');
     setIsActive(false);
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -267,18 +260,15 @@ const useLightweightMouseEffect = (containerRef) => {
 
   // Initialize
   useEffect(() => {
-    console.log('Initializing lightweight mouse effect...');
     resizeCanvas();
     loadImages();
     
     // Initialize mouse position to center
     mouseRef.current.x = getViewportWidth() * 0.5;
     mouseRef.current.y = getViewportHeight() * 0.5;
-    console.log('Mouse position initialized to center:', mouseRef.current);
     
     // Event listeners
     const targetEl = containerRef && containerRef.current ? containerRef.current : window;
-    console.log('Adding mouse move listener to:', targetEl === window ? 'window' : 'container');
     targetEl.addEventListener('mousemove', handleMouseMove, { passive: true });
     if (targetEl === window) {
       window.addEventListener('resize', resizeCanvas);
@@ -290,10 +280,7 @@ const useLightweightMouseEffect = (containerRef) => {
     
     // Start animation if not on touch device
     if (!isTouch()) {
-      console.log('Not on touch device, starting animation...');
       startAnimation();
-    } else {
-      console.log('On touch device, not starting animation');
     }
     
     return () => {
@@ -312,9 +299,7 @@ const useLightweightMouseEffect = (containerRef) => {
 
   // Start/stop animation when images are loaded
   useEffect(() => {
-    console.log('Image loading effect triggered:', { isLoading, isTouch: isTouch() });
     if (!isLoading && !isTouch()) {
-      console.log('Images loaded and not on touch, starting animation...');
       startAnimation();
     }
   }, [isLoading]);
@@ -344,7 +329,7 @@ const DEFAULT_ZR_CONFIG = {
   pinSpacing: true
 }
 
-const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
+const ZoomReveal = ({ imageSrc = '/New folder/images/zoom reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
   const containerRef = useRef(null)
   const imageRef = useRef(null)
   const leftTextRef = useRef(null)
@@ -357,6 +342,35 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
   const [isExitingNav, setIsExitingNav] = useState(false)
   const postNavSlideRef = useRef(null)
   const slideArmedRef = useRef(false)
+  const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const scrollTriggerRef = useRef(null)
+  const eventListenersRef = useRef({ wheel: null, touchstart: null })
+
+  // Image load handler
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+    setImageError(false)
+  }
+
+  const handleImageError = () => {
+    setImageError(true)
+    setImageLoaded(false)
+  }
+
+  // Get responsive values
+  const getResponsiveValues = () => {
+    const vw = window.innerWidth
+    const vh = window.innerHeight
+    const fontSize = Math.min(vw * 0.05, vh * 0.08, 66.7) // Responsive font size
+    
+    return {
+      vw,
+      vh,
+      fontSize,
+      offScreenDistance: vw * 0.6 // Reduced from 1.2 to 0.6 (50% less distance)
+    }
+  }
 
   useEffect(() => {
     const container = containerRef.current
@@ -365,23 +379,34 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
     const right = rightTextRef.current
     if (!container || !img || !left || !right) return
 
+    const responsiveValues = getResponsiveValues()
+
     const tl = gsap.timeline({
-              scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: '+=50%',
-          scrub: 2,
-          pin: true,
-          markers: false,
+      scrollTrigger: {
+        trigger: container,
+        start: 'top top',
+        end: '+=75%',
+        scrub: 2,
+        pin: true,
+        markers: false,
         onLeave: () => {
           if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current)
-          if (navExitTimeoutRef.current) { clearTimeout(navExitTimeoutRef.current); navExitTimeoutRef.current = null }
+          if (navExitTimeoutRef.current) { 
+            clearTimeout(navExitTimeoutRef.current)
+            navExitTimeoutRef.current = null 
+          }
           setIsExitingNav(false)
           setShowNav(true)
         },
         onEnterBack: () => {
-          if (navTimeoutRef.current) { clearTimeout(navTimeoutRef.current); navTimeoutRef.current = null }
-          if (navExitTimeoutRef.current) { clearTimeout(navExitTimeoutRef.current); navExitTimeoutRef.current = null }
+          if (navTimeoutRef.current) { 
+            clearTimeout(navTimeoutRef.current)
+            navTimeoutRef.current = null 
+          }
+          if (navExitTimeoutRef.current) { 
+            clearTimeout(navExitTimeoutRef.current)
+            navExitTimeoutRef.current = null 
+          }
           // Begin reverse animation
           setIsExitingNav(true)
           // Unmount after exit animation completes
@@ -392,6 +417,9 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
         }
       }
     })
+
+    // Store ScrollTrigger reference for proper cleanup
+    scrollTriggerRef.current = tl.scrollTrigger
 
     gsap.set([left, right], { zIndex: 5000, opacity: 1, x: 0 })
 
@@ -405,33 +433,33 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      zIndex: 1000,
+      zIndex: 1000, // Bottom layer
       duration: 1,
       ease: 'power2.inOut'
     }, 0)
 
-    // 2. Text movement animation (synchronized with image scaling)
+    // 2. Text movement animation (synchronized with image scaling in real-time)
     tl.to(left, {
-      x: -window.innerWidth + 50, // 50px from left edge
-      duration: 1,
+      x: -responsiveValues.offScreenDistance, // Move off-screen as image scales
+      duration: 1, // Same duration as image scaling
       ease: 'power2.inOut'
-    }, 0)
-
-    tl.to(right, {
-      x: window.innerWidth - 50, // 50px from right edge
-      duration: 1,
+    }, 0) // Start at the same time as image scaling
+    .to(right, {
+      x: responsiveValues.offScreenDistance, // Move off-screen as image scales
+      duration: 1, // Same duration as image scaling
       ease: 'power2.inOut'
-    }, 0)
+    }, 0) // Start at the same time as image scaling
 
     // Add extra scroll-only padding after zoom completes (no visual change)
     .to({}, { duration: config.postZoomScrollPad })
-    // Navigation reveal primarily handled by ScrollTrigger onLeave
 
     return () => {
-      tl.kill()
-      ScrollTrigger.getAll().forEach(t => t.kill())
+      if (tl) tl.kill()
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill()
+      }
     }
-  }, [])
+  }, [config.postZoomScrollPad])
 
   // Animate nav overlay and menu appearance/disappearance smoothly
   useEffect(() => {
@@ -465,39 +493,51 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
     const slide = postNavSlideRef.current
     if (!slide) return
 
-    let removeListeners = () => {}
+    // Clean up existing listeners
+    const cleanupListeners = () => {
+      if (eventListenersRef.current.wheel) {
+        window.removeEventListener('wheel', eventListenersRef.current.wheel, { passive: true })
+        eventListenersRef.current.wheel = null
+      }
+      if (eventListenersRef.current.touchstart) {
+        window.removeEventListener('touchstart', eventListenersRef.current.touchstart, { passive: true })
+        eventListenersRef.current.touchstart = null
+      }
+    }
 
     if (showNav && !isExitingNav) {
       // Wait for nav fade/entrance (~0.6s), then arm the listener
       const armTimeout = setTimeout(() => {
         slideArmedRef.current = true
+        
         const onWheel = (e) => {
           if (!slideArmedRef.current) return
           if (e.deltaY > 0) {
             slideArmedRef.current = false
             gsap.to(slide, { yPercent: 0, duration: 0.8, ease: 'power2.out' })
-            window.removeEventListener('wheel', onWheel, { passive: true })
-            window.removeEventListener('touchstart', onTouchStart, { passive: true })
+            cleanupListeners()
           }
         }
+        
         const onTouchStart = () => {
           if (!slideArmedRef.current) return
           slideArmedRef.current = false
           gsap.to(slide, { yPercent: 0, duration: 0.8, ease: 'power2.out' })
-          window.removeEventListener('wheel', onWheel, { passive: true })
-          window.removeEventListener('touchstart', onTouchStart, { passive: true })
+          cleanupListeners()
         }
+
+        // Store references for cleanup
+        eventListenersRef.current.wheel = onWheel
+        eventListenersRef.current.touchstart = onTouchStart
+        
         window.addEventListener('wheel', onWheel, { passive: true })
         window.addEventListener('touchstart', onTouchStart, { passive: true })
-        removeListeners = () => {
-          window.removeEventListener('wheel', onWheel, { passive: true })
-          window.removeEventListener('touchstart', onTouchStart, { passive: true })
-        }
       }, 1600)
+      
       return () => {
         clearTimeout(armTimeout)
         slideArmedRef.current = false
-        removeListeners()
+        cleanupListeners()
       }
     }
 
@@ -508,7 +548,7 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
 
     return () => {
       slideArmedRef.current = false
-      removeListeners()
+      cleanupListeners()
     }
   }, [showNav, isExitingNav])
 
@@ -526,16 +566,85 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
       style={{ position: 'relative', width: '100%', height: '100%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-        <img
-          ref={imageRef}
-          src={imageSrc}
-          alt="Zoom Reveal"
-          style={{ width: '0.1px', height: '0.05px', objectFit: 'cover', pointerEvents: 'none', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', transformOrigin: 'center center', zIndex: 500 }}
-        />
-        <div ref={leftTextRef} style={{ position: 'absolute', right: 'calc(50% + 10px)', top: '50%', transform: 'translateY(-50%)', color: 'black', fontSize: 66.7, fontFamily: 'Helvetica', fontWeight: '400', wordWrap: 'break-word', zIndex: 60, textAlign: 'right' }}>
+        {imageError ? (
+          <div 
+            style={{ 
+              width: '100vw', 
+              height: '100vh', 
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 500
+            }}
+            role="img"
+            aria-label="Fallback background for zoom reveal"
+          >
+            <div style={{ color: 'white', fontSize: '2rem', textAlign: 'center' }}>
+              Image failed to load
+            </div>
+          </div>
+        ) : (
+          <img
+            ref={imageRef}
+            src={imageSrc}
+            alt={`${leftText} ${rightText} - Interactive zoom reveal image`}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            style={{ 
+              width: imageLoaded ? '0.1px' : '100vw', 
+              height: imageLoaded ? '0.05px' : '100vh', 
+              objectFit: 'cover', 
+              pointerEvents: 'none', 
+              position: 'absolute', 
+              top: '50%', 
+              left: '50%', 
+              transform: 'translate(-50%, -50%)', 
+              transformOrigin: 'center center', 
+              zIndex: 500,
+              opacity: imageLoaded ? 1 : 0.8,
+              transition: 'opacity 0.3s ease'
+            }}
+          />
+        )}
+        <div 
+          ref={leftTextRef} 
+          style={{ 
+            position: 'absolute', 
+            right: 'calc(50% + 10px)', 
+            top: '50%', 
+            transform: 'translateY(-50%)', 
+            color: 'black', 
+            fontSize: getResponsiveValues().fontSize, 
+            fontFamily: 'Helvetica, Arial, sans-serif', 
+            fontWeight: '400', 
+            wordWrap: 'break-word', 
+            zIndex: 60, 
+            textAlign: 'right'
+          }}
+        >
           {leftText}
         </div>
-        <div ref={rightTextRef} style={{ position: 'absolute', left: 'calc(50% + 10px)', top: '50%', transform: 'translateY(-50%)', color: 'black', fontSize: 66.7, fontFamily: 'Helvetica', fontWeight: '400', wordWrap: 'break-word', zIndex: 60, textAlign: 'left' }}>
+        <div 
+          ref={rightTextRef} 
+          style={{ 
+            position: 'absolute', 
+            left: 'calc(50% + 10px)', 
+            top: '50%', 
+            transform: 'translateY(-50%)', 
+            color: 'black', 
+            fontSize: getResponsiveValues().fontSize, 
+            fontFamily: 'Helvetica, Arial, sans-serif', 
+            fontWeight: '400', 
+            wordWrap: 'break-word', 
+            zIndex: 60, 
+            textAlign: 'left'
+          }}
+        >
           {rightText}
         </div>
       </div>
@@ -544,18 +653,25 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
         style={{
           position: 'absolute',
           inset: 0,
-          zIndex: 2000,
+          zIndex: 2000, // Middle layer - texture overlay
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'rgba(255,255,255,0.144)',
-          backdropFilter: 'blur(3px) saturate(120%)',
-          WebkitBackdropFilter: 'blur(3px) saturate(120%)',
+          backgroundColor: 'rgba(255,255,255,0.1)', // Subtle white overlay
+          backdropFilter: 'blur(1px) saturate(110%)', // Subtle blur effect
+          WebkitBackdropFilter: 'blur(1px) saturate(110%)',
           opacity: 0,
           pointerEvents: 'none'
         }}
       >
-        <div ref={navInnerRef} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div ref={navInnerRef} style={{ 
+          width: '100%', 
+          height: '100%', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          zIndex: 2001 // Top layer - navigation menu
+        }}>
           {(showNav || isExitingNav) && <NavigationMenu isExiting={isExitingNav} />}
         </div>
       </div>
@@ -568,6 +684,8 @@ const ZoomReveal = ({ imageSrc = '/1221.png', leftText = 'Take a closer', rightT
           inset: 0,
           zIndex: 3000,
           background: 'transparent',
+          border: '1px solid rgba(0,0,0,0.15)',
+          borderRadius: 10,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -657,12 +775,42 @@ const Landing = () => {
   const slidingRef = useRef(null)
   const lenisRef = useRef(null)
   const slidingAnimRef = useRef(null)
+  const [showMouseOverlay, setShowMouseOverlay] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const [overlayVisible, setOverlayVisible] = useState(true)
+  const [showLoadingTitle, setShowLoadingTitle] = useState(false)
   // Mouse effect removed - page left blank as requested
-  
 
   // Smooth scroll + slide-up behavior
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
+    // Simple landing loading gate (2s)
+    const textTimer = setTimeout(() => setShowLoadingTitle(true), 1000)
+    const loadTimer = setTimeout(() => setIsLoading(false), 3000)
+    const removeTimer = setTimeout(() => setOverlayVisible(false), 4000)
+
+    // Additional scroll listener to ensure MouseMouse visibility works in both directions
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const viewportHeight = window.innerHeight
+      const slidingHeight = 2768
+      
+      // Show MouseMouse when we're in the sliding section (after 100vh, before zoom component)
+      const slidingSectionStart = viewportHeight
+      const zoomComponentStart = 3544 // From ScrollTracker data
+      
+      if (scrollTop >= slidingSectionStart && scrollTop < zoomComponentStart) {
+        setShowMouseOverlay(true)
+      } else if (scrollTop < slidingSectionStart) {
+        // Before sliding section - show MouseMouse
+        setShowMouseOverlay(true)
+      } else {
+        // After zoom component - hide MouseMouse
+        setShowMouseOverlay(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
     // Temporarily disable Lenis (native scroll)
     const ENABLE_LENIS = false
     if (ENABLE_LENIS) {
@@ -679,11 +827,19 @@ const Landing = () => {
         scrollTrigger: {
           trigger: wireframeRef.current,
           start: 'top top',
-          end: '+=150%',
-          scrub: 2,
+          end: '+=99%',
+          scrub: 4,
           pin: true,
           anticipatePin: 1,
-          markers: false
+          markers: false,
+          onUpdate: () => {
+            // Use actual slide position to decide overlay visibility (robust to fast scroll)
+            const y = Number(gsap.getProperty(slidingRef.current, 'yPercent')) || 0
+            const shouldShow = y > 1 // keep visible until slide fully reaches 0%
+            if (shouldShow !== showMouseOverlay) setShowMouseOverlay(shouldShow)
+          },
+          onLeave: () => setShowMouseOverlay(false),
+          onEnterBack: () => setShowMouseOverlay(true)
         }
       })
       gsap.set(slidingRef.current, { yPercent: 100 })
@@ -699,8 +855,12 @@ const Landing = () => {
     setTimeout(() => ScrollTrigger.refresh(), 0)
 
     return () => {
+      clearTimeout(textTimer)
+      clearTimeout(loadTimer)
+      clearTimeout(removeTimer)
       if (lenisRef.current) lenisRef.current.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
@@ -708,6 +868,69 @@ const Landing = () => {
 
   return (
     <div className="landing" style={{ width: '100%', height: `calc(200vh + ${SLIDING_HEIGHT}px)` }}>
+      {/* Top Navigation Bar */}
+      <Rectangle18 />
+      
+      {/* Loading overlay - 2s gate */}
+      {overlayVisible && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: '#000000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 5000,
+            pointerEvents: 'auto',
+            transition: 'opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            opacity: isLoading ? 1 : 0
+          }}
+        >
+          {/* keyframes for per-letter reveal */}
+          <style>{`
+            @keyframes landingCharIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+          `}</style>
+          {showLoadingTitle && (
+            <div style={{ position: 'absolute', top: 314, left: 503, width: 530, height: 171 }}>
+              {/* Line 1 */}
+              <div style={{
+                letterSpacing: '-0.02em',
+                lineHeight: '97%',
+                color: '#ffffff',
+                fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
+                fontSize: 96,
+                textAlign: 'left',
+                opacity: isLoading ? 1 : 0,
+                transition: 'opacity 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+              }}>
+                {Array.from('EXPOSURE ').map((ch, i) => (
+                  <span key={`l1-${i}`} style={{ display: 'inline-block', opacity: 0, transform: 'translateY(16px)', animation: `landingCharIn 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`, animationDelay: `${200 + i * 50}ms` }}>{ch}</span>
+                ))}
+              </div>
+              {/* Line 2 */}
+              <div style={{
+                letterSpacing: '-0.02em',
+                lineHeight: '97%',
+                color: '#ffffff',
+                fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
+                fontSize: 96,
+                textAlign: 'left',
+                opacity: isLoading ? 1 : 0,
+                transition: 'opacity 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                display: 'flex',
+                flexWrap: 'nowrap'
+              }}>
+                {Array.from('EXPLORERS').map((ch, i) => (
+                  <span key={`l2-${i}`} style={{ display: 'inline-block', opacity: 0, transform: 'translateY(16px)', animation: `landingCharIn 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`, animationDelay: `${200 + 9 * 50 + i * 50}ms` }}>{ch}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      {/* Mouse trail overlay on top of all content */}
+      <MouseMouse visible={showMouseOverlay} zIndex={800} />
       {/* Mouse-follow section - fixed at 100vh */}
       <div
         ref={wireframeRef}
@@ -717,11 +940,11 @@ const Landing = () => {
           position: 'fixed',
           top: 0,
           left: 0,
-          background: 'white',
+          background: 'transparent',
           overflow: 'hidden',
           perspective: '900px',
           transformStyle: 'preserve-3d',
-          zIndex: 1
+          zIndex: 0
         }}
       >
         {/* Mouse effect removed - page left blank as requested */}
@@ -737,6 +960,7 @@ const Landing = () => {
           right: 0,
           height: SLIDING_HEIGHT,
           background: 'white',
+          border: '1px solid red',
           zIndex: 999,
           overflow: 'hidden',
           isolation: 'isolate'
@@ -749,84 +973,84 @@ const Landing = () => {
               position: 'absolute', 
               zIndex: 1000
             }}>
-              <WeUseThePowerOfStorytellingToFireTheImaginationStirTheSoulAndUltimatelyInspirePeople />
+              <StorytellingHero />
             </div>
             <HoverImage 
-              src="/pictures/IMG_20250105_140531-2.jpg" 
+              src="/New folder/images/sliding content/1.webp" 
               style={{ position: 'absolute', top: '1307px', left: '86px', width: '483px', height: '281px' }}
               caption=""
             />
-            <HoverImage 
-              src="/pictures/IMG_20241129_052647 (2).jpg" 
-              style={{ position: 'absolute', top: '1706px', left: '446px', width: '313px', height: '556px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241226_200855.jpg" 
-              style={{ position: 'absolute', top: '947px', left: '451px', width: '541px', height: '304px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20250105_135654.jpg" 
-              style={{ position: 'absolute', top: '480px', left: '611px', width: '234px', height: '416px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241227_151324.jpg" 
-              style={{ position: 'absolute', top: '1307px', left: '632px', width: '343px', height: '343px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20250106_201327.jpg" 
-              style={{ position: 'absolute', top: '942px', left: '86px', width: '315px', height: '315px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241129_012410.jpg" 
-              style={{ position: 'absolute', top: '1706px', left: '804px', width: '646px', height: '364px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241129_044846.jpg" 
-              style={{ position: 'absolute', top: '621px', left: '902px', width: '548px', height: '275px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241229_133606.jpg" 
-              style={{ position: 'absolute', top: '947px', left: '1050px', width: '400px', height: '703px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241227_143524.jpg" 
-              style={{ position: 'absolute', top: '1638px', left: '87px', width: '314px', height: '624px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20250105_143206.jpg" 
-              style={{ position: 'absolute', top: '600px', left: '91px', width: '478px', height: '286px' }}
-              caption=""
-            />
+                         <HoverImage 
+               src="/New folder/images/sliding content/2.webp" 
+               style={{ position: 'absolute', top: '1706px', left: '446px', width: '313px', height: '556px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/3.webp" 
+               style={{ position: 'absolute', top: '947px', left: '451px', width: '541px', height: '304px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/4.webp" 
+               style={{ position: 'absolute', top: '480px', left: '611px', width: '234px', height: '416px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/5.webp" 
+               style={{ position: 'absolute', top: '1307px', left: '632px', width: '343px', height: '343px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/6.webp" 
+               style={{ position: 'absolute', top: '942px', left: '86px', width: '315px', height: '315px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/7.webp" 
+               style={{ position: 'absolute', top: '1706px', left: '804px', width: '646px', height: '364px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/8.webp" 
+               style={{ position: 'absolute', top: '621px', left: '902px', width: '548px', height: '275px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/9.webp" 
+               style={{ position: 'absolute', top: '947px', left: '1050px', width: '400px', height: '703px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/10.webp" 
+               style={{ position: 'absolute', top: '1638px', left: '87px', width: '314px', height: '624px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/11.webp" 
+               style={{ position: 'absolute', top: '600px', left: '91px', width: '478px', height: '286px' }}
+               caption=""
+             />
 
-            <HoverImage 
-              src="/pictures/IMG_20241225_153158-2.jpg" 
-              style={{ position: 'absolute', top: '2312px', left: '86px', width: '673px', height: '357px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20250108_164936.jpg" 
-              style={{ position: 'absolute', top: '2126px', left: '804px', width: '323px', height: '574px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20241227_151216.jpg" 
-              style={{ position: 'absolute', top: '2130px', left: '1168px', width: '282px', height: '283px' }}
-              caption=""
-            />
-            <HoverImage 
-              src="/pictures/IMG_20250114_093607.jpg" 
-              style={{ position: 'absolute', top: '2442px', left: '1168px', width: '282px', height: '282px' }}
-              caption=""
-            />
+                         <HoverImage 
+               src="/New folder/images/sliding content/12.webp" 
+               style={{ position: 'absolute', top: '2312px', left: '86px', width: '673px', height: '357px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/13.webp" 
+               style={{ position: 'absolute', top: '2126px', left: '804px', width: '323px', height: '574px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/14.webp" 
+               style={{ position: 'absolute', top: '2130px', left: '1168px', width: '282px', height: '283px' }}
+               caption=""
+             />
+                         <HoverImage 
+               src="/New folder/images/sliding content/15.webp" 
+               style={{ position: 'absolute', top: '2442px', left: '1168px', width: '282px', height: '282px' }}
+               caption=""
+             />
           </div>
         </div>
 
@@ -842,7 +1066,7 @@ const Landing = () => {
             zIndex: 998
           }}
         >
-          <ZoomReveal imageSrc="/1221.png" />
+                     <ZoomReveal imageSrc="/New folder/images/zoom reveal.webp" />
         </div>
     </div>
   )

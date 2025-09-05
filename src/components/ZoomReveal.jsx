@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const EXTRA_SCROLL_PAD = 1.2; // Extra scroll distance after zoom before nav shows
 
 const ZoomReveal = ({
-  imageSrc = '/1221.png',
+  imageSrc = '/assets/images/zoom reveal.webp',
   leftText = 'Take a closer',
   rightText = 'look at Life'
 }) => {
@@ -84,17 +84,25 @@ const ZoomReveal = ({
       ease: 'power2.inOut'
     }, 'zoomStart')
     .to(left, {
-      x: -window.innerWidth * 0.05 + 15, // Changed from 0.1 to 0.05 (5%) to reduce jump by 50%
-      duration: 5.5, // Much longer duration for very slow movement
-      ease: 'power1.out', // Changed to power1.out for more gradual movement
-      delay: 0.3 // Small delay to let image start scaling first
+      x: -10, // First move to 10px from center
+      duration: 0.3,
+      ease: 'power2.out'
+    }, 'zoomStart')
+    .to(left, {
+      x: -window.innerWidth * 1.2, // Move completely off-screen to eliminate any overlap
+      duration: 2.2,
+      ease: 'power2.inOut'
+    }, 'zoomStart+=0.3')
+    .to(right, {
+      x: 10, // First move to 10px from center
+      duration: 0.3,
+      ease: 'power2.out'
     }, 'zoomStart')
     .to(right, {
-      x: window.innerWidth * 0.05 - 15, // Changed from 0.1 to 0.05 (5%) to reduce jump by 50%
-      duration: 5.5, // Much longer duration for very slow movement
-      ease: 'power1.out', // Changed to power1.out for more gradual movement
-      delay: 0.3 // Small delay to let image start scaling first
-    }, 'zoomStart')
+      x: window.innerWidth * 1.2, // Move completely off-screen to eliminate any overlap
+      duration: 2.2,
+      ease: 'power2.inOut'
+    }, 'zoomStart+=0.3')
     // Add extra scroll-only padding after zoom completes (no visual change)
     .to({}, { duration: EXTRA_SCROLL_PAD })
     .add(() => {

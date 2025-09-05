@@ -1,6 +1,3 @@
-/* Import the necessary styles from video-scroll.css */
-@import './video-scroll.css';
-
 /* Mouse Effect Page specific styles */
 .mouse-effect-container {
   width: 100%;
@@ -8,6 +5,10 @@
   position: relative;
   background: #d8d7d1; /* Match the beige background from mouse-follow-styles.css */
   overflow-x: hidden;
+  /* Highlight container */
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
 }
 
 /* Mouse Effect Canvas Container */
@@ -47,35 +48,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Override some video-scroll styles for mouse effect page */
-.mouse-effect-container .sliding-page {
-  position: absolute; /* Changed from fixed to absolute for better mouse effect integration */
-  left: 0;
-  top: 100%;
-  width: 100vw;
-  height: 536.5vh;
-  z-index: 1000;
-  transform: translateY(0);
-  will-change: transform;
-  visibility: visible; /* Always visible for mouse effect */
-  overflow: visible;
-}
-
-/* Ensure proper stacking for mouse effects */
-.mouse-effect-container .capture-polygon,
-.mouse-effect-container .explore-polygon,
-.mouse-effect-container .live-polygon {
-  position: absolute;
-  z-index: 100;
-}
-
-/* Mouse interaction states */
-.mouse-effect-container .capture-polygon:hover,
-.mouse-effect-container .explore-polygon:hover,
-.mouse-effect-container .live-polygon:hover {
-  transform: scale(1.02);
-  transition: transform 0.3s ease;
-}
+/* Mouse Effect Page specific styles */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

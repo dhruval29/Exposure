@@ -1,9 +1,23 @@
 import { memo, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import styles from './Frame50.module.css'
 
 const Frame50 = () => {
+	const location = useLocation()
 	const [isCollapsed, setIsCollapsed] = useState(false)
 	const [isAtBottom, setIsAtBottom] = useState(false)
+
+	// Hide on gallery page
+	if (location.pathname === '/gallery') {
+		return null
+	}
+
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		})
+	}
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -14,16 +28,23 @@ const Frame50 = () => {
 				setIsCollapsed(false)
 			}
 
-			// Check if at bottom of page - only trigger when actually at bottom
+			// Check if we've reached 75% through the contact us page (ZoomReveal section)
+			// The contact us page starts at: 100vh + 2768px
+			// ZoomReveal section height: 100vh + 55% = 155vh
+			// Rotate at 75% through: start + (155vh * 0.75)
+			const slidingHeight = 2768
+			const contactUsStart = window.innerHeight + slidingHeight
+			const zoomRevealHeight = window.innerHeight * 1.55 // 100vh + 55%
+			const rotationPoint = contactUsStart + (zoomRevealHeight * 0.75) // 75% through
 			const scrollTop = window.scrollY
-			const windowHeight = window.innerHeight
-			const documentHeight = document.documentElement.scrollHeight
-			const scrolledToBottom = scrollTop + windowHeight >= documentHeight - 10
+			
+			// Check if we're at or past 75% through the contact us page
+			const reachedContactUs = scrollTop >= rotationPoint - 200
 
-			// Only update isAtBottom if we're actually at the bottom
-			if (scrolledToBottom && !isAtBottom) {
+			// Only update isAtBottom if we've reached the contact us page
+			if (reachedContactUs && !isAtBottom) {
 				setIsAtBottom(true)
-			} else if (!scrolledToBottom && isAtBottom) {
+			} else if (!reachedContactUs && isAtBottom) {
 				setIsAtBottom(false)
 			}
 		}
@@ -33,7 +54,11 @@ const Frame50 = () => {
 	}, [isAtBottom])
 
 	return (
-		<div className={`${styles.component16} ${isCollapsed ? styles.collapsed : ''}`}>
+		<div 
+			className={`${styles.component16} ${isCollapsed ? styles.collapsed : ''}`}
+			onClick={scrollToTop}
+			style={{ cursor: 'pointer' }}
+		>
 			<div className={styles.component16Child} />
 			<img 
 				className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
