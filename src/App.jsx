@@ -8,6 +8,7 @@ import ScrollTracker from './components/ScrollTracker'
 import TestPage from './components/TestPage'
 import MembersPage from './components/MembersPage'
 import Gallery from './components/Gallery'
+import TeamPage from './components/TeamPage'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/members" element={<MembersPage />} />
+          <Route path="/team" element={<TeamPage />} />
         </Routes>
       </div>
     </Router>

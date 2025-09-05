@@ -1,0 +1,11 @@
+.team-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+/* Ensure the team component takes full width */
+.team-page > div {
+  width: 100%;
+}
