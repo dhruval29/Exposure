@@ -55,7 +55,7 @@
 .openOn {
   margin: 0;
   white-space: pre-wrap;
-  font-size: 4vw;
+  font-size: 8vw;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
   font-family: 'Helvetica', sans-serif;
@@ -63,7 +63,7 @@
 
 .desktopOr {
   margin: 0;
-  font-size: 4vw;
+  font-size: 8vw;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
@@ -76,7 +76,7 @@
   font-family: 'Gotham Black', sans-serif;
   display: inline-block;
   text-align: center;
-  font-size: 5vw;
+  font-size: 10vw;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
   z-index: 10;
@@ -94,7 +94,7 @@
   white-space: nowrap;
   overflow: hidden;
   animation: scrollText 15s linear infinite;
-  font-size: 3vw;
+  font-size: 6vw;
   z-index: 10;
 }
 
