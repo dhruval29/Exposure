@@ -1,20 +1,17 @@
 import React from 'react';
 import styles from './IPhone161.module.css';
+import LetterGlitch from './LetterGlitch';
 
 const UnderConstruction = () => {
   return (
     <div className={styles.iphone161}>
-      <div className={styles.untitledVideo411}>
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className={styles.videoElement}
-        >
-          <source src="/assets/videos/untitled-video-4.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <div className={styles.letterGlitchContainer}>
+        <LetterGlitch
+          glitchSpeed={50}
+          centerVignette={true}
+          outerVignette={false}
+          smooth={true}
+        />
       </div>
       <div className={styles.openOnDesktopOrContainer}>
         <p className={styles.openOn}>{`Open on  `}</p>
