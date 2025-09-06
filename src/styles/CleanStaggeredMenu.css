@@ -127,31 +127,6 @@
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.sm-prelayers {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: clamp(260px, 38vw, 420px);
-  pointer-events: none;
-  z-index: 5;
-  display: block;
-}
-
-[data-position='left'] .sm-prelayers {
-  right: auto;
-  left: 0;
-}
-
-.sm-prelayer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  transform: translateX(0);
-}
-
 .sm-panel-inner {
   flex: 1;
   display: flex;
@@ -166,6 +141,13 @@
   flex-direction: column;
   gap: 0.75rem;
   border-top: 1px solid #e5e5e5;
+}
+
+.sm-socials-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--sm-accent, #5227ff);
 }
 
 .sm-socials-list {

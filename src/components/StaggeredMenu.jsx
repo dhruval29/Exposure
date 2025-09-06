@@ -1,6 +1,5 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import Hamburger from 'hamburger-react';
 import instagramIcon from '../assets/instagram-svgrepo-com.svg';
 import youtubeIcon from '../assets/youtube-svgrepo-com.svg';
 import linkedinIcon from '../assets/linkedin-svgrepo-com.svg';
@@ -10,33 +9,34 @@ export const StaggeredMenu = ({
   position = 'right',
   colors = ['#B19EEF', '#5227FF'],
   items = [],
-  socialItems = [
-    { label: 'Instagram', link: 'https://instagram.com' },
-    { label: 'LinkedIn', link: 'https://linkedin.com' },
-    { label: 'YouTube', link: 'https://youtube.com' }
-  ],
+  socialItems = [],
   displaySocials = true,
   displayItemNumbering = true,
   className,
   logoUrl = '/src/assets/logos/reactbits-gh-white.svg',
-  menuButtonColor = '#fff',
-  openMenuButtonColor = '#fff',
+  menuButtonColor = '#000',
+  openMenuButtonColor = '#000',
   accentColor = '#5227FF',
   changeMenuColorOnOpen = true,
   onMenuOpen,
-  onMenuClose
+  onMenuClose,
+  hideButton = false
 }) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
   const panelRef = useRef(null);
   const preLayersRef = useRef(null);
   const preLayerElsRef = useRef([]);
+  const plusHRef = useRef(null);
+  const plusVRef = useRef(null);
+  const iconRef = useRef(null);
   const textInnerRef = useRef(null);
   const textWrapRef = useRef(null);
   const [textLines, setTextLines] = useState(['Menu', 'Close']);
 
   const openTlRef = useRef(null);
   const closeTweenRef = useRef(null);
+  const spinTweenRef = useRef(null);
   const textCycleAnimRef = useRef(null);
   const colorTweenRef = useRef(null);
   const toggleBtnRef = useRef(null);
@@ -47,8 +47,11 @@ export const StaggeredMenu = ({
     const ctx = gsap.context(() => {
       const panel = panelRef.current;
       const preContainer = preLayersRef.current;
+      const plusH = plusHRef.current;
+      const plusV = plusVRef.current;
+      const icon = iconRef.current;
       const textInner = textInnerRef.current;
-      if (!panel || !textInner) return;
+      if (!panel || !plusH || !plusV || !icon || !textInner) return;
 
       let preLayers = [];
       if (preContainer) {
@@ -58,6 +61,9 @@ export const StaggeredMenu = ({
 
       const offscreen = position === 'left' ? -100 : 100;
       gsap.set([panel, ...preLayers], { xPercent: offscreen });
+      gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 });
+      gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 });
+      gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
       gsap.set(textInner, { yPercent: 0 });
       if (toggleBtnRef.current) gsap.set(toggleBtnRef.current, { color: menuButtonColor });
     });
@@ -78,7 +84,6 @@ export const StaggeredMenu = ({
 
     const itemEls = Array.from(panel.querySelectorAll('.sm-panel-itemLabel'));
     const numberEls = Array.from(panel.querySelectorAll('.sm-panel-list[data-numbering] .sm-panel-item'));
-    const socialTitle = panel.querySelector('.sm-socials-title');
     const socialLinks = Array.from(panel.querySelectorAll('.sm-socials-link'));
 
     const layerStates = layers.map(el => ({ el, start: Number(gsap.getProperty(el, 'xPercent')) }));
@@ -89,9 +94,6 @@ export const StaggeredMenu = ({
     }
     if (numberEls.length) {
       gsap.set(numberEls, { '--sm-num-opacity': 0 });
-    }
-    if (socialTitle) {
-      gsap.set(socialTitle, { opacity: 0 });
     }
     if (socialLinks.length) {
       gsap.set(socialLinks, { y: 25, opacity: 0 });
@@ -140,35 +142,22 @@ export const StaggeredMenu = ({
       }
     }
 
-    if (socialTitle || socialLinks.length) {
+    if (socialLinks.length) {
       const socialsStart = panelInsertTime + panelDuration * 0.4;
-      if (socialTitle) {
-        tl.to(
-          socialTitle,
-          {
-            opacity: 1,
-            duration: 0.5,
-            ease: 'power2.out'
-          },
-          socialsStart
-        );
-      }
-      if (socialLinks.length) {
-        tl.to(
-          socialLinks,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.55,
-            ease: 'power3.out',
-            stagger: { each: 0.08, from: 'start' },
-            onComplete: () => {
-              gsap.set(socialLinks, { clearProps: 'opacity' });
-            }
-          },
-          socialsStart + 0.04
-        );
-      }
+      tl.to(
+        socialLinks,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.55,
+          ease: 'power3.out',
+          stagger: { each: 0.08, from: 'start' },
+          onComplete: () => {
+            gsap.set(socialLinks, { clearProps: 'opacity' });
+          }
+        },
+        socialsStart + 0.04
+      );
     }
 
     openTlRef.current = tl;
@@ -215,15 +204,23 @@ export const StaggeredMenu = ({
         if (numberEls.length) {
           gsap.set(numberEls, { '--sm-num-opacity': 0 });
         }
-        const socialTitle = panel.querySelector('.sm-socials-title');
         const socialLinks = Array.from(panel.querySelectorAll('.sm-socials-link'));
-        if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
         if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
         busyRef.current = false;
       }
     });
   }, [position]);
 
+  const animateIcon = useCallback(opening => {
+    const icon = iconRef.current;
+    if (!icon) return;
+    spinTweenRef.current?.kill();
+    if (opening) {
+      spinTweenRef.current = gsap.to(icon, { rotate: 225, duration: 0.8, ease: 'power4.out', overwrite: 'auto' });
+    } else {
+      spinTweenRef.current = gsap.to(icon, { rotate: 0, duration: 0.35, ease: 'power3.inOut', overwrite: 'auto' });
+    }
+  }, []);
 
   const animateColor = useCallback(
     opening => {
@@ -295,16 +292,18 @@ export const StaggeredMenu = ({
       onMenuClose?.();
       playClose();
     }
+    animateIcon(target);
     animateColor(target);
     animateText(target);
-  }, [playOpen, playClose, animateColor, animateText, onMenuOpen, onMenuClose]);
+  }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]);
 
   return (
     <div
-      className={(className ? className + ' ' : '') + 'staggered-menu-wrapper'}
+      className={(className ? className + ' ' : '') + 'clean-staggered-menu-wrapper'}
       style={accentColor ? { ['--sm-accent']: accentColor } : undefined}
       data-position={position}
       data-open={open || undefined}
+      data-hide-button={hideButton || undefined}
     >
       <div ref={preLayersRef} className="sm-prelayers" aria-hidden="true">
         {(() => {
@@ -317,7 +316,7 @@ export const StaggeredMenu = ({
           return arr.map((c, i) => <div key={i} className="sm-prelayer" style={{ background: c }} />);
         })()}
       </div>
-      <header className="staggered-menu-header" aria-label="Main navigation header">
+      <header className="clean-staggered-menu-header" aria-label="Main navigation header">
         <div className="sm-logo" aria-label="Logo">
           <img
             src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
@@ -333,7 +332,7 @@ export const StaggeredMenu = ({
           className="sm-toggle"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
-          aria-controls="staggered-menu-panel"
+          aria-controls="clean-staggered-menu-panel"
           onClick={toggleMenu}
           type="button"
         >
@@ -346,15 +345,14 @@ export const StaggeredMenu = ({
               ))}
             </span>
           </span>
-          <Hamburger 
-            toggled={open}
-            size={24}
-            color="#000000"
-          />
+          <span ref={iconRef} className="sm-icon" aria-hidden="true">
+            <span ref={plusHRef} className="sm-icon-line" />
+            <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
+          </span>
         </button>
       </header>
 
-      <aside id="staggered-menu-panel" ref={panelRef} className="staggered-menu-panel" aria-hidden={!open}>
+      <aside id="clean-staggered-menu-panel" ref={panelRef} className="clean-staggered-menu-panel" aria-hidden={!open}>
         <div className="sm-panel-inner">
           <ul className="sm-panel-list" role="list" data-numbering={displayItemNumbering || undefined}>
             {items && items.length ? (
@@ -375,7 +373,6 @@ export const StaggeredMenu = ({
           </ul>
           {displaySocials && socialItems && socialItems.length > 0 && (
             <div className="sm-socials" aria-label="Social links">
-              {console.log('Rendering socials:', socialItems)}
               <ul className="sm-socials-list" role="list">
                 {socialItems.map((s, i) => {
                   let iconSrc;
@@ -389,11 +386,15 @@ export const StaggeredMenu = ({
                     iconSrc = linkedinIcon;
                   }
                   
-                  console.log('Social item:', s.label, 'Icon found:', !!iconSrc);
-                  
                   return (
                     <li key={s.label + i} className="sm-socials-item">
-                      <a href={s.link} target="_blank" rel="noopener noreferrer" className="sm-socials-link">
+                      <a 
+                        href={s.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="sm-socials-link"
+                        onClick={(e) => { setTimeout(() => { e.target.blur(); }, 100); }}
+                      >
                         {iconSrc ? (
                           <img 
                             src={iconSrc} 

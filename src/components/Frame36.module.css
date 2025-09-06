@@ -42,19 +42,19 @@
 }
 .instagramSvgrepoCom2Icon {
   position: absolute;
-  top: 654px;
+  top: 664.14px;
   left: 84px;
-  width: 62.5px;
-  height: 62.5px;
+  width: 45.6px;
+  height: 45.6px;
   overflow: hidden;
   filter: brightness(0) invert(92%);
 }
 .youtubeSvgrepoCom2Icon {
   position: absolute;
-  top: 654px;
+  top: 664.14px;
   left: 169.33px;
-  width: 62.5px;
-  height: 62.5px;
+  width: 45.6px;
+  height: 45.6px;
   overflow: hidden;
   filter: brightness(0) invert(92%);
 }
@@ -74,7 +74,7 @@
   width: 53.2px;
   height: 53.2px;
   overflow: hidden;
-  filter: brightness(0) invert(92%);
+  filter: brightness(0) invert(1);
 }
 .copyrightIcon {
   position: absolute;
@@ -84,7 +84,7 @@
   width: 86px;
   height: 86px;
   overflow: hidden;
-  filter: brightness(0) invert(92%);
+  filter: brightness(0) invert(1);
 }
 .exposureExplorers {
   position: absolute;

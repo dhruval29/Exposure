@@ -12,6 +12,7 @@ import NavigationMenu from './NavigationMenu'
 import StorytellingHero from './StorytellingHero'
 import Frame36 from './Frame36'
 import HoverImage from './HoverImage'
+import StaggeredMenu from './StaggeredMenu'
 import useLightweightMouseEffect from '../hooks/useLightweightMouseEffect'
 import { responsiveImagePositions } from '../utils/positionConverter'
 
@@ -432,6 +433,8 @@ const Landing = () => {
   const [showMouseOverlay, setShowMouseOverlay] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [overlayVisible, setOverlayVisible] = useState(true)
+  const [isMenuVisible, setIsMenuVisible] = useState(true)
+  const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   // Mouse effect removed - page left blank as requested
 
   // Smooth scroll + slide-up behavior
@@ -456,6 +459,17 @@ const Landing = () => {
       } else {
         // After zoom component - hide MouseMouse
         setShowMouseOverlay(false)
+      }
+
+      // Menu visibility behavior (same as nav bar)
+      if (scrollTop >= zoomComponentStart) {
+        setIsMenuSlidingUp(true)
+        // Hide completely after slide animation
+        setTimeout(() => setIsMenuVisible(false), 600)
+      } else {
+        // Reset states when scrolling back up
+        setIsMenuVisible(true)
+        setIsMenuSlidingUp(false)
       }
     }
 
@@ -513,10 +527,39 @@ const Landing = () => {
 
   const SLIDING_HEIGHT = 2768
 
+  const menuItems = [
+    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
+    { label: 'Gallery', ariaLabel: 'View our gallery', link: '/gallery' },
+    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' }
+  ];
+
+  const socialItems = [
+    { label: 'Instagram', link: 'https://www.instagram.com/exposure.explorers_nitg/' },
+    { label: 'LinkedIn', link: 'https://www.linkedin.com/company/exposure-explorers/' },
+    { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
+  ];
+
   return (
     <div className="landing" style={{ width: '100%', height: `calc(200vh + ${SLIDING_HEIGHT}px)` }}>
       {/* Top Navigation Bar */}
       <Rectangle18 />
+      
+      {/* StaggeredMenu */}
+      <StaggeredMenu
+        position="right"
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials={true}
+        displayItemNumbering={false}
+        menuButtonColor="#000"
+        openMenuButtonColor="#000"
+        changeMenuColorOnOpen={true}
+        colors={['#B19EEF', '#5227FF']}
+        logoUrl="/src/assets/logos/reactbits-gh-white.svg"
+        accentColor="#ff6b6b"
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
+      />
       
       {/* Loading overlay - video duration */}
       {overlayVisible && (

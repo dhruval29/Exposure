@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Rectangle18.module.css';
-import StaggeredMenu from './StaggeredMenu';
 
 const Rectangle18 = () => {
   const [showText, setShowText] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isSlidingUp, setIsSlidingUp] = useState(false);
 
-  const menuItems = [
-    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
-    { label: 'Gallery', ariaLabel: 'View our gallery', link: '/gallery' },
-    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' }
-  ];
-
-  const socialItems = [
-    { label: 'Instagram', link: 'https://instagram.com' },
-    { label: 'LinkedIn', link: 'https://linkedin.com' },
-    { label: 'YouTube', link: 'https://youtube.com' }
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,21 +50,6 @@ const Rectangle18 = () => {
           <div className={styles.line2}>EXPLORERS</div>
         </div>
       </div>
-      <StaggeredMenu
-        position="right"
-        items={menuItems}
-        socialItems={socialItems}
-        displaySocials={true}
-        displayItemNumbering={false}
-        menuButtonColor="#fff"
-        openMenuButtonColor="#fff"
-        changeMenuColorOnOpen={false}
-        colors={['#B19EEF', '#5227FF']}
-        logoUrl="/src/assets/logos/reactbits-gh-white.svg"
-        accentColor="#5227FF"
-        onMenuOpen={() => {}}
-        onMenuClose={() => {}}
-      />
     </div>
   );
 };
