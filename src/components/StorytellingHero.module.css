@@ -34,46 +34,16 @@
 }
 
 .weUseTheContainer {
-  	width: min(1400px, 90vw);
-  	max-width: 90vw;
+  	width: 1400px;
   	position: relative;
-  	font-size: clamp(2.5rem, 5vw, 5rem);
+  	font-size: 79.47px;
   	letter-spacing: 0.02em;
   	line-height: 122.71%;
   	font-family: 'PP Editorial New';
   	color: #000;
   	text-align: left;
   	display: inline-block;
-  	cursor: url('/assets/icons/Vector.png') 0 0, text;
-}
-
-/* Responsive adjustments for different screen sizes */
-@media (min-width: 1920px) {
-  .weUseTheContainer {
-    font-size: clamp(4rem, 4.5vw, 6rem);
-    width: min(1600px, 85vw);
-  }
-}
-
-@media (min-width: 2560px) {
-  .weUseTheContainer {
-    font-size: clamp(5rem, 4vw, 7rem);
-    width: min(2000px, 80vw);
-  }
-}
-
-@media (max-width: 1024px) {
-  .weUseTheContainer {
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    width: 95vw;
-  }
-}
-
-@media (max-width: 768px) {
-  .weUseTheContainer {
-    font-size: clamp(1.2rem, 5vw, 2.2rem);
-    width: 98vw;
-  }
+  cursor: url('/assets/icons/Vector.png') 0 0, text;
 }
 
 

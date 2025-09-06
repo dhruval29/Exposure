@@ -70,36 +70,3 @@
     height: auto;
   }
 }
-
-/* Large screen optimizations */
-@media (min-width: 1920px) {
-  .landing {
-    font-size: 1.1em;
-  }
-  
-  .responsive-text {
-    font-size: clamp(14px, 2.2vw, 28px);
-  }
-}
-
-/* Ultra-wide screen optimizations */
-@media (min-width: 2560px) {
-  .landing {
-    font-size: 1.2em;
-  }
-  
-  .responsive-text {
-    font-size: clamp(16px, 2vw, 32px);
-  }
-}
-
-/* Ensure proper scaling on very large screens */
-@media (min-width: 3440px) {
-  .landing {
-    font-size: 1.3em;
-  }
-  
-  .responsive-text {
-    font-size: clamp(18px, 1.8vw, 36px);
-  }
-}

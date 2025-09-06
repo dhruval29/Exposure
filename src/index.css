@@ -1,38 +1,4 @@
 
-/* Prevent horizontal scroll */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-}
-
-/* Sliding section overflow control */
-.sliding-section {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-  position: relative;
-}
-
-.sliding-section * {
-  max-width: 100vw !important;
-}
-
-/* Center content on large screens */
-@media (min-width: 1536px) {
-  .sliding-section {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .sliding-section > div {
-    max-width: 1536px;
-    margin: 0 auto;
-  }
-}
-
 /* PP Editorial New Font Loading */
 @font-face {
   font-family: 'PP Editorial New';
@@ -186,40 +152,6 @@ html {
 @media (min-width: 1920px) {
   body {
     font-size: 18px;
-  }
-  
-  /* Ensure content doesn't get too spread out on very large screens */
-  .landing-page {
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-}
-
-/* Ultra-wide screen optimizations */
-@media (min-width: 2560px) {
-  body {
-    font-size: 20px;
-  }
-  
-  /* Center content on ultra-wide screens */
-  .landing-page {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .landing-page > * {
-    max-width: 2400px;
-  }
-}
-
-/* Very large screen optimizations */
-@media (min-width: 3440px) {
-  body {
-    font-size: 22px;
-  }
-  
-  .landing-page > * {
-    max-width: 3000px;
   }
 }
 
