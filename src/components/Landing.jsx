@@ -435,6 +435,7 @@ const Landing = () => {
   const [overlayVisible, setOverlayVisible] = useState(true)
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
+  const [isMenuHidden, setIsMenuHidden] = useState(false)
   // Mouse effect removed - page left blank as requested
 
   // Smooth scroll + slide-up behavior
@@ -465,11 +466,15 @@ const Landing = () => {
       if (scrollTop >= zoomComponentStart) {
         setIsMenuSlidingUp(true)
         // Hide completely after slide animation
-        setTimeout(() => setIsMenuVisible(false), 600)
+        setTimeout(() => {
+          setIsMenuVisible(false)
+          setIsMenuHidden(true)
+        }, 600)
       } else {
         // Reset states when scrolling back up
         setIsMenuVisible(true)
         setIsMenuSlidingUp(false)
+        setIsMenuHidden(false)
       }
     }
 
@@ -545,21 +550,23 @@ const Landing = () => {
       <Rectangle18 />
       
       {/* StaggeredMenu */}
-      <StaggeredMenu
-        position="right"
-        items={menuItems}
-        socialItems={socialItems}
-        displaySocials={true}
-        displayItemNumbering={false}
-        menuButtonColor="#000"
-        openMenuButtonColor="#000"
-        changeMenuColorOnOpen={true}
-        colors={['#B19EEF', '#5227FF']}
-        logoUrl="/src/assets/logos/reactbits-gh-white.svg"
-        accentColor="#ff6b6b"
-        onMenuOpen={() => {}}
-        onMenuClose={() => {}}
-      />
+      {!isMenuHidden && (
+        <StaggeredMenu
+          position="right"
+          items={menuItems}
+          socialItems={socialItems}
+          displaySocials={true}
+          displayItemNumbering={false}
+          menuButtonColor="#000"
+          openMenuButtonColor="#000"
+          changeMenuColorOnOpen={true}
+          colors={['#B19EEF', '#5227FF']}
+          logoUrl="/src/assets/logos/reactbits-gh-white.svg"
+          accentColor="#ff6b6b"
+          onMenuOpen={() => {}}
+          onMenuClose={() => {}}
+        />
+      )}
       
       {/* Loading overlay - video duration */}
       {overlayVisible && (

@@ -46,8 +46,38 @@
   left: 84px;
   width: 45.6px;
   height: 45.6px;
-  overflow: hidden;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.instagramSvgrepoCom2Icon:focus {
+  outline: none;
+}
+
+.instagramSvgrepoCom2Icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   filter: brightness(0) invert(92%);
+}
+
+.instagramSvgrepoCom2Icon:hover {
+  transform: scale(1.1);
+}
+
+.instagramSvgrepoCom2Icon:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.instagramSvgrepoCom2Icon:active {
+  transform: scale(0.95);
 }
 .youtubeSvgrepoCom2Icon {
   position: absolute;
@@ -55,8 +85,38 @@
   left: 169.33px;
   width: 45.6px;
   height: 45.6px;
-  overflow: hidden;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.youtubeSvgrepoCom2Icon:focus {
+  outline: none;
+}
+
+.youtubeSvgrepoCom2Icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   filter: brightness(0) invert(92%);
+}
+
+.youtubeSvgrepoCom2Icon:hover {
+  transform: scale(1.1);
+}
+
+.youtubeSvgrepoCom2Icon:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.youtubeSvgrepoCom2Icon:active {
+  transform: scale(0.95);
 }
 .linkedinSvgrepoCom12 {
   position: absolute;
@@ -64,8 +124,38 @@
   left: 261.43px;
   width: 45.6px;
   height: 45.6px;
-  overflow: hidden;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.linkedinSvgrepoCom12:focus {
+  outline: none;
+}
+
+.linkedinSvgrepoCom12 img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   filter: brightness(0) invert(92%);
+}
+
+.linkedinSvgrepoCom12:hover {
+  transform: scale(1.1);
+}
+
+.linkedinSvgrepoCom12:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.linkedinSvgrepoCom12:active {
+  transform: scale(0.95);
 }
 .svgviewerOutput2Icon {
   position: absolute;
@@ -73,8 +163,38 @@
   left: 335.78px;
   width: 53.2px;
   height: 53.2px;
-  overflow: hidden;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.svgviewerOutput2Icon:focus {
+  outline: none;
+}
+
+.svgviewerOutput2Icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   filter: brightness(0) invert(1);
+}
+
+.svgviewerOutput2Icon:hover {
+  transform: scale(1.1);
+}
+
+.svgviewerOutput2Icon:hover img {
+  filter: brightness(0) invert(0.8);
+}
+
+.svgviewerOutput2Icon:active {
+  transform: scale(0.95);
 }
 .copyrightIcon {
   position: absolute;
