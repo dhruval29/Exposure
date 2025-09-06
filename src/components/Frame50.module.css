@@ -7,23 +7,64 @@
 	font-size: 22.34px; /* 27.93px * 0.8 */
 	color: #000;
 	font-family: Helvetica;
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 	z-index: 1000;
 	overflow: hidden;
+	transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Centered state - initial position */
-.component16.centered {
+/* Variant 1 - Centered position */
+.component16.variant1 {
 	left: 50%;
 	right: auto;
 	transform: translateX(-50%);
 }
 
-/* Moved to right state - after scroll starts */
-.component16.movedToRight {
+/* Variant 2 - Right aligned position (no collapse animations) */
+.component16.variant2 {
 	right: 6.4px; /* 8px * 0.8 */
 	left: auto;
 	transform: translateX(0);
+	transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	width: 32px; /* Square shape for variant 2 */
+	height: 32px;
+	border-radius: 6.4px; /* Square with rounded corners, not circular */
+}
+
+/* Override any collapse behavior for variant 2 */
+.component16.variant2 .component16Child {
+	transition: none;
+	border-radius: 6.4px; /* Square with rounded corners, not circular */
+}
+
+/* Bouncy fade in animation */
+.component16.fadeInBouncy {
+	opacity: 1;
+	animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+	0% {
+		opacity: 0;
+		transform: translateX(0) scale(0.3);
+	}
+	50% {
+		opacity: 1;
+		transform: translateX(0) scale(1.1);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/* Fade states */
+.component16.fadeIn {
+	opacity: 1;
+}
+
+.component16.fadeOut {
+	opacity: 0;
+	pointer-events: none;
 }
 
 .component16Child {

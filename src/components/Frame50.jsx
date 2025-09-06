@@ -61,19 +61,36 @@ const Frame50 = () => {
 	}, [isAtBottom])
 
 	return (
-		<div 
-			className={`${styles.component16} ${isCollapsed ? styles.collapsed : ''} ${hasScrolled ? styles.movedToRight : styles.centered}`}
-			onClick={scrollToTop}
-			style={{ cursor: 'pointer' }}
-		>
-			<div className={styles.component16Child} />
-			<img 
-				className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
-				alt="" 
-				src="/arrow-pointing-to-up-svgrepo-com.svg" 
-			/>
-			<div className={styles.scroll}>SCROLL</div>
-		</div>
+		<>
+			{/* Variant 1 - Centered (fades out when scrolling) */}
+			<div 
+				className={`${styles.component16} ${styles.variant1} ${hasScrolled ? styles.fadeOut : styles.fadeIn}`}
+				onClick={scrollToTop}
+				style={{ cursor: 'pointer' }}
+			>
+				<div className={styles.component16Child} />
+				<img 
+					className={styles.vectorIcon} 
+					alt="" 
+					src="/arrow-pointing-to-up-svgrepo-com.svg" 
+				/>
+				<div className={styles.scroll}>SCROLL</div>
+			</div>
+
+			{/* Variant 2 - Right aligned (fades in when scrolling, no text, bouncy) */}
+			<div 
+				className={`${styles.component16} ${styles.variant2} ${hasScrolled ? styles.fadeInBouncy : styles.fadeOut}`}
+				onClick={scrollToTop}
+				style={{ cursor: 'pointer' }}
+			>
+				<div className={styles.component16Child} />
+				<img 
+					className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
+					alt="" 
+					src="/arrow-pointing-to-up-svgrepo-com.svg" 
+				/>
+			</div>
+		</>
 	)
 }
 
