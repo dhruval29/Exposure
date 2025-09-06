@@ -44,8 +44,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #000;
+  background: transparent;
+  border: none;
   cursor: pointer;
   color: #000000;
   font-weight: 500;
@@ -54,7 +54,7 @@
   width: 30px;
   height: 30px;
   z-index: 101;
-  border-radius: 4px;
+  padding: 0;
 }
 
 .sm-toggle:focus-visible {
@@ -64,16 +64,13 @@
 }
 
 .sm-toggle:hover .sm-icon-line {
-  background: #666666;
+  background: #333333;
 }
 
-.sm-line:last-of-type {
-  margin-top: 6px;
-}
 
 .sm-toggle-textWrap {
   position: relative;
-  display: inline-block;
+  display: none;
   height: 1em;
   overflow: hidden;
   white-space: nowrap;
@@ -82,58 +79,21 @@
 }
 
 .sm-toggle-textInner {
-  display: flex;
+  display: none;
   flex-direction: column;
   line-height: 1;
 }
 
 .sm-toggle-line {
-  display: block;
+  display: none;
   height: 1em;
   line-height: 1;
-}
-
-.sm-icon {
-  position: relative;
-  width: 24px;
-  height: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  will-change: transform;
 }
 
 .sm-panel-itemWrap {
   position: relative;
   overflow: hidden;
   line-height: 1;
-}
-
-.sm-icon-line {
-  width: 100%;
-  height: 2px;
-  background: currentColor;
-  border-radius: 2px;
-  will-change: transform;
-  transition: all 0.3s ease;
-  transform-origin: center;
-}
-
-.sm-icon-line:first-child {
-  /* First hamburger line */
-}
-
-.sm-icon-line:nth-child(2) {
-  /* Second hamburger line */
-}
-
-.sm-icon-line:last-child {
-  /* Third hamburger line */
-}
-
-.sm-line {
-  display: none !important;
 }
 
 .staggered-menu-panel {
