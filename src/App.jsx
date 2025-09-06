@@ -6,7 +6,7 @@ import TextCursorOverlay from './components/TextCursorOverlay'
 import Frame50 from './components/Frame50'
 import TestPage from './components/TestPage'
 import MembersPage from './components/MembersPage'
-import Gallery from './components/Gallery'
+import NewGallery from './components/NewGallery'
 import TeamPage from './components/TeamPage'
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
-          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/gallery" element={<NewGallery />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/members" element={<MembersPage />} />
           <Route path="/team" element={<TeamPage />} />

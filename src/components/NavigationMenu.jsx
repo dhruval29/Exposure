@@ -14,10 +14,10 @@ const NavigationMenu = ({ isExiting }) => {
   const isMenuVisible = useRef(false);
 
   const menuItems = [
-    { id: 'our-journey', label: 'Our Journey', image: '/assets/images/backgrounds/Building.png' },
-    { id: 'gallery', label: 'Gallery', image: '/assets/images/backgrounds/forest.png' },
-    { id: 'team', label: 'Team', image: '/assets/images/gallery/e6598e5c25c54119d943da26c46ea508e5daf7cf.png' },
-    { id: 'latest-releases', label: 'Latest Releases', image: '/assets/images/gallery/f5e2cfa883ff3d24c1567c79d5a6e57231b2ef45.png' }
+    { id: 'our-journey', label: 'Our Journey', image: '/assets/images/backgrounds/7.webp' },
+    { id: 'gallery', label: 'Gallery', image: '/assets/images/backgrounds/8.webp' },
+    { id: 'team', label: 'Team', image: '/assets/images/backgrounds/11.webp' },
+    { id: 'latest-releases', label: 'Latest Releases', image: '/assets/images/backgrounds/12.webp' }
   ];
 
   useEffect(() => {

@@ -228,12 +228,23 @@ export const StaggeredMenu = ({
 
   const animateIcon = useCallback(opening => {
     const icon = iconRef.current;
-    if (!icon) return;
+    const lines = icon?.querySelectorAll('.sm-icon-line');
+    if (!icon || !lines) return;
+    
     spinTweenRef.current?.kill();
+    
     if (opening) {
-      spinTweenRef.current = gsap.to(icon, { rotate: 225, duration: 0.8, ease: 'power4.out', overwrite: 'auto' });
+      // Transform to X (close icon)
+      spinTweenRef.current = gsap.timeline()
+        .to(lines[0], { rotate: 45, y: 6, duration: 0.3, ease: 'power2.out' })
+        .to(lines[1], { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0)
+        .to(lines[2], { rotate: -45, y: -6, duration: 0.3, ease: 'power2.out' }, 0);
     } else {
-      spinTweenRef.current = gsap.to(icon, { rotate: 0, duration: 0.35, ease: 'power3.inOut', overwrite: 'auto' });
+      // Transform back to hamburger
+      spinTweenRef.current = gsap.timeline()
+        .to(lines[0], { rotate: 0, y: 0, duration: 0.3, ease: 'power2.out' })
+        .to(lines[1], { opacity: 1, duration: 0.2, ease: 'power2.out' }, 0)
+        .to(lines[2], { rotate: 0, y: 0, duration: 0.3, ease: 'power2.out' }, 0);
     }
   }, []);
 
@@ -361,7 +372,8 @@ export const StaggeredMenu = ({
           </span>
           <span ref={iconRef} className="sm-icon" aria-hidden="true">
             <span ref={plusHRef} className="sm-icon-line" />
-            <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
+            <span ref={plusVRef} className="sm-icon-line" />
+            <span className="sm-icon-line sm-icon-line-third" />
           </span>
         </button>
       </header>

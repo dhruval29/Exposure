@@ -6,6 +6,7 @@ const Frame50 = () => {
 	const location = useLocation()
 	const [isCollapsed, setIsCollapsed] = useState(false)
 	const [isAtBottom, setIsAtBottom] = useState(false)
+	const [hasScrolled, setHasScrolled] = useState(false)
 
 	// Hide on gallery page
 	if (location.pathname === '/gallery') {
@@ -21,10 +22,16 @@ const Frame50 = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			// Check if scrolled down enough to collapse
-			if (window.scrollY > 100) {
+			// Check if scrolled down enough to start transition (just before sliding page at 100vh)
+			const slidingPageStart = window.innerHeight // 100vh
+			const triggerPoint = slidingPageStart - 200 // 200px before sliding page
+			
+			// Both slide to right and collapse happen simultaneously
+			if (window.scrollY > triggerPoint) {
+				setHasScrolled(true)
 				setIsCollapsed(true)
 			} else {
+				setHasScrolled(false)
 				setIsCollapsed(false)
 			}
 
@@ -55,7 +62,7 @@ const Frame50 = () => {
 
 	return (
 		<div 
-			className={`${styles.component16} ${isCollapsed ? styles.collapsed : ''}`}
+			className={`${styles.component16} ${isCollapsed ? styles.collapsed : ''} ${hasScrolled ? styles.movedToRight : styles.centered}`}
 			onClick={scrollToTop}
 			style={{ cursor: 'pointer' }}
 		>

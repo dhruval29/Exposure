@@ -446,7 +446,7 @@ const Landing = () => {
       
       // Show MouseMouse when we're in the sliding section (after 100vh, before zoom component)
       const slidingSectionStart = viewportHeight
-      const zoomComponentStart = 3544 // Zoom component start position
+      const zoomComponentStart = viewportHeight + 2768 // Zoom component start position (100vh + sliding height)
       
       if (scrollTop >= slidingSectionStart && scrollTop < zoomComponentStart) {
         setShowMouseOverlay(true)
@@ -561,12 +561,12 @@ const Landing = () => {
       )}
       {/* Mouse trail overlay on top of all content */}
       <MouseMouse visible={showMouseOverlay} zIndex={800} />
-      {/* Mouse-follow section - fixed at 100vh */}
+      {/* Mouse-follow section - fixed at 10vh */}
       <div
         ref={wireframeRef}
         style={{
           width: '100%',
-          height: '100vh',
+          height: '10vh',
           position: 'fixed',
           top: 0,
           left: 0,

@@ -95,12 +95,12 @@
 
 .sm-icon {
   position: relative;
-  width: 100%;
-  height: 100%;
-  flex: 0 0 100%;
-  display: inline-flex;
+  width: 24px;
+  height: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   will-change: transform;
 }
 
@@ -111,27 +111,25 @@
 }
 
 .sm-icon-line {
-  position: absolute;
-  left: 0;
   width: 100%;
   height: 2px;
   background: currentColor;
   border-radius: 2px;
   will-change: transform;
   transition: all 0.3s ease;
+  transform-origin: center;
 }
 
 .sm-icon-line:first-child {
-  top: 6px;
+  /* First hamburger line */
 }
 
 .sm-icon-line:nth-child(2) {
-  top: 50%;
-  transform: translateY(-50%);
+  /* Second hamburger line */
 }
 
 .sm-icon-line:last-child {
-  bottom: 6px;
+  /* Third hamburger line */
 }
 
 .sm-line {
@@ -143,7 +141,7 @@
   top: 0;
   right: 0;
   width: clamp(260px, 38vw, 420px);
-  height: 100%;
+  height: 100vh;
   background: white;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -272,12 +270,13 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .sm-panel-item {
   position: relative;
   color: #000;
+  font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 600;
   font-size: 3.5rem;
   cursor: pointer;

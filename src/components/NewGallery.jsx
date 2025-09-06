@@ -60,31 +60,18 @@ const NewGallery = () => {
   ];
 
   useEffect(() => {
-    // Letter-by-letter animation for loading title
-    const loadingTitleEl = document.querySelector('.c-loading-page__text');
-    if (loadingTitleEl) {
-      const original = loadingTitleEl.textContent;
-      const parts = [];
-      const baseDelay = 100; // ms
-      const step = 45; // ms per character
-      for (let i = 0; i < original.length; i++) {
-        const ch = original[i];
-        if (ch === ' ') {
-          parts.push(' ');
-        } else {
-          parts.push(`<span class="char" style="animation-delay:${baseDelay + i * step}ms">${ch}</span>`);
-        }
-      }
-      loadingTitleEl.innerHTML = parts.join('');
-      loadingTitleEl.style.visibility = 'visible';
-    }
-
+    // Reset loading state when component mounts
+    setLoading(true);
+    
     // Hide loading page after 1 second
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      setLoading(false); // Ensure loading is false when component unmounts
+    };
   }, []);
 
   const handleImageHover = (imageIndex) => {
@@ -114,9 +101,9 @@ const NewGallery = () => {
     <div className="gallery-container">
       {/* Loading Page */}
       {loading && (
-        <div className="loading-screen" ref={loadingPageRef}>
-          <div className="loading-content">
-            <p className="loading-text">New Gallery</p>
+        <div className="c-loading-page" ref={loadingPageRef}>
+          <div className="c-loading-page__content">
+            <p className="c-loading-page__text">New Gallery</p>
           </div>
         </div>
       )}
