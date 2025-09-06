@@ -19,7 +19,7 @@ const UnderConstruction = () => {
         <p className={styles.desktopOr}>-Lapytopy</p>
       </div>
       <div className={styles.pageUnderConstructions}>Page under constructions</div>
-      <div className={styles.iAmNever}>( i am never making a mobile version i have a life</div>
+      <div className={styles.iAmNever}>( i am never making a mobile version <span className={styles.iHaveALife}>i have a life</span></div>
     </div>
   );
 };
