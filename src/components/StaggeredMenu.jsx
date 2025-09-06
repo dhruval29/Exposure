@@ -1,13 +1,20 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Hamburger from 'hamburger-react';
+import instagramIcon from '../assets/instagram-svgrepo-com.svg';
+import youtubeIcon from '../assets/youtube-svgrepo-com.svg';
+import linkedinIcon from '../assets/linkedin-svgrepo-com.svg';
 import '../styles/StaggeredMenu.css';
 
 export const StaggeredMenu = ({
   position = 'right',
   colors = ['#B19EEF', '#5227FF'],
   items = [],
-  socialItems = [],
+  socialItems = [
+    { label: 'Instagram', link: 'https://instagram.com' },
+    { label: 'LinkedIn', link: 'https://linkedin.com' },
+    { label: 'YouTube', link: 'https://youtube.com' }
+  ],
   displaySocials = true,
   displayItemNumbering = true,
   className,
@@ -368,15 +375,38 @@ export const StaggeredMenu = ({
           </ul>
           {displaySocials && socialItems && socialItems.length > 0 && (
             <div className="sm-socials" aria-label="Social links">
-              <h3 className="sm-socials-title">Socials</h3>
+              {console.log('Rendering socials:', socialItems)}
               <ul className="sm-socials-list" role="list">
-                {socialItems.map((s, i) => (
-                  <li key={s.label + i} className="sm-socials-item">
-                    <a href={s.link} target="_blank" rel="noopener noreferrer" className="sm-socials-link">
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
+                {socialItems.map((s, i) => {
+                  let iconSrc;
+                  const label = s.label.toLowerCase();
+                  
+                  if (label.includes('instagram')) {
+                    iconSrc = instagramIcon;
+                  } else if (label.includes('youtube')) {
+                    iconSrc = youtubeIcon;
+                  } else if (label.includes('linkedin')) {
+                    iconSrc = linkedinIcon;
+                  }
+                  
+                  console.log('Social item:', s.label, 'Icon found:', !!iconSrc);
+                  
+                  return (
+                    <li key={s.label + i} className="sm-socials-item">
+                      <a href={s.link} target="_blank" rel="noopener noreferrer" className="sm-socials-link">
+                        {iconSrc ? (
+                          <img 
+                            src={iconSrc} 
+                            alt={s.label} 
+                            className="sm-socials-icon"
+                          />
+                        ) : (
+                          s.label
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}

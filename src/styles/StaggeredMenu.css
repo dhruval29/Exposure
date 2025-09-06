@@ -216,6 +216,17 @@
   color: var(--sm-accent, #ff0000);
 }
 
+.sm-socials-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.sm-socials-link:hover .sm-socials-icon {
+  filter: brightness(0) invert(0) sepia(1) saturate(5) hue-rotate(240deg);
+}
+
 .sm-panel-title {
   margin: 0;
   font-size: 1rem;
