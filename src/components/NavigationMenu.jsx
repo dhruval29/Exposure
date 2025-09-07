@@ -166,13 +166,13 @@ const NavigationMenu = ({ isExiting }) => {
   const handleClick = (itemId) => {
     switch (itemId) {
       case 'gallery':
-        navigate('/gallery');
+        navigate('/pictures');
         break;
       case 'team':
         navigate('/team');
         break;
       case 'our-journey':
-        navigate('/');
+        navigate('/our-journey');
         break;
       case 'latest-releases':
         navigate('/effects');
@@ -316,7 +316,7 @@ const NavigationMenu = ({ isExiting }) => {
             }}
           >
             <img 
-              src="/src/assets/new arrow.svg" 
+              src="/new-arrow.svg" 
               alt="Arrow" 
               style={{
                 width: '132.51px', // Increased by 50% more (88.34 * 1.5 = total 225% of original)

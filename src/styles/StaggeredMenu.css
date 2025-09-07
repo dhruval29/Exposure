@@ -117,6 +117,7 @@
   overflow-y: auto;
   z-index: 10001;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
 }
 
 [data-position='left'] .clean-staggered-menu-panel {
@@ -261,7 +262,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.2rem;
 }
 
 .sm-panel-item {
@@ -274,12 +275,16 @@
   line-height: 1;
   letter-spacing: -2px;
   text-transform: uppercase;
+  text-align: left;
   transition:
     background 0.25s,
     color 0.25s;
   display: inline-block;
   text-decoration: none;
-  padding-right: 1.4em;
+  padding: 0.3em 1.2em 0.3em 0.3em;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 0.2em;
 }
 
 .clean-staggered-menu-panel .sm-socials-list .sm-socials-link {

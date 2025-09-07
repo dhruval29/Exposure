@@ -1,4 +1,5 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import instagramIcon from '../assets/instagram-svgrepo-com.svg';
 import youtubeIcon from '../assets/youtube-svgrepo-com.svg';
@@ -22,6 +23,7 @@ export const StaggeredMenu = ({
   onMenuClose,
   hideButton = false
 }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
   const panelRef = useRef(null);
@@ -281,6 +283,21 @@ export const StaggeredMenu = ({
     });
   }, []);
 
+  const handleItemClick = useCallback((e, item) => {
+    e.preventDefault();
+    if (item.link && item.link.startsWith('/')) {
+      // Internal navigation - use React Router
+      navigate(item.link);
+      // Close menu after navigation
+      if (openRef.current) {
+        toggleMenu();
+      }
+    } else if (item.link) {
+      // External navigation - open in new tab
+      window.open(item.link, '_blank', 'noopener,noreferrer');
+    }
+  }, [navigate]);
+
   const toggleMenu = useCallback(() => {
     const target = !openRef.current;
     openRef.current = target;
@@ -358,9 +375,15 @@ export const StaggeredMenu = ({
             {items && items.length ? (
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap" key={it.label + idx}>
-                  <a className="sm-panel-item" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
+                  <button 
+                    className="sm-panel-item" 
+                    onClick={(e) => handleItemClick(e, it)} 
+                    aria-label={it.ariaLabel} 
+                    data-index={idx + 1}
+                    type="button"
+                  >
                     <span className="sm-panel-itemLabel">{it.label}</span>
-                  </a>
+                  </button>
                 </li>
               ))
             ) : (

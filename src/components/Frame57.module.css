@@ -1,0 +1,36 @@
+.p1kv8o1121Parent {
+	width: 100%;
+	position: relative;
+	background-color: #fff;
+	height: 100vh;
+	overflow: hidden;
+	text-align: center;
+	font-size: 32px;
+	color: #000;
+	font-family: Geist;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.p1kv8o1121 {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.mainIllustration {
+	width: 100%;
+	max-width: 800px;
+	height: auto;
+	margin-bottom: 2rem;
+}
+.pageUnderConstruction {
+	position: relative;
+	font-size: 2rem;
+	font-weight: 600;
+	color: #333;
+	margin-top: 1rem;
+}

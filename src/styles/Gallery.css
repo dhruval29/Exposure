@@ -50,20 +50,26 @@
   letter-spacing: normal;
   opacity: 1;
   transform: none;
-  visibility: hidden;
+  visibility: visible;
 }
 
 /* Per-letter animation for loading title */
 .char {
   display: inline-block;
   opacity: 0;
-  transform: translateY(12px);
-  animation: charIn 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateY(20px);
+  animation: charIn 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes charIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(20px) scale(0.8); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
 }
 
 /* Main Content */

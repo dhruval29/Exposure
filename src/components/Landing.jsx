@@ -534,7 +534,7 @@ const Landing = () => {
 
   const menuItems = [
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
-    { label: 'Gallery', ariaLabel: 'View our gallery', link: '/gallery' },
+    { label: 'Gallery', ariaLabel: 'View our gallery', link: '/pictures' },
     { label: 'Team', ariaLabel: 'Meet our team', link: '/team' }
   ];
 
