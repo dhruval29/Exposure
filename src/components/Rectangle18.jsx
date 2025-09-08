@@ -12,9 +12,10 @@ const Rectangle18 = () => {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
 
-      // Show "EXPOSURE EXPLORERS" text when the initial 10vh section is scrolled past
-      // This corresponds to when the sliding page effectively "reaches the top of the window"
-      if (scrollTop >= viewportHeight * 0.1) { // When scrollY passes 0.1 viewport height
+      // Align navbar title appearance with Frame50's scroll hint disappearance
+      // Frame50 fades out the centered hint at: triggerPoint = 100vh - 200
+      const triggerPoint = viewportHeight - 200;
+      if (scrollTop >= triggerPoint) {
         setShowText(true);
       } else {
         setShowText(false);

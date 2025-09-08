@@ -7,11 +7,13 @@ import TextCursorOverlay from './components/TextCursorOverlay'
 import Frame50 from './components/Frame50'
 import TestPage from './components/TestPage'
 import MembersPage from './components/MembersPage'
-import NewGallery from './components/NewGallery'
 import PicturesGallery from './components/PicturesGallery'
 import TeamPage from './components/TeamPage'
 import OurJourney from './components/OurJourney'
+import Admin from './components/Admin'
+import ContactForm from './components/ContactForm'
 import UnderConstruction from './components/UnderConstruction'
+import Fly from './components/Fly'
 
 function App() {
   const isMobile = useMobileDetection();
@@ -30,11 +32,14 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/our-journey" element={<OurJourney />} />
           <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
-          <Route path="/gallery" element={<NewGallery />} />
+          <Route path="/gallery" element={<PicturesGallery />} />
           <Route path="/pictures" element={<PicturesGallery />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/members" element={<MembersPage />} />
           <Route path="/team" element={<TeamPage />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/contact" element={<ContactForm />} />
+          <Route path="/fly" element={<Fly />} />
         </Routes>
       </div>
     </Router>

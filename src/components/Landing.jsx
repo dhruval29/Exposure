@@ -10,11 +10,12 @@ gsap.registerPlugin(ScrollTrigger)
 import Lenis from '@studio-freight/lenis'
 import NavigationMenu from './NavigationMenu'
 import StorytellingHero from './StorytellingHero'
-import Frame36 from './Frame36'
+import ContactUs from './ContactUs'
 import HoverImage from './HoverImage'
 import StaggeredMenu from './StaggeredMenu'
 import useLightweightMouseEffect from '../hooks/useLightweightMouseEffect'
 import { responsiveImagePositions } from '../utils/positionConverter'
+import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 
 
 // Inline ZoomReveal so Landing is self-contained
@@ -50,6 +51,8 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
   const [imageLoaded, setImageLoaded] = useState(false)
   const scrollTriggerRef = useRef(null)
   const eventListenersRef = useRef({ wheel: null, touchstart: null })
+  const masterTlRef = useRef(null)
+  const flyItemsRef = useRef(null)
 
   // Image load handler
   const handleImageLoad = () => {
@@ -89,7 +92,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        end: '+=75%',
+        end: '+=125%',
         scrub: 2,
         pin: true,
         markers: false,
@@ -122,12 +125,57 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
       }
     })
 
-    // Store ScrollTrigger reference for proper cleanup
+    // Store ScrollTrigger reference and timeline for later composition
     scrollTriggerRef.current = tl.scrollTrigger
+    masterTlRef.current = tl
 
     gsap.set([left, right], { zIndex: 5000, opacity: 1, x: 0 })
 
-    // 1. Image scaling animation
+    // Compose Fly segment first (if items are already available)
+    const composeFlySegment = () => {
+      const items = flyItemsRef.current || []
+      if (!items || items.length === 0) return { flyMaxDuration: 0 }
+
+      const maxZLayer = Math.max(...FLY_Z_INDEXES)
+      // Compute per-item durations to find max
+      const durations = items.map((_, i) => 0.9 + (maxZLayer - (FLY_Z_INDEXES[i % FLY_Z_INDEXES.length])) * 0.12)
+      const flyMaxDuration = Math.max(...durations)
+
+      // Build tweens starting at time 0
+      items.forEach((el, i) => {
+        const { top, left } = FLY_POSITIONS[i % FLY_POSITIONS.length]
+        const leftPct = parseFloat(String(left).replace('%', ''))
+        const topPct = parseFloat(String(top).replace('%', ''))
+        const xOut = leftPct < 50 ? -800 : 800
+        const yOut = topPct < 50 ? -300 : 300
+
+        const zLayer = FLY_Z_INDEXES[i % FLY_Z_INDEXES.length]
+        const startOffsetZ = FLY_START_Z_OFFSETS[i % FLY_START_Z_OFFSETS.length]
+        const zIn = -1400 + startOffsetZ - (maxZLayer - zLayer) * 40
+        const zOut = 1600
+        const duration = 0.9 + (maxZLayer - zLayer) * 0.12
+
+        tl.fromTo(
+          el,
+          { z: zIn, x: 0, y: 0 },
+          { z: zOut, x: xOut, y: yOut, force3D: true, duration, ease: 'none' },
+          0
+        )
+      })
+
+      // Pad to ensure timeline length covers the max duration of Fly
+      tl.to({}, { duration: flyMaxDuration }, 0)
+
+      return { flyMaxDuration }
+    }
+
+    // If Fly items already present, compose now and then add Zoom segment
+    const { flyMaxDuration } = composeFlySegment()
+
+    // Place Zoom segment start around 70% of Fly segment
+    const zoomStart = flyMaxDuration > 0 ? flyMaxDuration * 0.70 : 0
+
+    // 1. Image scaling animation (Zoom segment)
     tl.to(img, {
       width: '100vw',
       height: '100vh',
@@ -137,22 +185,22 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      zIndex: 1000, // Bottom layer
+      zIndex: 1000,
       duration: 1,
       ease: 'power2.inOut'
-    }, 0)
+    }, zoomStart)
 
-    // 2. Text movement animation (synchronized with image scaling in real-time)
+    // 2. Text movement animation (synchronized with image scaling)
     tl.to(left, {
-      x: -responsiveValues.offScreenDistance, // Move off-screen as image scales
-      duration: 1, // Same duration as image scaling
+      x: -responsiveValues.offScreenDistance,
+      duration: 1,
       ease: 'power2.inOut'
-    }, 0) // Start at the same time as image scaling
+    }, zoomStart)
     .to(right, {
-      x: responsiveValues.offScreenDistance, // Move off-screen as image scales
-      duration: 1, // Same duration as image scaling
+      x: responsiveValues.offScreenDistance,
+      duration: 1,
       ease: 'power2.inOut'
-    }, 0) // Start at the same time as image scaling
+    }, zoomStart)
 
     // Add extra scroll-only padding after zoom completes (no visual change)
     .to({}, { duration: config.postZoomScrollPad })
@@ -164,6 +212,13 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
       }
     }
   }, [config.postZoomScrollPad])
+
+  // When Fly items mount later, attach them to the master timeline
+  useEffect(() => {
+    if (!masterTlRef.current || !flyItemsRef.current) return
+    // Clear any previously added placeholder padding at 0 if needed is complex; we rely on idempotence by not re-adding twice.
+    // No-op here because we already composed in the main effect if items were present.
+  }, [])
 
   // Animate nav overlay and menu appearance/disappearance smoothly
   useEffect(() => {
@@ -270,6 +325,13 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
       style={{ position: 'relative', width: '100%', height: '100%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+        {/* Fly images behind the zoomed image */}
+        <Fly
+          controlled
+          onItemsReady={(items) => { flyItemsRef.current = items; if (masterTlRef.current) { /* main effect composes it */ } }}
+          containerStyle={{ position: 'absolute', inset: 0 }}
+          zIndex={100}
+        />
         {imageError ? (
           <div 
             style={{ 
@@ -403,7 +465,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           playsInline
           preload="auto"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none', filter: 'blur(2px) saturate(105%) brightness(0.98)', transform: 'scale(1.02)' }}
-          src="/1409899-uhd_3840_2160_25fps (1) (1) (1).mp4"
+          src="/65562-515098354_small.mp4"
         />
         {/* Faint overlay to improve contrast over the video */}
         <div
@@ -416,7 +478,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           }}
         />
         <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Frame36 />
+          <ContactUs />
         </div>
       </div>
     </div>

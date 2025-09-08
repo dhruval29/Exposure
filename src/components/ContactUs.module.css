@@ -1,0 +1,89 @@
+.contactUs {
+	width: 100%;
+	position: relative;
+	height: 776px;
+	overflow: hidden;
+	text-align: left;
+	font-size: 36px;
+	color: #fff;
+	font-family: Helvetica;
+}
+.fromGoaWithContainer {
+	position: absolute;
+	top: calc(50% - 305px);
+	left: calc(50% - 722px);
+	font-size: 127px;
+	line-height: 105%;
+	display: inline-block;
+	width: 698px;
+	height: 354px;
+}
+.fromGoa {
+	margin: 0;
+}
+.b {
+	font-family: Helvetica;
+}
+.contactUsChild {
+	position: absolute;
+	top: 526.3px;
+	left: 46px;
+	width: 16.8px;
+	height: 20.4px;
+}
+.gmail {
+	position: absolute;
+	top: 520px;
+	left: 78.35px;
+	line-height: 100.58%;
+}
+.contactUsItem {
+	position: absolute;
+	top: 577.9px;
+	left: 46px;
+	width: 16.8px;
+	height: 20.4px;
+}
+.instagram {
+	position: absolute;
+	top: 571.6px;
+	left: 78.35px;
+	line-height: 100.58%;
+}
+.contactUsInner {
+	position: absolute;
+	top: 629.5px;
+	left: 46px;
+	width: 16.8px;
+	height: 20.4px;
+}
+.youtube {
+	position: absolute;
+	top: 623.2px;
+	left: 78.35px;
+	line-height: 100.58%;
+}
+.groupIcon {
+	position: absolute;
+	top: 681.1px;
+	left: 46px;
+	width: 16.8px;
+	height: 20.4px;
+}
+.linkedin {
+	position: absolute;
+	top: 674.8px;
+	left: 78.35px;
+	line-height: 100.58%;
+}
+.exposureExplorers {
+	position: absolute;
+	top: 608px;
+	left: 1147px;
+	font-size: 53.47px;
+	letter-spacing: 0.03em;
+	line-height: 97%;
+	font-family: 'PP Editorial New';
+}
+
+

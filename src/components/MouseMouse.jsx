@@ -1,25 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import styles from './Home.module.css';
 
-// Performance monitoring utility
-const PerformanceMonitor = {
-  frameCount: 0,
-  lastTime: 0,
-  fps: 0,
-  
-  update() {
-    this.frameCount++;
-    const currentTime = performance.now();
-    
-    if (currentTime - this.lastTime >= 1000) {
-      this.fps = this.frameCount;
-      this.frameCount = 0;
-      this.lastTime = currentTime;
-      
-      // FPS monitoring disabled for production
-    }
-  }
-};
 
 const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
   const canvasRef = useRef(null);
@@ -159,8 +140,6 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
   // Main animation loop with performance optimizations
   const animate = useCallback(() => {
     if (!isActive || !canvasRef.current) return;
-    
-    PerformanceMonitor.update();
     
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');

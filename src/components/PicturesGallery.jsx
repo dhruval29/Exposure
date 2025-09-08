@@ -20,57 +20,21 @@ const PicturesGallery = () => {
     { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
   ];
 
-  const images = [
-    { src: '/assets/images/Pictures/1735169740148-2.jpg', title: 'Exposure 1' },
-    { src: '/assets/images/Pictures/1735169741900 (2).jpg', title: 'Exposure 2' },
-    { src: '/assets/images/Pictures/1735169742227.jpg', title: 'Exposure 3' },
-    { src: '/assets/images/Pictures/66b90841dac09204196c2799eb092dfc82cb4d49.png', title: 'Exposure 4' },
-    { src: '/assets/images/Pictures/80cd277005dfbb076b97f3443adc9855fec1e19c.png', title: 'Exposure 5' },
-    { src: '/assets/images/Pictures/a4127d727720d4c092e45fefaf0b05c0c79fe2d4.png', title: 'Exposure 6' },
-    { src: '/assets/images/Pictures/e6598e5c25c54119d943da26c46ea508e5daf7cf.png', title: 'Exposure 7' },
-    { src: '/assets/images/Pictures/e7643725a3b70e0bc912211e0911b18522585aa2.png', title: 'Exposure 8' },
-    { src: '/assets/images/Pictures/f5e2cfa883ff3d24c1567c79d5a6e57231b2ef45.png', title: 'Exposure 9' },
-    { src: '/assets/images/Pictures/fea9ef66f94ec76e2005159a55ddfbe0fc03f4b9.png', title: 'Exposure 10' },
-    { src: '/assets/images/Pictures/IMG_20241014_155217-5.jpg', title: 'Exposure 11' },
-    { src: '/assets/images/Pictures/IMG_20241229_134141.jpg', title: 'Exposure 12' },
-    { src: '/assets/images/Pictures/IMG_20250106_201327.jpg', title: 'Exposure 13' },
-    { src: '/assets/images/Pictures/IMG_20250108_151138.jpg', title: 'Exposure 14' },
-    { src: '/assets/images/Pictures/IMG_20250114_093607.jpg', title: 'Exposure 15' },
-    { src: '/assets/images/Pictures/IMG_20250114_191924.jpg', title: 'Exposure 16' }
-  ];
-
-  const previewImages = [
-    { src: '/assets/images/Pictures/1735169740148-2.jpg', title: 'Exposure 1' },
-    { src: '/assets/images/Pictures/1735169741900 (2).jpg', title: 'Exposure 2' },
-    { src: '/assets/images/Pictures/1735169742227.jpg', title: 'Exposure 3' },
-    { src: '/assets/images/Pictures/66b90841dac09204196c2799eb092dfc82cb4d49.png', title: 'Exposure 4' },
-    { src: '/assets/images/Pictures/80cd277005dfbb076b97f3443adc9855fec1e19c.png', title: 'Exposure 5' },
-    { src: '/assets/images/Pictures/a4127d727720d4c092e45fefaf0b05c0c79fe2d4.png', title: 'Exposure 6' },
-    { src: '/assets/images/Pictures/e6598e5c25c54119d943da26c46ea508e5daf7cf.png', title: 'Exposure 7' },
-    { src: '/assets/images/Pictures/e7643725a3b70e0bc912211e0911b18522585aa2.png', title: 'Exposure 8' },
-    { src: '/assets/images/Pictures/f5e2cfa883ff3d24c1567c79d5a6e57231b2ef45.png', title: 'Exposure 9' },
-    { src: '/assets/images/Pictures/fea9ef66f94ec76e2005159a55ddfbe0fc03f4b9.png', title: 'Exposure 10' },
-    { src: '/assets/images/Pictures/IMG_20241014_155217-5.jpg', title: 'Exposure 11' },
-    { src: '/assets/images/Pictures/IMG_20241229_134141.jpg', title: 'Exposure 12' },
-    { src: '/assets/images/Pictures/IMG_20250106_201327.jpg', title: 'Exposure 13' },
-    { src: '/assets/images/Pictures/IMG_20250108_151138.jpg', title: 'Exposure 14' },
-    { src: '/assets/images/Pictures/IMG_20250114_093607.jpg', title: 'Exposure 15' },
-    { src: '/assets/images/Pictures/IMG_20250114_191924.jpg', title: 'Exposure 16' }
-  ];
+  const [images, setImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
 
   useEffect(() => {
-    // Reset loading state when component mounts
     setLoading(true);
-    
-    // Hide loading page after 2 seconds
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => {
-      clearTimeout(timer);
-      setLoading(false); // Ensure loading is false when component unmounts
-    };
+    const timer = setTimeout(() => setLoading(false), 1200);
+    fetch('/api/gallery')
+      .then(r => r.json())
+      .then(data => {
+        const list = (data.images || []).map((it, idx) => ({ src: it.url, title: `Image ${idx + 1}` }))
+        setImages(list);
+        setPreviewImages(list);
+      })
+      .catch(() => {})
+    return () => clearTimeout(timer);
   }, []);
 
   const handleImageHover = (imageIndex) => {

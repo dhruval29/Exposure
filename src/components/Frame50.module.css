@@ -9,7 +9,9 @@
 	font-family: Helvetica;
 	z-index: 1000;
 	overflow: hidden;
-	transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: width 0.35s ease, opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	/* Keep spacing consistent between text and arrow */
+	--text-gap: 4px;
 }
 
 /* Variant 1 - Centered position */
@@ -17,6 +19,11 @@
 	left: 50%;
 	right: auto;
 	transform: translateX(-50%);
+}
+
+/* Expanded state for variant1 to accommodate "SCROLL MORE" */
+.component16.variant1.expanded {
+	width: 200px;
 }
 
 /* Variant 2 - Right aligned position (no collapse animations) */
@@ -76,7 +83,7 @@
 	border-radius: 6.4px; /* 8px * 0.8 */
 	background-color: #d9d9d9;
 	height: 32px; /* 40px * 0.8 */
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all 0.35s ease;
 }
 
 .vectorIcon {
@@ -91,9 +98,11 @@
 	overflow: visible;
 	max-height: 100%;
 	object-fit: contain;
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.35s ease, opacity 0.35s ease;
 	transform: rotate(180deg);
 }
+
+/* Keep arrow inset constant across states */
 
 .vectorIcon.rotateUp {
 	transform: rotate(0deg);
@@ -103,10 +112,22 @@
 	position: absolute;
 	top: 5.12%; /* 6.4% * 0.8 */
 	left: 3.66%; /* 4.57% * 0.8 */
+	right: calc(8.32px + var(--text-gap));
 	letter-spacing: 0.04em;
 	line-height: 122.71%;
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: color 0.35s ease, transform 0.35s ease;
 	white-space: nowrap;
+}
+
+/* typing suffix styling */
+.moreSuffix {
+	display: inline-block;
+	width: auto;
+	vertical-align: baseline;
+}
+
+.hasContent {
+	margin-left: var(--text-gap);
 }
 
 /* Collapsed state styles */

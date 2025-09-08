@@ -7,6 +7,8 @@ const Frame50 = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false)
 	const [isAtBottom, setIsAtBottom] = useState(false)
 	const [hasScrolled, setHasScrolled] = useState(false)
+	const [showMore, setShowMore] = useState(false)
+	const [typedSuffix, setTypedSuffix] = useState('')
 
 	// Hide on gallery page
 	if (location.pathname === '/gallery') {
@@ -25,6 +27,7 @@ const Frame50 = () => {
 			// Check if scrolled down enough to start transition (just before sliding page at 100vh)
 			const slidingPageStart = window.innerHeight // 100vh
 			const triggerPoint = slidingPageStart - 200 // 200px before sliding page
+			const midwayPoint = slidingPageStart * 0.25 // 25% to pull-up page
 			
 			// Both slide to right and collapse happen simultaneously
 			if (window.scrollY > triggerPoint) {
@@ -33,6 +36,14 @@ const Frame50 = () => {
 			} else {
 				setHasScrolled(false)
 				setIsCollapsed(false)
+			}
+
+			// Midway typing/resize trigger for centered variant
+			// Keep expanded state once triggered; only shrink when user scrolls back above midway
+			if (window.scrollY > midwayPoint) {
+				if (!showMore) setShowMore(true)
+			} else if (showMore) {
+				setShowMore(false)
 			}
 
 			// Check if we've reached 75% through the contact us page (ZoomReveal section)
@@ -58,13 +69,32 @@ const Frame50 = () => {
 
 		window.addEventListener('scroll', handleScroll)
 		return () => window.removeEventListener('scroll', handleScroll)
-	}, [isAtBottom])
+	}, [isAtBottom, showMore])
+
+	// Typing effect for the "MORE" suffix when showMore is active
+	useEffect(() => {
+		const fullSuffix = 'MORE'
+		if (!showMore) {
+			setTypedSuffix('')
+			return
+		}
+		setTypedSuffix('')
+		let index = 0
+		const interval = setInterval(() => {
+			index += 1
+			setTypedSuffix(fullSuffix.slice(0, index))
+			if (index >= fullSuffix.length) {
+				clearInterval(interval)
+			}
+		}, 60)
+		return () => clearInterval(interval)
+	}, [showMore])
 
 	return (
 		<>
-			{/* Variant 1 - Centered (fades out when scrolling) */}
+			{/* Variant 1 - Centered (fades out when scrolling). Expands and types " MORE" mid-way. */}
 			<div 
-				className={`${styles.component16} ${styles.variant1} ${hasScrolled ? styles.fadeOut : styles.fadeIn}`}
+				className={`${styles.component16} ${styles.variant1} ${showMore ? styles.expanded : ''} ${hasScrolled ? styles.fadeOut : styles.fadeIn}`}
 				onClick={scrollToTop}
 				style={{ cursor: 'pointer' }}
 			>
@@ -74,7 +104,7 @@ const Frame50 = () => {
 					alt="" 
 					src="/arrow-pointing-to-up-svgrepo-com.svg" 
 				/>
-				<div className={styles.scroll}>SCROLL</div>
+				<div className={styles.scroll}>SCROLL<span className={`${styles.moreSuffix} ${typedSuffix ? styles.hasContent : ''}`}>{typedSuffix}</span></div>
 			</div>
 
 			{/* Variant 2 - Right aligned (fades in when scrolling, no text, bouncy) */}
