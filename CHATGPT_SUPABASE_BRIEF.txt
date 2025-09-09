@@ -1,0 +1,171 @@
+Exposure Explorers – Product & Technical Brief for ChatGPT / Supabase Setup
+
+Product description
+Exposure Explorers is a visual-first web experience for a college photography community. It showcases curated albums, member profiles, and event highlights through immersive animations and smooth interactions. The site emphasizes high‑quality imagery, lightweight navigation, and a modern aesthetic. Visitors can browse galleries, learn about the team, and explore the club’s journey; admins can manage images, albums, tags, events, and member info via a secure workflow. The goal is to provide a polished, performant, and easily maintainable gallery platform that scales as content grows.
+
+Project overview
+- Name: Exposure Explorers website
+- Tech stack:
+  - React + Vite single-page app
+  - React Router for client-side routing
+  - GSAP + ScrollTrigger for animations and scroll pinning
+  - Custom components including StaggeredMenu, Fly, TextCursorOverlay
+  - Simple fetches to internal routes like /api/gallery (to be replaced with Supabase)
+- Current routes/pages:
+  - /            Landing
+  - /our-journey Our Journey
+  - /gallery and /pictures  Pictures Gallery (hover previews, right-side preview image)
+  - /members     Members Page
+  - /team        Team Page
+  - /admin       Admin (reserved)
+  - /fly         GSAP fly‑through effect
+  - Mobile devices: UnderConstruction screen via useMobileDetection
+- Gallery behavior:
+  - On load, calls GET /api/gallery, expects { images: [{ url: string }, ...] }
+  - Builds a grid of images on the left; hover swaps a large preview image on the right
+  - Social links: Instagram, LinkedIn, YouTube
+- Visual/FX highlight:
+  - Fly component renders a pinned, scroll‑scrubbed 3D fly‑through of six fixed-position UI images using GSAP timelines and z-index layers
+
+Goal for Supabase
+- Replace ad-hoc /api/gallery with Supabase Postgres tables and Storage
+- Store and serve images (public URLs), albums, tags, events, and team members
+- Use Row Level Security (RLS) with roles (admin/editor/viewer) for safe client-side usage
+- Provide minimal client code to fetch public images and render the gallery
+
+Proposed Supabase data model
+Tables
+- users
+  - id (uuid, pk, references auth.users)
+  - username (text, unique)
+  - display_name (text)
+  - avatar_url (text)
+  - created_at (timestamptz, default now())
+- roles
+  - id (serial, pk)
+  - name (text, unique) — e.g., admin, editor, viewer
+- user_roles
+  - user_id (uuid, fk -> users.id)
+  - role_id (int, fk -> roles.id)
+  - primary key (user_id, role_id)
+- albums
+  - id (uuid, pk, default gen_random_uuid())
+  - title (text)
+  - description (text)
+  - cover_image_id (uuid, nullable, fk -> images.id)
+  - is_public (boolean, default true)
+  - created_by (uuid, fk -> users.id)
+  - created_at (timestamptz, default now())
+  - updated_at (timestamptz, default now())
+- images
+  - id (uuid, pk, default gen_random_uuid())
+  - storage_path (text, unique) — path inside the Storage bucket
+  - public_url (text) — signed or public URL for client
+  - title (text)
+  - description (text)
+  - width (int)
+  - height (int)
+  - taken_at (timestamptz, nullable)
+  - uploaded_by (uuid, fk -> users.id)
+  - is_public (boolean, default true)
+  - created_at (timestamptz, default now())
+- album_images
+  - album_id (uuid, fk -> albums.id)
+  - image_id (uuid, fk -> images.id)
+  - position (int, default 0)
+  - primary key (album_id, image_id)
+- tags
+  - id (serial, pk)
+  - name (text, unique)
+- image_tags
+  - image_id (uuid, fk -> images.id)
+  - tag_id (int, fk -> tags.id)
+  - primary key (image_id, tag_id)
+- events (optional, for “Our Journey”)
+  - id (uuid, pk, default gen_random_uuid())
+  - title (text)
+  - description (text)
+  - start_date (date)
+  - end_date (date, nullable)
+  - cover_image_id (uuid, nullable, fk -> images.id)
+  - created_by (uuid, fk -> users.id)
+  - created_at (timestamptz, default now())
+- event_images (optional)
+  - event_id (uuid, fk -> events.id)
+  - image_id (uuid, fk -> images.id)
+  - position (int, default 0)
+  - primary key (event_id, image_id)
+- team_members (for /team, /members)
+  - id (uuid, pk, default gen_random_uuid())
+  - name (text)
+  - role_title (text)
+  - bio (text)
+  - photo_image_id (uuid, nullable, fk -> images.id)
+  - order_index (int, default 0)
+  - is_active (boolean, default true)
+  - created_at (timestamptz, default now())
+
+Storage
+- Bucket: images (public read recommended; restrict writes/deletes via RLS/role checks)
+
+RLS (high level)
+- users/roles/user_roles: only admins can manage roles; users can read their own row
+- images:
+  - anon: select where is_public = true
+  - authenticated: select all own uploads; insert/update/delete own rows; admins manage all
+- albums:
+  - anon: select where is_public = true
+  - authenticated: select private if created_by = auth.uid(); admins full access
+- joins (album_images, image_tags): follow parent-table policies
+- team_members: anon select; only admins can modify
+- events/event_images: anon select for public imagery; admin/editor manage
+
+Minimal API shapes (frontend expectations)
+- GET public gallery images → map images.public_url to { url }
+- GET public albums with cover image
+- GET team members ordered by order_index
+
+Copy‑paste prompts for ChatGPT
+
+Prompt 1: Generate SQL schema + RLS
+You are a Postgres + Supabase expert. Create SQL (tables, indexes, foreign keys) and RLS policies for this app:
+
+- Tables: users (linked to auth.users), roles, user_roles, images, albums, album_images, tags, image_tags, team_members, events, event_images (optional).
+- Storage: a bucket named images for public delivery; restrict uploads to authenticated users; only admins can delete.
+- Public rules: anon can select public images (images.is_public=true), public albums (albums.is_public=true), and team_members. Authenticated users can CRUD their own images and albums. Admins can manage everything.
+- Include sensible defaults (timestamps, gen_random_uuid), constraints, and helpful indexes (e.g., on album_images.position, images.is_public).
+- Implement RLS with policies referencing auth.uid() and a role check via a SQL function is_admin(uid uuid) that checks user_roles against the 'admin' role.
+
+Return a single SQL block that I can run in Supabase SQL editor: schema, helper functions (is_admin), and all policies.
+
+Prompt 2: Create Supabase client integration for the gallery
+Write minimal React + Supabase JS code to replace a fetch('/api/gallery') call with a Supabase query that returns { images: [{ url }] } based on the schema:
+
+- Select public images ordered by created_at desc, limit 50.
+- Use public_url from the images table for url.
+- Provide a small utility to instantiate the Supabase client using env vars (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY).
+- Show a React useEffect example that loads images and sets state like: setImages(list) and setPreviewImages(list).
+- Keep code concise and production-ready (error handling, no console noise).
+
+Prompt 3: Upload pipeline to Storage and table insert
+Create a TypeScript/JavaScript function that:
+- Given a File object, uploads it to the 'images' bucket under a date-based path.
+- On success, inserts a row into images(storage_path, public_url, title, width, height, uploaded_by, is_public).
+- Generates a public URL (or signed URL if you recommend) and returns the full row.
+- Include lightweight error handling and recommended content-type handling.
+
+Prompt 4: Admin/editor role setup and policies test
+Provide SQL to:
+- Insert roles 'admin', 'editor', 'viewer' if missing.
+- Assign 'admin' to a given user id.
+- Show sample queries that demonstrate RLS: anon selects public images; authenticated user can only modify their rows; admin can modify all.
+- Include a brief note on how to test policies using Supabase SQL editor with 'Run as' options or via service key.
+
+Prompt 5: Migration plan from /api/gallery to Supabase
+Outline exact steps to migrate:
+1) Create tables and RLS with the provided SQL.
+2) Create 'images' bucket and configure public access for reads.
+3) Write a one-off script to upload existing image files to Storage and insert image rows.
+4) Update frontend: replace fetch('/api/gallery') with a Supabase query to images table.
+5) Remove the old /api/gallery endpoint and add a fallback empty-state in the UI.
+Return a step-by-step checklist with brief commands/snippets.

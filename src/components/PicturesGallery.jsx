@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import StaggeredMenu from './StaggeredMenu';
 import '../styles/Gallery.css';
+import { supabase } from '../lib/supabaseClient';
 
 const PicturesGallery = () => {
   const [loading, setLoading] = useState(true);
@@ -24,35 +25,40 @@ const PicturesGallery = () => {
   const [previewImages, setPreviewImages] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
     setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 1200);
-    fetch('/api/gallery')
-      .then(r => r.json())
-      .then(data => {
-        const list = (data.images || []).map((it, idx) => ({ src: it.url, title: `Image ${idx + 1}` }))
-        setImages(list);
-        setPreviewImages(list);
-      })
-      .catch(() => {})
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => isMounted && setLoading(false), 1200);
+
+    (async () => {
+      const { data, error } = await supabase
+        .from('public_gallery')
+        .select('*')
+        .limit(50);
+
+      if (!error && Array.isArray(data)) {
+        const list = data.map((it, idx) => ({ src: it.url, title: it.title || `Image ${idx + 1}` }));
+        if (isMounted) {
+          setImages(list);
+          setPreviewImages(list);
+        }
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
   }, []);
 
   const handleImageHover = (imageIndex) => {
     if (rightSideImageRef.current && imageIndex >= 1 && imageIndex <= previewImages.length) {
-      // Add fade out effect
       rightSideImageRef.current.style.opacity = '0';
       rightSideImageRef.current.style.transform = 'scale(0.95)';
-      
-      // Wait for fade out, then change image and fade in
       setTimeout(() => {
         if (rightSideImageRef.current) {
           rightSideImageRef.current.src = previewImages[imageIndex - 1].src;
           rightSideImageRef.current.alt = previewImages[imageIndex - 1].title;
-          
-          // Force reflow to ensure the new image loads
           rightSideImageRef.current.offsetHeight;
-          
-          // Fade in
           rightSideImageRef.current.style.opacity = '1';
           rightSideImageRef.current.style.transform = 'scale(1)';
         }
@@ -128,12 +134,16 @@ const PicturesGallery = () => {
             {/* Right Side Component */}
             <div className="p-home-right-component">
               <div className="p-home-right-component__image-container">
-                <img
-                  ref={rightSideImageRef}
-                  src={previewImages[0]?.src}
-                  alt="Default image"
-                  id="rightSideImage"
-                />
+                {previewImages.length > 0 ? (
+                  <img
+                    ref={rightSideImageRef}
+                    src={previewImages[0].src}
+                    alt={previewImages[0].title || 'Preview image'}
+                    id="rightSideImage"
+                  />
+                ) : (
+                  <div style={{ opacity: 0.6 }}>No images yet</div>
+                )}
               </div>
               <div className="p-home-right-component__text">
                 <span>2024</span>

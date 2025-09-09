@@ -11,7 +11,6 @@ import PicturesGallery from './components/PicturesGallery'
 import TeamPage from './components/TeamPage'
 import OurJourney from './components/OurJourney'
 import Admin from './components/Admin'
-import ContactForm from './components/ContactForm'
 import UnderConstruction from './components/UnderConstruction'
 import Fly from './components/Fly'
 
@@ -38,7 +37,6 @@ function App() {
           <Route path="/members" element={<MembersPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/contact" element={<ContactForm />} />
           <Route path="/fly" element={<Fly />} />
         </Routes>
       </div>
