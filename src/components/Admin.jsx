@@ -14,6 +14,29 @@ function Admin() {
   const [drag, setDrag] = useState(false)
   const inputRef = useRef(null)
 
+  // Hide any global scroll indicator overlays while on Admin
+  useEffect(() => {
+    const selectors = [
+      '.scroll-indicator',
+      '[data-scroll-indicator]',
+      '#scroll-indicator',
+      '#scroll',
+      '.scroll'
+    ]
+    const hidden = []
+    selectors.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((el) => {
+        hidden.push({ el, display: el.style.display })
+        el.style.display = 'none'
+      })
+    })
+    return () => {
+      hidden.forEach(({ el, display }) => {
+        el.style.display = display
+      })
+    }
+  }, [])
+
   useEffect(() => {
     let mounted = true
 
@@ -49,6 +72,10 @@ function Admin() {
     if (list.length) setFiles(prev => [...prev, ...list])
   }
 
+  const removeAt = (idx) => {
+    setFiles(prev => prev.filter((_, i) => i !== idx))
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault()
     if (!files.length) return
@@ -71,9 +98,12 @@ function Admin() {
     <AuthGate>
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <div className={styles.title}>Admin Upload</div>
+          <div>
+            <div className={styles.title}>Admin Upload</div>
+            <div className={styles.subtitle}>Upload images to the gallery. Public by default.</div>
+          </div>
           <div className={styles.meta}>
-            <span style={{ opacity: .7 }}>Admin only</span>
+            <span className={styles.badge}>Admin only</span>
           </div>
         </div>
 
@@ -91,7 +121,7 @@ function Admin() {
             >
               <p>Drag & drop images here</p>
               <div className={styles.controls}>
-                <button className={styles.button} onClick={() => inputRef.current?.click()}>Browse files</button>
+                <button className={`${styles.button} ${styles.secondary}`} onClick={() => inputRef.current?.click()}>Browse files</button>
                 <button className={styles.button} disabled={!files.length} onClick={onSubmit}>Upload {files.length ? `(${files.length})` : ''}</button>
               </div>
               <input ref={inputRef} type="file" accept="image/*" multiple onChange={onBrowse} hidden />
@@ -100,7 +130,7 @@ function Admin() {
                   <div className={styles.progressBar}>
                     <div className={styles.progressInner} style={{ width: `${pct}%` }} />
                   </div>
-                  <div className={styles.note}>Progress: {progress.index}/{progress.total} ({pct}%)</div>
+                  <div className={styles.summary}>Progress: {progress.index}/{progress.total} ({pct}%)</div>
                 </div>
               )}
             </div>
@@ -111,6 +141,7 @@ function Admin() {
               <div className={styles.grid}>
                 {files.map((f, i) => (
                   <div key={`${f.name}-${i}`} className={styles.card}>
+                    <button className={styles.remove} title="Remove" onClick={() => removeAt(i)}>×</button>
                     <img src={URL.createObjectURL(f)} alt={f.name} />
                     <div className={styles.cardTitle}>{f.name}</div>
                   </div>

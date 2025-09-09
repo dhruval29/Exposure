@@ -105,7 +105,7 @@ export default function AuthGate({ children }) {
     <div>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center', justifyContent: 'flex-end', padding: '8px 16px' }}>
         <span style={{ opacity: 0.7 }}>Signed in as {user.email}</span>
-        <button onClick={signOut}>Sign out</button>
+        <button onClick={signOut} style={{ color: '#fff', background: '#111', border: 'none', borderRadius: 8, padding: '8px 12px' }}>Sign out</button>
       </div>
       {children}
     </div>
