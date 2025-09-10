@@ -1,5 +1,41 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import styles from './AuthGate.module.css'
+
+// Premium icon components
+const EmailIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+  </svg>
+)
+
+const KeyIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+  </svg>
+)
+
+const ShieldIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+  </svg>
+)
+
+const ArrowLeftIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M19 12H5"/>
+    <polyline points="12,19 5,12 12,5"/>
+  </svg>
+)
+
+const LogOutIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+    <polyline points="16,17 21,12 16,7"/>
+    <path d="M21 12H9"/>
+  </svg>
+)
 
 export default function AuthGate({ children }) {
   const [user, setUser] = useState(null)
@@ -62,52 +98,141 @@ export default function AuthGate({ children }) {
     await supabase.auth.signOut()
   }
 
-  if (loading) return <div>Loading...</div>
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingCard}>
+          <div className={styles.loadingIcon}>
+            <div className={styles.spinner} />
+          </div>
+          <p className={styles.loadingText}>Initializing secure session</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!user) {
     return (
-      <div style={{ maxWidth: 420, margin: '40px auto', padding: 16 }}>
-        <h3>Sign in</h3>
-        {phase === 'request' ? (
-          <form onSubmit={requestOtp}>
-            <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{ width: '100%', marginBottom: 12 }}
-            />
-            <button type="submit">Send code</button>
-          </form>
-        ) : (
-          <form onSubmit={verifyOtp}>
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="Enter 6-digit code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              required
-              style={{ width: '100%', marginBottom: 12, letterSpacing: 2 }}
-            />
-            <button type="submit">Verify</button>
-            <button type="button" style={{ marginLeft: 8 }} onClick={() => { setPhase('request'); setCode(''); setStatus('') }}>Resend</button>
-          </form>
-        )}
-        {status && <p style={{ marginTop: 12 }}>{status}</p>}
+      <div className={styles.authContainer}>
+        <div className={styles.authCard}>
+          <div className={styles.authHeader}>
+            <div className={styles.brandIcon}>
+              <ShieldIcon />
+            </div>
+            <h1 className={styles.authTitle}>
+              {phase === 'request' ? 'Secure Access' : 'Verify Identity'}
+            </h1>
+            <p className={styles.authSubtitle}>
+              {phase === 'request' 
+                ? 'Enter your email address to receive a secure access code'
+                : 'Enter the 6-digit code sent to your email'
+              }
+            </p>
+          </div>
+
+          <div className={styles.authContent}>
+            {phase === 'request' ? (
+              <form onSubmit={requestOtp} className={styles.authForm}>
+                <div className={styles.inputGroup}>
+                  <div className={styles.inputIcon}>
+                    <EmailIcon />
+                  </div>
+                  <input
+                    type="email"
+                    placeholder="your.email@company.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className={styles.input}
+                    autoComplete="email"
+                    autoFocus
+                  />
+                </div>
+                <button type="submit" className={styles.primaryButton} disabled={!email.trim()}>
+                  <EmailIcon />
+                  <span>Send Access Code</span>
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={verifyOtp} className={styles.authForm}>
+                <div className={styles.inputGroup}>
+                  <div className={styles.inputIcon}>
+                    <KeyIcon />
+                  </div>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    placeholder="000000"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    required
+                    className={`${styles.input} ${styles.codeInput}`}
+                    autoComplete="one-time-code"
+                    autoFocus
+                    maxLength="6"
+                  />
+                </div>
+                <div className={styles.buttonGroup}>
+                  <button type="submit" className={styles.primaryButton} disabled={code.length !== 6}>
+                    <KeyIcon />
+                    <span>Verify Access</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    className={styles.secondaryButton}
+                    onClick={() => { setPhase('request'); setCode(''); setStatus('') }}
+                  >
+                    <ArrowLeftIcon />
+                    <span>Back to Email</span>
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {status && (
+              <div className={`${styles.statusMessage} ${
+                status.includes('sent') || status.includes('Signed in') 
+                  ? styles.statusSuccess 
+                  : status.includes('Sending') || status.includes('Verifying')
+                  ? styles.statusLoading
+                  : styles.statusError
+              }`}>
+                {status.includes('Sending') || status.includes('Verifying') ? (
+                  <div className={styles.statusSpinner} />
+                ) : null}
+                <span>{status}</span>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.authFooter}>
+            <p className={styles.securityNote}>
+              Your data is protected with enterprise-grade security
+            </p>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div>
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center', justifyContent: 'flex-end', padding: '8px 16px' }}>
-        <span style={{ opacity: 0.7 }}>Signed in as {user.email}</span>
-        <button onClick={signOut} style={{ color: '#fff', background: '#111', border: 'none', borderRadius: 8, padding: '8px 12px' }}>Sign out</button>
-      </div>
-      {children}
+    <div className={styles.authenticatedContainer}>
+      <header className={styles.userHeader}>
+        <div className={styles.userInfo}>
+          <div className={styles.userAvatar}>
+            {user.email.charAt(0).toUpperCase()}
+          </div>
+          <span className={styles.userEmail}>{user.email}</span>
+        </div>
+        <button onClick={signOut} className={styles.signOutButton} title="Sign out">
+          <LogOutIcon />
+          <span>Sign Out</span>
+        </button>
+      </header>
+      <main className={styles.mainContent}>
+        {children}
+      </main>
     </div>
   )
 }

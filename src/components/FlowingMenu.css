@@ -1,0 +1,271 @@
+.menu-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #e3f2fd, #f3e5f5, #e8f5e8, #fff3e0, #fce4ec, #e0f2f1, #f1f8e9, #fff8e1);
+  background-size: 600% 600%;
+  animation: gradientShift 30s ease-in-out infinite;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  20% {
+    background-position: 25% 50%;
+  }
+  40% {
+    background-position: 50% 75%;
+  }
+  60% {
+    background-position: 75% 100%;
+  }
+  80% {
+    background-position: 50% 75%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.menu-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.menu {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  z-index: 2;
+}
+
+.menu__item {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: transparent;
+  border-bottom: 1px solid #000;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.menu__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: contrast(1.05) brightness(0.9);
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+  z-index: 0;
+}
+
+/* subtle grain overlay */
+.menu__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/images/backgrounds/grain.png');
+  background-size: 300px 300px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.menu__item:hover .menu__bg {
+  opacity: 0.7;
+}
+
+.menu__item:first-child {
+  border-top: 1px solid #000;
+}
+
+.menu__item-link {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #000000;
+  font-family: 'PP Editorial New', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding-left: 2rem;
+}
+
+.menu__item-link:hover {
+  color: #000000;
+  text-decoration: none;
+}
+
+.menu__item-link:visited {
+  color: #000000;
+}
+
+.menu__item-link:active {
+  color: #000000;
+}
+
+.menu__date {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666666;
+  margin-left: auto;
+  margin-right: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.letter {
+  display: inline-block;
+}
+
+
+.marquee {
+  display: none;
+}
+
+.marquee__inner-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-101%);
+}
+
+.marquee__inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  animation: marquee 15s linear infinite;
+  padding-left: 2rem;
+}
+
+.marquee__inner span {
+  color: #ffffff;
+  font-family: 'PP Editorial New', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin-right: 3rem;
+  flex-shrink: 0;
+}
+
+.marquee__img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .menu__item {
+    height: 120px;
+  }
+  
+  .menu__item-link {
+    font-family: 'PP Editorial New', serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.02em;
+    padding-left: 1.5rem;
+  }
+  
+  .menu__date {
+    font-size: 1rem;
+    margin-right: 1.5rem;
+  }
+  
+  .marquee__inner {
+    padding-left: 1.5rem;
+  }
+  
+  .marquee__inner span {
+    font-family: 'PP Editorial New', serif;
+    font-size: 2.4rem;
+    margin-right: 2rem;
+  }
+  
+  .marquee__img {
+    width: 60px;
+    height: 60px;
+    margin: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu__item {
+    height: 100px;
+  }
+  
+  .menu__item-link {
+    font-family: 'PP Editorial New', serif;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    padding-left: 1rem;
+  }
+  
+  .menu__date {
+    font-size: 0.9rem;
+    margin-right: 1rem;
+  }
+  
+  .marquee__inner {
+    padding-left: 1rem;
+  }
+  
+  .marquee__inner span {
+    font-family: 'PP Editorial New', serif;
+    font-size: 2rem;
+    margin-right: 1.5rem;
+  }
+  
+  .marquee__img {
+    width: 50px;
+    height: 50px;
+    margin: 0 0.8rem;
+  }
+}

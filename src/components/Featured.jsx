@@ -4,7 +4,7 @@ import StaggeredMenu from './StaggeredMenu';
 import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
 
-const PicturesGallery = () => {
+const Featured = () => {
   const [loading, setLoading] = useState(true);
   const rightSideImageRef = useRef(null);
   const loadingPageRef = useRef(null);
@@ -73,7 +73,7 @@ const PicturesGallery = () => {
         <div className="c-loading-page" ref={loadingPageRef}>
           <div className="c-loading-page__content">
             <p className="c-loading-page__text">
-              {'Gallery'.split('').map((char, index) => (
+              {'Featured'.split('').map((char, index) => (
                 <span key={index} className="char" style={{ animationDelay: `${index * 100}ms` }}>
                   {char}
                 </span>
@@ -158,4 +158,4 @@ const PicturesGallery = () => {
   );
 };
 
-export default PicturesGallery;
+export default Featured;
