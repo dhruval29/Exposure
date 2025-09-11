@@ -338,7 +338,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
             style={{ 
               width: '100vw', 
               height: '100vh', 
-              background: '#d0d3f0', 
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
@@ -757,6 +757,47 @@ const Landing = () => {
         }}
       >
           <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white', overflow: 'hidden' }}>
+            {/* Animated gradient background that fades out by first row */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '1300px', // Fades out by first row of images
+                background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+                zIndex: 1,
+                pointerEvents: 'none',
+                animation: 'gradientFade 6s ease-in-out infinite',
+                opacity: 0.7
+              }}
+            />
+            <style dangerouslySetInnerHTML={{
+              __html: `
+                @keyframes gradientFade {
+                  0% {
+                    opacity: 0.4;
+                    transform: translateY(-15px) scale(1.02);
+                  }
+                  25% {
+                    opacity: 0.8;
+                    transform: translateY(0px) scale(1);
+                  }
+                  50% {
+                    opacity: 1;
+                    transform: translateY(0px) scale(1);
+                  }
+                  75% {
+                    opacity: 0.6;
+                    transform: translateY(8px) scale(0.98);
+                  }
+                  100% {
+                    opacity: 0.4;
+                    transform: translateY(-15px) scale(1.02);
+                  }
+                }
+              `
+            }} />
             <div style={{ 
               left: '6.3vw', 
               top: '6.25vh', 
