@@ -3,45 +3,17 @@
   width: 100%;
   max-width: 100%;
   height: 100%;
-  background: linear-gradient(-45deg, #e3f2fd, #f3e5f5, #e8f5e8, #fff3e0, #fce4ec, #e0f2f1, #f1f8e9, #fff8e1);
-  background-size: 600% 600%;
-  animation: gradientShift 30s ease-in-out infinite;
+  background: transparent; /* inherit from page */
+  background-size: var(--app-gradient-size);
+  animation: none;
   overflow-x: hidden;
   overflow-y: visible;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  20% {
-    background-position: 25% 50%;
-  }
-  40% {
-    background-position: 50% 75%;
-  }
-  60% {
-    background-position: 75% 100%;
-  }
-  80% {
-    background-position: 50% 75%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+/* animation declared globally in index.css */
 
-.menu-wrap::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.3);
-  z-index: 1;
-  pointer-events: none;
-}
+/* remove extra overlay to avoid double tint */
+.menu-wrap::before { display: none; }
 
 .menu {
   position: relative;
@@ -149,57 +121,6 @@
 }
 
 
-.marquee {
-  display: none;
-}
-
-.marquee__inner-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: translateY(-101%);
-}
-
-.marquee__inner {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  white-space: nowrap;
-  animation: marquee 15s linear infinite;
-  padding-left: 2rem;
-}
-
-.marquee__inner span {
-  color: #ffffff;
-  font-family: 'PP Editorial New', serif;
-  font-size: 3rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  margin-right: 3rem;
-  flex-shrink: 0;
-}
-
-.marquee__img {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 1.5rem;
-  flex-shrink: 0;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -218,22 +139,6 @@
     font-size: 1rem;
     margin-right: 1.5rem;
   }
-  
-  .marquee__inner {
-    padding-left: 1.5rem;
-  }
-  
-  .marquee__inner span {
-    font-family: 'PP Editorial New', serif;
-    font-size: 2.4rem;
-    margin-right: 2rem;
-  }
-  
-  .marquee__img {
-    width: 60px;
-    height: 60px;
-    margin: 0 1rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -251,21 +156,5 @@
   .menu__date {
     font-size: 0.9rem;
     margin-right: 1rem;
-  }
-  
-  .marquee__inner {
-    padding-left: 1rem;
-  }
-  
-  .marquee__inner span {
-    font-family: 'PP Editorial New', serif;
-    font-size: 2rem;
-    margin-right: 1.5rem;
-  }
-  
-  .marquee__img {
-    width: 50px;
-    height: 50px;
-    margin: 0 0.8rem;
   }
 }

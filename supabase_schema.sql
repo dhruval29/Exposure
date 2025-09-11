@@ -100,25 +100,21 @@ create table if not exists public.image_tags (
   primary key (image_id, tag_id)
 );
 
--- EVENTS (optional)
+-- EVENTS (simplified structure)
 create table if not exists public.events (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   description text,
-  start_date date not null,
-  end_date date,
+  month_year text not null, -- Format: "Dec 24", "Jan 25", etc.
   cover_image_id uuid references public.images(id) on delete set null,
   created_by uuid references public.users(id) on delete set null,
-  created_at timestamptz not null default now()
+  is_public boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
 
-create table if not exists public.event_images (
-  event_id uuid not null references public.events(id) on delete cascade,
-  image_id uuid not null references public.images(id) on delete cascade,
-  position int not null default 0,
-  created_at timestamptz not null default now(),
-  primary key (event_id, image_id)
-);
+-- event_images table removed to avoid relationship conflicts
+-- We only use cover_image_id for single cover image per event
 
 -- TEAM MEMBERS
 create table if not exists public.team_members (

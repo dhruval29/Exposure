@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './Events.module.css';
 import FlowingMenu from './FlowingMenu';
+import { supabase } from '../lib/supabaseClient';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const loadingPageRef = useRef(null);
+
 
   useEffect(() => {
     // Enhanced smooth scroll for better browser support
@@ -60,18 +63,43 @@ const Events = () => {
     };
   }, []);
 
-  // Fetch events from API
+  // Fetch events from Supabase
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/events');
-        const data = await response.json();
-        
-        if (response.ok) {
-          setEvents(data.events || []);
+        const { data: events, error } = await supabase
+          .from('events')
+          .select(`
+            id,
+            title,
+            description,
+            month_year,
+            created_at,
+            cover_image_id
+          `)
+          .eq('is_public', true)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Error fetching events:', error);
+          setError(error.message);
         } else {
-          setError(data.error || 'Failed to fetch events');
+          // Fetch cover images separately to avoid relationship conflicts
+          const eventsWithImages = await Promise.all(
+            (events || []).map(async (event) => {
+              if (event.cover_image_id) {
+                const { data: image } = await supabase
+                  .from('images')
+                  .select('id, public_url, title')
+                  .eq('id', event.cover_image_id)
+                  .single();
+                return { ...event, cover_image: image };
+              }
+              return { ...event, cover_image: null };
+            })
+          );
+          setEvents(eventsWithImages);
         }
       } catch (err) {
         setError('Failed to fetch events');
@@ -96,12 +124,24 @@ const Events = () => {
     text: event.title,
     image: event.cover_image?.public_url || 'https://picsum.photos/600/400?random=1',
     description: event.description,
-    startDate: event.start_date,
-    endDate: event.end_date
+    monthYear: event.month_year
   }));
 
   return (
     <div className={styles.events}>
+      {loading && (
+        <div className="c-loading-page" ref={loadingPageRef}>
+          <div className="c-loading-page__content">
+            <p className="c-loading-page__text">
+              {'Events'.split('').map((char, index) => (
+                <span key={index} className="char" style={{ animationDelay: `${index * 100}ms` }}>
+                  {char}
+                </span>
+              ))}
+            </p>
+          </div>
+        </div>
+      )}
       <b className={styles.events2}>Events</b>
       <div className={styles.searchContainer}>
         <img 

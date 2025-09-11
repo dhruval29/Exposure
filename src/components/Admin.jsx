@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { uploadImagesBatch } from '../lib/uploadImage'
 import AuthGate from './AuthGate'
 import { supabase } from '../lib/supabaseClient'
-import { fetchEvents, createEvent, updateEvent, deleteEvent, fetchAvailableImages, formatDateForInput, formatDateForDisplay } from '../lib/eventManagement'
+// Removed date formatting imports - using month_year format instead
 import styles from './Admin.module.css'
 
 // Premium icon components
@@ -82,8 +82,7 @@ function Admin() {
   const [eventForm, setEventForm] = useState({
     title: '',
     description: '',
-    start_date: '',
-    end_date: '',
+    month_year: '',
     cover_image_id: ''
   })
 
@@ -143,37 +142,93 @@ function Admin() {
   }, [isAdmin])
 
   const loadEvents = async () => {
-    const { data, error } = await fetchEvents()
-    if (error) {
-      setStatus(`Error loading events: ${error.message}`)
-    } else {
-      setEvents(data || [])
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          id,
+          title,
+          description,
+          month_year,
+          created_at,
+          cover_image_id
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        setStatus(`Error loading events: ${error.message}`)
+      } else {
+        // Fetch cover images separately to avoid relationship conflicts
+        const eventsWithImages = await Promise.all(
+          (data || []).map(async (event) => {
+            if (event.cover_image_id) {
+              const { data: image } = await supabase
+                .from('images')
+                .select('id, public_url, title')
+                .eq('id', event.cover_image_id)
+                .single();
+              return { ...event, cover_image: image };
+            }
+            return { ...event, cover_image: null };
+          })
+        );
+        setEvents(eventsWithImages);
+      }
+    } catch (err) {
+      setStatus(`Error loading events: ${err.message}`)
     }
   }
 
   const loadAvailableImages = async () => {
-    const { data, error } = await fetchAvailableImages()
-    if (error) {
-      console.error('Error loading images:', error)
-    } else {
-      setAvailableImages(data || [])
+    try {
+      const { data, error } = await supabase
+        .from('images')
+        .select('id, public_url, title')
+        .eq('is_public', true)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading images:', error)
+      } else {
+        setAvailableImages(data || [])
+      }
+    } catch (err) {
+      console.error('Error loading images:', err)
     }
   }
 
   const handleEventSubmit = async (e) => {
     e.preventDefault()
-    if (!eventForm.title || !eventForm.start_date) {
-      setStatus('Title and start date are required')
+    if (!eventForm.title || !eventForm.month_year) {
+      setStatus('Title and month/year are required')
       return
     }
 
     try {
       if (editingEvent) {
-        const { error } = await updateEvent(editingEvent.id, eventForm)
+        const { error } = await supabase
+          .from('events')
+          .update({
+            title: eventForm.title,
+            description: eventForm.description,
+            month_year: eventForm.month_year,
+            cover_image_id: eventForm.cover_image_id || null
+          })
+          .eq('id', editingEvent.id)
+        
         if (error) throw error
         setStatus('Event updated successfully')
       } else {
-        const { error } = await createEvent(eventForm)
+        const { error } = await supabase
+          .from('events')
+          .insert({
+            title: eventForm.title,
+            description: eventForm.description,
+            month_year: eventForm.month_year,
+            cover_image_id: eventForm.cover_image_id || null,
+            is_public: true
+          })
+        
         if (error) throw error
         setStatus('Event created successfully')
       }
@@ -190,8 +245,7 @@ function Admin() {
     setEventForm({
       title: event.title,
       description: event.description || '',
-      start_date: formatDateForInput(event.start_date),
-      end_date: formatDateForInput(event.end_date),
+      month_year: event.month_year || '',
       cover_image_id: event.cover_image?.id || ''
     })
     setShowEventForm(true)
@@ -201,7 +255,11 @@ function Admin() {
     if (!confirm('Are you sure you want to delete this event?')) return
     
     try {
-      const { error } = await deleteEvent(eventId)
+      const { error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', eventId)
+      
       if (error) throw error
       setStatus('Event deleted successfully')
       await loadEvents()
@@ -214,8 +272,7 @@ function Admin() {
     setEventForm({
       title: '',
       description: '',
-      start_date: '',
-      end_date: '',
+      month_year: '',
       cover_image_id: ''
     })
     setEditingEvent(null)
@@ -450,8 +507,7 @@ function Admin() {
                           )}
                           <div className={styles.eventDates}>
                             <span className={styles.eventDate}>
-                              {formatDateForDisplay(event.start_date)}
-                              {event.end_date && ` - ${formatDateForDisplay(event.end_date)}`}
+                              {event.month_year}
                             </span>
                           </div>
                           <div className={styles.eventActions}>
@@ -520,27 +576,16 @@ function Admin() {
                         />
                       </div>
                       
-                      <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                          <label htmlFor="eventStartDate">Start Date *</label>
-                          <input
-                            id="eventStartDate"
-                            type="date"
-                            value={eventForm.start_date}
-                            onChange={(e) => setEventForm(prev => ({ ...prev, start_date: e.target.value }))}
-                            required
-                          />
-                        </div>
-                        
-                        <div className={styles.formGroup}>
-                          <label htmlFor="eventEndDate">End Date</label>
-                          <input
-                            id="eventEndDate"
-                            type="date"
-                            value={eventForm.end_date}
-                            onChange={(e) => setEventForm(prev => ({ ...prev, end_date: e.target.value }))}
-                          />
-                        </div>
+                      <div className={styles.formGroup}>
+                        <label htmlFor="eventMonthYear">Month & Year * (e.g., "Dec 24", "Jan 25")</label>
+                        <input
+                          id="eventMonthYear"
+                          type="text"
+                          placeholder="Dec 24"
+                          value={eventForm.month_year}
+                          onChange={(e) => setEventForm(prev => ({ ...prev, month_year: e.target.value }))}
+                          required
+                        />
                       </div>
                       
                       <div className={styles.formGroup}>

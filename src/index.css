@@ -49,6 +49,10 @@
 }
 
 :root {
+  /* Unified background gradient variables */
+  --app-gradient: linear-gradient(-45deg, #e3f2fd, #f3e5f5, #e8f5e8, #fff3e0, #fce4ec, #e0f2f1, #f1f8e9, #fff8e1);
+  --app-gradient-size: 600% 600%;
+  --app-gradient-anim: gradientShift 30s ease-in-out infinite;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -77,13 +81,15 @@ body {
   padding: 0;
   width: 100%;
   height: 100vh;
-  background: white;
+  background: var(--app-gradient);
+  background-size: var(--app-gradient-size);
+  animation: var(--app-gradient-anim);
   overflow-x: hidden;
   overflow-y: hidden;
 }
 
 #root {
-  background-color: white;
+  background: transparent; /* inherit animated gradient from body */
   width: 100%;
   height: 100vh;
 }
@@ -131,7 +137,17 @@ html {
   height: 100vh;
   scroll-behavior: smooth;
   overflow-x: hidden; /* Prevent horizontal scroll */
-  background: white;
+  background: transparent;
+}
+
+/* Shared gradient animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  20% { background-position: 25% 50%; }
+  40% { background-position: 50% 75%; }
+  60% { background-position: 75% 100%; }
+  80% { background-position: 50% 75%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Responsive font scaling for very small screens */

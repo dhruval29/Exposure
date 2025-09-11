@@ -15,9 +15,9 @@ const NavigationMenu = ({ isExiting }) => {
 
   const menuItems = [
     { id: 'our-journey', label: 'Our Journey', image: '/assets/images/backgrounds/7.webp' },
-    { id: 'gallery', label: 'Gallery', image: '/assets/images/backgrounds/8.webp' },
+    { id: 'gallery', label: 'Events', image: '/assets/images/backgrounds/8.webp' },
     { id: 'team', label: 'Team', image: '/assets/images/backgrounds/11.webp' },
-    { id: 'latest-releases', label: 'Latest Releases', image: '/assets/images/backgrounds/12.webp' }
+    { id: 'latest-releases', label: 'Featured', image: '/assets/images/backgrounds/12.webp' }
   ];
 
   useEffect(() => {
@@ -166,7 +166,7 @@ const NavigationMenu = ({ isExiting }) => {
   const handleClick = (itemId) => {
     switch (itemId) {
       case 'gallery':
-        navigate('/pictures');
+        navigate('/events');
         break;
       case 'team':
         navigate('/team');
@@ -175,7 +175,7 @@ const NavigationMenu = ({ isExiting }) => {
         navigate('/our-journey');
         break;
       case 'latest-releases':
-        navigate('/effects');
+        navigate('/pictures');
         break;
       default:
         break;

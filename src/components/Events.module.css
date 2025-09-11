@@ -2,9 +2,9 @@
   width: 100%;
   max-width: 100%;
   position: relative;
-  background: linear-gradient(-45deg, #e3f2fd, #f3e5f5, #e8f5e8, #fff3e0, #fce4ec, #e0f2f1, #f1f8e9, #fff8e1);
-  background-size: 600% 600%;
-  animation: gradientShift 30s ease-in-out infinite;
+  background: transparent; /* inherit global gradient */
+  background-size: var(--app-gradient-size);
+  animation: var(--app-gradient-anim);
   height: 2000px;
   overflow-x: hidden;
   overflow-y: visible;
@@ -38,22 +38,13 @@
   }
 }
 
-.events::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.3);
-  z-index: 1;
-  pointer-events: none;
-}
+/* remove extra overlay to match menu */
+.events::before { display: none; }
 
 .events2 {
   position: absolute;
   top: 54px;
-  left: 65px;
+  left: 50px;
   font-size: 96px;
   font-weight: bold;
   margin: 0;
@@ -65,12 +56,13 @@
 
 .searchContainer {
   position: absolute;
-  top: 54px;
+  top: 60px;
   right: 65px;
   border-radius: 47.78px;
   background-color: #d9d9d9;
-  width: 427px;
-  height: 66px;
+  width: 24%;
+  max-width: 420px;
+  height: 40px;
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -83,7 +75,7 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 48px;
+  font-size: 20px;
   font-family: 'PP Editorial New', serif;
   color: #6c6a6a;
   margin-left: 15px;
@@ -99,8 +91,8 @@
 }
 
 .magnifyingGlassSvgrepoCom1Icon {
-  width: 38px;
-  height: 38px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
 }
 
@@ -136,19 +128,19 @@
   .events2 {
     font-size: 72px;
     top: 45px;
-    left: 40px;
+    left: 25px;
     height: 55px;
   }
   
   .searchContainer {
-    width: 350px;
-    height: 55px;
-    top: 45px;
+    width: 40%;
+    height: 38px;
+    top: 61px;
     right: 40px;
   }
   
   .searchInput {
-    font-size: 36px;
+    font-size: 18px;
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
@@ -179,19 +171,19 @@
   .events2 {
     font-size: 48px;
     top: 40px;
-    left: 20px;
+    left: 5px;
     height: 45px;
   }
   
   .searchContainer {
-    width: 280px;
-    height: 45px;
-    top: 40px;
+    width: 52%;
+    height: 32px;
+    top: 52px;
     right: 20px;
   }
   
   .searchInput {
-    font-size: 24px;
+    font-size: 14px;
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
@@ -222,19 +214,19 @@
   .events2 {
     font-size: 36px;
     top: 35px;
-    left: 15px;
+    left: 0px;
     height: 40px;
   }
   
   .searchContainer {
-    width: 200px;
-    height: 40px;
-    top: 35px;
+    width: 58%;
+    height: 28px;
+    top: 47px;
     right: 15px;
   }
   
   .searchInput {
-    font-size: 18px;
+    font-size: 12px;
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
@@ -264,19 +256,19 @@
   .events2 {
     font-size: 28px;
     top: 30px;
-    left: 10px;
+    left: -5px;
     height: 35px;
   }
   
   .searchContainer {
-    width: 160px;
-    height: 35px;
-    top: 30px;
+    width: 63%;
+    height: 26px;
+    top: 35px;
     right: 10px;
   }
   
   .searchInput {
-    font-size: 16px;
+    font-size: 10px;
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
@@ -306,24 +298,24 @@
   .events2 {
     font-size: 120px;
     top: 60px;
-    left: 80px;
+    left: 65px;
     height: 80px;
   }
   
   .searchContainer {
-    width: 500px;
-    height: 80px;
-    top: 60px;
-    right: 80px;
+    width: 50%;
+    height: 60px;
+    top: 85px;
+    right: 200px;
   }
   
   .searchInput {
-    font-size: 60px;
+    font-size: 30px;
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
   }
   
   .eventsItem {

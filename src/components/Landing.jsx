@@ -16,6 +16,7 @@ import StaggeredMenu from './StaggeredMenu'
 import useLightweightMouseEffect from '../hooks/useLightweightMouseEffect'
 import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
+import '../styles/Gallery.css'
 
 
 // Inline ZoomReveal so Landing is self-contained
@@ -495,6 +496,13 @@ const Landing = () => {
   const [showMouseOverlay, setShowMouseOverlay] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [overlayVisible, setOverlayVisible] = useState(true)
+  const [hasSeenHomeVideo, setHasSeenHomeVideo] = useState(() => {
+    try {
+      return sessionStorage.getItem('homeVideoSeen') === '1'
+    } catch (e) {
+      return false
+    }
+  })
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
@@ -552,6 +560,18 @@ const Landing = () => {
       lenis.on('scroll', ScrollTrigger.update)
     }
 
+    // If we've already seen the home video in this session, use text loader logic
+    // similar to Team/Featured instead of the video overlay
+    if (hasSeenHomeVideo) {
+      setIsLoading(true)
+      const t1 = setTimeout(() => setIsLoading(false), 1200)
+      const t2 = setTimeout(() => setOverlayVisible(false), 1300)
+      return () => {
+        clearTimeout(t1)
+        clearTimeout(t2)
+      }
+    }
+
     // Slide the overlay up to reveal Section 2 (placeholder for now)
     if (wireframeRef.current && slidingRef.current) {
       const tl = gsap.timeline({
@@ -596,7 +616,7 @@ const Landing = () => {
 
   const menuItems = [
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
-    { label: 'Gallery', ariaLabel: 'View our gallery', link: '/pictures' },
+    { label: 'Events', ariaLabel: 'View our events', link: '/events' },
     { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
     { label: 'Events', ariaLabel: 'View our events', link: '/events' }
   ];
@@ -633,44 +653,72 @@ const Landing = () => {
       
       {/* Loading overlay - video duration */}
       {overlayVisible && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: '#000000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 5000,
-            pointerEvents: 'auto',
-            transition: 'opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            opacity: isLoading ? 1 : 0
-          }}
-        >
-          <video
-            ref={(video) => {
-              if (video) {
-                video.addEventListener('loadedmetadata', () => {
-                  const duration = video.duration * 1000 // Convert to milliseconds
-                  // Update loading timers based on actual video duration
-                  setTimeout(() => setIsLoading(false), duration)
-                  setTimeout(() => setOverlayVisible(false), duration + 1000)
-                })
-              }
-            }}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
+        hasSeenHomeVideo ? (
+          <div
+            className="c-loading-page"
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              zIndex: 1
+              position: 'fixed',
+              inset: 0,
+              background: '#000000',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 5000,
+              pointerEvents: 'auto',
+              transition: 'opacity 0.6s ease',
+              opacity: isLoading ? 1 : 0
             }}
-            src="/videos/loading.webm"
-          />
-        </div>
+          >
+            <div className="c-loading-page__content">
+              <p className="c-loading-page__text">
+                {'Home'.split('').map((char, index) => (
+                  <span key={index} className="char" style={{ animationDelay: `${index * 100}ms` }}>
+                    {char}
+                  </span>
+                ))}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: '#000000',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 5000,
+              pointerEvents: 'auto',
+              transition: 'opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              opacity: isLoading ? 1 : 0
+            }}
+          >
+            <video
+              ref={(video) => {
+                if (video) {
+                  try { sessionStorage.setItem('homeVideoSeen', '1') } catch (e) {}
+                  video.addEventListener('loadedmetadata', () => {
+                    const duration = video.duration * 1000
+                    setTimeout(() => setIsLoading(false), duration)
+                    setTimeout(() => setOverlayVisible(false), duration + 1000)
+                  })
+                }
+              }}
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 1
+              }}
+              src="/videos/loading.webm"
+            />
+          </div>
+        )
       )}
       {/* Mouse trail overlay on top of all content */}
       <MouseMouse visible={showMouseOverlay} zIndex={800} />

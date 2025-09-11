@@ -12,7 +12,7 @@
 
 .clean-staggered-menu-header {
   position: fixed;
-  top: 20px;
+  top: 90px;
   right: 40px;
   width: auto;
   display: flex;
@@ -114,7 +114,7 @@
   display: flex;
   flex-direction: column;
   padding: 6em 2em 2em 2em;
-  overflow-y: auto;
+  overflow: hidden; /* prevent internal scrollbar */
   z-index: 10001;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
   pointer-events: auto;

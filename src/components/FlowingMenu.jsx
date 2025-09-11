@@ -18,16 +18,10 @@ function FlowingMenu({ items = [] }) {
   );
 }
 
-function MenuItem({ link, text, image }) {
+function MenuItem({ link, text, image, monthYear }) {
   const itemRef = useRef(null);
   const textRef = useRef(null);
   const dateRef = useRef(null);
-  
-  // Generate random month and year
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const randomMonth = months[Math.floor(Math.random() * months.length)];
-  const randomYear = Math.floor(Math.random() * 3) + 22; // 22, 23, or 24
-  const monthYear = `${randomMonth} ${randomYear}`;
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -155,27 +149,13 @@ function MenuItem({ link, text, image }) {
     };
   }, [text]);
 
-  const repeatedMarqueeContent = Array.from({ length: 4 }).map((_, idx) => (
-    <React.Fragment key={idx}>
-      <span>{text}</span>
-      <div className="marquee__img" style={{ backgroundImage: `url(${image})` }} />
-    </React.Fragment>
-  ));
-
   return (
     <div className="menu__item" ref={itemRef}>
       <div className="menu__bg" style={{ backgroundImage: `url(${image})` }} />
       <a className="menu__item-link" href={link}>
         <span ref={textRef}>{text}</span>
-        <span className="menu__date" ref={dateRef}>{monthYear}</span>
+        <span className="menu__date" ref={dateRef}>{monthYear || ''}</span>
       </a>
-      <div className="marquee">
-        <div className="marquee__inner-wrap">
-          <div className="marquee__inner" aria-hidden="true">
-            {repeatedMarqueeContent}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
