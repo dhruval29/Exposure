@@ -116,13 +116,7 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
           fallbackCanvas.height = 200;
           const fallbackCtx = fallbackCanvas.getContext('2d');
           
-          const gradient = fallbackCtx.createLinearGradient(0, 0, 200, 200);
-          const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
-          const color = colors[Math.floor(Math.random() * colors.length)];
-          gradient.addColorStop(0, color);
-          gradient.addColorStop(1, color + '80');
-          
-          fallbackCtx.fillStyle = gradient;
+          fallbackCtx.fillStyle = '#d0d3f0';
           fallbackCtx.fillRect(0, 0, 200, 200);
           
           const fallbackImg = new Image();
