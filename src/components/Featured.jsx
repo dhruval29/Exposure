@@ -12,6 +12,7 @@ const Featured = () => {
   const menuItems = [
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+    { label: 'Events', ariaLabel: 'View our events', link: '/events' },
     { label: 'Team', ariaLabel: 'Meet our team', link: '/team' }
   ];
 
@@ -22,6 +23,7 @@ const Featured = () => {
   ];
 
   const [images, setImages] = useState([]);
+  const hasManyImages = images.length > 16;
   const [previewImages, setPreviewImages] = useState([]);
 
   useEffect(() => {
@@ -67,7 +69,14 @@ const Featured = () => {
   };
 
   return (
-    <div className="gallery-container">
+    <div
+      className="gallery-container"
+      style={{
+        overflowY: hasManyImages ? 'auto' : 'hidden',
+        height: hasManyImages ? 'auto' : '100vh',
+        minHeight: hasManyImages ? '100vh' : undefined
+      }}
+    >
       {/* Loading Page */}
       {loading && (
         <div className="c-loading-page" ref={loadingPageRef}>
@@ -101,11 +110,23 @@ const Featured = () => {
       />
 
       {/* Main Content */}
-      <main className="main">
+      <main
+        className="main"
+        style={{
+          height: hasManyImages ? 'auto' : '100vh',
+          minHeight: hasManyImages ? '100vh' : undefined
+        }}
+      >
         <div className="p-home">
           <section className="p-home-grid-mode">
             {/* Left Section Container */}
-            <div className="p-home-left-section">
+            <div
+              className="p-home-left-section"
+              style={{
+                height: hasManyImages ? 'auto' : '100vh',
+                overflow: hasManyImages ? 'visible' : 'hidden'
+              }}
+            >
               {/* Grid Contents */}
               <div className="p-home-grid-mode__contents">
                 {images.map((image, index) => (

@@ -83,7 +83,8 @@ function Admin() {
     title: '',
     description: '',
     month_year: '',
-    cover_image_id: ''
+    cover_image_id: '',
+    linksText: ''
   })
 
   // Hide any global scroll indicator overlays while on Admin
@@ -112,7 +113,18 @@ function Admin() {
   useEffect(() => {
     let mounted = true
 
-    const checkAdmin = async () => {
+    const checkAdmin = async (force = false) => {
+      // Reuse cached result within the session unless force-checking
+      const cached = sessionStorage.getItem('ee_admin_check')
+      if (!force && cached) {
+        const parsed = JSON.parse(cached)
+        if (mounted) {
+          setIsAdmin(Boolean(parsed.isAdmin))
+          setChecking(false)
+        }
+        return
+      }
+
       const { data } = await supabase.auth.getUser()
       const uid = data?.user?.id
       if (!uid) {
@@ -120,14 +132,19 @@ function Admin() {
         return
       }
       const { data: isAdminResp } = await supabase.rpc('is_admin', { uid })
-      if (mounted) { setIsAdmin(Boolean(isAdminResp)); setChecking(false) }
+      const result = Boolean(isAdminResp)
+      sessionStorage.setItem('ee_admin_check', JSON.stringify({ isAdmin: result }))
+      if (mounted) { setIsAdmin(result); setChecking(false) }
     }
 
-    checkAdmin()
+    // Initial check (will use cache if present)
+    checkAdmin(false)
 
+    // Only re-check on explicit auth state changes (e.g., sign-in/out), clear cache then force check
     const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      sessionStorage.removeItem('ee_admin_check')
       setChecking(true)
-      checkAdmin()
+      checkAdmin(true)
     })
 
     return () => { mounted = false; sub.subscription.unsubscribe() }
@@ -151,7 +168,8 @@ function Admin() {
           description,
           month_year,
           created_at,
-          cover_image_id
+          cover_image_id,
+          links
         `)
         .order('created_at', { ascending: false });
 
@@ -212,7 +230,15 @@ function Admin() {
             title: eventForm.title,
             description: eventForm.description,
             month_year: eventForm.month_year,
-            cover_image_id: eventForm.cover_image_id || null
+            cover_image_id: eventForm.cover_image_id || null,
+            links: (() => {
+              const parts = String(eventForm.linksText || '')
+                .split(/\s|,|\|/)
+                .map(s => s.trim())
+                .filter(Boolean)
+                .slice(0, 3)
+              return parts.length ? parts : null
+            })()
           })
           .eq('id', editingEvent.id)
         
@@ -226,7 +252,15 @@ function Admin() {
             description: eventForm.description,
             month_year: eventForm.month_year,
             cover_image_id: eventForm.cover_image_id || null,
-            is_public: true
+            is_public: true,
+            links: (() => {
+              const parts = String(eventForm.linksText || '')
+                .split(/\s|,|\|/)
+                .map(s => s.trim())
+                .filter(Boolean)
+                .slice(0, 3)
+              return parts.length ? parts : null
+            })()
           })
         
         if (error) throw error
@@ -246,7 +280,8 @@ function Admin() {
       title: event.title,
       description: event.description || '',
       month_year: event.month_year || '',
-      cover_image_id: event.cover_image?.id || ''
+      cover_image_id: event.cover_image?.id || '',
+      linksText: Array.isArray(event.links) && event.links.length ? event.links.join('\n') : ''
     })
     setShowEventForm(true)
   }
@@ -273,7 +308,8 @@ function Admin() {
       title: '',
       description: '',
       month_year: '',
-      cover_image_id: ''
+      cover_image_id: '',
+      linksText: ''
     })
     setEditingEvent(null)
     setShowEventForm(false)
@@ -602,6 +638,17 @@ function Admin() {
                             </option>
                           ))}
                         </select>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label htmlFor="eventLinks">Links (max 3, one per line or comma/space separated)</label>
+                        <textarea
+                          id="eventLinks"
+                          value={eventForm.linksText}
+                          onChange={(e) => setEventForm(prev => ({ ...prev, linksText: e.target.value }))}
+                          rows="3"
+                          placeholder="https://drive.google.com/...\nhttps://drive.google.com/..."
+                        />
                       </div>
                       
                       <div className={styles.formActions}>

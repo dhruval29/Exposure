@@ -41,8 +41,41 @@
 /* Container & Layout */
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-neutral-50) 0%, var(--color-accent) 100%);
+  background: transparent;
   padding: var(--spacing-xl) var(--spacing-md);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient background (same vibe as auth) */
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(255, 106, 0, 0.22), transparent 60%),
+    radial-gradient(900px 900px at 90% 20%, rgba(82, 39, 255, 0.20), transparent 55%),
+    radial-gradient(800px 600px at 20% 90%, rgba(177, 158, 239, 0.28), transparent 60%),
+    radial-gradient(600px 600px at 80% 85%, rgba(0, 199, 255, 0.20), transparent 55%),
+    linear-gradient(135deg, #fff 0%, #fafafa 100%);
+  background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+  animation: adminGradientShift 24s ease-in-out infinite alternate;
+}
+
+@keyframes adminGradientShift {
+  0% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%;
+    filter: hue-rotate(0deg) saturate(110%);
+  }
+  50% {
+    background-position: 50% 20%, 50% 0%, 20% 80%, 80% 60%, 50% 50%;
+    filter: hue-rotate(20deg) saturate(120%);
+  }
+  100% {
+    background-position: 100% 100%, 0% 100%, 100% 0%, 0% 0%, 50% 50%;
+    filter: hue-rotate(40deg) saturate(125%);
+  }
 }
 
 .wrapper {
@@ -52,6 +85,8 @@
   border-radius: var(--spacing-md);
   box-shadow: var(--shadow-large);
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 /* Header */
@@ -383,14 +418,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
+  background: #ffffff;
+  color: #000; /* Icon color follows this via currentColor */
   border: none;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 10;
-  opacity: 0;
+  opacity: 1; /* Always visible */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .imageCard:hover .removeButton {
@@ -398,8 +434,13 @@
 }
 
 .removeButton:hover {
-  background: rgba(0, 0, 0, 0.9);
+  background: #ffffff;
   transform: scale(1.1);
+}
+
+/* Ensure SVG uses button color for stroke */
+.removeButton svg {
+  stroke: currentColor !important;
 }
 
 .imageWrapper {

@@ -8,6 +8,10 @@ const Events = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const listRef = useRef(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const loadingPageRef = useRef(null);
 
 
@@ -118,6 +122,22 @@ const Events = () => {
     (event.description && event.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  // Reset to first page when search term changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  // Toggle scroll box visibility similar to Frame50 behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const triggerPoint = window.innerHeight - 200;
+      setHasScrolled(window.scrollY > triggerPoint);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Transform events data for FlowingMenu component
   const eventsData = filteredEvents.map(event => ({
     link: '#',
@@ -126,6 +146,30 @@ const Events = () => {
     description: event.description,
     monthYear: event.month_year
   }));
+
+  const totalPages = Math.max(1, Math.ceil(eventsData.length / pageSize));
+  const startIndex = (currentPage - 1) * pageSize;
+  const pagedEvents = eventsData.slice(startIndex, startIndex + pageSize);
+
+  const goToPage = (page) => {
+    const clamped = Math.min(Math.max(page, 1), totalPages);
+    // Scroll to top smoothly and animate list transition
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const el = listRef.current;
+    if (el) {
+      el.classList.add(styles.fadeOut);
+      setTimeout(() => {
+        setCurrentPage(clamped);
+        el.classList.remove(styles.fadeOut);
+        el.classList.add(styles.fadeIn);
+        setTimeout(() => {
+          el.classList.remove(styles.fadeIn);
+        }, 300);
+      }, 220);
+    } else {
+      setCurrentPage(clamped);
+    }
+  };
 
   return (
     <div className={styles.events}>
@@ -172,9 +216,38 @@ const Events = () => {
       )}
       
       {!loading && !error && (
-        <div className={styles.eventsList}>
+        <div className={styles.eventsList} ref={listRef}>
           {eventsData.length > 0 ? (
-            <FlowingMenu items={eventsData} />
+            <>
+              <FlowingMenu items={pagedEvents} />
+              {totalPages >= 1 && (
+                <div className={styles.footerBar}>
+                  <div className={styles.pagination}>
+                    <button className={styles.pageButton} onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
+                      Prev
+                    </button>
+                    <div className={styles.pageNumbers}>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                        <button
+                          key={n}
+                          className={`${styles.pageNumber} ${n === currentPage ? styles.activePage : ''}`}
+                          onClick={() => goToPage(n)}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                    <button className={styles.pageButton} onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
+                      Next
+                    </button>
+                  </div>
+                  <div className={`${styles.scrollBox} ${hasScrolled ? styles.fadeInFooter : styles.fadeOutFooter}`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
+                    <div className={styles.scrollBoxInner} />
+                    <img className={styles.scrollArrow} alt="" src="/arrow-pointing-to-up-svgrepo-com.svg" />
+                  </div>
+                </div>
+              )}
+            </>
           ) : (
             <div className={styles.noEventsContainer}>
               <p>No events found{searchTerm ? ' matching your search' : ''}</p>

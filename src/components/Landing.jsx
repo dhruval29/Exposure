@@ -618,7 +618,7 @@ const Landing = () => {
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
     { label: 'Events', ariaLabel: 'View our events', link: '/events' },
     { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
-    { label: 'Events', ariaLabel: 'View our events', link: '/events' }
+    { label: 'Featured', ariaLabel: 'View featured gallery', link: '/pictures' }
   ];
 
   const socialItems = [

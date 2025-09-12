@@ -116,15 +116,15 @@ export default function AuthGate({ children }) {
       <div className={styles.authContainer}>
         <div className={styles.authCard}>
           <div className={styles.authHeader}>
-            <div className={styles.brandIcon}>
-              <ShieldIcon />
-            </div>
+            <h1 className={styles.explosionExploders}>
+              <span className={styles.explosion}>Explosion</span> Exploders
+            </h1>
             <h1 className={styles.authTitle}>
-              {phase === 'request' ? 'Secure Access' : 'Verify Identity'}
+              {phase === 'request' ? 'Lock it in, mate' : 'Verify Identity'}
             </h1>
             <p className={styles.authSubtitle}>
               {phase === 'request' 
-                ? 'Enter your email address to receive a secure access code'
+                ? 'Whack your email in below and we’ll shoot you a code, easy peasy.'
                 : 'Enter the 6-digit code sent to your email'
               }
             </p>
@@ -139,7 +139,7 @@ export default function AuthGate({ children }) {
                   </div>
                   <input
                     type="email"
-                    placeholder="your.email@company.com"
+                    placeholder="you@exploders.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -150,7 +150,7 @@ export default function AuthGate({ children }) {
                 </div>
                 <button type="submit" className={styles.primaryButton} disabled={!email.trim()}>
                   <EmailIcon />
-                  <span>Send Access Code</span>
+                  <span>Hit me with the code</span>
                 </button>
               </form>
             ) : (
@@ -163,7 +163,7 @@ export default function AuthGate({ children }) {
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    placeholder="000000"
+                    placeholder="Bang in that 6‑digit code"
                     value={code}
                     onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     required
@@ -176,7 +176,7 @@ export default function AuthGate({ children }) {
                 <div className={styles.buttonGroup}>
                   <button type="submit" className={styles.primaryButton} disabled={code.length !== 6}>
                     <KeyIcon />
-                    <span>Verify Access</span>
+                    <span>Let me in</span>
                   </button>
                   <button 
                     type="button" 
@@ -184,7 +184,7 @@ export default function AuthGate({ children }) {
                     onClick={() => { setPhase('request'); setCode(''); setStatus('') }}
                   >
                     <ArrowLeftIcon />
-                    <span>Back to Email</span>
+                    <span>Back to email</span>
                   </button>
                 </div>
               </form>
@@ -208,7 +208,7 @@ export default function AuthGate({ children }) {
 
           <div className={styles.authFooter}>
             <p className={styles.securityNote}>
-              Your data is protected with enterprise-grade security
+              Don’t stress — we keep your stuff safe as houses.
             </p>
           </div>
         </div>

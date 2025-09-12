@@ -22,6 +22,7 @@ function MenuItem({ link, text, image, monthYear }) {
   const itemRef = useRef(null);
   const textRef = useRef(null);
   const dateRef = useRef(null);
+  const arrowRef = useRef(null);
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -52,6 +53,16 @@ function MenuItem({ link, text, image, monthYear }) {
         opacity: 0,
         scale: 0.8,
         x: 20
+      });
+    }
+
+    // Set initial state for arrow
+    if (arrowRef.current) {
+      gsap.set(arrowRef.current, {
+        opacity: 0,
+        xPercent: -20,
+        yPercent: 20,
+        transformOrigin: '50% 50%'
       });
     }
 
@@ -149,11 +160,54 @@ function MenuItem({ link, text, image, monthYear }) {
     };
   }, [text]);
 
+  const handleEnter = () => {
+    if (!arrowRef.current) return;
+    gsap.to(arrowRef.current, {
+      opacity: 1,
+      xPercent: 0,
+      yPercent: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      delay: 0.12
+    });
+  };
+
+  const handleLeave = () => {
+    if (!arrowRef.current) return;
+    gsap.to(arrowRef.current, {
+      opacity: 0,
+      xPercent: -20,
+      yPercent: 20,
+      duration: 0.5,
+      ease: "power2.inOut"
+    });
+  };
+
   return (
-    <div className="menu__item" ref={itemRef}>
+    <div className="menu__item" ref={itemRef} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <div className="menu__bg" style={{ backgroundImage: `url(${image})` }} />
       <a className="menu__item-link" href={link}>
         <span ref={textRef}>{text}</span>
+        <div
+          ref={arrowRef}
+          style={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            position: 'relative',
+            top: '-2px',
+            pointerEvents: 'none'
+          }}
+        >
+          <img
+            src="/new-arrow.svg"
+            alt="Arrow"
+            style={{
+              width: '220px',
+              height: '220px',
+              display: 'block'
+            }}
+          />
+        </div>
         <span className="menu__date" ref={dateRef}>{monthYear || ''}</span>
       </a>
     </div>

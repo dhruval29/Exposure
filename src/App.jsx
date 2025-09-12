@@ -1,6 +1,6 @@
 import './App.css'
 import './styles/responsive.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { useMobileDetection } from './hooks/useMobileDetection'
 import Landing from './components/Landing'
 import TextCursorOverlay from './components/TextCursorOverlay'
@@ -18,32 +18,40 @@ import Events from './components/Events'
 function App() {
   const isMobile = useMobileDetection();
 
-  // Show construction page for mobile devices
   if (isMobile) {
     return <UnderConstruction />;
   }
 
   return (
     <Router>
-      <div className="app-wrapper">
-        <TextCursorOverlay />
-        <Frame50 />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/our-journey" element={<OurJourney />} />
-          <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
-          <Route path="/gallery" element={<Featured />} />
-          <Route path="/pictures" element={<Featured />} />
-          <Route path="/test" element={<TestPage />} />
-          <Route path="/members" element={<MembersPage />} />
-          <Route path="/team" element={<TeamPage />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/fly" element={<Fly />} />
-          <Route path="/events" element={<Events />} />
-        </Routes>
-      </div>
+      <InnerApp />
     </Router>
-  )
+  );
+}
+
+function InnerApp() {
+  const location = useLocation();
+  const showFrame50 = location.pathname === '/';
+
+  return (
+    <div className="app-wrapper">
+      <TextCursorOverlay />
+      {showFrame50 && <Frame50 />}
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/our-journey" element={<OurJourney />} />
+        <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
+        <Route path="/gallery" element={<Featured />} />
+        <Route path="/pictures" element={<Featured />} />
+        <Route path="/test" element={<TestPage />} />
+        <Route path="/members" element={<MembersPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/fly" element={<Fly />} />
+        <Route path="/events" element={<Events />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App

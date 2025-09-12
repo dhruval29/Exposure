@@ -1,11 +1,13 @@
 .events {
+  --menu-item-height: 160px; /* keep in sync with FlowingMenu.css */
   width: 100%;
   max-width: 100%;
   position: relative;
-  background: transparent; /* inherit global gradient */
+  background: var(--app-gradient);
   background-size: var(--app-gradient-size);
   animation: var(--app-gradient-anim);
-  height: 2000px;
+  /* 10 items visible: header/search area ~150px + 10 * item height */
+  height: calc(150px + (10 * var(--menu-item-height)));
   overflow-x: hidden;
   overflow-y: visible;
   text-align: left;
@@ -118,10 +120,91 @@
   z-index: 2;
 }
 
+.fadeOut { opacity: 0; transform: translateY(10px); transition: opacity 220ms ease, transform 220ms ease; }
+.fadeIn { opacity: 1; transform: translateY(0); transition: opacity 300ms ease, transform 300ms ease; }
+
+.pagination {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  z-index: 20;
+  font-size: 14px; /* prevent inheritance of huge heading size */
+  line-height: 1;
+}
+
+/* Combined bar: pagination + scroll indicator */
+.footerBar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  z-index: 20;
+}
+
+.scrollBox {
+  position: relative;
+  width: 128px;
+  height: 32px;
+  border-radius: 6.4px;
+  overflow: hidden;
+}
+
+.scrollBoxInner {
+  position: absolute;
+  inset: 0;
+  border-radius: 6.4px;
+  background-color: #d9d9d9;
+}
+
+.scrollArrow {
+  position: absolute;
+  height: 15.36px;
+  width: 15.36px;
+  top: 8.32px;
+  right: 8.32px;
+}
+
+.fadeInFooter { opacity: 1; transition: opacity 300ms ease; }
+.fadeOutFooter { opacity: 0; pointer-events: none; transition: opacity 300ms ease; }
+
+.pageButton {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pageNumbers { display: flex; gap: 6px; }
+
+.pageNumber { padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); background: rgba(255,255,255,0.9); cursor: pointer; line-height: 1; }
+
+.activePage { background: #000; color: #fff; }
+
 /* Tablet styles */
 @media (max-width: 1024px) {
   .events {
-    height: 1500px;
+    /* item height unchanged at this breakpoint */
+    height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 72px;
   }
   
@@ -163,7 +246,8 @@
 /* Mobile landscape */
 @media (max-width: 768px) {
   .events {
-    height: 1200px;
+    --menu-item-height: 120px; /* matches FlowingMenu.css */
+    height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 48px;
     padding: 0 15px;
   }
@@ -206,7 +290,8 @@
 /* Mobile portrait */
 @media (max-width: 480px) {
   .events {
-    height: 1000px;
+    --menu-item-height: 100px; /* matches FlowingMenu.css */
+    height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 36px;
     padding: 0 10px;
   }
@@ -249,7 +334,8 @@
 /* Small mobile devices */
 @media (max-width: 360px) {
   .events {
-    height: 800px;
+    /* keep same as 480px breakpoint */
+    height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 28px;
   }
   
@@ -291,7 +377,7 @@
 /* Extra large screens */
 @media (min-width: 1440px) {
   .events {
-    height: 2500px;
+    height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 120px;
   }
   
