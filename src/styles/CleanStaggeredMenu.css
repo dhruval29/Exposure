@@ -107,7 +107,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: clamp(260px, 38vw, 420px);
+  width: clamp(265px, 38vw, 425px);
   height: 100vh;
   background: #ffffff;
   border-left: 1px solid #e5e5e5;
