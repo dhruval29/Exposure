@@ -756,22 +756,40 @@ const Landing = () => {
           isolation: 'isolate'
         }}
       >
-          <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white', overflow: 'hidden' }}>
-            {/* Animated gradient background that fades out by first row */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '1300px', // Fades out by first row of images
-                background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
-                zIndex: 1,
-                pointerEvents: 'none',
-                animation: 'gradientFade 6s ease-in-out infinite',
-                opacity: 0.7
-              }}
-            />
+          {/* Fixed container preserves scroll dependencies */}
+          <div style={{ 
+            width: '100%', 
+            height: '100%', 
+            position: 'relative', 
+            background: 'white', 
+            overflow: 'hidden',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start'
+          }}>
+            {/* Responsive content wrapper that scales while preserving layout */}
+            <div style={{
+              transform: `scale(${Math.min(window.innerWidth / 1920, 1.5)})`,
+              transformOrigin: 'top center',
+              width: '1920px',
+              height: '2768px',
+              position: 'relative'
+            }}>
+              {/* Animated gradient background that fades out by first row */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '1300px', // Fades out by first row of images
+                  background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+                  zIndex: 1,
+                  pointerEvents: 'none',
+                  animation: 'gradientFade 6s ease-in-out infinite',
+                  opacity: 0.7
+                }}
+              />
             <style dangerouslySetInnerHTML={{
               __html: `
                 @keyframes gradientFade {
@@ -882,6 +900,7 @@ const Landing = () => {
                style={responsiveImagePositions.image15}
                caption="Cairns, Queensland"
              />
+            </div>
           </div>
         </div>
 

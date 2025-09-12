@@ -345,8 +345,9 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '34vw',
-          height: '25vh',
+          // Shrink hotzone to content size
+          width: 'max-content',
+          height: 'max-content',
           pointerEvents: 'auto'
         }}
         onMouseEnter={handleTextEnter}
@@ -354,21 +355,14 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       >
         <div
           style={{
-            // Center the text inside the hotzone
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            // Left-aligned two-line text; container sizes intrinsically
+            position: 'relative',
             letterSpacing: '-0.02em',
             lineHeight: '97%',
             color: '#000',
             fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
             fontSize: 96,
-            textAlign: 'center',
+            textAlign: 'left',
             pointerEvents: 'none'
           }}
         >

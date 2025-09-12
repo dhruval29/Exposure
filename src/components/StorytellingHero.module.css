@@ -36,7 +36,7 @@
 .weUseTheContainer {
   	width: 1400px;
   	position: relative;
-  	font-size: 79.47px;
+  	font-size: clamp(40px, 4.14vw, 79.47px);
   	letter-spacing: 0.02em;
   	line-height: 122.71%;
   	font-family: 'PP Editorial New';
