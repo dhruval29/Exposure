@@ -1,5 +1,5 @@
 .events {
-  --menu-item-height: 160px; /* keep in sync with FlowingMenu.css */
+  --menu-item-height: 160px; /* keep in sync with FlowingMenu.css - consistent across all sizes */
   width: 100%;
   max-width: 100%;
   position: relative;
@@ -8,8 +8,8 @@
   animation: var(--app-gradient-anim);
   /* 10 items visible: header/search area ~150px + 10 * item height */
   height: calc(150px + (10 * var(--menu-item-height)));
-  overflow-x: hidden;
-  overflow-y: visible;
+  min-height: calc(150px + (10 * var(--menu-item-height))); /* Ensure consistent minimum height */
+  overflow: hidden;
   text-align: left;
   font-size: 96px;
   color: #000;
@@ -118,6 +118,7 @@
   padding: 0 20px;
   box-sizing: border-box;
   z-index: 2;
+  overflow: hidden; /* Prevent internal scrollbars */
 }
 
 .fadeOut { opacity: 0; transform: translateY(10px); transition: opacity 220ms ease, transform 220ms ease; }
@@ -154,31 +155,6 @@
   z-index: 20;
 }
 
-.scrollBox {
-  position: relative;
-  width: 128px;
-  height: 32px;
-  border-radius: 6.4px;
-  overflow: hidden;
-}
-
-.scrollBoxInner {
-  position: absolute;
-  inset: 0;
-  border-radius: 6.4px;
-  background-color: #d9d9d9;
-}
-
-.scrollArrow {
-  position: absolute;
-  height: 15.36px;
-  width: 15.36px;
-  top: 8.32px;
-  right: 8.32px;
-}
-
-.fadeInFooter { opacity: 1; transition: opacity 300ms ease; }
-.fadeOutFooter { opacity: 0; pointer-events: none; transition: opacity 300ms ease; }
 
 .pageButton {
   padding: 6px 10px;
@@ -203,8 +179,10 @@
 /* Tablet styles */
 @media (max-width: 1024px) {
   .events {
-    /* item height unchanged at this breakpoint */
+    /* item height remains 160px for tablets */
+    --menu-item-height: 160px;
     height: calc(150px + (10 * var(--menu-item-height)));
+    min-height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 72px;
   }
   
@@ -248,6 +226,7 @@
   .events {
     --menu-item-height: 120px; /* matches FlowingMenu.css */
     height: calc(150px + (10 * var(--menu-item-height)));
+    min-height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 48px;
     padding: 0 15px;
   }
@@ -292,6 +271,7 @@
   .events {
     --menu-item-height: 100px; /* matches FlowingMenu.css */
     height: calc(150px + (10 * var(--menu-item-height)));
+    min-height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 36px;
     padding: 0 10px;
   }
@@ -335,7 +315,9 @@
 @media (max-width: 360px) {
   .events {
     /* keep same as 480px breakpoint */
+    --menu-item-height: 100px; /* explicit height for consistency */
     height: calc(150px + (10 * var(--menu-item-height)));
+    min-height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 28px;
   }
   
@@ -377,7 +359,9 @@
 /* Extra large screens */
 @media (min-width: 1440px) {
   .events {
+    --menu-item-height: 160px; /* keep consistent height even on large screens */
     height: calc(150px + (10 * var(--menu-item-height)));
+    min-height: calc(150px + (10 * var(--menu-item-height)));
     font-size: 120px;
   }
   

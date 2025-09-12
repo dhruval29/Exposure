@@ -1,0 +1,52 @@
+/* NavigationMenu Component Responsive Styles */
+
+/* Base styles are handled inline in the component */
+/* This file provides additional responsive enhancements */
+
+/* Large screens (1440px and above) - Enhanced scaling */
+@media (min-width: 1440px) {
+  .navigation-menu-container {
+    /* Additional spacing for larger screens */
+    --menu-spacing: 1.2;
+  }
+}
+
+/* Extra large screens (1920px and above) - Maximum scaling */
+@media (min-width: 1920px) {
+  .navigation-menu-container {
+    /* Enhanced scaling for ultra-wide displays */
+    --menu-spacing: 1.4;
+  }
+}
+
+/* Ultra-wide screens (2560px and above) - Premium scaling */
+@media (min-width: 2560px) {
+  .navigation-menu-container {
+    /* Premium scaling for 4K and ultra-wide displays */
+    --menu-spacing: 1.6;
+  }
+}
+
+/* Hover effects scaling with screen size */
+@media (min-width: 1440px) {
+  .navigation-menu-item:hover .navigation-menu-text {
+    /* Slightly increased hover offset for larger screens */
+    transform: translateX(16px) translateY(-50%);
+  }
+}
+
+@media (min-width: 1920px) {
+  .navigation-menu-item:hover .navigation-menu-text {
+    /* More pronounced hover effect for very large screens */
+    transform: translateX(20px) translateY(-50%);
+  }
+}
+
+/* Responsive adjustments for menu background images */
+@media (min-width: 1440px) {
+  .navigation-menu-background {
+    /* Enhanced background image quality for larger screens */
+    background-size: cover;
+    background-position: center;
+  }
+}

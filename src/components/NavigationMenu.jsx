@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
+import './NavigationMenu.css';
 
 
 const NavigationMenu = ({ isExiting }) => {
@@ -238,6 +239,7 @@ const NavigationMenu = ({ isExiting }) => {
         <div
           key={`bg-${item.id}`}
           ref={el => backgroundImageRefs.current[index] = el}
+          className="navigation-menu-background"
           style={{
             position: 'absolute',
             top: 0,
@@ -258,12 +260,13 @@ const NavigationMenu = ({ isExiting }) => {
       {/* Navigation Menu */}
       <div 
         ref={menuRef}
+        className="navigation-menu-container"
         style={{
           position: 'absolute',
           left: '50%',
           top: '50%',
           transform: 'translateX(-50%) translateY(-50%)',
-          width: '600px',
+          width: 'clamp(500px, 41.67vw, 800px)', // Responsive width: 600px at 1440px, scales up to 800px
           zIndex: 2001, // Higher than the wrapper div
           pointerEvents: 'auto' // Re-enable pointer events
         }}
@@ -272,12 +275,13 @@ const NavigationMenu = ({ isExiting }) => {
       {menuItems.map((item, index) => (
         <div
           key={item.id}
+          className="navigation-menu-item"
           onClick={() => handleClick(item.id)}
           onMouseEnter={() => handleHover(index, true)}
           onMouseLeave={() => handleHover(index, false)}
           style={{
             position: 'relative',
-            height: '80px',
+            height: 'clamp(70px, 5.56vw, 100px)', // Responsive height: 80px at 1440px, scales up to 100px
             cursor: "url('/assets/icons/cursor final.png') 0 0, pointer",
             overflow: 'visible',
             width: '100%'
@@ -286,16 +290,17 @@ const NavigationMenu = ({ isExiting }) => {
                                                                  {/* Text - Completely independent */}
              <div
                ref={el => textRefs.current[index] = el}
+               className="navigation-menu-text"
                style={{
                  position: 'absolute',
                  left: '0px',
                  top: '50%',
                  transform: 'translateY(-50%)',
                  color: 'white',
-                 fontSize: '48px',
+                 fontSize: 'clamp(36px, 3.33vw, 64px)', // Responsive font: 48px at 1440px, scales up to 64px
                  fontFamily: 'Helvetica, sans-serif',
                  fontWeight: '400',
-                 letterSpacing: '1px',
+                 letterSpacing: 'clamp(0.5px, 0.07vw, 1.5px)', // Responsive letter spacing
                  opacity: 0, // Back to hidden for animation
                  pointerEvents: 'none' // Prevent any interaction interference
                }}
@@ -319,8 +324,8 @@ const NavigationMenu = ({ isExiting }) => {
               src="/new-arrow.svg" 
               alt="Arrow" 
               style={{
-                width: '132.51px', // Increased by 50% more (88.34 * 1.5 = total 225% of original)
-                height: '132.51px', // Increased by 50% more (88.34 * 1.5 = total 225% of original)
+                width: 'clamp(100px, 9.2vw, 180px)', // Responsive arrow: 132.51px at 1440px, scales up to 180px
+                height: 'clamp(100px, 9.2vw, 180px)', // Responsive arrow: 132.51px at 1440px, scales up to 180px
                 display: 'block',
                 strokeWidth: '4px' // Increased thickness from 3px to 4px (1px increase)
               }}
@@ -335,7 +340,7 @@ const NavigationMenu = ({ isExiting }) => {
                bottom: '0',
                left: '0',
                width: '100%',
-               height: '1px',
+               height: 'clamp(1px, 0.07vw, 2px)', // Responsive border: 1px at 1440px, scales up to 2px
                backgroundColor: 'white',
                transformOrigin: 'left center',
                transform: 'scaleX(0)', // Back to hidden for animation

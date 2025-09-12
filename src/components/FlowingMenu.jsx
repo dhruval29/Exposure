@@ -6,19 +6,19 @@ import './FlowingMenu.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function FlowingMenu({ items = [] }) {
+function FlowingMenu({ items = [], onUserInteraction }) {
   return (
     <div className="menu-wrap">
       <nav className="menu">
         {items.map((item, idx) => (
-          <MenuItem key={idx} {...item} />
+          <MenuItem key={idx} {...item} onUserInteraction={onUserInteraction} />
         ))}
       </nav>
     </div>
   );
 }
 
-function MenuItem({ link, text, image, monthYear }) {
+function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUserInteraction }) {
   const itemRef = useRef(null);
   const textRef = useRef(null);
   const dateRef = useRef(null);
@@ -27,16 +27,37 @@ function MenuItem({ link, text, image, monthYear }) {
   useEffect(() => {
     if (!textRef.current) return;
 
-    // Split text into individual letters and create DOM elements
-    const letters = text.split('');
+    // Split text into words and then letters to preserve word boundaries
+    const words = text.split(' ');
     textRef.current.innerHTML = '';
     
-    letters.forEach((letter, index) => {
-      const span = document.createElement('span');
-      span.className = 'letter';
-      span.style.display = 'inline-block';
-      span.textContent = letter === ' ' ? '\u00A0' : letter;
-      textRef.current.appendChild(span);
+    words.forEach((word, wordIndex) => {
+      // Create a word wrapper to prevent breaking within words
+      const wordSpan = document.createElement('span');
+      wordSpan.className = 'word';
+      wordSpan.style.display = 'inline-block';
+      wordSpan.style.whiteSpace = 'nowrap'; // Prevent word breaking
+      
+      // Split word into letters for animation
+      const letters = word.split('');
+      letters.forEach((letter, letterIndex) => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.style.display = 'inline-block';
+        span.textContent = letter;
+        wordSpan.appendChild(span);
+      });
+      
+      textRef.current.appendChild(wordSpan);
+      
+      // Add space after word (except for last word)
+      if (wordIndex < words.length - 1) {
+        const spaceSpan = document.createElement('span');
+        spaceSpan.className = 'space';
+        spaceSpan.style.display = 'inline-block';
+        spaceSpan.textContent = '\u00A0';
+        textRef.current.appendChild(spaceSpan);
+      }
     });
 
     // Create GSAP animation for letter reveal
@@ -183,11 +204,53 @@ function MenuItem({ link, text, image, monthYear }) {
     });
   };
 
+  const handleClick = (e) => {
+    // Call interaction handler to hide guide
+    if (onUserInteraction) {
+      onUserInteraction();
+    }
+    
+    if (!hasValidLink || link === '#') {
+      e.preventDefault();
+      return;
+    }
+    
+    // For external links, open in new tab
+    if (link.startsWith('http://') || link.startsWith('https://')) {
+      e.preventDefault();
+      window.open(link, '_blank', 'noopener,noreferrer');
+    }
+    // For internal links, let the default behavior handle it
+  };
+
+  const handleMouseEnter = () => {
+    handleEnter();
+    // Call interaction handler on hover to hide guide
+    if (onUserInteraction) {
+      onUserInteraction();
+    }
+  };
+
   return (
-    <div className="menu__item" ref={itemRef} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div className={`menu__item ${hasValidLink ? 'menu__item--clickable' : 'menu__item--disabled'} ${showGuide ? 'menu__item--guide' : ''}`} ref={itemRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleLeave}>
       <div className="menu__bg" style={{ backgroundImage: `url(${image})` }} />
-      <a className="menu__item-link" href={link}>
-        <span ref={textRef}>{text}</span>
+      {showGuide && (
+        <div className="guide-tooltip">
+          <div className="guide-tooltip__content">
+            <span className="guide-tooltip__text">Click to view event details!</span>
+            <div className="guide-tooltip__arrow"></div>
+          </div>
+        </div>
+      )}
+      <a 
+        className="menu__item-link" 
+        href={hasValidLink ? link : '#'}
+        onClick={handleClick}
+        style={{ cursor: hasValidLink ? 'pointer' : 'default' }}
+      >
+        <div className="menu__title">
+          <span ref={textRef}>{text}</span>
+        </div>
         <div
           ref={arrowRef}
           style={{
@@ -195,7 +258,9 @@ function MenuItem({ link, text, image, monthYear }) {
             verticalAlign: 'middle',
             position: 'relative',
             top: '-2px',
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            opacity: hasValidLink ? 1 : 0.5,
+            flexShrink: 0
           }}
         >
           <img

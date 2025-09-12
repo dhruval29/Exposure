@@ -578,7 +578,7 @@ const Landing = () => {
         scrollTrigger: {
           trigger: wireframeRef.current,
           start: 'top top',
-          end: '+=99%',
+          end: '+=100%',
           scrub: 4,
           pin: true,
           anticipatePin: 1,

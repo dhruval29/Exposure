@@ -11,8 +11,9 @@ const Events = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const listRef = useRef(null);
-  const [hasScrolled, setHasScrolled] = useState(false);
   const loadingPageRef = useRef(null);
+  const [showGuide, setShowGuide] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
 
   useEffect(() => {
@@ -79,11 +80,11 @@ const Events = () => {
             title,
             description,
             month_year,
+            links,
             created_at,
             cover_image_id
           `)
-          .eq('is_public', true)
-          .order('created_at', { ascending: false });
+          .eq('is_public', true);
 
         if (error) {
           console.error('Error fetching events:', error);
@@ -103,7 +104,66 @@ const Events = () => {
               return { ...event, cover_image: null };
             })
           );
-          setEvents(eventsWithImages);
+          
+          // Sort events by month_year with latest first
+          const sortedEvents = eventsWithImages.sort((a, b) => {
+            // Parse month_year strings (assuming format like "January 2024", "Feb 2023", etc.)
+            const parseMonthYear = (monthYear) => {
+              if (!monthYear) return new Date(0); // fallback for missing dates
+              
+              // Handle various formats: "January 2024", "Jan 2024", "01/2024", "2024-01", etc.
+              const monthNames = {
+                'january': 0, 'jan': 0,
+                'february': 1, 'feb': 1,
+                'march': 2, 'mar': 2,
+                'april': 3, 'apr': 3,
+                'may': 4,
+                'june': 5, 'jun': 5,
+                'july': 6, 'jul': 6,
+                'august': 7, 'aug': 7,
+                'september': 8, 'sep': 8, 'sept': 8,
+                'october': 9, 'oct': 9,
+                'november': 10, 'nov': 10,
+                'december': 11, 'dec': 11
+              };
+              
+              const str = monthYear.toLowerCase().trim();
+              
+              // Try to parse different formats
+              if (str.includes('/')) {
+                // Format: "01/2024" or "1/2024"
+                const [month, year] = str.split('/');
+                return new Date(parseInt(year), parseInt(month) - 1);
+              } else if (str.includes('-')) {
+                // Format: "2024-01"
+                const [year, month] = str.split('-');
+                return new Date(parseInt(year), parseInt(month) - 1);
+              } else {
+                // Format: "January 2024" or "Jan 2024"
+                const parts = str.split(' ');
+                if (parts.length >= 2) {
+                  const monthName = parts[0];
+                  const year = parseInt(parts[parts.length - 1]);
+                  const monthNum = monthNames[monthName];
+                  if (monthNum !== undefined && !isNaN(year)) {
+                    return new Date(year, monthNum);
+                  }
+                }
+              }
+              
+              // Fallback: try to parse as a date string
+              const date = new Date(monthYear);
+              return isNaN(date.getTime()) ? new Date(0) : date;
+            };
+            
+            const dateA = parseMonthYear(a.month_year);
+            const dateB = parseMonthYear(b.month_year);
+            
+            // Sort in descending order (latest first)
+            return dateB.getTime() - dateA.getTime();
+          });
+          
+          setEvents(sortedEvents);
         }
       } catch (err) {
         setError('Failed to fetch events');
@@ -127,25 +187,55 @@ const Events = () => {
     setCurrentPage(1);
   }, [searchTerm]);
 
-  // Toggle scroll box visibility similar to Frame50 behavior
+  // Show guide for first-time users
   useEffect(() => {
-    const handleScroll = () => {
-      const triggerPoint = window.innerHeight - 200;
-      setHasScrolled(window.scrollY > triggerPoint);
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const hasVisitedEvents = localStorage.getItem('hasVisitedEvents');
+    if (!hasVisitedEvents && !loading && events.length > 0) {
+      // Find the first event with a valid link
+      const firstClickableEvent = events.find(event => 
+        event.links && event.links.length > 0 && event.links[0] !== '#'
+      );
+      
+      if (firstClickableEvent) {
+        // Show guide after a short delay to let the page load
+        setTimeout(() => {
+          setShowGuide(true);
+        }, 2000);
+      }
+    }
+  }, [loading, events]);
+
+  // Handle user interaction to hide guide
+  const handleUserInteraction = () => {
+    if (!hasInteracted) {
+      setHasInteracted(true);
+      setShowGuide(false);
+      localStorage.setItem('hasVisitedEvents', 'true');
+    }
+  };
+
 
   // Transform events data for FlowingMenu component
-  const eventsData = filteredEvents.map(event => ({
-    link: '#',
-    text: event.title,
-    image: event.cover_image?.public_url || 'https://picsum.photos/600/400?random=1',
-    description: event.description,
-    monthYear: event.month_year
-  }));
+  const eventsData = filteredEvents.map((event, index) => {
+    // Use the first link from the links array, or fallback to '#'
+    const eventLink = (event.links && event.links.length > 0) ? event.links[0] : '#';
+    const hasValidLink = eventLink !== '#' && eventLink && eventLink.trim() !== '';
+    
+    // Check if this is the first clickable event for the guide
+    const isFirstClickable = showGuide && hasValidLink && 
+      filteredEvents.findIndex(e => e.links && e.links.length > 0 && e.links[0] !== '#') === index;
+    
+    return {
+      link: eventLink,
+      text: event.title,
+      image: event.cover_image?.public_url || 'https://picsum.photos/600/400?random=1',
+      description: event.description,
+      monthYear: event.month_year,
+      hasValidLink: hasValidLink,
+      showGuide: isFirstClickable,
+      onInteraction: handleUserInteraction
+    };
+  });
 
   const totalPages = Math.max(1, Math.ceil(eventsData.length / pageSize));
   const startIndex = (currentPage - 1) * pageSize;
@@ -219,7 +309,7 @@ const Events = () => {
         <div className={styles.eventsList} ref={listRef}>
           {eventsData.length > 0 ? (
             <>
-              <FlowingMenu items={pagedEvents} />
+              <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
               {totalPages >= 1 && (
                 <div className={styles.footerBar}>
                   <div className={styles.pagination}>
@@ -240,10 +330,6 @@ const Events = () => {
                     <button className={styles.pageButton} onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
                       Next
                     </button>
-                  </div>
-                  <div className={`${styles.scrollBox} ${hasScrolled ? styles.fadeInFooter : styles.fadeOutFooter}`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
-                    <div className={styles.scrollBoxInner} />
-                    <img className={styles.scrollArrow} alt="" src="/arrow-pointing-to-up-svgrepo-com.svg" />
                   </div>
                 </div>
               )}

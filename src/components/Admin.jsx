@@ -64,6 +64,13 @@ const EditIcon = () => (
   </svg>
 )
 
+const SearchIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.35-4.35" />
+  </svg>
+)
+
 function Admin() {
   const [files, setFiles] = useState([])
   const [status, setStatus] = useState('')
@@ -79,6 +86,7 @@ function Admin() {
   const [availableImages, setAvailableImages] = useState([])
   const [showEventForm, setShowEventForm] = useState(false)
   const [editingEvent, setEditingEvent] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [eventForm, setEventForm] = useState({
     title: '',
     description: '',
@@ -86,6 +94,12 @@ function Admin() {
     cover_image_id: '',
     linksText: ''
   })
+  
+  // Image upload state for event creation
+  const [eventImageFile, setEventImageFile] = useState(null)
+  const [eventImagePreview, setEventImagePreview] = useState('')
+  const [uploadingEventImage, setUploadingEventImage] = useState(false)
+  const eventImageInputRef = useRef(null)
 
   // Hide any global scroll indicator overlays while on Admin
   useEffect(() => {
@@ -313,7 +327,72 @@ function Admin() {
     })
     setEditingEvent(null)
     setShowEventForm(false)
+    // Clear image upload state
+    setEventImageFile(null)
+    setEventImagePreview('')
+    setUploadingEventImage(false)
   }
+
+  // Handle event image file selection
+  const handleEventImageSelect = (e) => {
+    const file = e.target.files?.[0]
+    if (file && file.type.startsWith('image/')) {
+      setEventImageFile(file)
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setEventImagePreview(e.target.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  // Upload event image and set it as selected
+  const handleEventImageUpload = async () => {
+    if (!eventImageFile) return
+
+    setUploadingEventImage(true)
+    try {
+      const uploadedImages = await uploadImagesBatch([eventImageFile], { isPublic: true })
+      if (uploadedImages && uploadedImages.length > 0) {
+        const uploadedImage = uploadedImages[0]
+        // Add to available images
+        setAvailableImages(prev => [uploadedImage, ...prev])
+        // Select the newly uploaded image
+        setEventForm(prev => ({ ...prev, cover_image_id: uploadedImage.id }))
+        // Clear upload state
+        setEventImageFile(null)
+        setEventImagePreview('')
+        setStatus('Image uploaded successfully!')
+      }
+    } catch (err) {
+      setStatus(`Upload failed: ${err.message}`)
+    } finally {
+      setUploadingEventImage(false)
+    }
+  }
+
+  // Remove selected event image
+  const handleEventImageRemove = () => {
+    setEventImageFile(null)
+    setEventImagePreview('')
+    if (eventImageInputRef.current) {
+      eventImageInputRef.current.value = ''
+    }
+  }
+
+  // Filter events based on search query
+  const filteredEvents = events.filter(event => {
+    if (!searchQuery.trim()) return true
+    
+    const query = searchQuery.toLowerCase()
+    const title = (event.title || '').toLowerCase()
+    const description = (event.description || '').toLowerCase()
+    const monthYear = (event.month_year || '').toLowerCase()
+    
+    return title.includes(query) || 
+           description.includes(query) || 
+           monthYear.includes(query)
+  })
 
   const onDrop = (e) => {
     e.preventDefault(); e.stopPropagation(); setDrag(false)
@@ -511,21 +590,35 @@ function Admin() {
                   <h2 className={styles.sectionTitle}>
                     <EventIcon />
                     <span>Events Management</span>
-                    <span className={styles.count}>{events.length}</span>
+                    <span className={styles.count}>
+                      {searchQuery ? `${filteredEvents.length}/${events.length}` : events.length}
+                    </span>
                   </h2>
-                  <button 
-                    className={styles.buttonPrimary}
-                    onClick={() => setShowEventForm(true)}
-                    type="button"
-                  >
-                    <PlusIcon />
-                    <span>Add Event</span>
-                  </button>
+                  <div className={styles.sectionActions}>
+                    <div className={styles.searchContainer}>
+                      <SearchIcon />
+                      <input
+                        type="text"
+                        placeholder="Search events..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className={styles.searchInput}
+                      />
+                    </div>
+                    <button 
+                      className={styles.buttonPrimary}
+                      onClick={() => setShowEventForm(true)}
+                      type="button"
+                    >
+                      <PlusIcon />
+                      <span>Add Event</span>
+                    </button>
+                  </div>
                 </div>
 
-                {events.length > 0 ? (
+                {filteredEvents.length > 0 ? (
                   <div className={styles.eventsGrid}>
-                    {events.map((event) => (
+                    {filteredEvents.map((event) => (
                       <div key={event.id} className={styles.eventCard}>
                         <div className={styles.eventImage}>
                           {event.cover_image ? (
@@ -571,7 +664,21 @@ function Admin() {
                 ) : (
                   <div className={styles.emptyState}>
                     <EventIcon />
-                    <p>No events yet. Create your first event!</p>
+                    <p>
+                      {searchQuery 
+                        ? `No events found matching "${searchQuery}"`
+                        : 'No events yet. Create your first event!'
+                      }
+                    </p>
+                    {searchQuery && (
+                      <button 
+                        className={styles.buttonSecondary}
+                        onClick={() => setSearchQuery('')}
+                        type="button"
+                      >
+                        Clear search
+                      </button>
+                    )}
                   </div>
                 )}
               </section>
@@ -626,18 +733,79 @@ function Admin() {
                       
                       <div className={styles.formGroup}>
                         <label htmlFor="eventCoverImage">Cover Image</label>
-                        <select
-                          id="eventCoverImage"
-                          value={eventForm.cover_image_id}
-                          onChange={(e) => setEventForm(prev => ({ ...prev, cover_image_id: e.target.value }))}
-                        >
-                          <option value="">Select an image</option>
-                          {availableImages.map((image) => (
-                            <option key={image.id} value={image.id}>
-                              {image.title || 'Untitled'}
-                            </option>
-                          ))}
-                        </select>
+                        <div className={styles.coverImageSection}>
+                          <select
+                            id="eventCoverImage"
+                            value={eventForm.cover_image_id}
+                            onChange={(e) => setEventForm(prev => ({ ...prev, cover_image_id: e.target.value }))}
+                            className={styles.coverImageSelect}
+                          >
+                            <option value="">Select an image</option>
+                            {availableImages.map((image) => (
+                              <option key={image.id} value={image.id}>
+                                {image.title || 'Untitled'}
+                              </option>
+                            ))}
+                          </select>
+                          
+                          <div className={styles.uploadDivider}>
+                            <span>or</span>
+                          </div>
+                          
+                          <div className={styles.uploadSection}>
+                            {eventImagePreview ? (
+                              <div className={styles.imagePreview}>
+                                <img src={eventImagePreview} alt="Preview" />
+                                <div className={styles.previewActions}>
+                                  <button
+                                    type="button"
+                                    onClick={handleEventImageUpload}
+                                    disabled={uploadingEventImage}
+                                    className={styles.buttonPrimary}
+                                  >
+                                    {uploadingEventImage ? (
+                                      <>
+                                        <div className={styles.spinner} />
+                                        <span>Uploading...</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <UploadIcon />
+                                        <span>Upload & Use</span>
+                                      </>
+                                    )}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={handleEventImageRemove}
+                                    className={styles.buttonSecondary}
+                                  >
+                                    <CloseIcon />
+                                    <span>Remove</span>
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className={styles.uploadPrompt}>
+                                <button
+                                  type="button"
+                                  onClick={() => eventImageInputRef.current?.click()}
+                                  className={styles.uploadButton}
+                                >
+                                  <UploadIcon />
+                                  <span>Upload New Image</span>
+                                </button>
+                                <input
+                                  ref={eventImageInputRef}
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleEventImageSelect}
+                                  className={styles.hiddenInput}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       <div className={styles.formGroup}>
