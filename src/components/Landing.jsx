@@ -643,7 +643,7 @@ const Landing = () => {
           menuButtonColor="#000"
           openMenuButtonColor="#000"
           changeMenuColorOnOpen={true}
-          colors={['#B19EEF', '#5227FF']}
+          colors={['#fde68a', '#fecaca']}
           logoUrl="/src/assets/logos/reactbits-gh-white.svg"
           accentColor="#ff6b6b"
           onMenuOpen={() => {}}

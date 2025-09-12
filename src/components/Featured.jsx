@@ -26,22 +26,54 @@ const Featured = () => {
   const hasManyImages = images.length > 16;
   const [previewImages, setPreviewImages] = useState([]);
 
+  // Fallback images for testing
+  const fallbackImages = [
+    { src: '/public/assets/images/placeholder1.jpg', title: 'Image 1' },
+    { src: '/public/assets/images/placeholder2.jpg', title: 'Image 2' },
+    { src: '/public/assets/images/placeholder3.jpg', title: 'Image 3' },
+    { src: '/public/assets/images/placeholder4.jpg', title: 'Image 4' },
+    { src: 'https://picsum.photos/400/400?random=1', title: 'Random 1' },
+    { src: 'https://picsum.photos/400/400?random=2', title: 'Random 2' },
+    { src: 'https://picsum.photos/400/400?random=3', title: 'Random 3' },
+    { src: 'https://picsum.photos/400/400?random=4', title: 'Random 4' },
+    { src: 'https://picsum.photos/400/400?random=5', title: 'Random 5' },
+    { src: 'https://picsum.photos/400/400?random=6', title: 'Random 6' },
+    { src: 'https://picsum.photos/400/400?random=7', title: 'Random 7' },
+    { src: 'https://picsum.photos/400/400?random=8', title: 'Random 8' }
+  ];
+
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
     const timer = setTimeout(() => isMounted && setLoading(false), 1200);
 
     (async () => {
-      const { data, error } = await supabase
-        .from('public_gallery')
-        .select('*')
-        .limit(50);
+      try {
+        const { data, error } = await supabase
+          .from('public_gallery')
+          .select('*')
+          .limit(50);
 
-      if (!error && Array.isArray(data)) {
-        const list = data.map((it, idx) => ({ src: it.url, title: it.title || `Image ${idx + 1}` }));
+        if (!error && Array.isArray(data) && data.length > 0) {
+          const list = data.map((it, idx) => ({ src: it.url, title: it.title || `Image ${idx + 1}` }));
+          if (isMounted) {
+            setImages(list);
+            setPreviewImages(list);
+          }
+        } else {
+          // Use fallback images if Supabase fails or returns no data
+          console.log('Using fallback images - Supabase error:', error);
+          if (isMounted) {
+            setImages(fallbackImages);
+            setPreviewImages(fallbackImages);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading images:', err);
+        // Use fallback images on error
         if (isMounted) {
-          setImages(list);
-          setPreviewImages(list);
+          setImages(fallbackImages);
+          setPreviewImages(fallbackImages);
         }
       }
     })();
@@ -102,7 +134,7 @@ const Featured = () => {
         menuButtonColor="#000"
         openMenuButtonColor="#000"
         changeMenuColorOnOpen={true}
-        colors={['#B19EEF', '#5227FF']}
+        colors={['#fde68a', '#fecaca']}
         logoUrl="/src/assets/logos/reactbits-gh-white.svg"
         accentColor="#ff6b6b"
         onMenuOpen={() => {}}
@@ -138,13 +170,26 @@ const Featured = () => {
                     onMouseEnter={() => handleImageHover(index + 1)}
                   >
                     <p className="p-home-grid-mode__item-num">{index + 1}</p>
-                    <div className="p-home-grid-mode__item-image">
+                    <div 
+                      className="p-home-grid-mode__item-image"
+                      onLoad={(e) => {
+                        const img = e.target.querySelector('img');
+                        if (img && img.naturalWidth === img.naturalHeight) {
+                          e.target.classList.add('square-image');
+                        }
+                      }}
+                    >
                       <img
                         src={image.src}
                         alt={image.title}
                         width="200"
                         height="300"
                         loading="lazy"
+                        onLoad={(e) => {
+                          if (e.target.naturalWidth === e.target.naturalHeight) {
+                            e.target.parentElement.classList.add('square-image');
+                          }
+                        }}
                       />
                     </div>
                   </a>

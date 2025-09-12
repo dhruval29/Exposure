@@ -8,7 +8,7 @@ import '../styles/StaggeredMenu.css';
 
 export const StaggeredMenu = ({
   position = 'right',
-  colors = ['#B19EEF', '#5227FF'],
+  colors = ['#fde68a', '#fecaca'],
   items = [],
   socialItems = [],
   displaySocials = true,
@@ -17,7 +17,7 @@ export const StaggeredMenu = ({
   logoUrl = '/src/assets/logos/reactbits-gh-white.svg',
   menuButtonColor = '#000',
   openMenuButtonColor = '#000',
-  accentColor = '#5227FF',
+  accentColor = '#fecaca',
   changeMenuColorOnOpen = true,
   onMenuOpen,
   onMenuClose,

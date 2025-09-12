@@ -87,9 +87,9 @@ const HamburgerButton = () => {
           menuButtonColor="#000"
           openMenuButtonColor="#000"
           changeMenuColorOnOpen={false}
-          colors={['#B19EEF', '#5227FF']}
+          colors={['#fde68a', '#fecaca']}
           logoUrl="/src/assets/logos/reactbits-gh-white.svg"
-          accentColor="#5227FF"
+          accentColor="#fecaca"
           hideButton={true}
           onMenuOpen={() => setIsMenuOpen(true)}
           onMenuClose={() => setIsMenuOpen(false)}

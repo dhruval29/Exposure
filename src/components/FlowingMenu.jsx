@@ -202,7 +202,7 @@ function MenuItem({ link, text, image, monthYear }) {
             src="/new-arrow.svg"
             alt="Arrow"
             style={{
-              width: '220px',
+              width: '220 px',
               height: '220px',
               display: 'block'
             }}
