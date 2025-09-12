@@ -345,9 +345,8 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          // Shrink hotzone to content size
-          width: 'max-content',
-          height: 'max-content',
+          width: '34vw',
+          height: '25vh',
           pointerEvents: 'auto'
         }}
         onMouseEnter={handleTextEnter}
@@ -355,8 +354,12 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       >
         <div
           style={{
-            // Left-aligned two-line text; container sizes intrinsically
-            position: 'relative',
+            // Left-aligned two-line text within centered hotzone
+            position: 'absolute',
+            top: '15%',
+            left: '9.2%',
+            width: '81.5%',
+            height: '63%',
             letterSpacing: '-0.02em',
             lineHeight: '97%',
             color: '#000',
