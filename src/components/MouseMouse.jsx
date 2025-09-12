@@ -341,11 +341,12 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       <div
         style={{
           position: 'absolute',
-          // Converted to viewport-relative sizing for responsiveness
-          top: '25vh', // ~274px on 1080p
-          left: '23vw', // ~443px on 1920w
-          width: '34vw', // ~650px on 1920w
-          height: '25vh', // ~271px on 1080p
+          // Center-center using percentage-based positioning
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '34vw',
+          height: '25vh',
           pointerEvents: 'auto'
         }}
         onMouseEnter={handleTextEnter}
@@ -353,18 +354,21 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       >
         <div
           style={{
+            // Center the text inside the hotzone
             position: 'absolute',
-            // Inner block sized/offset as percentage of the outer hotzone
-            top: '15%', // 40/271 ≈ 14.8%
-            left: '9.2%', // 60/650 ≈ 9.23%
-            width: '81.5%', // 530/650 ≈ 81.5%
-            height: '63%', // 171/271 ≈ 63.1%
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             letterSpacing: '-0.02em',
             lineHeight: '97%',
             color: '#000',
             fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
             fontSize: 96,
-            textAlign: 'left',
+            textAlign: 'center',
             pointerEvents: 'none'
           }}
         >
