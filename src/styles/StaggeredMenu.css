@@ -114,7 +114,7 @@
   display: flex;
   flex-direction: column;
   padding: 6em 2em 2em 2em;
-  overflow: hidden; /* prevent internal scrollbar */
+  overflow: hidden;
   z-index: 10001;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
   pointer-events: auto;
@@ -267,7 +267,7 @@
 
 .sm-panel-item {
   position: relative;
-  color: #000;
+  color: #000 !important;
   font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 600;
   font-size: 3.5rem;
@@ -279,12 +279,14 @@
   transition:
     background 0.25s,
     color 0.25s;
-  display: inline-block;
+  display: inline-block !important;
   text-decoration: none;
   padding: 0.1em 0.4em 0.1em 0.2em;
   background: #ffffff;
   border-radius: 8px;
   margin-bottom: 0.2em;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .clean-staggered-menu-panel .sm-socials-list .sm-socials-link {
@@ -306,9 +308,12 @@
 }
 
 .sm-panel-itemLabel {
-  display: inline-block;
+  display: inline-block !important;
   will-change: transform;
   transform-origin: 50% 100%;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #000 !important;
 }
 
 .sm-panel-item:hover {

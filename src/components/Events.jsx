@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './Events.module.css';
+import StaggeredMenu from './StaggeredMenu';
 import FlowingMenu from './FlowingMenu';
 import { supabase } from '../lib/supabaseClient';
+import '../styles/Gallery.css';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -14,6 +16,19 @@ const Events = () => {
   const loadingPageRef = useRef(null);
   const [showGuide, setShowGuide] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  const menuItems = [
+    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
+    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+    { label: 'Featured', ariaLabel: 'View featured gallery', link: '/pictures' },
+    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' }
+  ];
+
+  const socialItems = [
+    { label: 'Instagram', link: 'https://www.instagram.com/exposure.explorers_nitg/' },
+    { label: 'LinkedIn', link: 'https://www.linkedin.com/company/exposure-explorers/' },
+    { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
+  ];
 
 
   useEffect(() => {
@@ -263,6 +278,22 @@ const Events = () => {
 
   return (
     <div className={styles.events}>
+      {/* StaggeredMenu */}
+      <StaggeredMenu
+        position="right"
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials={true}
+        displayItemNumbering={false}
+        menuButtonColor="#000"
+        openMenuButtonColor="#000"
+        changeMenuColorOnOpen={true}
+        colors={['#fde68a', '#fecaca']}
+        logoUrl="/src/assets/logos/reactbits-gh-white.svg"
+        accentColor="#ff6b6b"
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
+      />
       {loading && (
         <div className="c-loading-page" ref={loadingPageRef}>
           <div className="c-loading-page__content">

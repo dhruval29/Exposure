@@ -9,7 +9,8 @@
   /* 10 items visible: header/search area ~150px + 10 * item height */
   height: calc(150px + (10 * var(--menu-item-height)));
   min-height: calc(150px + (10 * var(--menu-item-height))); /* Ensure consistent minimum height */
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   text-align: left;
   font-size: 96px;
   color: #000;
@@ -46,7 +47,7 @@
 .events2 {
   position: absolute;
   top: 54px;
-  left: 50px;
+  left: 40px;
   font-size: 96px;
   font-weight: bold;
   margin: 0;
@@ -485,3 +486,4 @@
     border-width: 3px;
   }
 }
+

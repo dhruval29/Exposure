@@ -777,23 +777,23 @@ const Landing = () => {
                 @keyframes gradientFade {
                   0% {
                     opacity: 0.4;
-                    transform: translateY(-15px) scale(1.02);
+                    transform: translateY(-15px);
                   }
                   25% {
                     opacity: 0.8;
-                    transform: translateY(0px) scale(1);
+                    transform: translateY(0px);
                   }
                   50% {
                     opacity: 1;
-                    transform: translateY(0px) scale(1);
+                    transform: translateY(0px);
                   }
                   75% {
                     opacity: 0.6;
-                    transform: translateY(8px) scale(0.98);
+                    transform: translateY(8px);
                   }
                   100% {
                     opacity: 0.4;
-                    transform: translateY(-15px) scale(1.02);
+                    transform: translateY(-15px);
                   }
                 }
               `
