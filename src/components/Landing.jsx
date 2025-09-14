@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 import Lenis from '@studio-freight/lenis'
 import NavigationMenu from './NavigationMenu'
 import StorytellingHero from './StorytellingHero'
-import ContactUs from './ContactUs'
+import Footer from './Footer'
 import HoverImage from './HoverImage'
 import StaggeredMenu from './StaggeredMenu'
 import useLightweightMouseEffect from '../hooks/useLightweightMouseEffect'
@@ -479,7 +479,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           }}
         />
         <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ContactUs />
+          <Footer />
         </div>
       </div>
     </div>

@@ -1,0 +1,202 @@
+.footer {
+  width: 100%;
+  position: relative;
+  min-height: 339px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 20px;
+  color: #fff;
+  font-family: Helvetica;
+  padding: 40px 30px 30px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fromGoaWithContainer {
+  font-size: 72px;
+  line-height: 105%;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 40px;
+}
+
+.fromGoa {
+  margin: 0;
+}
+
+.b {
+  font-family: Helvetica;
+}
+
+.socialsParent {
+  position: absolute;
+  top: 54px;
+  right: 30px;
+  width: 143px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 32px;
+}
+
+.socials {
+  align-self: stretch;
+  position: relative;
+  font-size: 24px;
+  line-height: 100.58%;
+  margin-bottom: 8px;
+}
+
+.instagram {
+  align-self: stretch;
+  position: relative;
+  line-height: 100.58%;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.instagram:hover {
+  opacity: 0.7;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.exposureExplorers {
+  line-height: 100.58%;
+  white-space: nowrap;
+}
+
+.designedDeveloped {
+  line-height: 100.58%;
+  white-space: nowrap;
+}
+
+.exposureexplorersnitgoaaci {
+  line-height: 100.58%;
+  text-align: center;
+  flex-grow: 1;
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .footer {
+    min-height: 280px;
+    padding: 30px 20px 20px 20px;
+  }
+  
+  .fromGoaWithContainer {
+    font-size: 56px;
+    margin-bottom: 30px;
+  }
+  
+  .socialsParent {
+    top: 40px;
+    right: 20px;
+    width: 120px;
+    font-size: 28px;
+  }
+  
+  .socials {
+    font-size: 20px;
+  }
+  
+  .bottomRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .exposureexplorersnitgoaaci {
+    order: -1;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .footer {
+    min-height: 250px;
+    padding: 25px 15px 15px 15px;
+    font-size: 16px;
+  }
+  
+  .fromGoaWithContainer {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+  
+  .socialsParent {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    font-size: 24px;
+    margin: 20px 0;
+  }
+  
+  .socials {
+    font-size: 18px;
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
+  
+  .bottomRow {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .footer {
+    min-height: 220px;
+    padding: 20px 10px 10px 10px;
+    font-size: 14px;
+  }
+  
+  .fromGoaWithContainer {
+    font-size: 32px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .socialsParent {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+  }
+  
+  .socials {
+    font-size: 16px;
+  }
+  
+  .instagram {
+    font-size: 18px;
+  }
+  
+  .bottomRow {
+    font-size: 12px;
+    gap: 8px;
+  }
+  
+  .exposureExplorers,
+  .designedDeveloped {
+    white-space: normal;
+    text-align: center;
+  }
+}
