@@ -453,10 +453,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           right: 0,
           height: '339px',
           zIndex: 3000,
-          background: 'transparent',
-          border: '1px solid rgba(0,0,0,0.15)',
-          borderRadius: 10,
-          boxShadow: '0 -12px 40px rgba(0,0,0,0.06)'
+          background: 'transparent'
         }}
       >
         <video

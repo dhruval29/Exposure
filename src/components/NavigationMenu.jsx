@@ -248,13 +248,37 @@ const NavigationMenu = ({ isExiting }) => {
             height: '100%',
             opacity: 0,
             zIndex: 1999, // Behind nav menu (2001) but above zoom background
-            pointerEvents: 'none',
-            backgroundImage: `url(${item.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            pointerEvents: 'none'
           }}
-        />
+        >
+          {/* Background Image Layer */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundImage: `url(${item.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
+          {/* Overlay Layer - positioned over the background image */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0,0,0,0.3)', // Black overlay to decrease brightness
+              backdropFilter: 'blur(1px) saturate(110%)', // Subtle blur effect over the image
+              WebkitBackdropFilter: 'blur(1px) saturate(110%)'
+            }}
+          />
+        </div>
       ))}
 
       {/* Navigation Menu */}
