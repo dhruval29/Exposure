@@ -420,7 +420,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
         style={{
           position: 'absolute',
           inset: 0,
-          zIndex: 2000, // Middle layer - texture overlay
+          zIndex: 1000, // Lower z-index to stay below footer
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -437,25 +437,25 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center',
-          zIndex: 2001 // Top layer - navigation menu
+          zIndex: 10001 // Above footer and StaggeredMenu
         }}>
           {(showNav || isExitingNav) && <NavigationMenu isExiting={isExitingNav} />}
         </div>
       </div>
 
-      {/* Slide-up page that appears after the nav menu */}
+      {/* Contact us section with video background */}
       <div
         ref={postNavSlideRef}
         style={{
           position: 'absolute',
-          inset: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '339px',
           zIndex: 3000,
           background: 'transparent',
           border: '1px solid rgba(0,0,0,0.15)',
           borderRadius: 10,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           boxShadow: '0 -12px 40px rgba(0,0,0,0.06)'
         }}
       >
@@ -465,20 +465,10 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           loop
           playsInline
           preload="auto"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none', filter: 'blur(2px) saturate(105%) brightness(0.98)', transform: 'scale(1.02)' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }}
           src="/65562-515098354_small.mp4"
         />
-        {/* Faint overlay to improve contrast over the video */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'rgba(0,0,0,0.08)',
-            zIndex: 0,
-            pointerEvents: 'none'
-          }}
-        />
-        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
           <Footer />
         </div>
       </div>
