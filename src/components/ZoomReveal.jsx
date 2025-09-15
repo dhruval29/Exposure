@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const EXTRA_SCROLL_PAD = 1.2; // Extra scroll distance after zoom before nav shows
 
 const ZoomReveal = ({
-  imageSrc = '/assets/images/zoom reveal.webp',
+  imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp',
   leftText = 'Take a closer',
   rightText = 'look at Life'
 }) => {
@@ -17,6 +17,7 @@ const ZoomReveal = ({
   const leftTextRef = useRef(null);
   const rightTextRef = useRef(null);
   const [showNav, setShowNav] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [trackerInfo, setTrackerInfo] = useState({
     leftTextX: 0,
     rightTextX: 0,
@@ -25,6 +26,18 @@ const ZoomReveal = ({
     screenWidth: window.innerWidth,
     screenHeight: window.innerHeight
   });
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const container = containerRef.current;
@@ -175,11 +188,11 @@ const ZoomReveal = ({
           ref={leftTextRef}
           style={{
             position: 'absolute',
-            right: 'calc(50% + 0.01px + 15.5px)',
+            right: isMobile ? 'calc(50% + 0.01px + 5px)' : 'calc(50% + 0.01px + 15.5px)',
             top: '50%',
             transform: 'translateY(-50%)',
             color: 'black',
-            fontSize: 66.7,
+            fontSize: isMobile ? 66.7 * 1.2 : 66.7, // 20% larger on mobile
             fontFamily: 'Helvetica',
             fontWeight: '400',
             wordWrap: 'break-word',
@@ -194,11 +207,11 @@ const ZoomReveal = ({
           ref={rightTextRef}
           style={{
             position: 'absolute',
-            left: 'calc(50% + 0.01px + 4.5px)',
+            left: isMobile ? 'calc(50% + 0.01px + 2px)' : 'calc(50% + 0.01px + 4.5px)',
             top: '50%',
             transform: 'translateY(-50%)',
             color: 'black',
-            fontSize: 66.7,
+            fontSize: isMobile ? 66.7 * 1.2 : 66.7, // 20% larger on mobile
             fontFamily: 'Helvetica',
             fontWeight: '400',
             wordWrap: 'break-word',

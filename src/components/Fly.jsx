@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './Fly.module.css'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export const IMAGES = [
-  '/assets/images/ui/1.webp',
-  '/assets/images/ui/2.webp',
-  '/assets/images/ui/3.webp',
-  '/assets/images/ui/4.webp',
-  '/assets/images/ui/5.webp',
-  '/assets/images/ui/6.webp',
+  '/assets/mobile/images/fly-images/1.webp',
+  '/assets/mobile/images/fly-images/2.webp',
+  '/assets/mobile/images/fly-images/3.webp',
+  '/assets/mobile/images/fly-images/4.webp',
+  '/assets/mobile/images/fly-images/5.webp',
+  '/assets/mobile/images/fly-images/6.webp',
 ]
 
 // Fixed, hand-picked z-indexes to avoid changing on reload
@@ -40,6 +40,19 @@ export const START_Z_OFFSETS = [
 
 const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
   const containerRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -49,6 +62,10 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         const items = gsap.utils.toArray(`.${styles.item}`)
         if (typeof onItemsReady === 'function') {
           onItemsReady(items)
+        }
+        // Apply mobile scaling to all items in controlled mode
+        if (isMobile) {
+          gsap.set(items, { scale: 1.2 })
         }
       }, containerRef)
       return () => ctx.revert()
@@ -90,24 +107,48 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         // Start all together (start offset = 0), end at different times via duration
         tl.fromTo(
           el,
-          { z: zIn, x: 0, y: 0 },
-          { z: zOut, x: xOut, y: yOut, force3D: true, duration },
+          { 
+            z: zIn, 
+            x: 0, 
+            y: 0,
+            // Increase initial scale by 20% for mobile
+            scale: isMobile ? 1.2 : 1
+          },
+          { 
+            z: zOut, 
+            x: xOut, 
+            y: yOut, 
+            force3D: true, 
+            duration,
+            // Keep the mobile scale throughout the animation
+            scale: isMobile ? 1.2 : 1
+          },
           0
         )
       })
     }, containerRef)
 
     return () => ctx.revert()
-  }, [controlled, onItemsReady])
+  }, [controlled, onItemsReady, isMobile])
 
   return (
     <div ref={containerRef} className={styles.container} style={{ ...(containerStyle || {}), zIndex }}>
       {IMAGES.map((src, idx) => {
         const { top, left, widthPct } = POSITIONS[idx % POSITIONS.length]
         const z = Z_INDEXES[idx % Z_INDEXES.length]
+        // Increase width by 20% for mobile
+        const mobileWidth = isMobile ? widthPct * 1.2 : widthPct
         return (
-          <div key={`${src}-${idx}`} className={styles.item} style={{ top, left, width: `${widthPct}%`, zIndex: z }}>
-            <img src={src} alt={`fly-${idx + 1}`} className={styles.img} draggable={false} />
+          <div key={`${src}-${idx}`} className={styles.item} style={{ top, left, width: `${mobileWidth}%`, zIndex: z }}>
+            <img 
+              src={src} 
+              alt={`fly-${idx + 1}`} 
+              className={styles.img} 
+              draggable={false} 
+              style={{
+                transform: isMobile ? 'scale(1.2)' : 'scale(1)'
+              }}
+            />
           </div>
         )
       })}

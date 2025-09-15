@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 import './NavigationMenu.css';
@@ -13,13 +13,26 @@ const NavigationMenu = ({ isExiting }) => {
   const backgroundImageRefs = useRef([]);
   const animationTimeline = useRef(null);
   const isMenuVisible = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const menuItems = [
-    { id: 'our-journey', label: 'Our Journey', image: '/assets/images/backgrounds/7.webp' },
-    { id: 'gallery', label: 'Events', image: '/assets/images/backgrounds/8.webp' },
-    { id: 'team', label: 'Team', image: '/assets/images/backgrounds/11.webp' },
-    { id: 'latest-releases', label: 'Featured', image: '/assets/images/backgrounds/12.webp' }
+    { id: 'our-journey', label: 'Our Journey', image: '/assets/mobile/images/navigation/7.webp' },
+    { id: 'gallery', label: 'Events', image: '/assets/mobile/images/navigation/8.webp' },
+    { id: 'team', label: 'Team', image: '/assets/mobile/images/navigation/11.webp' },
+    { id: 'latest-releases', label: 'Featured', image: '/assets/mobile/images/navigation/12.webp' }
   ];
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     // Wait for refs to be properly set
@@ -290,7 +303,7 @@ const NavigationMenu = ({ isExiting }) => {
           left: '50%',
           top: '50%',
           transform: 'translateX(-50%) translateY(-50%)',
-          width: 'clamp(500px, 41.67vw, 800px)', // Responsive width: 600px at 1440px, scales up to 800px
+          width: isMobile ? '90%' : 'clamp(500px, 41.67vw, 800px)', // Mobile: 90% width, Desktop: responsive width
           zIndex: 2001, // Higher than the wrapper div
           pointerEvents: 'auto' // Re-enable pointer events
         }}
@@ -305,8 +318,8 @@ const NavigationMenu = ({ isExiting }) => {
           onMouseLeave={() => handleHover(index, false)}
           style={{
             position: 'relative',
-            height: 'clamp(70px, 5.56vw, 100px)', // Responsive height: 80px at 1440px, scales up to 100px
-            cursor: "url('/assets/icons/cursor final.png') 0 0, pointer",
+            height: isMobile ? '50px' : 'clamp(70px, 5.56vw, 100px)', // Mobile: 50px height, Desktop: responsive height
+            cursor: "url('/assets/mobile/icons/cursor-final.png') 0 0, pointer",
             overflow: 'visible',
             width: '100%'
           }}
@@ -348,8 +361,8 @@ const NavigationMenu = ({ isExiting }) => {
               src="/new-arrow.svg" 
               alt="Arrow" 
               style={{
-                width: 'clamp(100px, 9.2vw, 180px)', // Responsive arrow: 132.51px at 1440px, scales up to 180px
-                height: 'clamp(100px, 9.2vw, 180px)', // Responsive arrow: 132.51px at 1440px, scales up to 180px
+                width: isMobile ? '60px' : 'clamp(100px, 9.2vw, 180px)', // Mobile: 60px, Desktop: responsive arrow
+                height: isMobile ? '60px' : 'clamp(100px, 9.2vw, 180px)', // Mobile: 60px, Desktop: responsive arrow
                 display: 'block',
                 strokeWidth: '4px' // Increased thickness from 3px to 4px (1px increase)
               }}
@@ -364,7 +377,7 @@ const NavigationMenu = ({ isExiting }) => {
                bottom: '0',
                left: '0',
                width: '100%',
-               height: 'clamp(1px, 0.07vw, 2px)', // Responsive border: 1px at 1440px, scales up to 2px
+               height: isMobile ? '1px' : 'clamp(1px, 0.07vw, 2px)', // Mobile: 1px, Desktop: responsive border
                backgroundColor: 'white',
                transformOrigin: 'left center',
                transform: 'scaleX(0)', // Back to hidden for animation

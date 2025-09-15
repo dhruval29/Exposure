@@ -358,5 +358,3 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
 };
 
 export default MouseMouse;
-
-

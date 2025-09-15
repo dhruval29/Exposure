@@ -13,9 +13,9 @@ import StorytellingHero from './StorytellingHero'
 import Footer from './Footer'
 import HoverImage from './HoverImage'
 import StaggeredMenu from './StaggeredMenu'
-import useLightweightMouseEffect from '../hooks/useLightweightMouseEffect'
 import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
+import IPhone13141 from './IPhone13141'
 import '../styles/Gallery.css'
 
 
@@ -35,7 +35,7 @@ const DEFAULT_ZR_CONFIG = {
   pinSpacing: true
 }
 
-const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
+const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
   const containerRef = useRef(null)
   const imageRef = useRef(null)
   const leftTextRef = useRef(null)
@@ -70,12 +70,15 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
   const getResponsiveValues = () => {
     const vw = window.innerWidth
     const vh = window.innerHeight
-    const fontSize = Math.min(vw * 0.05, vh * 0.08, 66.7) // Responsive font size
+    const isMobile = vw <= 768
+    const baseFontSize = Math.min(vw * 0.05, vh * 0.08, 66.7) // Responsive font size
+    const fontSize = isMobile ? baseFontSize * 1.2 : baseFontSize // 20% larger on mobile
     
     return {
       vw,
       vh,
       fontSize,
+      isMobile,
       offScreenDistance: vw * 0.6 // Reduced from 1.2 to 0.6 (50% less distance)
     }
   }
@@ -382,7 +385,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           ref={leftTextRef} 
           style={{ 
             position: 'absolute', 
-            right: 'calc(50% + 10px)', 
+            right: `calc(50% + ${getResponsiveValues().isMobile ? '5px' : '10px'})`, 
             top: '50%', 
             transform: 'translateY(-50%)', 
             color: 'black', 
@@ -400,7 +403,7 @@ const ZoomReveal = ({ imageSrc = '/assets/images/ui/zoom-reveal.webp', leftText 
           ref={rightTextRef} 
           style={{ 
             position: 'absolute', 
-            left: 'calc(50% + 10px)', 
+            left: `calc(50% + ${getResponsiveValues().isMobile ? '5px' : '10px'})`, 
             top: '50%', 
             transform: 'translateY(-50%)', 
             color: 'black', 
@@ -484,7 +487,20 @@ const Landing = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   // Mouse effect removed - page left blank as requested
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Smooth scroll + slide-up behavior
   useEffect(() => {
@@ -657,131 +673,152 @@ const Landing = () => {
         }}
       >
           <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white', overflow: 'hidden' }}>
-            {/* Animated gradient background that fades out by first row */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '1300px', // Fades out by first row of images
-                background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
-                zIndex: 1,
-                pointerEvents: 'none',
-                animation: 'gradientFade 6s ease-in-out infinite',
-                opacity: 0.7
-              }}
-            />
-            <style dangerouslySetInnerHTML={{
-              __html: `
-                @keyframes gradientFade {
-                  0% {
-                    opacity: 0.4;
-                    transform: translateY(-15px);
-                  }
-                  25% {
-                    opacity: 0.8;
-                    transform: translateY(0px);
-                  }
-                  50% {
-                    opacity: 1;
-                    transform: translateY(0px);
-                  }
-                  75% {
-                    opacity: 0.6;
-                    transform: translateY(8px);
-                  }
-                  100% {
-                    opacity: 0.4;
-                    transform: translateY(-15px);
-                  }
-                }
-              `
-            }} />
+            {/* Desktop content - hidden on mobile */}
             <div style={{ 
-              left: '6.3vw', 
-              top: '6.25vh', 
-              position: 'absolute', 
-              zIndex: 20
+              width: '100%', 
+              height: '100%', 
+              position: 'relative', 
+              background: 'white',
+              display: isMobile ? 'none' : 'block'
             }}>
-              <StorytellingHero />
-            </div>
-            <HoverImage 
-              src="/assets/images/ui/1.webp" 
-              style={responsiveImagePositions.image1}
-              caption="Sydney Opera House, NSW"
-            />
-                         <HoverImage 
-               src="/assets/images/ui/2.webp" 
-               style={responsiveImagePositions.image2}
-               caption="Beech WaterFalls, Victoria"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/3.webp" 
-               style={responsiveImagePositions.image3}
-               caption="Gower Street, Melbourne"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/4.webp" 
-               style={responsiveImagePositions.image4}
-               caption="Sydney Opera House, NSW"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/5.webp" 
-               style={responsiveImagePositions.image5}
-               caption="Fitzroy Garden, Melbourne"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/6.webp" 
-               style={responsiveImagePositions.image6}
-               caption="South Bank, Brisbane"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/7.webp" 
-               style={responsiveImagePositions.image7}
-               caption="Twelve Apostles, Victoria"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/8.webp" 
-               style={responsiveImagePositions.image8}
-               caption="Beech Forest, Victoria"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/9.webp" 
-               style={responsiveImagePositions.image9}
-               caption="Melbourne, Victoria"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/10.webp" 
-               style={responsiveImagePositions.image10}
-               caption="Fitzroy Garden, Melbourne"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/11.webp" 
-               style={responsiveImagePositions.image11}
-               caption="Circular Quay, NSW"
-             />
+              {/* Animated gradient background that fades out by first row */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '1300px', // Fades out by first row of images
+                  background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+                  zIndex: 1,
+                  pointerEvents: 'none',
+                  animation: 'gradientFade 6s ease-in-out infinite',
+                  opacity: 0.7
+                }}
+              />
+              <style dangerouslySetInnerHTML={{
+                __html: `
+                  @keyframes gradientFade {
+                    0% {
+                      opacity: 0.4;
+                      transform: translateY(-15px);
+                    }
+                    25% {
+                      opacity: 0.8;
+                      transform: translateY(0px);
+                    }
+                    50% {
+                      opacity: 1;
+                      transform: translateY(0px);
+                    }
+                    75% {
+                      opacity: 0.6;
+                      transform: translateY(8px);
+                    }
+                    100% {
+                      opacity: 0.4;
+                      transform: translateY(-15px);
+                    }
+                  }
+                `
+              }} />
+              <div style={{ 
+                left: '6.3vw', 
+                top: '6.25vh', 
+                position: 'absolute', 
+                zIndex: 20
+              }}>
+                <StorytellingHero />
+              </div>
+              <HoverImage 
+                src="/assets/images/ui/1.webp" 
+                style={responsiveImagePositions.image1}
+                caption="Sydney Opera House, NSW"
+              />
+                           <HoverImage 
+                 src="/assets/images/ui/2.webp" 
+                 style={responsiveImagePositions.image2}
+                 caption="Beech WaterFalls, Victoria"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/3.webp" 
+                 style={responsiveImagePositions.image3}
+                 caption="Gower Street, Melbourne"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/4.webp" 
+                 style={responsiveImagePositions.image4}
+                 caption="Sydney Opera House, NSW"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/5.webp" 
+                 style={responsiveImagePositions.image5}
+                 caption="Fitzroy Garden, Melbourne"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/6.webp" 
+                 style={responsiveImagePositions.image6}
+                 caption="South Bank, Brisbane"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/7.webp" 
+                 style={responsiveImagePositions.image7}
+                 caption="Twelve Apostles, Victoria"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/8.webp" 
+                 style={responsiveImagePositions.image8}
+                 caption="Beech Forest, Victoria"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/9.webp" 
+                 style={responsiveImagePositions.image9}
+                 caption="Melbourne, Victoria"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/10.webp" 
+                 style={responsiveImagePositions.image10}
+                 caption="Fitzroy Garden, Melbourne"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/11.webp" 
+                 style={responsiveImagePositions.image11}
+                 caption="Circular Quay, NSW"
+               />
 
-                         <HoverImage 
-               src="/assets/images/ui/12.webp" 
-               style={responsiveImagePositions.image12}
-               caption="Gower Street, Melbourne"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/13.webp" 
-               style={responsiveImagePositions.image13}
-               caption="Melbourne, Victoria"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/14.webp" 
-               style={responsiveImagePositions.image14}
-               caption="Melbourne, Victoria"
-             />
-                         <HoverImage 
-               src="/assets/images/ui/15.webp" 
-               style={responsiveImagePositions.image15}
-               caption="Cairns, Queensland"
-             />
+                           <HoverImage 
+                 src="/assets/images/ui/12.webp" 
+                 style={responsiveImagePositions.image12}
+                 caption="Gower Street, Melbourne"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/13.webp" 
+                 style={responsiveImagePositions.image13}
+                 caption="Melbourne, Victoria"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/14.webp" 
+                 style={responsiveImagePositions.image14}
+                 caption="Melbourne, Victoria"
+               />
+                           <HoverImage 
+                 src="/assets/images/ui/15.webp" 
+                 style={responsiveImagePositions.image15}
+                 caption="Cairns, Queensland"
+               />
+            </div>
+
+            {/* Mobile content - IPhone13141 component */}
+            <div style={{ 
+              width: '100%', 
+              height: '100%', 
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              display: isMobile ? 'block' : 'none'
+            }}>
+              <IPhone13141 />
+            </div>
           </div>
         </div>
 
@@ -797,7 +834,7 @@ const Landing = () => {
             zIndex: 998
           }}
         >
-                     <ZoomReveal imageSrc="/assets/images/ui/zoom-reveal.webp" />
+                     <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
         </div>
     </div>
   )

@@ -37,7 +37,7 @@ html, body {
 
 /* Global custom cursor */
 html, body, * {
-  cursor: url('/assets/icons/cursor final.png') 0 0, pointer;
+  cursor: url('/assets/mobile/icons/cursor-final.png') 0 0, pointer;
 }
 
 /* Ensure interactive elements keep the custom cursor */
@@ -51,7 +51,7 @@ a, a:hover, button, button:hover, [role="button"],
 /* We'll show a larger custom text cursor via overlay; keep native to avoid double cursors */
 input[type="text"], textarea, [contenteditable="true"],
 .text, .text-reveal, #headline-reveal, #headline-reveal * {
-  cursor: url('/assets/icons/Vector.png') 0 0, text;
+  cursor: url('/assets/mobile/icons/Vector.png') 0 0, text;
 }
 
 /* Keep existing styles for the home page components */
