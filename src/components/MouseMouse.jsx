@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState, useMemo } from 'react';
-import styles from './Home.module.css';
+import styles from './MouseMouse.module.css';
 
 
 const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
@@ -339,38 +339,13 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       />
       {/* Expanded hover hotzone with inner text */}
       <div
-        style={{
-          position: 'absolute',
-          // Center-center using percentage-based positioning
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '34vw',
-          height: '25vh',
-          pointerEvents: 'auto'
-        }}
+        className={styles.textHotzone}
         onMouseEnter={handleTextEnter}
         onMouseLeave={handleTextLeave}
       >
-        <div
-          style={{
-            // Left-aligned two-line text within centered hotzone
-            position: 'absolute',
-            top: '15%',
-            left: '9.2%',
-            width: '81.5%',
-            height: '63%',
-            letterSpacing: '-0.02em',
-            lineHeight: '97%',
-            color: '#000',
-            fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
-            fontSize: 96,
-            textAlign: 'left',
-            pointerEvents: 'none'
-          }}
-        >
-          <p style={{ margin: 0 }}>{'EXPOSURE '}</p>
-          <p style={{ margin: 0 }}>EXPLORERS</p>
+        <div className={styles.textContent}>
+          <p className={styles.textLine}>{'EXPOSURE '}</p>
+          <p className={styles.textLine}>EXPLORERS</p>
         </div>
       </div>
       {!isLoaded && (

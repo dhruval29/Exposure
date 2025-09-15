@@ -32,14 +32,14 @@
 
 .titleText {
   font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
-  font-size: 24px;
+  font-size: clamp(16px, 2.5vw, 24px); /* Responsive font size */
   font-weight: 400;
   color: #000;
   letter-spacing: -0.02em;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  text-align: left;
+  text-align: center; /* Center align for better mobile display */
   line-height: 1.1;
 }
 
@@ -90,4 +90,32 @@
 
 .hamburgerButton:hover .hamburgerIcon span:nth-child(3) {
   transform: translateY(-2px);
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .rectangleDiv {
+    padding: 0 16px; /* Reduce padding on mobile */
+    height: 56px; /* Slightly smaller height on mobile */
+  }
+  
+  .titleText {
+    font-size: clamp(14px, 4vw, 20px); /* Smaller font size on mobile */
+  }
+  
+  .hamburgerIcon {
+    width: 20px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rectangleDiv {
+    padding: 0 12px; /* Even less padding on very small screens */
+    height: 52px;
+  }
+  
+  .titleText {
+    font-size: clamp(12px, 3.5vw, 18px); /* Even smaller on very small screens */
+  }
 }

@@ -58,6 +58,7 @@
   top: 303px;
   left: 30px;
   line-height: 100.58%;
+  font-size: clamp(12px, 2vw, 20px); /* Responsive font size */
 }
 
 .designedDeveloped {
@@ -169,39 +170,61 @@
 
 @media (max-width: 600px) {
   .footer {
-    height: 220px;
+    height: auto;
+    min-height: 220px;
     font-size: 14px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   
   .fromGoaWithContainer {
-    font-size: 36px;
-    left: 15px;
-    top: 15px;
-    width: 200px;
-    height: 90px;
+    position: relative;
+    font-size: clamp(24px, 8vw, 36px);
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    text-align: center;
   }
   
   .socialsParent {
-    left: 250px;
-    top: 30px;
-    font-size: 20px;
+    position: relative;
+    left: auto;
+    top: auto;
+    font-size: clamp(16px, 4vw, 20px);
+    margin-bottom: 20px;
+    align-items: center;
+    text-align: center;
   }
   
   .exposureExplorers {
-    top: 160px;
-    left: 15px;
-    font-size: 12px;
+    position: relative;
+    top: auto;
+    left: auto;
+    font-size: clamp(10px, 3vw, 14px);
+    text-align: center;
+    margin: 5px 0;
   }
   
   .designedDeveloped {
-    top: 180px;
-    left: 15px;
-    font-size: 12px;
+    position: relative;
+    top: auto;
+    left: auto;
+    font-size: clamp(10px, 3vw, 14px);
+    text-align: center;
+    margin: 5px 0;
   }
   
   .exposureexplorersnitgoaaci {
-    top: 140px;
-    left: 15px;
-    font-size: 12px;
+    position: relative;
+    top: auto;
+    left: auto;
+    font-size: clamp(10px, 3vw, 14px);
+    text-align: center;
+    margin: 5px 0;
   }
 }

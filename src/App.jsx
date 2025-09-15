@@ -1,7 +1,6 @@
 import './App.css'
 import './styles/responsive.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import { useMobileDetection } from './hooks/useMobileDetection'
 import Landing from './components/Landing'
 import TextCursorOverlay from './components/TextCursorOverlay'
 import Frame50 from './components/Frame50'
@@ -11,17 +10,10 @@ import Featured from './components/Featured'
 import TeamPage from './components/TeamPage'
 import OurJourney from './components/OurJourney'
 import Admin from './components/Admin'
-import UnderConstruction from './components/UnderConstruction'
 import Fly from './components/Fly'
 import Events from './components/Events'
 
 function App() {
-  const isMobile = useMobileDetection();
-
-  if (isMobile) {
-    return <UnderConstruction />;
-  }
-
   return (
     <Router>
       <InnerApp />

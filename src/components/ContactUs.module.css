@@ -80,10 +80,64 @@
 	position: absolute;
 	top: 608px;
 	left: 1147px;
-	font-size: 53.47px;
+	font-size: clamp(28px, 4.5vw, 53.47px); /* Responsive font size */
 	letter-spacing: 0.03em;
 	line-height: 97%;
 	font-family: 'PP Editorial New';
+}
+
+/* Mobile responsive styles for ContactUs */
+@media (max-width: 768px) {
+	.contactUs {
+		height: auto;
+		min-height: 100vh;
+		padding: 20px;
+	}
+	
+	.fromGoaWithContainer {
+		position: relative;
+		top: auto;
+		left: auto;
+		font-size: clamp(48px, 12vw, 80px);
+		width: 100%;
+		height: auto;
+		text-align: center;
+		margin-bottom: 40px;
+	}
+	
+	.exposureExplorers {
+		position: relative;
+		top: auto;
+		left: auto;
+		text-align: center;
+		font-size: clamp(24px, 6vw, 40px);
+		margin: 20px auto;
+		width: 100%;
+	}
+	
+	/* Adjust social media links positioning for mobile */
+	.contactUsChild, .contactUsItem, .contactUsInner, .groupIcon {
+		position: relative;
+		display: inline-block;
+		margin-right: 10px;
+	}
+	
+	.gmail, .instagram, .youtube, .linkedin {
+		position: relative;
+		display: inline-block;
+		margin: 10px;
+		font-size: clamp(18px, 4vw, 28px);
+	}
+}
+
+@media (max-width: 480px) {
+	.exposureExplorers {
+		font-size: clamp(20px, 5vw, 32px);
+	}
+	
+	.fromGoaWithContainer {
+		font-size: clamp(36px, 10vw, 64px);
+	}
 }
 
 

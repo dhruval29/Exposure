@@ -210,10 +210,30 @@
   position: absolute;
   top: 636px;
   left: 1160.75px;
-  font-size: 40.49px;
+  font-size: clamp(24px, 3.5vw, 40.49px); /* Responsive font size */
   letter-spacing: 0.03em;
   line-height: 97%;
   font-family: 'PP Editorial New';
   color: #f2f2f2;
+}
+
+/* Mobile responsive styles for Frame36 */
+@media (max-width: 768px) {
+  .exposureExplorers {
+    position: relative; /* Change to relative positioning for mobile */
+    top: auto;
+    left: auto;
+    text-align: center;
+    font-size: clamp(18px, 5vw, 32px);
+    margin: 20px auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .exposureExplorers {
+    font-size: clamp(16px, 4.5vw, 24px);
+    margin: 16px auto;
+  }
 }
 

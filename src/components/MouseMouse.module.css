@@ -1,0 +1,88 @@
+/* MouseMouse component styles */
+
+.homeContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.canvas {
+  width: 100vw;
+  height: 100vh;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000;
+  font-size: 18px;
+  z-index: 10;
+}
+
+.textHotzone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(300px, 34vw, 500px);
+  height: clamp(150px, 25vh, 300px);
+  pointer-events: auto;
+}
+
+.textContent {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%); /* Center the container horizontally */
+  width: 81.5%;
+  height: 63%;
+  letter-spacing: -0.02em;
+  line-height: 97%;
+  color: #000;
+  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
+  font-size: clamp(32px, 6.67vw, 96px); /* Reverted to original desktop size */
+  text-align: left; /* Left align text within the centered container */
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Left align items within the centered container */
+}
+
+.textLine {
+  margin: 0;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .textContent {
+    left: 0 !important;
+    transform: none !important; /* Reset transform on mobile */
+    width: 100% !important;
+    text-align: center !important; /* Center text on mobile for better readability */
+    align-items: center !important; /* Center items on mobile */
+    font-size: clamp(32px, 10vw, 56px) !important; /* Increased mobile size */
+    padding: 0 10px !important; /* Add some padding to prevent edge touching */
+  }
+  
+  .textHotzone {
+    width: clamp(280px, 90vw, 400px) !important;
+    height: clamp(140px, 25vh, 220px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .textContent {
+    font-size: clamp(28px, 9vw, 48px) !important; /* Increased very small screen size */
+  }
+  
+  .textHotzone {
+    width: clamp(200px, 90vw, 350px) !important;
+    height: clamp(100px, 18vh, 180px) !important;
+  }
+}
