@@ -54,8 +54,8 @@ function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUse
       if (wordIndex < words.length - 1) {
         const spaceSpan = document.createElement('span');
         spaceSpan.className = 'space';
-        spaceSpan.style.display = 'inline-block';
-        spaceSpan.textContent = '\u00A0';
+        spaceSpan.style.display = 'inline';
+        spaceSpan.textContent = ' ';
         textRef.current.appendChild(spaceSpan);
       }
     });

@@ -2,11 +2,33 @@ import React, { useState, useEffect } from 'react';
 
 const IPhone13141 = () => {
   const [screenSize, setScreenSize] = useState('desktop');
+  const [componentHeight, setComponentHeight] = useState(2768);
 
-  // Enhanced screen size detection
+  // Enhanced screen size detection with responsive height calculation
   useEffect(() => {
     const updateScreenSize = () => {
       const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      // Calculate responsive height for mobile devices
+      let newHeight = 2768; // Default height
+      
+      if (width <= 768) {
+        // Mobile device - adjust height based on viewport
+        if (width >= 400 && height >= 900) {
+          // Large mobile devices (like Galaxy S24 FE)
+          newHeight = Math.max(2768, height * 2.8);
+        } else if (width >= 375 && height >= 800) {
+          // Medium mobile devices
+          newHeight = Math.max(2768, height * 2.6);
+        } else {
+          // Small mobile devices
+          newHeight = Math.max(2768, height * 2.4);
+        }
+      }
+      
+      setComponentHeight(newHeight);
+      
       if (width <= 480) {
         setScreenSize('small-mobile');
       } else if (width <= 768) {
@@ -42,7 +64,7 @@ const IPhone13141 = () => {
       width: '100%',
       position: 'relative',
       backgroundColor: '#fff',
-      height: '2768px',
+      height: `${componentHeight}px`,
       overflow: 'hidden',
       textAlign: 'left',
       fontSize: '36px',

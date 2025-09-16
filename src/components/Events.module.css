@@ -134,13 +134,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px 8px;
+  padding: 4px 6px;
   border-radius: 10px;
   background: rgba(255,255,255,0.7);
   backdrop-filter: blur(8px);
   box-shadow: 0 6px 24px rgba(0,0,0,0.08);
   z-index: 20;
-  font-size: 14px; /* prevent inheritance of huge heading size */
+  font-size: 13px; /* prevent inheritance of huge heading size */
   line-height: 1;
 }
 
@@ -158,7 +158,7 @@
 
 
 .pageButton {
-  padding: 6px 10px;
+  padding: 5px 9px;
   border-radius: 8px;
   border: 1px solid rgba(0,0,0,0.2);
   background: rgba(255,255,255,0.85);
@@ -173,7 +173,7 @@
 
 .pageNumbers { display: flex; gap: 6px; }
 
-.pageNumber { padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); background: rgba(255,255,255,0.9); cursor: pointer; line-height: 1; }
+.pageNumber { padding: 5px 7px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); background: rgba(255,255,255,0.9); cursor: pointer; line-height: 1; }
 
 .activePage { background: #000; color: #fff; }
 
@@ -225,74 +225,29 @@
 /* Mobile landscape */
 @media (max-width: 768px) {
   .events {
-    --menu-item-height: 120px; /* matches FlowingMenu.css */
-    height: calc(150px + (10 * var(--menu-item-height)));
-    min-height: calc(150px + (10 * var(--menu-item-height)));
-    font-size: 48px;
-    padding: 0 15px;
+    --menu-item-height: 108px; /* matches FlowingMenu.css tweak */
+    height: calc(140px + (10 * var(--menu-item-height)));
+    min-height: calc(140px + (10 * var(--menu-item-height)));
+    font-size: 44px;
+    padding: 0 14px;
   }
   
   .events2 {
-    font-size: 48px;
-    top: 40px;
-    left: 5px;
-    height: 45px;
+    font-size: 44px;
+    top: 38px;
+    left: 6px;
+    height: 42px;
   }
   
   .searchContainer {
-    width: 52%;
-    height: 32px;
-    top: 52px;
-    right: 20px;
+    width: 50%;
+    height: 30px;
+    top: 50px;
+    right: 18px;
   }
   
   .searchInput {
-    font-size: 14px;
-  }
-  
-  .magnifyingGlassSvgrepoCom1Icon {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .eventsItem {
-    top: 120px;
-    left: 20px;
-    right: 20px;
-  }
-  
-  .eventsList {
-    top: 100px;
-    padding: 0 15px;
-  }
-}
-
-/* Mobile portrait */
-@media (max-width: 480px) {
-  .events {
-    --menu-item-height: 100px; /* matches FlowingMenu.css */
-    height: calc(150px + (10 * var(--menu-item-height)));
-    min-height: calc(150px + (10 * var(--menu-item-height)));
-    font-size: 36px;
-    padding: 0 10px;
-  }
-  
-  .events2 {
-    font-size: 36px;
-    top: 35px;
-    left: 0px;
-    height: 40px;
-  }
-  
-  .searchContainer {
-    width: 58%;
-    height: 28px;
-    top: 47px;
-    right: 15px;
-  }
-  
-  .searchInput {
-    font-size: 12px;
+    font-size: 13px;
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
@@ -301,13 +256,58 @@
   }
   
   .eventsItem {
-    top: 90px;
+    top: 112px;
+    left: 20px;
+    right: 20px;
+  }
+  
+  .eventsList {
+    top: 92px;
+    padding: 0 14px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  .events {
+    --menu-item-height: 92px; /* matches FlowingMenu.css tweak */
+    height: calc(130px + (10 * var(--menu-item-height)));
+    min-height: calc(130px + (10 * var(--menu-item-height)));
+    font-size: 32px;
+    padding: 0 10px;
+  }
+  
+  .events2 {
+    font-size: 32px;
+    top: 34px;
+    left: 0px;
+    height: 36px;
+  }
+  
+  .searchContainer {
+    width: 56%;
+    height: 26px;
+    top: 46px;
+    right: 14px;
+  }
+  
+  .searchInput {
+    font-size: 11.5px;
+  }
+  
+  .magnifyingGlassSvgrepoCom1Icon {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .eventsItem {
+    top: 84px;
     left: 15px;
     right: 15px;
   }
   
   .eventsList {
-    top: 80px;
+    top: 74px;
     padding: 0 10px;
   }
 }
@@ -315,24 +315,23 @@
 /* Small mobile devices */
 @media (max-width: 360px) {
   .events {
-    /* keep same as 480px breakpoint */
-    --menu-item-height: 100px; /* explicit height for consistency */
-    height: calc(150px + (10 * var(--menu-item-height)));
-    min-height: calc(150px + (10 * var(--menu-item-height)));
+    --menu-item-height: 88px; /* align with FlowingMenu.css */
+    height: calc(120px + (10 * var(--menu-item-height)));
+    min-height: calc(120px + (10 * var(--menu-item-height)));
     font-size: 28px;
   }
   
   .events2 {
-    font-size: 28px;
-    top: 30px;
+    font-size: 26px;
+    top: 28px;
     left: -5px;
-    height: 35px;
+    height: 32px;
   }
   
   .searchContainer {
-    width: 63%;
-    height: 26px;
-    top: 35px;
+    width: 62%;
+    height: 24px;
+    top: 34px;
     right: 10px;
   }
   
@@ -341,18 +340,18 @@
   }
   
   .magnifyingGlassSvgrepoCom1Icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
   
   .eventsItem {
-    top: 70px;
+    top: 66px;
     left: 10px;
     right: 10px;
   }
   
   .eventsList {
-    top: 70px;
+    top: 66px;
     padding: 0 5px;
   }
 }

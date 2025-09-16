@@ -66,20 +66,39 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     setImageLoaded(false)
   }
 
-  // Get responsive values
+  // Get responsive values with better mobile device handling
   const getResponsiveValues = () => {
     const vw = window.innerWidth
     const vh = window.innerHeight
+    const aspectRatio = vh / vw
     const isMobile = vw <= 768
-    const baseFontSize = Math.min(vw * 0.05, vh * 0.08, 66.7) // Responsive font size
-    const fontSize = isMobile ? baseFontSize * 1.2 : baseFontSize // 20% larger on mobile
+    const isLargeMobile = vw >= 400 && vh >= 900 // Large mobile devices like Galaxy S24 FE
+    
+    // Adjust font size for different mobile device sizes
+    let baseFontSize = Math.min(vw * 0.05, vh * 0.08, 66.7)
+    
+    if (isLargeMobile) {
+      // For larger mobile devices, use a more conservative scaling
+      baseFontSize = Math.min(vw * 0.045, vh * 0.06, 60)
+    }
+    
+    const fontSize = isMobile ? baseFontSize * 1.1 : baseFontSize
+    
+    // Adjust off-screen distance based on device characteristics
+    let offScreenDistance = vw * 0.6
+    if (isLargeMobile) {
+      // Reduce movement distance for larger mobile devices to prevent jittery animations
+      offScreenDistance = vw * 0.45
+    }
     
     return {
       vw,
       vh,
       fontSize,
       isMobile,
-      offScreenDistance: vw * 0.6 // Reduced from 1.2 to 0.6 (50% less distance)
+      isLargeMobile,
+      aspectRatio,
+      offScreenDistance
     }
   }
 
@@ -96,10 +115,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        end: '+=125%',
-        scrub: 2,
+        end: responsiveValues.isLargeMobile ? '+=150%' : '+=125%', // Longer scroll distance for large mobile
+        scrub: responsiveValues.isLargeMobile ? 1.5 : 2, // Smoother scrub for large mobile
         pin: true,
         markers: false,
+        anticipatePin: 1,
+        refreshPriority: responsiveValues.isLargeMobile ? -1 : 0, // Lower priority refresh for stability
         onLeave: () => {
           if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current)
           if (navExitTimeoutRef.current) { 
@@ -179,7 +200,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     // Place Zoom segment start around 70% of Fly segment
     const zoomStart = flyMaxDuration > 0 ? flyMaxDuration * 0.70 : 0
 
-    // 1. Image scaling animation (Zoom segment)
+    // 1. Image scaling animation (Zoom segment) - optimized for mobile
     tl.to(img, {
       width: '100vw',
       height: '100vh',
@@ -190,20 +211,23 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       left: '50%',
       transform: 'translate(-50%, -50%)',
       zIndex: 1000,
-      duration: 1,
-      ease: 'power2.inOut'
+      duration: responsiveValues.isLargeMobile ? 1.2 : 1, // Slightly longer for large mobile
+      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut', // Smoother easing for large mobile
+      force3D: true // Hardware acceleration
     }, zoomStart)
 
-    // 2. Text movement animation (synchronized with image scaling)
+    // 2. Text movement animation (synchronized with image scaling) - optimized for mobile
     tl.to(left, {
       x: -responsiveValues.offScreenDistance,
-      duration: 1,
-      ease: 'power2.inOut'
+      duration: responsiveValues.isLargeMobile ? 1.2 : 1,
+      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut',
+      force3D: true // Hardware acceleration
     }, zoomStart)
     .to(right, {
       x: responsiveValues.offScreenDistance,
-      duration: 1,
-      ease: 'power2.inOut'
+      duration: responsiveValues.isLargeMobile ? 1.2 : 1,
+      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut',
+      force3D: true // Hardware acceleration
     }, zoomStart)
 
     // Add extra scroll-only padding after zoom completes (no visual change)
@@ -224,21 +248,55 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     // No-op here because we already composed in the main effect if items were present.
   }, [])
 
-  // Animate nav overlay and menu appearance/disappearance smoothly
+  // Animate nav overlay and menu appearance/disappearance smoothly - optimized for mobile
   useEffect(() => {
     const overlay = navOverlayRef.current
     const inner = navInnerRef.current
     if (!overlay) return
+    
+    const responsiveValues = getResponsiveValues()
+    
     if (showNav) {
       gsap.set(overlay, { pointerEvents: 'auto' })
-      gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' })
+      gsap.fromTo(overlay, 
+        { opacity: 0 }, 
+        { 
+          opacity: 1, 
+          duration: responsiveValues.isLargeMobile ? 0.8 : 0.6, 
+          ease: 'power2.out',
+          force3D: true
+        }
+      )
       if (inner) {
-        gsap.fromTo(inner, { autoAlpha: 0, y: 16, scale: 0.98 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: 'power2.out' })
+        gsap.fromTo(inner, 
+          { autoAlpha: 0, y: responsiveValues.isLargeMobile ? 12 : 16, scale: 0.98 }, 
+          { 
+            autoAlpha: 1, 
+            y: 0, 
+            scale: 1, 
+            duration: responsiveValues.isLargeMobile ? 0.8 : 0.6, 
+            ease: 'power2.out',
+            force3D: true
+          }
+        )
       }
     } else {
-      gsap.to(overlay, { opacity: 0, duration: 0.4, ease: 'power2.in', onComplete: () => gsap.set(overlay, { pointerEvents: 'none' }) })
+      gsap.to(overlay, { 
+        opacity: 0, 
+        duration: responsiveValues.isLargeMobile ? 0.5 : 0.4, 
+        ease: 'power2.in', 
+        force3D: true,
+        onComplete: () => gsap.set(overlay, { pointerEvents: 'none' }) 
+      })
       if (inner) {
-        gsap.to(inner, { autoAlpha: 0, y: 10, scale: 0.99, duration: 0.4, ease: 'power2.in' })
+        gsap.to(inner, { 
+          autoAlpha: 0, 
+          y: responsiveValues.isLargeMobile ? 8 : 10, 
+          scale: 0.99, 
+          duration: responsiveValues.isLargeMobile ? 0.5 : 0.4, 
+          ease: 'power2.in',
+          force3D: true
+        })
       }
     }
   }, [showNav])
@@ -277,7 +335,13 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           if (!slideArmedRef.current) return
           if (e.deltaY > 0) {
             slideArmedRef.current = false
-            gsap.to(slide, { yPercent: 0, duration: 0.8, ease: 'power2.out' })
+            const responsiveValues = getResponsiveValues()
+            gsap.to(slide, { 
+              yPercent: 0, 
+              duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
+              ease: 'power2.out',
+              force3D: true
+            })
             cleanupListeners()
           }
         }
@@ -285,7 +349,13 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
         const onTouchStart = () => {
           if (!slideArmedRef.current) return
           slideArmedRef.current = false
-          gsap.to(slide, { yPercent: 0, duration: 0.8, ease: 'power2.out' })
+          const responsiveValues = getResponsiveValues()
+          gsap.to(slide, { 
+            yPercent: 0, 
+            duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
+            ease: 'power2.out',
+            force3D: true
+          })
           cleanupListeners()
         }
 
@@ -306,7 +376,13 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
     if (isExitingNav) {
       slideArmedRef.current = false
-      gsap.to(slide, { yPercent: 100, duration: 0.6, ease: 'power2.in' })
+      const responsiveValues = getResponsiveValues()
+      gsap.to(slide, { 
+        yPercent: 100, 
+        duration: responsiveValues.isLargeMobile ? 0.7 : 0.6, 
+        ease: 'power2.in',
+        force3D: true
+      })
     }
 
     return () => {
@@ -490,10 +566,19 @@ const Landing = () => {
   const [isMobile, setIsMobile] = useState(false)
   // Mouse effect removed - page left blank as requested
 
-  // Mobile detection
+  // Enhanced mobile detection for different device sizes
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const aspectRatio = height / width
+      
+      // More comprehensive mobile detection
+      // Consider both width and aspect ratio for better detection
+      const isMobileWidth = width <= 768
+      const isMobileAspectRatio = aspectRatio > 1.3 // Portrait orientation with tall aspect ratio
+      
+      setIsMobile(isMobileWidth && isMobileAspectRatio)
     }
     
     checkMobile()
@@ -596,7 +681,28 @@ const Landing = () => {
     }
   }, [])
 
-  const SLIDING_HEIGHT = 2768
+  // Responsive sliding height based on device characteristics
+  const getSlidingHeight = () => {
+    if (!isMobile) return 2768
+    
+    const vh = window.innerHeight
+    const vw = window.innerWidth
+    
+    // For larger mobile devices (like Galaxy S24 FE 6.7"), adjust height
+    // to prevent gaps by using viewport-based calculations
+    if (vw >= 400 && vh >= 900) {
+      // Large mobile devices - scale based on viewport
+      return Math.max(2768, vh * 2.8) // Minimum 2768px or 2.8x viewport height
+    } else if (vw >= 375 && vh >= 800) {
+      // Medium mobile devices
+      return Math.max(2768, vh * 2.6)
+    } else {
+      // Small mobile devices
+      return Math.max(2768, vh * 2.4)
+    }
+  }
+  
+  const SLIDING_HEIGHT = getSlidingHeight()
 
   const menuItems = [
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
