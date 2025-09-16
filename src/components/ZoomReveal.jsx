@@ -5,7 +5,8 @@ import NavigationMenu from './NavigationMenu';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EXTRA_SCROLL_PAD = 1.2; // Extra scroll distance after zoom before nav shows
+const EXTRA_SCROLL_PAD = 1.2; // Extra scroll distance after zoom before nav shows (desktop/tablet)
+const MOBILE_EXTRA_SCROLL_PAD = 4.0; // Further increased extra scroll distance for mobile
 
 const ZoomReveal = ({
   imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp',
@@ -117,7 +118,7 @@ const ZoomReveal = ({
       ease: 'power2.inOut'
     }, 'zoomStart+=0.3')
     // Add extra scroll-only padding after zoom completes (no visual change)
-    .to({}, { duration: EXTRA_SCROLL_PAD })
+    .to({}, { duration: isMobile ? MOBILE_EXTRA_SCROLL_PAD : EXTRA_SCROLL_PAD })
     .add(() => {
       // Show nav immediately (scroll-controlled elsewhere if needed)
       setShowNav(true);
