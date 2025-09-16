@@ -42,10 +42,8 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
   const containerRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Enhanced screen size detection with debounced ScrollTrigger refresh
+  // Enhanced screen size detection
   useEffect(() => {
-    let resizeTimeout;
-    
     const checkScreenSize = () => {
       const width = window.innerWidth;
       if (width <= 480) {
@@ -57,23 +55,12 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
       } else {
         setIsMobile('desktop');
       }
-      
-      // Debounced ScrollTrigger refresh to handle responsive scaling changes
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(() => {
-        if (typeof window !== 'undefined' && window.ScrollTrigger) {
-          ScrollTrigger.refresh()
-        }
-      }, 150)
     }
     
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
     
-    return () => {
-      window.removeEventListener('resize', checkScreenSize)
-      clearTimeout(resizeTimeout)
-    }
+    return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 
   useEffect(() => {

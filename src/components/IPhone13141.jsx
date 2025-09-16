@@ -24,13 +24,6 @@ const IPhone13141 = () => {
     return () => window.removeEventListener('resize', updateScreenSize);
   }, []);
 
-  // Refresh ScrollTrigger when screen size changes
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.ScrollTrigger) {
-      ScrollTrigger.refresh();
-    }
-  }, [screenSize]);
-
   // Responsive scaling based on screen size
   const getResponsiveScale = () => {
     switch (screenSize) {

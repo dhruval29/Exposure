@@ -43,13 +43,6 @@ const NavigationMenu = ({ isExiting }) => {
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 
-  // Refresh ScrollTrigger when screen size changes
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.ScrollTrigger) {
-      ScrollTrigger.refresh()
-    }
-  }, [isMobile])
-
   useEffect(() => {
     // Wait for refs to be properly set
     const checkRefs = () => {

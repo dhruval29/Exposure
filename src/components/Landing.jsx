@@ -490,29 +490,16 @@ const Landing = () => {
   const [isMobile, setIsMobile] = useState(false)
   // Mouse effect removed - page left blank as requested
 
-  // Mobile detection with debounced ScrollTrigger refresh
+  // Mobile detection
   useEffect(() => {
-    let resizeTimeout;
-    
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768)
-      
-      // Debounced ScrollTrigger refresh to handle rapid resize events
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(() => {
-        if (typeof window !== 'undefined' && window.ScrollTrigger) {
-          ScrollTrigger.refresh()
-        }
-      }, 150)
     }
     
     checkMobile()
     window.addEventListener('resize', checkMobile)
     
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-      clearTimeout(resizeTimeout)
-    }
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   // Smooth scroll + slide-up behavior
@@ -600,18 +587,14 @@ const Landing = () => {
     // Remove text animation and references – placeholder reserved for future
 
     // Ensure positions are recalculated after timelines are set up
-    setTimeout(() => {
-      ScrollTrigger.refresh()
-      // Additional refresh after a short delay to ensure all responsive changes are applied
-      setTimeout(() => ScrollTrigger.refresh(), 100)
-    }, 0)
+    setTimeout(() => ScrollTrigger.refresh(), 0)
 
     return () => {
       if (lenisRef.current) lenisRef.current.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [isMobile]) // Add isMobile dependency to re-initialize when screen size changes
+  }, [])
 
   const SLIDING_HEIGHT = 2768
 
