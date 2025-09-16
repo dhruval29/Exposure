@@ -49,6 +49,23 @@ const IPhone13141 = () => {
       color: '#000',
       fontFamily: 'PP Editorial New'
     }}>
+      
+      {/* Animated gradient overlay fading downward (mirrors desktop) */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '1300px',
+          background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+          zIndex: 0,
+          pointerEvents: 'none',
+          animation: 'gradientFade 6s ease-in-out infinite',
+          opacity: 0.7
+        }}
+        aria-hidden="true"
+      />
       <div style={{
         position: 'absolute',
         top: '0.8%', // 22px / 2768px
@@ -269,6 +286,12 @@ const IPhone13141 = () => {
         }}
         alt="Image 16" 
       />
+      {/* Keyframes for animated gradient overlay */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes gradientFade { 0% { opacity: 0.6; } 50% { opacity: 0.9; } 100% { opacity: 0.6; } }
+        `
+      }} />
     </div>
   );
 };

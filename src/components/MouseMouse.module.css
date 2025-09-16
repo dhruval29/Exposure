@@ -7,6 +7,10 @@
   width: 100vw;
   height: 100vh;
   pointer-events: none;
+  /* Animated gradient background (inherits variables and keyframes from global styles) */
+  background: var(--app-gradient);
+  background-size: var(--app-gradient-size);
+  animation: var(--app-gradient-anim);
 }
 
 .canvas {
