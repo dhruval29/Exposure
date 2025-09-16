@@ -1,6 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const IPhone13141 = () => {
+  const [screenSize, setScreenSize] = useState('desktop');
+
+  // Enhanced screen size detection
+  useEffect(() => {
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        setScreenSize('small-mobile');
+      } else if (width <= 768) {
+        setScreenSize('mobile');
+      } else if (width <= 1024) {
+        setScreenSize('tablet');
+      } else {
+        setScreenSize('desktop');
+      }
+    };
+    
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  // Refresh ScrollTrigger when screen size changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ScrollTrigger) {
+      ScrollTrigger.refresh();
+    }
+  }, [screenSize]);
+
+  // Responsive scaling based on screen size
+  const getResponsiveScale = () => {
+    switch (screenSize) {
+      case 'small-mobile': return 0.8;  // 20% smaller for very small screens
+      case 'mobile': return 1.0;        // Normal mobile size
+      case 'tablet': return 1.1;        // 10% larger for tablets
+      case 'desktop': return 1.0;       // Desktop size
+      default: return 1.0;
+    }
+  };
+
+  const scale = getResponsiveScale();
 
   return (
     <div style={{

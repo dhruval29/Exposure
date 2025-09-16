@@ -42,16 +42,38 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
   const containerRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Mobile detection
+  // Enhanced screen size detection with debounced ScrollTrigger refresh
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+    let resizeTimeout;
+    
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        setIsMobile('small-mobile');
+      } else if (width <= 768) {
+        setIsMobile('mobile');
+      } else if (width <= 1024) {
+        setIsMobile('tablet');
+      } else {
+        setIsMobile('desktop');
+      }
+      
+      // Debounced ScrollTrigger refresh to handle responsive scaling changes
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        if (typeof window !== 'undefined' && window.ScrollTrigger) {
+          ScrollTrigger.refresh()
+        }
+      }, 150)
     }
     
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
     
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => {
+      window.removeEventListener('resize', checkScreenSize)
+      clearTimeout(resizeTimeout)
+    }
   }, [])
 
   useEffect(() => {
@@ -63,9 +85,13 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         if (typeof onItemsReady === 'function') {
           onItemsReady(items)
         }
-        // Apply mobile scaling to all items in controlled mode
-        if (isMobile) {
+        // Apply responsive scaling to all items in controlled mode
+        if (isMobile === 'small-mobile') {
+          gsap.set(items, { scale: 1.0 })
+        } else if (isMobile === 'mobile') {
           gsap.set(items, { scale: 1.2 })
+        } else if (isMobile === 'tablet') {
+          gsap.set(items, { scale: 1.3 })
         }
       }, containerRef)
       return () => ctx.revert()
@@ -111,8 +137,10 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
             z: zIn, 
             x: 0, 
             y: 0,
-            // Increase initial scale by 20% for mobile
-            scale: isMobile ? 1.2 : 1
+            // Responsive scaling based on screen size
+            scale: isMobile === 'small-mobile' ? 1.0 : 
+                   isMobile === 'mobile' ? 1.2 : 
+                   isMobile === 'tablet' ? 1.3 : 1
           },
           { 
             z: zOut, 
@@ -120,8 +148,10 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
             y: yOut, 
             force3D: true, 
             duration,
-            // Keep the mobile scale throughout the animation
-            scale: isMobile ? 1.2 : 1
+            // Keep the responsive scale throughout the animation
+            scale: isMobile === 'small-mobile' ? 1.0 : 
+                   isMobile === 'mobile' ? 1.2 : 
+                   isMobile === 'tablet' ? 1.3 : 1
           },
           0
         )
@@ -136,17 +166,21 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
       {IMAGES.map((src, idx) => {
         const { top, left, widthPct } = POSITIONS[idx % POSITIONS.length]
         const z = Z_INDEXES[idx % Z_INDEXES.length]
-        // Increase width by 20% for mobile
-        const mobileWidth = isMobile ? widthPct * 1.2 : widthPct
+        // Responsive width scaling
+        const responsiveWidth = isMobile === 'small-mobile' ? widthPct * 1.0 : 
+                               isMobile === 'mobile' ? widthPct * 1.2 : 
+                               isMobile === 'tablet' ? widthPct * 1.3 : widthPct
         return (
-          <div key={`${src}-${idx}`} className={styles.item} style={{ top, left, width: `${mobileWidth}%`, zIndex: z }}>
+          <div key={`${src}-${idx}`} className={styles.item} style={{ top, left, width: `${responsiveWidth}%`, zIndex: z }}>
             <img 
               src={src} 
               alt={`fly-${idx + 1}`} 
               className={styles.img} 
               draggable={false} 
               style={{
-                transform: isMobile ? 'scale(1.2)' : 'scale(1)'
+                transform: isMobile === 'small-mobile' ? 'scale(1.0)' : 
+                          isMobile === 'mobile' ? 'scale(1.2)' : 
+                          isMobile === 'tablet' ? 'scale(1.3)' : 'scale(1)'
               }}
             />
           </div>

@@ -22,17 +22,33 @@ const NavigationMenu = ({ isExiting }) => {
     { id: 'latest-releases', label: 'Featured', image: '/assets/mobile/images/navigation/12.webp' }
   ];
 
-  // Mobile detection
+  // Enhanced screen size detection
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        setIsMobile('small-mobile');
+      } else if (width <= 768) {
+        setIsMobile('mobile');
+      } else if (width <= 1024) {
+        setIsMobile('tablet');
+      } else {
+        setIsMobile('desktop');
+      }
     }
     
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
     
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
+
+  // Refresh ScrollTrigger when screen size changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ScrollTrigger) {
+      ScrollTrigger.refresh()
+    }
+  }, [isMobile])
 
   useEffect(() => {
     // Wait for refs to be properly set
@@ -303,7 +319,7 @@ const NavigationMenu = ({ isExiting }) => {
           left: '50%',
           top: '50%',
           transform: 'translateX(-50%) translateY(-50%)',
-          width: isMobile ? '90%' : 'clamp(500px, 41.67vw, 800px)', // Mobile: 90% width, Desktop: responsive width
+          width: isMobile !== 'desktop' ? '90%' : 'clamp(500px, 41.67vw, 800px)', // Mobile/Tablet: 90% width, Desktop: responsive width
           zIndex: 2001, // Higher than the wrapper div
           pointerEvents: 'auto' // Re-enable pointer events
         }}
@@ -318,7 +334,10 @@ const NavigationMenu = ({ isExiting }) => {
           onMouseLeave={() => handleHover(index, false)}
           style={{
             position: 'relative',
-            height: isMobile ? '50px' : 'clamp(70px, 5.56vw, 100px)', // Mobile: 50px height, Desktop: responsive height
+            height: isMobile === 'small-mobile' ? '40px' : 
+                   isMobile === 'mobile' ? '50px' : 
+                   isMobile === 'tablet' ? '60px' : 
+                   'clamp(70px, 5.56vw, 100px)', // Responsive height
             cursor: "url('/assets/mobile/icons/cursor-final.png') 0 0, pointer",
             overflow: 'visible',
             width: '100%'
@@ -361,8 +380,14 @@ const NavigationMenu = ({ isExiting }) => {
               src="/new-arrow.svg" 
               alt="Arrow" 
               style={{
-                width: isMobile ? '60px' : 'clamp(100px, 9.2vw, 180px)', // Mobile: 60px, Desktop: responsive arrow
-                height: isMobile ? '60px' : 'clamp(100px, 9.2vw, 180px)', // Mobile: 60px, Desktop: responsive arrow
+                width: isMobile === 'small-mobile' ? '50px' : 
+                       isMobile === 'mobile' ? '60px' : 
+                       isMobile === 'tablet' ? '80px' : 
+                       'clamp(100px, 9.2vw, 180px)', // Responsive arrow size
+                height: isMobile === 'small-mobile' ? '50px' : 
+                       isMobile === 'mobile' ? '60px' : 
+                       isMobile === 'tablet' ? '80px' : 
+                       'clamp(100px, 9.2vw, 180px)', // Responsive arrow size
                 display: 'block',
                 strokeWidth: '4px' // Increased thickness from 3px to 4px (1px increase)
               }}

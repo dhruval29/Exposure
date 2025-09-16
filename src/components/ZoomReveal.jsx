@@ -128,7 +128,7 @@ const ZoomReveal = ({
       ScrollTrigger.getAll().forEach(t => t.kill());
       clearInterval(trackerInterval); // Clear interval on cleanup
     };
-  }, []);
+  }, [isMobile]); // Add isMobile dependency to re-initialize when screen size changes
 
   return (
     <div
