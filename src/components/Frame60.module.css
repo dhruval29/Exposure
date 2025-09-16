@@ -1,0 +1,133 @@
+/* Base styles - exact copy with responsive enhancements */
+.instanceParent {
+  width: 100%;
+  position: relative;
+  background-color: transparent;
+  height: 520px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.rectangleParent {
+  position: absolute;
+  top: 0px;
+  left: 44px;
+  display: flex;
+  align-items: center;
+  gap: 58px;
+  animation: marquee 60s linear infinite;
+  width: calc(14 * (281px + 58px)); /* Total width of all images + gaps */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Move by half the container width to create seamless loop */
+  }
+}
+
+.instanceChild {
+  width: 281px;
+  position: relative;
+  border-radius: 30px;
+  max-height: 100%;
+  object-fit: cover;
+  height: 375px;
+  flex-shrink: 0; /* Prevent image compression */
+}
+
+.instanceItem {
+  width: 281px;
+  position: relative;
+  border-radius: 30px;
+  height: 375px;
+  object-fit: cover;
+  flex-shrink: 0; /* Prevent image compression */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .instanceChild,
+  .instanceItem {
+    width: clamp(200px, 25vw, 281px);
+    height: clamp(267px, 33.5vw, 375px);
+  }
+  
+  .rectangleParent {
+    gap: clamp(30px, 5vw, 58px);
+    left: clamp(20px, 4vw, 44px);
+    width: calc(14 * (clamp(200px, 25vw, 281px) + clamp(30px, 5vw, 58px)));
+  }
+  
+  .instanceParent {
+    height: clamp(380px, 45vh, 520px);
+  }
+  
+  .rectangleParent {
+    top: clamp(5px, 2vh, 15px);
+  }
+}
+
+@media (max-width: 768px) {
+  .instanceChild,
+  .instanceItem {
+    width: clamp(150px, 35vw, 220px);
+    height: clamp(200px, 46vw, 293px);
+    border-radius: 20px;
+  }
+  
+  .rectangleParent {
+    gap: clamp(20px, 4vw, 40px);
+    left: clamp(15px, 3vw, 30px);
+    width: calc(14 * (clamp(150px, 35vw, 220px) + clamp(20px, 4vw, 40px)));
+  }
+  
+  .instanceParent {
+    height: clamp(320px, 40vh, 400px);
+  }
+  
+  .rectangleParent {
+    top: clamp(5px, 1vh, 10px);
+  }
+}
+
+@media (max-width: 480px) {
+  .instanceChild,
+  .instanceItem {
+    width: clamp(120px, 40vw, 180px);
+    height: clamp(160px, 53vw, 240px);
+    border-radius: 15px;
+  }
+  
+  .rectangleParent {
+    gap: clamp(15px, 3vw, 25px);
+    left: clamp(10px, 2vw, 20px);
+    width: calc(14 * (clamp(120px, 40vw, 180px) + clamp(15px, 3vw, 25px)));
+    animation-duration: 70s; /* Slower on mobile for better visibility */
+  }
+  
+  .instanceParent {
+    height: clamp(260px, 35vh, 320px);
+  }
+  
+  .rectangleParent {
+    top: clamp(5px, 1vh, 10px);
+  }
+}
+
+/* Ensure no clipping and smooth animation */
+.instanceChild,
+.instanceItem {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Removed hover scale effect */
+
+/* Prevent animation pause on hover for smooth experience */
+.rectangleParent:hover {
+  animation-play-state: running;
+}

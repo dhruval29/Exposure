@@ -16,6 +16,7 @@ import StaggeredMenu from './StaggeredMenu'
 import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 import IPhone13141 from './IPhone13141'
+import Frame60 from './Frame60'
 import '../styles/Gallery.css'
 
 
@@ -54,6 +55,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const eventListenersRef = useRef({ wheel: null, touchstart: null })
   const masterTlRef = useRef(null)
   const flyItemsRef = useRef(null)
+  const blurOverlayRef = useRef(null)
 
   // Image load handler
   const handleImageLoad = () => {
@@ -336,12 +338,25 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           if (e.deltaY > 0) {
             slideArmedRef.current = false
             const responsiveValues = getResponsiveValues()
+            
+            // Animate footer slide up
             gsap.to(slide, { 
               yPercent: 0, 
               duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
               ease: 'power2.out',
               force3D: true
             })
+            
+            // Add blur overlay animation
+            if (blurOverlayRef.current) {
+              gsap.to(blurOverlayRef.current, {
+                opacity: 1,
+                backdropFilter: 'blur(8px)',
+                duration: responsiveValues.isLargeMobile ? 1.0 : 0.8,
+                ease: 'power2.out'
+              })
+            }
+            
             cleanupListeners()
           }
         }
@@ -350,12 +365,25 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           if (!slideArmedRef.current) return
           slideArmedRef.current = false
           const responsiveValues = getResponsiveValues()
+          
+          // Animate footer slide up
           gsap.to(slide, { 
             yPercent: 0, 
             duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
             ease: 'power2.out',
             force3D: true
           })
+          
+          // Add blur overlay animation
+          if (blurOverlayRef.current) {
+            gsap.to(blurOverlayRef.current, {
+              opacity: 1,
+              backdropFilter: 'blur(8px)',
+              duration: responsiveValues.isLargeMobile ? 1.0 : 0.8,
+              ease: 'power2.out'
+            })
+          }
+          
           cleanupListeners()
         }
 
@@ -377,12 +405,24 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     if (isExitingNav) {
       slideArmedRef.current = false
       const responsiveValues = getResponsiveValues()
+      
+      // Animate footer slide down
       gsap.to(slide, { 
         yPercent: 100, 
         duration: responsiveValues.isLargeMobile ? 0.7 : 0.6, 
         ease: 'power2.in',
         force3D: true
       })
+      
+      // Remove blur overlay animation
+      if (blurOverlayRef.current) {
+        gsap.to(blurOverlayRef.current, {
+          opacity: 0,
+          backdropFilter: 'blur(0px)',
+          duration: responsiveValues.isLargeMobile ? 0.7 : 0.6,
+          ease: 'power2.in'
+        })
+      }
     }
 
     return () => {
@@ -522,6 +562,21 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
         </div>
       </div>
 
+      {/* Blur overlay that sits above nav but below footer */}
+      <div
+        ref={blurOverlayRef}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 2000, // Above nav (1000) but below footer (3000)
+          opacity: 0,
+          backdropFilter: 'blur(0px)',
+          WebkitBackdropFilter: 'blur(0px)',
+          pointerEvents: 'none',
+          transition: 'opacity 0.1s ease, backdrop-filter 0.1s ease'
+        }}
+      />
+
       {/* Contact us section with video background */}
       <div
         ref={postNavSlideRef}
@@ -597,17 +652,19 @@ const Landing = () => {
       const viewportHeight = window.innerHeight
       const slidingHeight = 2768
       
-      // Show MouseMouse when we're in the sliding section (after 100vh, before zoom component)
+      // Show MouseMouse when we're in the sliding section (after 100vh, before new section)
       const slidingSectionStart = viewportHeight
-      const zoomComponentStart = viewportHeight + 2768 // Zoom component start position (100vh + sliding height)
+      const newSectionStart = viewportHeight + 2768 // New section starts after sliding page
+      const zoomComponentStart = viewportHeight + 2768 + (viewportHeight * 0.6) // Zoom component start position (100vh + sliding height + 60vh)
       
-      if (scrollTop >= slidingSectionStart && scrollTop < zoomComponentStart) {
+      if (scrollTop >= slidingSectionStart && scrollTop < newSectionStart) {
+        // In sliding section - show MouseMouse
         setShowMouseOverlay(true)
       } else if (scrollTop < slidingSectionStart) {
         // Before sliding section - show MouseMouse
         setShowMouseOverlay(true)
       } else {
-        // After zoom component - hide MouseMouse
+        // In new section or after zoom component - hide MouseMouse
         setShowMouseOverlay(false)
       }
 
@@ -717,8 +774,10 @@ const Landing = () => {
     { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
   ];
 
+  const NEW_SECTION_HEIGHT = '62vh' // The new section height
+  
   return (
-    <div className="landing" style={{ width: '100%', height: `calc(200vh + ${SLIDING_HEIGHT}px)` }}>
+    <div className="landing" style={{ width: '100%', height: `calc(262vh + ${SLIDING_HEIGHT}px)` }}>
       {/* Top Navigation Bar */}
       <Rectangle18 />
       
@@ -928,11 +987,76 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* ZoomReveal placed immediately after the dashed sliding section */}
+        {/* New Content Section - 50-60vh between sliding page and ZoomReveal */}
         <div
           style={{
             position: 'absolute',
             top: `calc(100vh + ${SLIDING_HEIGHT}px)`,
+            left: 0,
+            right: 0,
+            height: NEW_SECTION_HEIGHT,
+            background: 'white',
+            zIndex: 998,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'black',
+            padding: 'clamp(1rem, 4vw, 3rem)',
+            minHeight: '50vh',
+            overflow: 'visible'
+          }}
+        >
+          {/* Gradient background that fades from bottom of images */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '60%', // Covers more of the section - extended upward
+              background: 'linear-gradient(to bottom, transparent 0%, #b7bae5 30%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+              zIndex: 1,
+              pointerEvents: 'none',
+              animation: 'gradientFade 6s ease-in-out infinite',
+              opacity: 0.7
+            }}
+          />
+          <Frame60 />
+          
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              @keyframes gradientFade {
+                0% {
+                  opacity: 0.4;
+                  transform: translateY(15px);
+                }
+                25% {
+                  opacity: 0.8;
+                  transform: translateY(0px);
+                }
+                50% {
+                  opacity: 1;
+                  transform: translateY(0px);
+                }
+                75% {
+                  opacity: 0.6;
+                  transform: translateY(-8px);
+                }
+                100% {
+                  opacity: 0.4;
+                  transform: translateY(15px);
+                }
+              }
+            `
+          }} />
+        </div>
+
+        {/* ZoomReveal placed after the new content section */}
+        <div
+          style={{
+            position: 'absolute',
+            top: `calc(100vh + ${SLIDING_HEIGHT}px + ${NEW_SECTION_HEIGHT})`,
             left: 0,
             right: 0,
             height: '100vh',
