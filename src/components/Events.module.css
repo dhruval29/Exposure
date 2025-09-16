@@ -18,6 +18,15 @@
   padding: 0 20px;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  /* Remove tap highlight from entire events page */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove scrolling on mobile devices */
+@media (max-width: 1024px) {
+  .events {
+    overflow-y: hidden;
+  }
 }
 
 @keyframes gradientShift {
@@ -183,9 +192,10 @@
   .events {
     /* item height remains 160px for tablets */
     --menu-item-height: 160px;
-    height: calc(150px + (10 * var(--menu-item-height)));
-    min-height: calc(150px + (10 * var(--menu-item-height)));
+    height: calc(150px + (9 * var(--menu-item-height)));
+    min-height: calc(150px + (9 * var(--menu-item-height)));
     font-size: 72px;
+    overflow-y: hidden;
   }
   
   .events2 {
@@ -196,10 +206,11 @@
   }
   
   .searchContainer {
-    width: 40%;
+    width: 180px;
+    max-width: 180px;
     height: 38px;
-    top: 61px;
-    right: 40px;
+    top: 52px;
+    left: 370px;
   }
   
   .searchInput {
@@ -227,10 +238,11 @@
 @media (max-width: 768px) {
   .events {
     --menu-item-height: 108px; /* matches FlowingMenu.css tweak */
-    height: calc(140px + (10 * var(--menu-item-height)));
-    min-height: calc(140px + (10 * var(--menu-item-height)));
+    height: calc(140px + (9 * var(--menu-item-height)));
+    min-height: calc(140px + (9 * var(--menu-item-height)));
     font-size: 44px;
     padding: 0 14px;
+    overflow-y: hidden;
   }
   
   .events2 {
@@ -241,10 +253,11 @@
   }
   
   .searchContainer {
-    width: 35%;
+    width: 160px;
+    max-width: 160px;
     height: 30px;
-    top: 50px;
-    right: 18px;
+    top: 42px;
+    left: 230px;
   }
   
   .searchInput {
@@ -272,10 +285,11 @@
 @media (max-width: 480px) {
   .events {
     --menu-item-height: 92px; /* matches FlowingMenu.css tweak */
-    height: calc(130px + (10 * var(--menu-item-height)));
-    min-height: calc(130px + (10 * var(--menu-item-height)));
+    height: calc(130px + (8 * var(--menu-item-height)));
+    min-height: calc(130px + (8 * var(--menu-item-height)));
     font-size: 32px;
     padding: 0 10px;
+    overflow-y: hidden;
   }
   
   .events2 {
@@ -286,10 +300,11 @@
   }
   
   .searchContainer {
-    width: 40%;
+    width: 140px;
+    max-width: 140px;
     height: 26px;
-    top: 46px;
-    right: 14px;
+    top: 40px;
+    left: 220px;
   }
   
   .searchInput {
@@ -317,9 +332,10 @@
 @media (max-width: 360px) {
   .events {
     --menu-item-height: 88px; /* align with FlowingMenu.css */
-    height: calc(120px + (10 * var(--menu-item-height)));
-    min-height: calc(120px + (10 * var(--menu-item-height)));
+    height: calc(120px + (8 * var(--menu-item-height)));
+    min-height: calc(120px + (8 * var(--menu-item-height)));
     font-size: 28px;
+    overflow-y: hidden;
   }
   
   .events2 {
@@ -330,10 +346,11 @@
   }
   
   .searchContainer {
-    width: 45%;
+    width: 120px;
+    max-width: 120px;
     height: 24px;
-    top: 34px;
-    right: 10px;
+    top: 27px;
+    left: 145px;
   }
   
   .searchInput {

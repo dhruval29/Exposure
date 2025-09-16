@@ -267,10 +267,11 @@ function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUse
             src="/new-arrow.svg"
             alt="Arrow"
             style={{
-              width: '220 px',
+              width: '220px',
               height: '220px',
               display: 'block'
             }}
+            className="menu__arrow"
           />
         </div>
         <span className="menu__date" ref={dateRef}>{monthYear || ''}</span>

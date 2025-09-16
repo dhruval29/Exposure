@@ -8,6 +8,14 @@
   height: 100%;
   z-index: 10000;
   pointer-events: none;
+  /* Remove tap highlight from entire wrapper */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .clean-staggered-menu-header {
@@ -22,6 +30,14 @@
   background: transparent;
   pointer-events: auto;
   z-index: 10002;
+  /* Remove tap highlight from header */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .clean-staggered-menu-header > * {
@@ -57,6 +73,14 @@
   height: 30px;
   z-index: 10003;
   padding: 0;
+  /* Remove tap highlight on mobile devices */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Hide the button when hideButton prop is true */
@@ -353,8 +377,27 @@
   position: absolute;
   background: currentColor;
   border-radius: 1px;
+  width: 20px;
+  height: 2px;
+  transition: all 0.3s ease;
 }
 
+.hamburger-line-1 {
+  top: -6px;
+  transform: translateY(0);
+}
+
+.hamburger-line-2 {
+  top: 0;
+  transform: translateY(0);
+}
+
+.hamburger-line-3 {
+  top: 6px;
+  transform: translateY(0);
+}
+
+/* Keep original first-child behavior for the main horizontal line */
 .sm-icon-line:first-child {
   width: 20px;
   height: 2px;
@@ -363,6 +406,8 @@
 .sm-icon-line-v {
   width: 2px;
   height: 20px;
+  opacity: 0 !important;
+  visibility: hidden;
 }
 
 @media (max-width: 1024px) {
@@ -377,6 +422,35 @@
 
   .clean-staggered-menu-wrapper[data-open] .sm-logo-img {
     filter: invert(100%);
+  }
+  
+  .clean-staggered-menu-header {
+    top: 63px;
+    right: 40px;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) {
+  .clean-staggered-menu-header {
+    top: 53px;
+    right: 20px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  .clean-staggered-menu-header {
+    top: 48px;
+    right: 15px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 360px) {
+  .clean-staggered-menu-header {
+    top: 38px;
+    right: 10px;
   }
 }
 

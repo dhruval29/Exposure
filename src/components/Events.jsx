@@ -11,11 +11,33 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
   const listRef = useRef(null);
   const loadingPageRef = useRef(null);
   const [showGuide, setShowGuide] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Set page size based on screen size
+  useEffect(() => {
+    const updatePageSize = () => {
+      const width = window.innerWidth;
+      if (width <= 360) {
+        setPageSize(8); // Small mobile devices
+      } else if (width <= 480) {
+        setPageSize(8); // Mobile portrait
+      } else if (width <= 768) {
+        setPageSize(9); // Mobile landscape
+      } else if (width <= 1024) {
+        setPageSize(9); // Tablet
+      } else {
+        setPageSize(10); // Desktop - keep original
+      }
+    };
+
+    updatePageSize();
+    window.addEventListener('resize', updatePageSize);
+    return () => window.removeEventListener('resize', updatePageSize);
+  }, []);
 
   const menuItems = [
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
