@@ -654,8 +654,25 @@ const Landing = () => {
       
       // Show MouseMouse when we're in the sliding section (after 100vh, before new section)
       const slidingSectionStart = viewportHeight
-      const newSectionStart = viewportHeight + 2768 // New section starts after sliding page
-      const zoomComponentStart = viewportHeight + 2768 + (viewportHeight * 0.6) // Zoom component start position (100vh + sliding height + 60vh)
+      const newSectionStart = viewportHeight + SLIDING_HEIGHT // New section starts after sliding page
+      
+      // Calculate new section height in pixels for accurate positioning
+      let newSectionHeightPx
+      if (isMobile && window.innerWidth >= 400 && window.innerHeight >= 900) {
+        // Large mobile devices - use the same calculation as getNewSectionHeight
+        newSectionHeightPx = Math.max(400, window.innerHeight * 0.45)
+      } else if (isMobile && window.innerWidth >= 375 && window.innerHeight >= 800) {
+        // Medium mobile devices
+        newSectionHeightPx = Math.max(350, window.innerHeight * 0.5)
+      } else if (isMobile) {
+        // Small mobile devices - convert 62vh to pixels
+        newSectionHeightPx = window.innerHeight * 0.62
+      } else {
+        // Desktop - convert 62vh to pixels
+        newSectionHeightPx = window.innerHeight * 0.62
+      }
+      
+      const zoomComponentStart = newSectionStart + newSectionHeightPx // Zoom component start position
       
       if (scrollTop >= slidingSectionStart && scrollTop < newSectionStart) {
         // In sliding section - show MouseMouse
@@ -668,7 +685,7 @@ const Landing = () => {
         setShowMouseOverlay(false)
       }
 
-      // Menu visibility behavior (same as nav bar)
+      // Menu visibility behavior (same as nav bar) - adjusted for new section
       if (scrollTop >= zoomComponentStart) {
         setIsMenuSlidingUp(true)
         // Hide completely after slide animation
@@ -774,10 +791,54 @@ const Landing = () => {
     { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
   ];
 
-  const NEW_SECTION_HEIGHT = '62vh' // The new section height
+  // Responsive section height for different mobile device sizes
+  const getNewSectionHeight = () => {
+    if (!isMobile) return '62vh' // Desktop unchanged
+    
+    const vh = window.innerHeight
+    const vw = window.innerWidth
+    
+    // For larger mobile devices (like Galaxy S24 FE 6.7"), use fixed pixel height
+    // to prevent gaps and animation issues
+    if (vw >= 400 && vh >= 900) {
+      // Large mobile devices - use calculated pixel height instead of vh
+      return `${Math.max(400, vh * 0.45)}px` // 45% of viewport height, minimum 400px
+    } else if (vw >= 375 && vh >= 800) {
+      // Medium mobile devices
+      return `${Math.max(350, vh * 0.5)}px` // 50% of viewport height, minimum 350px
+    } else {
+      // Small mobile devices - keep vh units as they work fine
+      return '62vh'
+    }
+  }
   
+  const NEW_SECTION_HEIGHT = getNewSectionHeight()
+  
+  // Calculate total page height more accurately for large mobile devices
+  const getTotalPageHeight = () => {
+    const baseHeight = `200vh + ${SLIDING_HEIGHT}px` // Original height before new section
+    
+    if (!isMobile) {
+      return `calc(${baseHeight} + 62vh)` // Desktop unchanged
+    }
+    
+    const vh = window.innerHeight
+    const vw = window.innerWidth
+    
+    // For larger mobile devices, use pixel calculations to prevent gaps
+    if (vw >= 400 && vh >= 900) {
+      const newSectionPx = Math.max(400, vh * 0.45)
+      return `calc(${baseHeight} + ${newSectionPx}px)`
+    } else if (vw >= 375 && vh >= 800) {
+      const newSectionPx = Math.max(350, vh * 0.5)
+      return `calc(${baseHeight} + ${newSectionPx}px)`
+    } else {
+      return `calc(${baseHeight} + 62vh)` // Small mobile devices
+    }
+  }
+
   return (
-    <div className="landing" style={{ width: '100%', height: `calc(262vh + ${SLIDING_HEIGHT}px)` }}>
+    <div className="landing" style={{ width: '100%', height: getTotalPageHeight() }}>
       {/* Top Navigation Bar */}
       <Rectangle18 />
       
@@ -1001,10 +1062,12 @@ const Landing = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            color: 'black',
-            padding: 'clamp(1rem, 4vw, 3rem)',
-            minHeight: '50vh',
-            overflow: 'visible'
+             color: 'black',
+             padding: 'clamp(1rem, 4vw, 3rem)',
+             minHeight: isMobile && window.innerWidth >= 400 && window.innerHeight >= 900 
+               ? `${Math.max(350, window.innerHeight * 0.4)}px` // Large mobile: use pixels
+               : '50vh', // Others: use vh
+             overflow: 'visible'
           }}
         >
           {/* Gradient background that fades from bottom of images */}

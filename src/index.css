@@ -87,8 +87,6 @@ body {
   animation: var(--app-gradient-anim);
   overflow-x: hidden;
   overflow-y: visible;
-  /* Remove tap highlight globally */
-  -webkit-tap-highlight-color: transparent;
 }
 
 #root {

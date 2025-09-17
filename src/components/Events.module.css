@@ -18,8 +18,6 @@
   padding: 0 20px;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  /* Remove tap highlight from entire events page */
-  -webkit-tap-highlight-color: transparent;
 }
 
 /* Remove scrolling on mobile devices */
