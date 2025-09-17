@@ -204,8 +204,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
     // 1. Image scaling animation (Zoom segment) - optimized for mobile
     tl.to(img, {
-      width: '100vw',
-      height: '100vh',
+      width: '100%',
+      height: '100%',
       x: 0,
       y: 0,
       position: 'absolute',
@@ -482,8 +482,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             onLoad={handleImageLoad}
             onError={handleImageError}
             style={{ 
-              width: imageLoaded ? '0.1px' : '100vw', 
-              height: imageLoaded ? '0.05px' : '100vh', 
+              width: imageLoaded ? '0.1px' : '100%', 
+              height: imageLoaded ? '0.05px' : '100%', 
               objectFit: 'cover', 
               pointerEvents: 'none', 
               position: 'absolute', 
@@ -614,6 +614,10 @@ const Landing = () => {
   const slidingRef = useRef(null)
   const lenisRef = useRef(null)
   const slidingAnimRef = useRef(null)
+  const [showLoader, setShowLoader] = useState(true)
+  const loaderRef = useRef(null)
+  const loaderPanelRef = useRef(null)
+  const loaderTextRef = useRef(null)
   const [showMouseOverlay, setShowMouseOverlay] = useState(true)
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
@@ -642,6 +646,29 @@ const Landing = () => {
     
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Intro shutter loader
+  useEffect(() => {
+    if (!showLoader) return
+    const wrapper = loaderRef.current
+    const panel = loaderPanelRef.current
+    const text = loaderTextRef.current
+    if (!wrapper || !panel || !text) return
+
+    // Prepare positions
+    gsap.set(panel, { height: '100vh' })
+    gsap.set(text, { autoAlpha: 1, y: 0 })
+
+    const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } })
+    tl.to(text, { autoAlpha: 1, duration: 0.2 })
+      .add('reveal')
+      .to(panel, { height: 0, duration: 2.0, ease: 'power4.inOut' }, 'reveal')
+      .to(text, { autoAlpha: 0, duration: 0.6, ease: 'power2.out' }, 'reveal+=0.3')
+      .set(wrapper, { pointerEvents: 'none', display: 'none' })
+      .add(() => setShowLoader(false))
+
+    return () => { tl.kill() }
+  }, [showLoader])
 
   // Smooth scroll + slide-up behavior
   useEffect(() => {
@@ -851,6 +878,47 @@ const Landing = () => {
 
   return (
     <div className="landing" style={{ width: '100%', height: getTotalPageHeight() }}>
+      {/* Shutter Loader Overlay */}
+      {showLoader && (
+        <div
+          ref={loaderRef}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100000,
+            overflow: 'hidden',
+            pointerEvents: 'auto'
+          }}
+        >
+          <div
+            ref={loaderPanelRef}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '100vh',
+              background: 'white',
+              transformOrigin: 'top center'
+            }}
+          />
+          <div
+            ref={loaderTextRef}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              color: 'black',
+              fontSize: 'clamp(24px, 6vw, 64px)',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              letterSpacing: '0.02em'
+            }}
+          >
+            Home
+          </div>
+        </div>
+      )}
       {/* Top Navigation Bar */}
       <Rectangle18 />
       
@@ -1068,63 +1136,21 @@ const Landing = () => {
             left: 0,
             right: 0,
             height: NEW_SECTION_HEIGHT,
-            background: 'white',
+            background: 'black',
             zIndex: 998,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-             color: 'black',
-             padding: 'clamp(1rem, 4vw, 3rem)',
-             minHeight: isMobile && window.innerWidth >= 400 && window.innerHeight >= 900 
-               ? `${Math.max(350, window.innerHeight * 0.4)}px` // Large mobile: use pixels
-               : '50vh', // Others: use vh
-             overflow: 'visible'
+            color: 'white',
+            padding: 0,
+            minHeight: isMobile && window.innerWidth >= 400 && window.innerHeight >= 900 
+              ? `${Math.max(350, window.innerHeight * 0.4)}px`
+              : '50vh',
+            overflow: 'hidden'
           }}
         >
-          {/* Gradient background that fades from bottom of images */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '60%', // Covers more of the section - extended upward
-              background: 'linear-gradient(to bottom, transparent 0%, #b7bae5 30%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
-              zIndex: 1,
-              pointerEvents: 'none',
-              animation: 'gradientFade 6s ease-in-out infinite',
-              opacity: 0.7
-            }}
-          />
           <Frame60 />
-          
-          <style dangerouslySetInnerHTML={{
-            __html: `
-              @keyframes gradientFade {
-                0% {
-                  opacity: 0.4;
-                  transform: translateY(15px);
-                }
-                25% {
-                  opacity: 0.8;
-                  transform: translateY(0px);
-                }
-                50% {
-                  opacity: 1;
-                  transform: translateY(0px);
-                }
-                75% {
-                  opacity: 0.6;
-                  transform: translateY(-8px);
-                }
-                100% {
-                  opacity: 0.4;
-                  transform: translateY(15px);
-                }
-              }
-            `
-          }} />
         </div>
 
         {/* ZoomReveal placed after the new content section */}

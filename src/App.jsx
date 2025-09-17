@@ -12,6 +12,7 @@ import OurJourney from './components/OurJourney'
 import Admin from './components/Admin'
 import Fly from './components/Fly'
 import Events from './components/Events'
+import ContactUs from './components/ContactUs'
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function InnerApp() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/fly" element={<Fly />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </div>
   );

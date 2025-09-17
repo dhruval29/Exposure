@@ -1,143 +1,365 @@
 .contactUs {
 	width: 100%;
 	position: relative;
+	background-color: #c9d5f7;
 	height: 776px;
 	overflow: hidden;
 	text-align: left;
-	font-size: 36px;
-	color: #fff;
-	font-family: Helvetica;
-}
-.fromGoaWithContainer {
-	position: absolute;
-	top: calc(50% - 305px);
-	left: calc(50% - 722px);
-	font-size: 127px;
-	line-height: 105%;
-	display: inline-block;
-	width: 698px;
-	height: 354px;
-}
-.fromGoa {
-	margin: 0;
-}
-.b {
-	font-family: Helvetica;
-}
-.contactUsChild {
-	position: absolute;
-	top: 526.3px;
-	left: 46px;
-	width: 16.8px;
-	height: 20.4px;
-}
-.gmail {
-	position: absolute;
-	top: 520px;
-	left: 78.35px;
-	line-height: 100.58%;
-}
-.contactUsItem {
-	position: absolute;
-	top: 577.9px;
-	left: 46px;
-	width: 16.8px;
-	height: 20.4px;
-}
-.instagram {
-	position: absolute;
-	top: 571.6px;
-	left: 78.35px;
-	line-height: 100.58%;
-}
-.contactUsInner {
-	position: absolute;
-	top: 629.5px;
-	left: 46px;
-	width: 16.8px;
-	height: 20.4px;
-}
-.youtube {
-	position: absolute;
-	top: 623.2px;
-	left: 78.35px;
-	line-height: 100.58%;
-}
-.groupIcon {
-	position: absolute;
-	top: 681.1px;
-	left: 46px;
-	width: 16.8px;
-	height: 20.4px;
-}
-.linkedin {
-	position: absolute;
-	top: 674.8px;
-	left: 78.35px;
-	line-height: 100.58%;
-}
-.exposureExplorers {
-	position: absolute;
-	top: 608px;
-	left: 1147px;
-	font-size: clamp(28px, 4.5vw, 53.47px); /* Responsive font size */
-	letter-spacing: 0.03em;
-	line-height: 97%;
+	font-size: 28px;
+	color: #000;
 	font-family: 'PP Editorial New';
 }
 
-/* Mobile responsive styles for ContactUs */
-@media (max-width: 768px) {
-	.contactUs {
-		height: auto;
-		min-height: 100vh;
-		padding: 20px;
-	}
-	
-	.fromGoaWithContainer {
-		position: relative;
-		top: auto;
-		left: auto;
-		font-size: clamp(48px, 12vw, 80px);
-		width: 100%;
-		height: auto;
-		text-align: center;
-		margin-bottom: 40px;
-	}
-	
-	.exposureExplorers {
-		position: relative;
-		top: auto;
-		left: auto;
-		text-align: center;
-		font-size: clamp(24px, 6vw, 40px);
-		margin: 20px auto;
-		width: 100%;
-	}
-	
-	/* Adjust social media links positioning for mobile */
-	.contactUsChild, .contactUsItem, .contactUsInner, .groupIcon {
-		position: relative;
-		display: inline-block;
-		margin-right: 10px;
-	}
-	
-	.gmail, .instagram, .youtube, .linkedin {
-		position: relative;
-		display: inline-block;
-		margin: 10px;
-		font-size: clamp(18px, 4vw, 28px);
-	}
+/* Animations */
+@keyframes cu-lineGrow {
+	0% { transform: scaleX(0); }
+	100% { transform: scaleX(1); }
 }
 
-@media (max-width: 480px) {
-	.exposureExplorers {
-		font-size: clamp(20px, 5vw, 32px);
-	}
-	
-	.fromGoaWithContainer {
-		font-size: clamp(36px, 10vw, 64px);
-	}
+@keyframes cu-textReveal {
+	0% { opacity: 0; transform: translateY(10px); }
+	100% { opacity: 1; transform: translateY(0); }
 }
 
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	* { animation: none !important; transition: none !important; }
+}
+.contact {
+	position: absolute;
+	top: 9.41%; /* 73 / 776 */
+	left: 6.04%; /* 87 / 1440 */
+	font-size: 128px;
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 80ms;
+}
+.wantHelpCoveringContainer {
+	position: absolute;
+	top: 14.57%; /* 113 / 776 */
+	left: 64.50%; /* moved slightly left for better balance */
+	font-size: 36px;
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 160ms;
+}
+.wantHelpCovering {
+	margin: 0;
+}
+.contactUsChild {
+	position: absolute;
+	top: 30.47%; /* 236.5 / 776 */
+	left: 4.00%; /* slightly reduced left margin */
+	background-color: #000;
+	box-sizing: border-box;
+	width: 92.00%; /* equal margins left/right */
+	height: 1px;
+	transform-origin: left center;
+	transform: scaleX(0);
+	animation: cu-lineGrow 800ms ease-out forwards;
+	animation-delay: 120ms;
+}
+.yourNameOr {
+	position: absolute;
+	top: 40.72%; /* 316 / 776 */
+	left: 44.44%; /* 640 / 1440 */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 220ms;
+}
+.whatsTheEvent {
+	position: absolute;
+	top: 63.40%; /* 492 / 776 */
+	left: 44.44%; /* 640 / 1440 */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 420ms;
+}
+.contactUsItem {
+	position: absolute;
+	top: 65.65%; /* 509.5 / 776 */
+	left: 65.50%; /* nudge block left */
+	background-color: #000;
+	box-sizing: border-box;
+	width: 30.00%; /* add right breathing room */
+	height: 1px;
+	transform-origin: left center;
+	transform: scaleX(0);
+	animation: cu-lineGrow 800ms ease-out forwards;
+	animation-delay: 440ms;
+}
+.whensTheEvent {
+	position: absolute;
+	top: 70.36%; /* 546 / 776 */
+	left: 44.44%; /* 640 / 1440 */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 520ms;
+}
+.contactUsInner {
+	position: absolute;
+	top: 73.68%; /* 571.5 / 776 */
+	left: 65.50%;
+	background-color: #000;
+	box-sizing: border-box;
+	width: 30.00%;
+	height: 1px;
+	transform-origin: left center;
+	transform: scaleX(0);
+	animation: cu-lineGrow 800ms ease-out forwards;
+	animation-delay: 540ms;
+}
+.lineDiv {
+	position: absolute;
+	top: 44.01%; /* 341.5 / 776 */
+	left: 65.50%;
+	background-color: #000;
+	box-sizing: border-box;
+	width: 30.00%;
+	height: 1px;
+	transform-origin: left center;
+	transform: scaleX(0);
+	animation: cu-lineGrow 800ms ease-out forwards;
+	animation-delay: 260ms;
+}
+.contactUsContactUsChild {
+	position: absolute;
+	top: 52.01%; /* 403.5 / 776 */
+	left: 65.50%;
+	background-color: #000;
+	box-sizing: border-box;
+	width: 30.00%;
+	height: 1px;
+	transform-origin: left center;
+	transform: scaleX(0);
+	animation: cu-lineGrow 800ms ease-out forwards;
+	animation-delay: 340ms;
+}
+.contactUsChild2 {
+	position: absolute;
+	top: 58.70%; /* 455.5 / 776 */
+	left: 65.50%;
+	background-color: #000;
+	box-sizing: border-box;
+	width: 30.00%;
+	height: 1px;
+	transform-origin: left center;
+	transform: scaleX(0);
+	animation: cu-lineGrow 800ms ease-out forwards;
+	animation-delay: 380ms;
+}
+.pointOfContact {
+	position: absolute;
+	top: 48.71%; /* 378 / 776 */
+	left: 44.44%; /* 640 / 1440 */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 300ms;
+}
+.email {
+	position: absolute;
+	top: 55.41%; /* match baseline with other labels */
+	left: 44.44%; /* align with left column labels */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 360ms;
+}
+/* Inputs aligned to lines - invisible borders, use the line as underline */
+.inputBase {
+	position: absolute;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: 'PP Editorial New';
+	color: #000;
+	font-size: 28px;
+	padding: 6px 0;
+}
+.inputName {
+	composes: inputBase;
+	top: 37.6%;
+	left: 65.6%;
+	width: 29.6%;
+}
+.inputPhone {
+	composes: inputBase;
+	top: 60.9%;
+	left: 65.6%;
+	width: 29.6%;
+}
+.inputEmail {
+	composes: inputBase;
+	top: 53.2%;
+	left: 65.6%;
+	width: 29.6%;
+}
+.inputEventAbout {
+	composes: inputBase;
+	top: 69.8%;
+	left: 65.6%;
+	width: 29.6%;
+}
+.inputEventWhen {
+	composes: inputBase;
+	top: 73.2%;
+	left: 65.6%;
+	width: 29.6%;
+}
+.submitMsg {
+	position: absolute;
+	bottom: 6.5%;
+	left: 4.58%;
+	font-size: 20px;
+}
+.frameParent {
+	position: absolute;
+	top: 90.72%; /* 704 / 776 */
+	left: 4.58%; /* 66 / 1440 */
+	width: 90.84%; /* equal margins left/right */
+	height: 51px;
+	font-size: 24px;
+}
+.exposureexplorersnitgoaaciWrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 700ms;
+}
+.exposureexplorersnitgoaaci {
+	position: relative;
+	text-decoration: underline;
+	color: inherit;
+}
+.instagram {
+	position: absolute;
+	top: 25.49%; /* 13 / 51 of frameParent height */
+	left: 42.78%; /* 596 / 1393 of frameParent width */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 760ms;
+	cursor: pointer;
+	position: absolute;
+	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
+	will-change: transform;
+}
+.instagram::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 1px;
+	background: #000;
+	transform-origin: left center;
+	transform: scaleX(0);
+	transition: transform 260ms ease;
+}
+.instagram:hover {
+	transform: translateY(-2px);
+	letter-spacing: 0.5px;
+}
+.instagram:hover::after {
+	transform: scaleX(1);
+}
+.linkedin {
+	position: absolute;
+	top: 25.49%; /* 13 / 51 */
+	left: 69.03%; /* 961 / 1393 */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 820ms;
+	cursor: pointer;
+	position: absolute;
+	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
+	will-change: transform;
+}
+.linkedin::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 1px;
+	background: #000;
+	transform-origin: left center;
+	transform: scaleX(0);
+	transition: transform 260ms ease;
+}
+.linkedin:hover {
+	transform: translateY(-2px);
+	letter-spacing: 0.5px;
+}
+.linkedin:hover::after {
+	transform: scaleX(1);
+}
+.youtube {
+	position: absolute;
+	top: 25.49%; /* 13 / 51 */
+	left: 94.25%; /* 1313 / 1393 */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 880ms;
+	cursor: pointer;
+	position: absolute;
+	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
+	will-change: transform;
+}
+.youtube::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 1px;
+	background: #000;
+	transform-origin: left center;
+	transform: scaleX(0);
+	transition: transform 260ms ease;
+}
+.youtube:hover {
+	transform: translateY(-2px);
+	letter-spacing: 0.5px;
+}
+.youtube:hover::after {
+	transform: scaleX(1);
+}
 
+/* Reach Us button (percentage-based positioning) */
+.reachUsWrapper {
+	position: absolute;
+	top: 82.6%; /* place above the social row */
+	left: 64.8%;
+	width: 12%;
+	height: 40px;
+}
+.reachUs {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border-radius: 18.43px;
+	background-color: #112a46;
+	text-align: left;
+	font-size: 22.12px;
+	color: #fff;
+	font-family: 'PP Editorial New';
+	transition: transform 160ms ease-in;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.reachUs:hover {
+	transform: scale(1.03);
+}
+.reachUs2 {
+	position: static;
+	height: auto;
+	width: auto;
+	display: inline-block;
+	text-align: center;
+}

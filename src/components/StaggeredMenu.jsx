@@ -42,6 +42,7 @@ export const StaggeredMenu = ({
   const textCycleAnimRef = useRef(null);
   const colorTweenRef = useRef(null);
   const toggleBtnRef = useRef(null);
+  const contactBtnRef = useRef(null);
   const busyRef = useRef(false);
   const itemEntranceTweenRef = useRef(null);
 
@@ -333,9 +334,29 @@ export const StaggeredMenu = ({
       </div>
       <header className="clean-staggered-menu-header" aria-label="Main navigation header">
         <button
+          ref={contactBtnRef}
           className="sm-contact-button"
           aria-label="Contact us"
-          onClick={() => window.open('mailto:contact@exposureexplorers.com', '_blank')}
+          onClick={() => {
+            // Navigate to dedicated contact page
+            if (window.location.pathname !== '/contact') {
+              navigate('/contact');
+            }
+          }}
+          onMouseEnter={() => {
+            const el = contactBtnRef.current;
+            if (!el) return;
+            el.classList.remove('is-leave');
+            // Force reflow to restart animation if needed
+            void el.offsetWidth;
+            el.classList.add('is-enter');
+          }}
+          onMouseLeave={() => {
+            const el = contactBtnRef.current;
+            if (!el) return;
+            el.classList.remove('is-enter');
+            el.classList.remove('is-leave');
+          }}
           type="button"
         >
           <img 
@@ -343,7 +364,15 @@ export const StaggeredMenu = ({
             alt="Camera icon" 
             className="sm-contact-icon"
           />
-          Contact
+          <span className="sm-contact-text" aria-hidden="true">
+            <span className="sm-contact-char">C</span>
+            <span className="sm-contact-char">o</span>
+            <span className="sm-contact-char">n</span>
+            <span className="sm-contact-char">t</span>
+            <span className="sm-contact-char">a</span>
+            <span className="sm-contact-char">c</span>
+            <span className="sm-contact-char">t</span>
+          </span>
         </button>
         <div className="sm-logo" aria-label="Logo">
           <img
@@ -362,13 +391,28 @@ export const StaggeredMenu = ({
           aria-expanded={open}
           aria-controls="clean-staggered-menu-panel"
           onClick={toggleMenu}
+          onMouseEnter={() => {
+            if (!toggleBtnRef.current) return;
+            toggleBtnRef.current.classList.remove('is-leave');
+            void toggleBtnRef.current.offsetWidth;
+            toggleBtnRef.current.classList.add('is-enter');
+          }}
+          onMouseLeave={() => {
+            if (!toggleBtnRef.current) return;
+            toggleBtnRef.current.classList.remove('is-enter');
+            toggleBtnRef.current.classList.remove('is-leave');
+          }}
           type="button"
         >
           <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">
             <span ref={textInnerRef} className="sm-toggle-textInner">
               {textLines.map((l, i) => (
                 <span className="sm-toggle-line" key={i}>
-                  {l}
+                  <span className="sm-menu-text" aria-hidden="true">
+                    {Array.from(l).map((ch, j) => (
+                      <span className="sm-menu-char" key={j}>{ch}</span>
+                    ))}
+                  </span>
                 </span>
               ))}
             </span>
