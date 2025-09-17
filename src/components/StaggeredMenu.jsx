@@ -214,14 +214,12 @@ export const StaggeredMenu = ({
   }, [position]);
 
   const animateIcon = useCallback(opening => {
+    // Disable rotation animation - keep icon static
     const icon = iconRef.current;
     if (!icon) return;
     spinTweenRef.current?.kill();
-    if (opening) {
-      spinTweenRef.current = gsap.to(icon, { rotate: 225, duration: 0.8, ease: 'power4.out', overwrite: 'auto' });
-    } else {
-      spinTweenRef.current = gsap.to(icon, { rotate: 0, duration: 0.35, ease: 'power3.inOut', overwrite: 'auto' });
-    }
+    // No rotation - just keep the icon in place
+    gsap.set(icon, { rotate: 0 });
   }, []);
 
   const animateColor = useCallback(
@@ -334,6 +332,19 @@ export const StaggeredMenu = ({
         })()}
       </div>
       <header className="clean-staggered-menu-header" aria-label="Main navigation header">
+        <button
+          className="sm-contact-button"
+          aria-label="Contact us"
+          onClick={() => window.open('mailto:contact@exposureexplorers.com', '_blank')}
+          type="button"
+        >
+          <img 
+            src="/assets/icons/photo-camera-svgrepo-com.svg" 
+            alt="Camera icon" 
+            className="sm-contact-icon"
+          />
+          Contact
+        </button>
         <div className="sm-logo" aria-label="Logo">
           <img
             src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}

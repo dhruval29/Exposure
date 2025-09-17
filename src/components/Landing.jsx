@@ -619,6 +619,7 @@ const Landing = () => {
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const navVisibilityRef = useRef('visible')
   // Mouse effect removed - page left blank as requested
 
   // Enhanced mobile detection for different device sizes
@@ -685,19 +686,30 @@ const Landing = () => {
         setShowMouseOverlay(false)
       }
 
-      // Menu visibility behavior (same as nav bar) - adjusted for new section
-      if (scrollTop >= zoomComponentStart) {
+      // Menu visibility with hysteresis to avoid flicker near boundary
+      const HIDE_BUFFER = 80 // px after threshold to hide
+      const SHOW_BUFFER = 120 // px before threshold to show
+      const shouldHide = scrollTop >= (zoomComponentStart + HIDE_BUFFER)
+      const shouldShow = scrollTop <= (zoomComponentStart - SHOW_BUFFER)
+
+      if (navVisibilityRef.current === 'visible' && shouldHide) {
+        navVisibilityRef.current = 'hiding'
         setIsMenuSlidingUp(true)
-        // Hide completely after slide animation
         setTimeout(() => {
           setIsMenuVisible(false)
           setIsMenuHidden(true)
+          setIsMenuSlidingUp(false)
+          navVisibilityRef.current = 'hidden'
         }, 600)
-      } else {
-        // Reset states when scrolling back up
+      } else if (navVisibilityRef.current === 'hidden' && shouldShow) {
+        navVisibilityRef.current = 'showing'
         setIsMenuVisible(true)
         setIsMenuSlidingUp(false)
         setIsMenuHidden(false)
+        // settle state
+        setTimeout(() => {
+          navVisibilityRef.current = 'visible'
+        }, 300)
       }
     }
 

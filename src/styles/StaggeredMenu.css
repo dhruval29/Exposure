@@ -13,19 +13,76 @@
 .clean-staggered-menu-header {
   position: fixed;
   top: 20px;
+  left: 40px;
   right: 40px;
   width: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0;
   background: transparent;
   pointer-events: auto;
   z-index: 10002;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .clean-staggered-menu-header > * {
   pointer-events: auto;
+}
+
+.sm-contact-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  padding: 8px 12px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  pointer-events: auto;
+  outline: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  padding-top: 4px;
+  /* Remove tap highlight on mobile devices */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.sm-contact-button:hover {
+  color: #666666;
+}
+
+.sm-contact-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.3s ease;
+}
+
+.sm-contact-button:hover .sm-contact-icon {
+  filter: brightness(0) saturate(100%) invert(40%);
+}
+
+/* Remove all focus/active borders/outlines for Contact button */
+.sm-contact-button:focus,
+.sm-contact-button:focus-visible,
+.sm-contact-button:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 .sm-logo {
@@ -50,13 +107,15 @@
   border: none;
   cursor: pointer;
   color: #000000;
-  font-weight: 500;
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-weight: 400;
   line-height: 1;
   overflow: visible;
-  width: 30px;
-  height: 30px;
+  width: auto;
+  height: auto;
   z-index: 10003;
-  padding: 0;
+  padding: 8px 12px;
+  font-size: 18px;
   /* Remove tap highlight on mobile devices */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -72,19 +131,20 @@
   display: none;
 }
 
-.sm-toggle:focus-visible {
-  outline: 2px solid #000000aa;
-  outline-offset: 4px;
-  border-radius: 4px;
+/* Remove all focus/active borders/outlines for Menu button */
+.sm-toggle:focus,
+.sm-toggle:focus-visible,
+.sm-toggle:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
-.sm-toggle:hover .sm-icon-line {
-  background: #333333;
-}
+/* Icon hover effects removed - text-only button */
 
 .sm-toggle-textWrap {
   position: relative;
-  display: none;
+  display: block;
   height: 1em;
   overflow: hidden;
   white-space: nowrap;
@@ -93,31 +153,33 @@
 }
 
 .sm-toggle-textInner {
-  display: none;
+  display: flex;
   flex-direction: column;
   line-height: 1;
 }
 
 .sm-toggle-line {
-  display: none;
+  display: block;
   height: 1em;
   line-height: 1;
 }
 
-/* Show text labels on desktop */
+/* Text-only button styling */
 @media (min-width: 769px) {
   .sm-toggle {
     width: auto;
-    padding: 8px 16px 8px 8px;
-    gap: 12px;
+    padding: 8px 12px;
+    gap: 0;
     display: flex;
     align-items: center;
+    font-size: 18px;
   }
   
   .sm-toggle-textWrap {
     display: block;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Helvetica', Arial, sans-serif;
     color: inherit;
   }
   
@@ -423,52 +485,58 @@
   opacity: var(--sm-num-opacity, 0);
 }
 
-/* Plus Icon Styles */
+/* Hide hamburger icon completely */
 .sm-icon {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
 }
 
 .sm-icon-line {
   position: absolute;
-  background: currentColor;
-  border-radius: 1px;
+  background: #000;
+  border-radius: 2px;
   width: 20px;
   height: 2px;
-  transition: all 0.3s ease;
+  display: block;
+  transition: 0.4s;
 }
 
 .hamburger-line-1 {
-  top: -6px;
-  transform: translateY(0);
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .hamburger-line-2 {
-  top: 0;
-  transform: translateY(0);
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .hamburger-line-3 {
-  top: 6px;
-  transform: translateY(0);
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* Keep original first-child behavior for the main horizontal line */
-.sm-icon-line:first-child {
-  width: 20px;
-  height: 2px;
-}
-
+/* Hide the vertical line for Model 2 */
 .sm-icon-line-v {
-  width: 2px;
-  height: 20px;
-  opacity: 0 !important;
-  visibility: hidden;
+  display: none;
 }
+
+/* Clean Hover Effects - Simple X Transform */
+.sm-toggle:hover .hamburger-line-1 {
+  transform: translateX(-50%) translateY(6px) rotate(45deg);
+}
+
+.sm-toggle:hover .hamburger-line-2 {
+  opacity: 0;
+}
+
+.sm-toggle:hover .hamburger-line-3 {
+  transform: translateX(-50%) translateY(-6px) rotate(-45deg);
+}
+
+/* Simple hamburger - no complex animations */
 
 @media (max-width: 1024px) {
   .clean-staggered-menu-panel {
@@ -486,7 +554,8 @@
   
   .clean-staggered-menu-header {
     top: 63px;
-    right: 40px;
+    left: 20px;
+    right: 20px;
   }
 }
 
@@ -494,7 +563,8 @@
 @media (max-width: 768px) {
   .clean-staggered-menu-header {
     top: 53px;
-    right: 20px;
+    left: 15px;
+    right: 15px;
   }
 }
 
@@ -502,7 +572,8 @@
 @media (max-width: 480px) {
   .clean-staggered-menu-header {
     top: 48px;
-    right: 15px;
+    left: 10px;
+    right: 10px;
   }
 }
 
@@ -510,7 +581,8 @@
 @media (max-width: 360px) {
   .clean-staggered-menu-header {
     top: 38px;
-    right: 10px;
+    left: 5px;
+    right: 5px;
   }
 }
 

@@ -18,9 +18,19 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
   const suppressionTargetRef = useRef(1); // 1 = normal size, ~0.1 = minimized
   const suppressionCurrentRef = useRef(1);
 
-  // Touch detection
+  // Touch detection - enhanced mobile detection
   const isTouch = useCallback(() => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }, []);
+
+  const isMobileDevice = useCallback(() => {
+    // Enhanced mobile detection
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth <= 768
+    );
   }, []);
 
   // Optimized mouse move handler with throttling
@@ -154,8 +164,8 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Ease suppression scale towards target
-    suppressionCurrentRef.current = suppressionCurrentRef.current + (suppressionTargetRef.current - suppressionCurrentRef.current) * 0.12;
+    // Ease suppression scale towards target with smoother transition
+    suppressionCurrentRef.current = suppressionCurrentRef.current + (suppressionTargetRef.current - suppressionCurrentRef.current) * 0.08;
     
     let centerX, centerY;
     if (isTouch()) {
@@ -265,7 +275,7 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
 
   const handleTextEnter = useCallback(() => {
     setIsSuppressed(true);
-    suppressionTargetRef.current = 0.12; // shrink down
+    suppressionTargetRef.current = 0.4; // subtle scaling down to 40%
   }, []);
 
   const handleTextLeave = useCallback(() => {
@@ -275,6 +285,12 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
 
   // Initialize component
   useEffect(() => {
+    // Don't initialize on mobile devices
+    if (isMobileDevice()) {
+      setIsLoaded(true); // Set loaded to prevent loading screen
+      return;
+    }
+
     const init = async () => {
       await loadImages();
       resizeCanvas();
@@ -297,7 +313,7 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       window.removeEventListener('resize', resizeCanvas);
       stopAnimation();
     };
-  }, [loadImages, resizeCanvas, onMouseMove, isTouch, startAnimation, stopAnimation]);
+  }, [loadImages, resizeCanvas, onMouseMove, isTouch, startAnimation, stopAnimation, isMobileDevice]);
 
   // Drive the animation loop once assets are ready
   useEffect(() => {
@@ -314,6 +330,11 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
       startAnimation();
     }
   }, [visible, isLoaded, isTouch, startAnimation, stopAnimation]);
+
+  // Don't render anything on mobile devices
+  if (isMobileDevice()) {
+    return null;
+  }
 
   return (
     <main 
@@ -348,6 +369,13 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
           <p className={styles.textLine}>EXPLORERS</p>
         </div>
       </div>
+
+      {/* Navigation bar suppression zone */}
+      <div
+        className={styles.navHotzone}
+        onMouseEnter={handleTextEnter}
+        onMouseLeave={handleTextLeave}
+      />
       {!isLoaded && (
         <div className={styles.loadingOverlay}>
           Loading...
