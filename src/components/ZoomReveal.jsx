@@ -50,6 +50,19 @@ const ZoomReveal = ({
 
     gsap.set([left, right], { x: 0 });
 
+    // Reset any stale transforms and assert percent-based centering
+    gsap.set(img, { clearProps: 'transform' });
+    gsap.set(img, {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      x: 0,
+      y: 0,
+      xPercent: -50,
+      yPercent: -50,
+      overwrite: 'auto'
+    });
+
     // Ensure text is visible immediately and above everything
     gsap.set([left, right], { zIndex: 5000, opacity: 1 });
 
@@ -87,12 +100,15 @@ const ZoomReveal = ({
     tl.to(img, {
       width: '100vw',
       height: '100vh',
-      x: 0,
-      y: 0,
       position: 'absolute',
       top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)',
+      x: 0,
+      y: 0,
+      xPercent: -50,
+      yPercent: -50,
+      overwrite: 'auto',
+      force3D: false,
       zIndex: 1000,
       duration: 2.5,
       ease: 'power2.inOut'
@@ -179,7 +195,6 @@ const ZoomReveal = ({
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)',
             transformOrigin: 'center center',
             zIndex: 500
           }}

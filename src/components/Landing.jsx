@@ -202,20 +202,35 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     // Place Zoom segment start around 70% of Fly segment
     const zoomStart = flyMaxDuration > 0 ? flyMaxDuration * 0.70 : 0
 
+    // Reset any stale transforms and assert percent-based centering before animating
+    gsap.set(img, { clearProps: 'transform' })
+    gsap.set(img, {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      x: 0,
+      y: 0,
+      xPercent: -50,
+      yPercent: -50,
+      overwrite: 'auto'
+    })
+
     // 1. Image scaling animation (Zoom segment) - optimized for mobile
     tl.to(img, {
       width: '100%',
       height: '100%',
-      x: 0,
-      y: 0,
       position: 'absolute',
       top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)',
+      x: 0,
+      y: 0,
+      xPercent: -50,
+      yPercent: -50,
+      overwrite: 'auto',
+      force3D: true, // Hardware acceleration
       zIndex: 1000,
       duration: responsiveValues.isLargeMobile ? 1.2 : 1, // Slightly longer for large mobile
-      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut', // Smoother easing for large mobile
-      force3D: true // Hardware acceleration
+      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut' // Smoother easing for large mobile
     }, zoomStart)
 
     // 2. Text movement animation (synchronized with image scaling) - optimized for mobile
@@ -489,7 +504,6 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
               position: 'absolute', 
               top: '50%', 
               left: '50%', 
-              transform: 'translate(-50%, -50%)', 
               transformOrigin: 'center center', 
               zIndex: 500,
               opacity: imageLoaded ? 1 : 0.8,
