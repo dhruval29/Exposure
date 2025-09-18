@@ -156,6 +156,68 @@ html {
   100% { background-position: 0% 50%; }
 }
 
+/* Calendar popup animations */
+@keyframes slideInFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideOutFade {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+}
+
+/* Remove all blue colors from calendar components */
+.rdp-button,
+.rdp-button:hover,
+.rdp-button:focus,
+.rdp-day_selected,
+.rdp-day_selected:hover,
+.rdp-day_selected:focus,
+.rdp-caption_label,
+.rdp-nav_button,
+.rdp-nav_button:hover {
+  color: #6b7280 !important; /* gray-500 */
+}
+
+.rdp-day_selected {
+  color: #374151 !important; /* gray-700 */
+}
+
+.rdp-nav_button:hover,
+.rdp-button:hover {
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Apply PP Editorial New font to all calendar components */
+.rdp,
+.rdp *,
+.rdp-button,
+.rdp-day,
+.rdp-caption,
+.rdp-caption_label,
+.rdp-nav_button,
+.rdp-head_cell,
+.rdp-day_selected,
+.rdp-day_today,
+.rdp-day_outside,
+.rdp-day_disabled,
+.rdp-day_range_middle {
+  font-family: 'PP Editorial New', serif !important;
+}
+
 /* Responsive font scaling for very small screens */
 @media (max-width: 480px) {
   body {

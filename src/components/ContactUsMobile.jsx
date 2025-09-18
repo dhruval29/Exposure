@@ -1,6 +1,7 @@
 import React from 'react';
 import './ContactUsMobile.css';
 import { supabase } from '../lib/supabaseClient';
+import { Calendar24 } from '@/components/Calendar24';
 
 function LabelWithLine({ label, delayMs = 0 }) {
   return (
@@ -46,7 +47,7 @@ export default function ContactUsMobile() {
     }
   };
   return (
-    <div style={{ backgroundColor: '#c9d5f7', minHeight: '100vh', padding: '3px 6vw' }}>
+    <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw' }}>
       <div style={{ marginBottom: '7vh' }}>
         <h1 className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '2vh', marginBottom: 16 }}>
           Contact
@@ -62,7 +63,7 @@ export default function ContactUsMobile() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '4vw', marginBottom: '10vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '3vw', marginBottom: '10vh' }}>
         <div className="cu-mobile-text" style={{ animationDelay: '240ms' }}>
           <LabelWithLine delayMs={240} label={"Your Name (or your Club's)"} />
           <input
@@ -99,17 +100,17 @@ export default function ContactUsMobile() {
             type="text"
             value={form.eventAbout}
             onChange={handleChange('eventAbout')}
-            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.4vh 0' }}
+            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.3vh 0' }}
           />
         </div>
         <div className="cu-mobile-text" style={{ animationDelay: '500ms' }}>
-          <LabelWithLine delayMs={500} label={"When's the Event?"} />
-          <input
-            type="text"
-            value={form.eventWhen}
-            onChange={handleChange('eventWhen')}
-            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.4vh 0' }}
-          />
+          <label className="cu-mobile-text" style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: '#000', marginBottom: '1.5vw' }}>When's the Event?</label>
+          <div style={{ padding: '0.3vh 0' }}>
+            <Calendar24
+              value={form.eventWhen ? new Date(form.eventWhen) : undefined}
+              onChange={(d) => setForm((prev) => ({ ...prev, eventWhen: d ? new Date(d).toISOString() : '' }))}
+            />
+          </div>
         </div>
 
         <div className="cu-mobile-text" style={{ display: 'flex', justifyContent: 'center', paddingTop: '2vh', animationDelay: '560ms' }}>
@@ -132,9 +133,9 @@ export default function ContactUsMobile() {
           </a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '3vw', textAlign: 'center' }}>
-          <div className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: '760ms' }}>Instagram</div>
-          <div className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: '820ms' }}>Linkedin</div>
-          <div className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: '880ms' }}>Youtube</div>
+          <a className="cu-mobile-text" href="https://www.instagram.com/exposure.explorers_nitg/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: '760ms', textDecoration: 'none' }}>Instagram</a>
+          <a className="cu-mobile-text" href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: '820ms', textDecoration: 'none' }}>Linkedin</a>
+          <a className="cu-mobile-text" href="https://www.youtube.com/@Exposure-Explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: '880ms', textDecoration: 'none' }}>Youtube</a>
         </div>
         {submitMsg && (
           <div className="cu-mobile-text" style={{ animationDelay: '700ms', fontFamily: "'PP Editorial New', serif", fontSize: 16, color: '#000' }}>

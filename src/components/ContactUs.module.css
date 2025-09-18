@@ -1,7 +1,9 @@
 .contactUs {
 	width: 100%;
 	position: relative;
-	background-color: #c9d5f7;
+	background: linear-gradient(-45deg, #c9d5f7, #d1d9f0, #b8c7f2, #e0e8ff, #c4d1f7, #d5dff7);
+	background-size: 400% 400%;
+	animation: contactGradientShift 30s ease-in-out infinite;
 	height: 776px;
 	overflow: hidden;
 	text-align: left;
@@ -19,6 +21,14 @@
 @keyframes cu-textReveal {
 	0% { opacity: 0; transform: translateY(10px); }
 	100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes contactGradientShift {
+	0% { background-position: 0% 50%; }
+	25% { background-position: 100% 50%; }
+	50% { background-position: 100% 100%; }
+	75% { background-position: 0% 100%; }
+	100% { background-position: 0% 50%; }
 }
 
 /* Reduced motion preference */
@@ -175,37 +185,50 @@
 	font-size: 28px;
 	padding: 6px 0;
 }
+.inputName,
+.inputPhone,
+.inputEmail,
+.inputEventAbout,
+.inputEventWhen {
+	position: absolute;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: 'PP Editorial New';
+	color: #000;
+	font-size: 28px;
+	padding: 6px 0;
+}
 .inputName {
-	composes: inputBase;
 	top: 37.6%;
 	left: 65.6%;
 	width: 29.6%;
 }
 .inputPhone {
-	composes: inputBase;
 	top: 60.9%;
 	left: 65.6%;
 	width: 29.6%;
 }
 .inputEmail {
-	composes: inputBase;
 	top: 53.2%;
 	left: 65.6%;
 	width: 29.6%;
 }
 .inputEventAbout {
-	composes: inputBase;
 	top: 69.8%;
 	left: 65.6%;
 	width: 29.6%;
 }
 .inputEventWhen {
-	composes: inputBase;
-	top: 73.68%;
-	left: 65.6%;
+	top: 67.8%;
+	left: 63%;
 	width: 29.6%;
 	z-index: 10;
 	pointer-events: auto;
+	padding: 0; /* override inputBase padding so vertical alignment matches label */
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 560ms;
 }
 .submitMsg {
 	position: absolute;
@@ -249,26 +272,10 @@
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
+	color: #000 !important;
+	text-decoration: none;
 }
-.instagram::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -6px;
-	height: 1px;
-	background: #000;
-	transform-origin: left center;
-	transform: scaleX(0);
-	transition: transform 260ms ease;
-}
-.instagram:hover {
-	transform: translateY(-2px);
-	letter-spacing: 0.5px;
-}
-.instagram:hover::after {
-	transform: scaleX(1);
-}
+.instagram:link, .instagram:visited, .instagram:hover, .instagram:active { color: #000 !important; text-decoration: none; }
 .linkedin {
 	position: absolute;
 	top: 25.49%; /* 13 / 51 */
@@ -280,26 +287,10 @@
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
+	color: #000 !important;
+	text-decoration: none;
 }
-.linkedin::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -6px;
-	height: 1px;
-	background: #000;
-	transform-origin: left center;
-	transform: scaleX(0);
-	transition: transform 260ms ease;
-}
-.linkedin:hover {
-	transform: translateY(-2px);
-	letter-spacing: 0.5px;
-}
-.linkedin:hover::after {
-	transform: scaleX(1);
-}
+.linkedin:link, .linkedin:visited, .linkedin:hover, .linkedin:active { color: #000 !important; text-decoration: none; }
 .youtube {
 	position: absolute;
 	top: 25.49%; /* 13 / 51 */
@@ -311,26 +302,10 @@
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
+	color: #000 !important;
+	text-decoration: none;
 }
-.youtube::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -6px;
-	height: 1px;
-	background: #000;
-	transform-origin: left center;
-	transform: scaleX(0);
-	transition: transform 260ms ease;
-}
-.youtube:hover {
-	transform: translateY(-2px);
-	letter-spacing: 0.5px;
-}
-.youtube:hover::after {
-	transform: scaleX(1);
-}
+.youtube:link, .youtube:visited, .youtube:hover, .youtube:active { color: #000 !important; text-decoration: none; }
 
 /* Reach Us button (percentage-based positioning) */
 .reachUsWrapper {
@@ -339,6 +314,9 @@
 	left: 64.8%;
 	width: 12%;
 	height: 40px;
+	opacity: 0;
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: 600ms;
 }
 .reachUs {
 	width: 100%;
@@ -364,4 +342,23 @@
 	width: auto;
 	display: inline-block;
 	text-align: center;
+}
+.instagram::after,
+.linkedin::after,
+.youtube::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 1px;
+	background: #000;
+	transform-origin: left center;
+	transform: scaleX(0);
+	transition: transform 260ms ease;
+}
+.instagram:hover::after,
+.linkedin:hover::after,
+.youtube:hover::after {
+	transform: scaleX(1);
 }

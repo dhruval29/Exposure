@@ -9,6 +9,13 @@
   animation: cu-lineGrow 800ms ease-out forwards;
 }
 
+/* Mobile contact animated gradient */
+.contact-mobile-gradient {
+  background: linear-gradient(-45deg, #c9d5f7, #d1d9f0, #b8c7f2, #e0e8ff, #c4d1f7, #d5dff7);
+  background-size: 400% 400%;
+  animation: contactGradientShift 30s ease-in-out infinite;
+}
+
 @keyframes cu-textReveal {
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -17,6 +24,14 @@
 @keyframes cu-lineGrow {
   0% { transform: scaleX(0); }
   100% { transform: scaleX(1); }
+}
+
+@keyframes contactGradientShift {
+	0% { background-position: 0% 50%; }
+	25% { background-position: 100% 50%; }
+	50% { background-position: 100% 100%; }
+	75% { background-position: 0% 100%; }
+	100% { background-position: 0% 50%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

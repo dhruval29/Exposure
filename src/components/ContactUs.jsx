@@ -1,6 +1,7 @@
 import styles from './ContactUs.module.css';
 import React from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { Calendar24 } from '@/components/Calendar24';
 
 
 const ContactUs = () => {
@@ -58,7 +59,6 @@ const ContactUs = () => {
 				<div className={styles.whatsTheEvent}>What’s the event about?</div>
 				<div className={styles.contactUsItem} />
 				<div className={styles.whensTheEvent}>When’s the Event?</div>
-				<div className={styles.contactUsInner} />
 				<div className={styles.lineDiv} />
 				<div className={styles.contactUsContactUsChild} />
 				<div className={styles.contactUsChild2} />
@@ -93,19 +93,19 @@ const ContactUs = () => {
 					value={form.eventAbout}
 					onChange={handleChange('eventAbout')}
 				/>
-				<input
-					className={styles.inputEventWhen}
-					type="text"
-					value={form.eventWhen}
-					onChange={handleChange('eventWhen')}
-				/>
+				<div className={styles.inputEventWhen}>
+					<Calendar24
+						value={form.eventWhen ? new Date(form.eventWhen) : undefined}
+						onChange={(d) => setForm(prev => ({ ...prev, eventWhen: d ? new Date(d).toISOString() : '' }))}
+					/>
+				</div>
 				<div className={styles.frameParent}>
 						<div className={styles.exposureexplorersnitgoaaciWrapper}>
 								<a className={styles.exposureexplorersnitgoaaci} href="mailto:exposure.explorers@nitgoa.ac.in" target="_blank">exposure.explorers@nitgoa.ac.in</a>
 						</div>
-						<div className={styles.instagram}>Instagram</div>
-						<div className={styles.linkedin}>{`Linkedin `}</div>
-						<div className={styles.youtube}>Youtube</div>
+						<a className={styles.instagram} href="https://www.instagram.com/exposure.explorers_nitg/" target="_blank" rel="noopener noreferrer">Instagram</a>
+						<a className={styles.linkedin} href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer">{`Linkedin `}</a>
+						<a className={styles.youtube} href="https://www.youtube.com/@Exposure-Explorers" target="_blank" rel="noopener noreferrer">Youtube</a>
 				</div>
 				<div className={styles.reachUsWrapper}>
 						<button className={styles.reachUs} type="button" onClick={handleSubmit} disabled={submitting}>
