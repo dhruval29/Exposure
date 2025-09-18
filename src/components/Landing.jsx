@@ -946,6 +946,44 @@ const Landing = () => {
         />
       )}
       
+      {/* Persistent title overlay (always mounted; toggled via style for stability) */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '35vh',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1200,
+          pointerEvents: 'none',
+          textAlign: 'left',
+          lineHeight: 1.0,
+          color: '#000',
+          display: isMobile ? 'block' : 'none'
+        }}
+        aria-hidden="true"
+      >
+        <div
+          style={{
+            fontFamily: "'PP Editorial New', serif",
+            fontWeight: 400,
+            letterSpacing: '-2px',
+            fontSize: 'clamp(24px, 10vw, 72px)'
+          }}
+        >
+          {'EXPOSURE '}
+        </div>
+        <div
+          style={{
+            fontFamily: "'PP Editorial New', serif",
+            fontWeight: 400,
+            letterSpacing: '-2px',
+            fontSize: 'clamp(24px, 10vw, 72px)'
+          }}
+        >
+          EXPLORERS
+        </div>
+      </div>
+
       {/* All loading screens removed */}
       {/* Mouse trail overlay on top of all content */}
       <MouseMouse visible={showMouseOverlay} zIndex={800} />

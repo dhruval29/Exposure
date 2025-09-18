@@ -1,0 +1,26 @@
+.cu-mobile-text {
+  opacity: 0;
+  animation: cu-textReveal 600ms ease-out forwards;
+}
+
+.cu-mobile-line {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+}
+
+@keyframes cu-textReveal {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cu-lineGrow {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cu-mobile-text, .cu-mobile-line { animation: none !important; }
+}
+
+

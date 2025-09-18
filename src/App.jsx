@@ -1,3 +1,4 @@
+import React from 'react'
 import './App.css'
 import './styles/responsive.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
@@ -13,6 +14,30 @@ import Admin from './components/Admin'
 import Fly from './components/Fly'
 import Events from './components/Events'
 import ContactUs from './components/ContactUs'
+import ContactUsMobile from './components/ContactUsMobile'
+
+function ContactRoute() {
+  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const handler = (e) => setIsMobile(e.matches);
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler);
+    } else {
+      mq.addListener(handler);
+    }
+    return () => {
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', handler);
+      } else {
+        mq.removeListener(handler);
+      }
+    };
+  }, []);
+
+  return isMobile ? <ContactUsMobile /> : <ContactUs />;
+}
 
 function App() {
   return (
@@ -42,7 +67,7 @@ function InnerApp() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/fly" element={<Fly />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/contact" element={<ContactRoute />} />
       </Routes>
     </div>
   );
