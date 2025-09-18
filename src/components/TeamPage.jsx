@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Frame53 from './Frame53';
+import Frame66 from './Frame66';
 import './TeamPage.css';
 import '../styles/Gallery.css';
 
@@ -33,7 +33,7 @@ const TeamPage = () => {
         </div>
       )}
 
-      <Frame53 />
+      <Frame66 />
     </div>
   );
 };

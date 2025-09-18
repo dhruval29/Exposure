@@ -1,0 +1,144 @@
+.component18Parent {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  height: 776px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 76px;
+  color: #000;
+  font-family: 'PP Editorial New';
+}
+
+/* 1536x776 base */
+
+.component18 {
+  position: absolute;
+  top: calc(326 / 776 * 100%);
+  left: calc(-33 / 1536 * 100%);
+  width: calc(2219.8 / 1536 * 100%);
+  height: calc(422 / 776 * 100%);
+}
+
+.component18Child {
+  position: absolute;
+  width: 14.24%;
+  top: 0;
+  right: 56.8%;
+  left: 28.97%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: 100%;
+}
+
+.component18Item {
+  position: absolute;
+  width: 12.82%;
+  top: calc(42 / 422 * 100%);
+  right: 41.59%;
+  left: 45.59%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: calc(379.8 / 422 * 100%);
+}
+
+.component18Inner {
+  position: absolute;
+  width: 12.81%;
+  top: calc(42 / 422 * 100%);
+  right: 73.4%;
+  left: 13.79%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: calc(379.8 / 422 * 100%);
+}
+
+.rectangleDiv {
+  position: absolute;
+  width: 11.39%;
+  top: calc(84 / 422 * 100%);
+  right: 27.57%;
+  left: 61.04%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: calc(337.6 / 422 * 100%);
+}
+
+.\31 8ParentComponent18Child {
+  position: absolute;
+  width: 11.39%;
+  top: calc(84 / 422 * 100%);
+  right: 13.79%;
+  left: 74.83%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: calc(337.6 / 422 * 100%);
+}
+
+.component18Child2 {
+  position: absolute;
+  width: 11.39%;
+  top: calc(84 / 422 * 100%);
+  right: 0%;
+  left: 88.61%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: calc(337.6 / 422 * 100%);
+}
+
+.component18Child3 {
+  position: absolute;
+  width: 11.4%;
+  top: calc(84 / 422 * 100%);
+  right: 88.6%;
+  left: 0%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  height: calc(337.6 / 422 * 100%);
+}
+
+.meetOurTeamContainer { /* left: 70px; top: 89px */
+  position: absolute;
+  top: calc(89 / 776 * 100%);
+  left: calc(70 / 1536 * 100%);
+  line-height: 92.48%;
+}
+
+.meetOur {
+  margin: 0;
+}
+
+.ourDedicatedTeamContainer { /* left: 926px; top: 129px; font-size 32px */
+  position: absolute;
+  top: calc(129 / 776 * 100%);
+  left: calc(926 / 1536 * 100%);
+  font-size: 32px;
+  font-family: Helvetica;
+  color: #6c6a6a;
+  text-align: right;
+}
+
+/* Responsive font scaling to better preserve proportions */
+@media (max-width: 1200px) {
+  .component18Parent { font-size: 6.2vw; }
+  .ourDedicatedTeamContainer { font-size: 2.2vw; }
+}
+
+@media (max-width: 768px) {
+  .component18Parent { height: 70vh; font-size: 10vw; }
+  .ourDedicatedTeamContainer { font-size: 3.4vw; }
+}
+
+/* Number badge on cards */
+.cardNumber {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font: 600 16px/1 Helvetica, Arial, sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+
