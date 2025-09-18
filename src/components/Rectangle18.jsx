@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Rectangle18.module.css';
 
-const Rectangle18 = () => {
+const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlidingUp, showText: externalShowText }) => {
   const [showText, setShowText] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isSlidingUp, setIsSlidingUp] = useState(false);
+  
+  // Use external props if provided, otherwise use internal state
+  const finalIsVisible = externalIsVisible !== undefined ? externalIsVisible : isVisible;
+  const finalIsSlidingUp = externalIsSlidingUp !== undefined ? externalIsSlidingUp : isSlidingUp;
+  const finalShowText = externalShowText !== undefined ? externalShowText : showText;
 
 
   useEffect(() => {
+    // Only manage scroll logic if external props are not provided
+    if (externalIsVisible !== undefined || externalIsSlidingUp !== undefined || externalShowText !== undefined) {
+      return;
+    }
+
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
@@ -21,10 +31,11 @@ const Rectangle18 = () => {
         setShowText(false);
       }
 
-      // Hide nav bar when reaching the zoom component
-      // ZoomReveal component starts at 100vh + 2768px
-      const zoomComponentActualStart = viewportHeight + 2768;
-      if (scrollTop >= zoomComponentActualStart) {
+      // Hide nav bar when reaching the marquee text animation (Frame60 section)
+      // Frame60 starts at 100vh + SLIDING_HEIGHT (same as marquee animation)
+      const SLIDING_HEIGHT = 2768; // Same as Landing.jsx
+      const marqueeSectionStart = viewportHeight + SLIDING_HEIGHT;
+      if (scrollTop >= marqueeSectionStart) {
         setIsSlidingUp(true);
         // Hide completely after slide animation
         setTimeout(() => setIsVisible(false), 600);
@@ -37,15 +48,15 @@ const Rectangle18 = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [externalIsVisible, externalIsSlidingUp, externalShowText]);
 
-  if (!isVisible) return null;
+  if (!finalIsVisible) return null;
 
   return (
-    <div className={`${styles.rectangleDiv} ${isSlidingUp ? styles.slideUp : ''}`}>
+    <div className={`${styles.rectangleDiv} ${finalIsSlidingUp ? styles.slideUp : ''}`}>
       <div className={styles.textContainer}>
         <div 
-          className={`${styles.titleText} ${showText ? styles.fadeIn : ''}`}
+          className={`${styles.titleText} ${finalShowText ? styles.fadeIn : ''}`}
         >
           <div className={styles.line1}>EXPOSURE</div>
           <div className={styles.line2}>EXPLORERS</div>

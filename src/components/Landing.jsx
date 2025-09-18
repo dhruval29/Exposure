@@ -713,11 +713,12 @@ const Landing = () => {
         setShowMouseOverlay(false)
       }
 
-      // Menu visibility with hysteresis to avoid flicker near boundary
-      const HIDE_BUFFER = 80 // px after threshold to hide
-      const SHOW_BUFFER = 120 // px before threshold to show
-      const shouldHide = scrollTop >= (zoomComponentStart + HIDE_BUFFER)
-      const shouldShow = scrollTop <= (zoomComponentStart - SHOW_BUFFER)
+      // Menu visibility synchronized with navbar disappearance
+      // Use the exact same trigger point as navbar (Rectangle18.jsx)
+      const marqueeSectionStart = viewportHeight + SLIDING_HEIGHT // Frame60 starts here
+      const SHOW_BUFFER = 120 // px before threshold to show (for smooth re-appearance)
+      const shouldHide = scrollTop >= marqueeSectionStart // Same as navbar - no delay
+      const shouldShow = scrollTop <= (marqueeSectionStart - SHOW_BUFFER)
 
       if (navVisibilityRef.current === 'visible' && shouldHide) {
         navVisibilityRef.current = 'hiding'
@@ -920,7 +921,11 @@ const Landing = () => {
         </div>
       )}
       {/* Top Navigation Bar */}
-      <Rectangle18 />
+      <Rectangle18 
+        isVisible={isMenuVisible}
+        isSlidingUp={isMenuSlidingUp}
+        showText={true}
+      />
       
       {/* StaggeredMenu */}
       {!isMenuHidden && (

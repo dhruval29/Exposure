@@ -12,10 +12,11 @@
 
 .clean-staggered-menu-header {
   position: fixed;
-  top: 20px;
+  top: 0;
   left: 40px;
   right: 40px;
   width: auto;
+  height: 62px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -671,30 +672,54 @@
 /* Mobile landscape */
 @media (max-width: 768px) {
   .clean-staggered-menu-header {
-    top: 53px;
+    top: 0;
     left: 15px;
     right: 15px;
+    height: 56px;
   }
+  
+  /* Remove padding from nav buttons on mobile */
+  .sm-contact-button,
+  .sm-toggle {
+    padding: 0;
+  }
+  
   /* header marquee removed */
 }
 
 /* Mobile portrait */
 @media (max-width: 480px) {
   .clean-staggered-menu-header {
-    top: 48px;
+    top: 0;
     left: 10px;
     right: 10px;
+    height: 52px;
   }
+  
+  /* Remove padding from nav buttons on mobile */
+  .sm-contact-button,
+  .sm-toggle {
+    padding: 0;
+  }
+  
   /* header marquee removed */
 }
 
 /* Small mobile devices */
 @media (max-width: 360px) {
   .clean-staggered-menu-header {
-    top: 38px;
+    top: 0;
     left: 5px;
     right: 5px;
+    height: 48px;
   }
+  
+  /* Remove padding from nav buttons on mobile */
+  .sm-contact-button,
+  .sm-toggle {
+    padding: 0;
+  }
+  
   /* header marquee removed */
 }
 

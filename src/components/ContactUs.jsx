@@ -14,7 +14,6 @@ const ContactUs = () => {
 
 	const [submitting, setSubmitting] = React.useState(false);
 	const [submitMsg, setSubmitMsg] = React.useState('');
-	const dateRef = React.useRef(null);
 
 	const handleChange = (field) => (e) => {
 		setForm(prev => ({ ...prev, [field]: e.target.value }));
@@ -59,17 +58,7 @@ const ContactUs = () => {
 				<div className={styles.whatsTheEvent}>What’s the event about?</div>
 				<div className={styles.contactUsItem} />
 				<div className={styles.whensTheEvent}>When’s the Event?</div>
-				<div
-					className={styles.contactUsInner}
-					onClick={() => {
-						if (dateRef.current) {
-							dateRef.current.focus();
-							if (typeof dateRef.current.showPicker === 'function') {
-								dateRef.current.showPicker();
-							}
-						}
-					}}
-				/>
+				<div className={styles.contactUsInner} />
 				<div className={styles.lineDiv} />
 				<div className={styles.contactUsContactUsChild} />
 				<div className={styles.contactUsChild2} />
@@ -106,8 +95,7 @@ const ContactUs = () => {
 				/>
 				<input
 					className={styles.inputEventWhen}
-					type="date"
-					ref={dateRef}
+					type="text"
 					value={form.eventWhen}
 					onChange={handleChange('eventWhen')}
 				/>

@@ -9,8 +9,8 @@ const Frame60 = () => {
     const measure = () => {
       if (!containerRef.current) return;
       const h = containerRef.current.clientHeight;
-      // Make text height dominate the frame; increased scale factor
-      setFontSizePx(Math.max(24, Math.floor(h * 0.85)));
+      // Make text height smaller; reduced scale factor
+      setFontSizePx(Math.max(24, Math.floor(h * 0.6)));
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -76,7 +76,7 @@ const Frame60 = () => {
     };
   }, [fontSizePx]);
 
-  const line = ' capture — live — laugh —';
+  const line = ' capture live laugh ';
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: '1.5vh 0', borderTop: '1px solid rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(0,0,0,0.15)' }}>
