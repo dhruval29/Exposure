@@ -82,69 +82,17 @@
   filter: brightness(0) saturate(100%);
 }
 
-/* Contact text letter-by-letter slide-up */
+/* Contact text - no animations */
 .sm-contact-text {
   display: inline-flex;
   gap: 0px;
-  overflow: hidden;
   line-height: 1.2;
-  height: 1.3em;
   position: relative;
   top: 0;
 }
 
 .sm-contact-char {
   display: inline-block;
-  transform: translateY(0);
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-/* Looping slide: up -> jump to bottom -> up to origin (on hover) */
-.sm-contact-button.is-enter .sm-contact-char {
-  transition: none;
-  animation: contactLetterLoop 1400ms cubic-bezier(0.16, 1, 0.3, 1) 1 both;
-}
-
-/* reverse animation removed */
-
-/* Stagger the letters */
-.sm-contact-char:nth-child(1) { transition-delay: 0ms; }
-.sm-contact-char:nth-child(2) { transition-delay: 30ms; }
-.sm-contact-char:nth-child(3) { transition-delay: 60ms; }
-.sm-contact-char:nth-child(4) { transition-delay: 90ms; }
-.sm-contact-char:nth-child(5) { transition-delay: 120ms; }
-.sm-contact-char:nth-child(6) { transition-delay: 150ms; }
-.sm-contact-char:nth-child(7) { transition-delay: 180ms; }
-
-/* Use delays for animation instead of transition when hovering */
-.sm-contact-button.is-enter .sm-contact-char:nth-child(1) { animation-delay: 0ms; }
-.sm-contact-button.is-enter .sm-contact-char:nth-child(2) { animation-delay: 60ms; }
-.sm-contact-button.is-enter .sm-contact-char:nth-child(3) { animation-delay: 120ms; }
-.sm-contact-button.is-enter .sm-contact-char:nth-child(4) { animation-delay: 180ms; }
-.sm-contact-button.is-enter .sm-contact-char:nth-child(5) { animation-delay: 240ms; }
-.sm-contact-button.is-enter .sm-contact-char:nth-child(6) { animation-delay: 300ms; }
-.sm-contact-button.is-enter .sm-contact-char:nth-child(7) { animation-delay: 360ms; }
-
-/* reverse animation delays removed */
-
-@keyframes contactLetterLoop {
-  0% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  45% {
-    transform: translateY(-120%);
-    /* snap jump */
-    animation-timing-function: steps(1, end);
-  }
-  46% {
-    transform: translateY(120%);
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  100% {
-    transform: translateY(0);
-  }
 }
 
 /* Remove all focus/active borders/outlines for Contact button */
@@ -235,43 +183,16 @@
   line-height: 1.2;
 }
 
-/* Per-letter animation for Menu text (same behavior as Contact) */
+/* Menu text - no animations */
 .sm-menu-text {
   display: inline-flex;
   gap: 0px;
-  overflow: hidden;
   line-height: 1.2;
-  height: 1.25em;
 }
 
 .sm-menu-char {
   display: inline-block;
-  transform: translateY(0);
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
 }
-
-/* Play once on hover */
-.sm-toggle.is-enter .sm-menu-char {
-  transition: none;
-  animation: contactLetterLoop 1400ms cubic-bezier(0.16, 1, 0.3, 1) 1 both;
-}
-
-/* reverse animation removed */
-
-/* Stagger per letter */
-.sm-toggle.is-enter .sm-menu-char:nth-child(1) { animation-delay: 0ms; }
-.sm-toggle.is-enter .sm-menu-char:nth-child(2) { animation-delay: 60ms; }
-.sm-toggle.is-enter .sm-menu-char:nth-child(3) { animation-delay: 120ms; }
-.sm-toggle.is-enter .sm-menu-char:nth-child(4) { animation-delay: 180ms; }
-.sm-toggle.is-enter .sm-menu-char:nth-child(5) { animation-delay: 240ms; }
-.sm-toggle.is-enter .sm-menu-char:nth-child(6) { animation-delay: 300ms; }
-.sm-toggle.is-enter .sm-menu-char:nth-child(7) { animation-delay: 360ms; }
-
-/* reverse animation delays removed */
-
-/* Reverse keyframes */
-/* reverse keyframes removed */
 
 /* Text-only button styling */
 @media (min-width: 769px) {
@@ -282,6 +203,7 @@
     display: flex;
     align-items: center;
     font-size: 24px;
+    height: 100%;
   }
   
   .sm-toggle-textWrap {

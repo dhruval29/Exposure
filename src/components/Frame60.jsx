@@ -76,7 +76,7 @@ const Frame60 = () => {
     };
   }, [fontSizePx]);
 
-  const line = ' capture live laugh ';
+  const line = ' capture live create ';
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: '1.5vh 0', borderTop: '1px solid rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(0,0,0,0.15)' }}>

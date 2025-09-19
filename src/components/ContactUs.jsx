@@ -1,7 +1,9 @@
 import styles from './ContactUs.module.css';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Calendar24 } from '@/components/Calendar24';
+import gsap from 'gsap';
+import '../styles/Gallery.css';
 
 
 const ContactUs = () => {
@@ -15,6 +17,33 @@ const ContactUs = () => {
 
 	const [submitting, setSubmitting] = React.useState(false);
 	const [submitMsg, setSubmitMsg] = React.useState('');
+	const [showLoader, setShowLoader] = useState(true);
+	const loaderRef = useRef(null);
+	const loaderPanelRef = useRef(null);
+	const loaderTextRef = useRef(null);
+
+	// Intro shutter loader
+	useEffect(() => {
+		if (!showLoader) return;
+		const wrapper = loaderRef.current;
+		const panel = loaderPanelRef.current;
+		const text = loaderTextRef.current;
+		if (!wrapper || !panel || !text) return;
+
+		// Prepare positions
+		gsap.set(panel, { height: '100vh' });
+		gsap.set(text, { autoAlpha: 1, y: 0 });
+
+		const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
+		tl.to(text, { autoAlpha: 1, duration: 0.2 })
+			.add('reveal')
+			.to(panel, { height: 0, duration: 2.0, ease: 'power4.inOut' }, 'reveal')
+			.to(text, { autoAlpha: 0, duration: 0.6, ease: 'power2.out' }, 'reveal+=0.3')
+			.set(wrapper, { pointerEvents: 'none', display: 'none' })
+			.add(() => setShowLoader(false));
+
+		return () => { tl.kill() }
+	}, [showLoader]);
 
 	const handleChange = (field) => (e) => {
 		setForm(prev => ({ ...prev, [field]: e.target.value }));
@@ -49,6 +78,47 @@ const ContactUs = () => {
 
 	return (
 		<div id="contact" className={styles.contactUs}>
+			{/* Shutter Loader Overlay */}
+			{showLoader && (
+				<div
+					ref={loaderRef}
+					style={{
+						position: 'fixed',
+						inset: 0,
+						zIndex: 100000,
+						overflow: 'hidden',
+						pointerEvents: 'auto'
+					}}
+				>
+					<div
+						ref={loaderPanelRef}
+						style={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							right: 0,
+							height: '100vh',
+							background: 'white',
+							transformOrigin: 'top center'
+						}}
+					/>
+					<div
+						ref={loaderTextRef}
+						style={{
+							position: 'absolute',
+							top: '50%',
+							left: '50%',
+							transform: 'translate(-50%, -50%)',
+							color: 'black',
+							fontSize: 'clamp(24px, 6vw, 64px)',
+							fontFamily: 'Helvetica, Arial, sans-serif',
+							letterSpacing: '0.02em'
+						}}
+					>
+						Contact
+					</div>
+				</div>
+			)}
 				<i className={styles.contact}>Contact</i>
 				<div className={styles.wantHelpCoveringContainer}>
 						<p className={styles.wantHelpCovering}>Want help covering a event ?</p>

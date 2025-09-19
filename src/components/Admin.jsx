@@ -71,6 +71,34 @@ const SearchIcon = () => (
   </svg>
 )
 
+const MessageIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+)
+
+const MailIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
+  </svg>
+)
+
+const PhoneIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+)
+
+const CalendarIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+    <line x1="16" y1="2" x2="16" y2="6" />
+    <line x1="8" y1="2" x2="8" y2="6" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+  </svg>
+)
+
 function Admin() {
   const [files, setFiles] = useState([])
   const [status, setStatus] = useState('')
@@ -94,6 +122,11 @@ function Admin() {
     cover_image_id: '',
     linksText: ''
   })
+  
+  // Contact messages state
+  const [contactMessages, setContactMessages] = useState([])
+  const [contactSearchQuery, setContactSearchQuery] = useState('')
+  const [showContactMessage, setShowContactMessage] = useState(null)
   
   // Image upload state for event creation
   const [eventImageFile, setEventImageFile] = useState(null)
@@ -164,11 +197,12 @@ function Admin() {
     return () => { mounted = false; sub.subscription.unsubscribe() }
   }, [])
 
-  // Load events and available images
+  // Load events, available images, and contact messages
   useEffect(() => {
     if (isAdmin) {
       loadEvents()
       loadAvailableImages()
+      loadContactMessages()
     }
   }, [isAdmin])
 
@@ -226,6 +260,23 @@ function Admin() {
       }
     } catch (err) {
       console.error('Error loading images:', err)
+    }
+  }
+
+  const loadContactMessages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('event_contact_requests')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        setStatus(`Error loading contact messages: ${error.message}`)
+      } else {
+        setContactMessages(data || [])
+      }
+    } catch (err) {
+      setStatus(`Error loading contact messages: ${err.message}`)
     }
   }
 
@@ -393,6 +444,35 @@ function Admin() {
            description.includes(query) || 
            monthYear.includes(query)
   })
+
+  // Filter contact messages based on search query
+  const filteredContactMessages = contactMessages.filter(message => {
+    if (!contactSearchQuery.trim()) return true
+    
+    const query = contactSearchQuery.toLowerCase()
+    const name = (message.name || '').toLowerCase()
+    const email = (message.email || '').toLowerCase()
+    const phone = (message.phone || '').toLowerCase()
+    const eventAbout = (message.event_about || '').toLowerCase()
+    const eventWhen = (message.event_when || '').toLowerCase()
+    
+    return name.includes(query) || 
+           email.includes(query) || 
+           phone.includes(query) ||
+           eventAbout.includes(query) ||
+           eventWhen.includes(query)
+  })
+
+  // Format date for display
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
 
   const onDrop = (e) => {
     e.preventDefault(); e.stopPropagation(); setDrag(false)
@@ -584,6 +664,110 @@ function Admin() {
                 </section>
               )}
 
+              {/* Contact Messages Section */}
+              <section className={styles.section}>
+                <div className={styles.sectionHeader}>
+                  <h2 className={styles.sectionTitle}>
+                    <MessageIcon />
+                    <span>Contact Messages</span>
+                    <span className={styles.count}>
+                      {contactSearchQuery ? `${filteredContactMessages.length}/${contactMessages.length}` : contactMessages.length}
+                    </span>
+                  </h2>
+                  <div className={styles.sectionActions}>
+                    <div className={styles.searchContainer}>
+                      <SearchIcon />
+                      <input
+                        type="text"
+                        placeholder="Search messages..."
+                        value={contactSearchQuery}
+                        onChange={(e) => setContactSearchQuery(e.target.value)}
+                        className={styles.searchInput}
+                      />
+                    </div>
+                    <button 
+                      className={styles.buttonSecondary}
+                      onClick={loadContactMessages}
+                      type="button"
+                    >
+                      <SearchIcon />
+                      <span>Refresh</span>
+                    </button>
+                  </div>
+                </div>
+
+                {filteredContactMessages.length > 0 ? (
+                  <div className={styles.contactMessagesGrid}>
+                    {filteredContactMessages.map((message) => (
+                      <div key={message.id} className={styles.contactMessageCard}>
+                        <div className={styles.contactMessageHeader}>
+                          <div className={styles.contactMessageInfo}>
+                            <h3 className={styles.contactMessageName}>{message.name}</h3>
+                            <span className={styles.contactMessageDate}>
+                              {formatDate(message.created_at)}
+                            </span>
+                          </div>
+                          <button 
+                            className={styles.buttonSecondary}
+                            onClick={() => setShowContactMessage(message)}
+                            type="button"
+                          >
+                            <EditIcon />
+                            <span>View Details</span>
+                          </button>
+                        </div>
+                        <div className={styles.contactMessageContent}>
+                          <div className={styles.contactMessageField}>
+                            <MailIcon />
+                            <span>{message.email}</span>
+                          </div>
+                          <div className={styles.contactMessageField}>
+                            <PhoneIcon />
+                            <span>{message.phone}</span>
+                          </div>
+                          {message.event_about && (
+                            <div className={styles.contactMessageField}>
+                              <MessageIcon />
+                              <span className={styles.contactMessageText}>
+                                {message.event_about.length > 100 
+                                  ? `${message.event_about.substring(0, 100)}...` 
+                                  : message.event_about
+                                }
+                              </span>
+                            </div>
+                          )}
+                          {message.event_when && (
+                            <div className={styles.contactMessageField}>
+                              <CalendarIcon />
+                              <span>{message.event_when}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <MessageIcon />
+                    <p>
+                      {contactSearchQuery 
+                        ? `No messages found matching "${contactSearchQuery}"`
+                        : 'No contact messages yet.'
+                      }
+                    </p>
+                    {contactSearchQuery && (
+                      <button 
+                        className={styles.buttonSecondary}
+                        onClick={() => setContactSearchQuery('')}
+                        type="button"
+                      >
+                        Clear search
+                      </button>
+                    )}
+                  </div>
+                )}
+              </section>
+
               {/* Events Management Section */}
               <section className={styles.section}>
                 <div className={styles.sectionHeader}>
@@ -682,6 +866,63 @@ function Admin() {
                   </div>
                 )}
               </section>
+
+              {/* Contact Message Detail Modal */}
+              {showContactMessage && (
+                <div className={styles.modalOverlay}>
+                  <div className={styles.modalContent}>
+                    <div className={styles.modalHeader}>
+                      <h3>Contact Message Details</h3>
+                      <button 
+                        className={styles.closeButton}
+                        onClick={() => setShowContactMessage(null)}
+                        type="button"
+                      >
+                        <CloseIcon />
+                      </button>
+                    </div>
+                    <div className={styles.contactMessageDetail}>
+                      <div className={styles.contactMessageDetailField}>
+                        <label>Name:</label>
+                        <span>{showContactMessage.name}</span>
+                      </div>
+                      <div className={styles.contactMessageDetailField}>
+                        <label>Email:</label>
+                        <span>{showContactMessage.email}</span>
+                      </div>
+                      <div className={styles.contactMessageDetailField}>
+                        <label>Phone:</label>
+                        <span>{showContactMessage.phone}</span>
+                      </div>
+                      <div className={styles.contactMessageDetailField}>
+                        <label>Submitted:</label>
+                        <span>{formatDate(showContactMessage.created_at)}</span>
+                      </div>
+                      {showContactMessage.event_about && (
+                        <div className={styles.contactMessageDetailField}>
+                          <label>Event Details:</label>
+                          <span>{showContactMessage.event_about}</span>
+                        </div>
+                      )}
+                      {showContactMessage.event_when && (
+                        <div className={styles.contactMessageDetailField}>
+                          <label>Event When:</label>
+                          <span>{showContactMessage.event_when}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.formActions}>
+                      <button 
+                        type="button" 
+                        className={styles.buttonSecondary}
+                        onClick={() => setShowContactMessage(null)}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Event Form Modal */}
               {showEventForm && (

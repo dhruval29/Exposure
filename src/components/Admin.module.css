@@ -655,6 +655,115 @@
   color: var(--color-neutral-400);
 }
 
+/* Contact Messages Grid */
+.contactMessagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.contactMessageCard {
+  background: var(--color-accent);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.contactMessageCard:hover {
+  border-color: var(--color-neutral-300);
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-1px);
+}
+
+.contactMessageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+.contactMessageInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.contactMessageName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.contactMessageDate {
+  font-size: 0.875rem;
+  color: var(--color-neutral-500);
+  font-weight: 400;
+}
+
+.contactMessageContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.contactMessageField {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: var(--color-neutral-700);
+}
+
+.contactMessageField svg {
+  flex-shrink: 0;
+  color: var(--color-neutral-500);
+}
+
+.contactMessageText {
+  flex: 1;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Contact Message Detail Modal */
+.contactMessageDetail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+}
+
+.contactMessageDetailField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.contactMessageDetailField label {
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contactMessageDetailField span {
+  color: var(--color-neutral-700);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  word-break: break-word;
+  padding: var(--spacing-xs);
+  background: var(--color-neutral-50);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-neutral-200);
+}
+
 .eventsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -994,6 +1103,27 @@
   font-size: 13px;
   padding: var(--spacing-xs) var(--spacing-sm);
   min-height: auto;
+}
+
+/* Responsive Design for Contact Messages */
+@media (max-width: 768px) {
+  .contactMessagesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contactMessageCard {
+    padding: var(--spacing-sm);
+  }
+  
+  .contactMessageHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-xs);
+  }
+  
+  .contactMessageField {
+    font-size: 0.8rem;
+  }
 }
 
 /* Responsive Design for Events */

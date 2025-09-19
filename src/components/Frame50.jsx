@@ -91,37 +91,36 @@ const Frame50 = () => {
 		return () => clearInterval(interval)
 	}, [showMore])
 
-	return (
-		<>
-			{/* Variant 1 - Centered (fades out when scrolling). Expands and types " MORE" mid-way. */}
-			<div 
-				className={`${styles.component16} ${styles.variant1} ${showMore ? styles.expanded : ''} ${hasScrolled ? styles.fadeOut : styles.fadeIn}`}
-				onClick={scrollToTop}
-				style={{ cursor: 'pointer' }}
-			>
-				<div className={styles.component16Child} />
-				<img 
-					className={styles.vectorIcon} 
-					alt="" 
-					src="/arrow-pointing-to-up-svgrepo-com.svg" 
-				/>
-				<div className={styles.scroll}>SCROLL<span className={`${styles.moreSuffix} ${typedSuffix ? styles.hasContent : ''}`}>{typedSuffix}</span></div>
-			</div>
+	// Reverse typing effect for hiding "MORE" text when collapsing
+	useEffect(() => {
+		if (!hasScrolled) return
+		
+		const fullSuffix = 'MORE'
+		let index = fullSuffix.length
+		const interval = setInterval(() => {
+			index -= 1
+			setTypedSuffix(fullSuffix.slice(0, index))
+			if (index <= 0) {
+				clearInterval(interval)
+			}
+		}, 40) // Slightly faster for hiding
+		return () => clearInterval(interval)
+	}, [hasScrolled])
 
-			{/* Variant 2 - Right aligned (fades in when scrolling, no text, bouncy) */}
-			<div 
-				className={`${styles.component16} ${styles.variant2} ${hasScrolled ? styles.fadeInBouncy : styles.fadeOut}`}
-				onClick={scrollToTop}
-				style={{ cursor: 'pointer' }}
-			>
-				<div className={styles.component16Child} />
-				<img 
-					className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
-					alt="" 
-					src="/arrow-pointing-to-up-svgrepo-com.svg" 
-				/>
-			</div>
-		</>
+	return (
+		<div 
+			className={`${styles.component16} ${styles.variant1} ${showMore ? styles.expanded : ''} ${hasScrolled ? styles.collapsed : ''}`}
+			onClick={scrollToTop}
+			style={{ cursor: 'pointer' }}
+		>
+			<div className={styles.component16Child} />
+			<img 
+				className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
+				alt="" 
+				src="/arrow-pointing-to-up-svgrepo-com.svg" 
+			/>
+			<div className={styles.scroll}>SCROLL<span className={`${styles.moreSuffix} ${typedSuffix ? styles.hasContent : ''}`}>{typedSuffix}</span></div>
+		</div>
 	)
 }
 

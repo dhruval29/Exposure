@@ -343,20 +343,6 @@ export const StaggeredMenu = ({
               navigate('/contact');
             }
           }}
-          onMouseEnter={() => {
-            const el = contactBtnRef.current;
-            if (!el) return;
-            el.classList.remove('is-leave');
-            // Force reflow to restart animation if needed
-            void el.offsetWidth;
-            el.classList.add('is-enter');
-          }}
-          onMouseLeave={() => {
-            const el = contactBtnRef.current;
-            if (!el) return;
-            el.classList.remove('is-enter');
-            el.classList.remove('is-leave');
-          }}
           type="button"
         >
           <img 
@@ -391,17 +377,6 @@ export const StaggeredMenu = ({
           aria-expanded={open}
           aria-controls="clean-staggered-menu-panel"
           onClick={toggleMenu}
-          onMouseEnter={() => {
-            if (!toggleBtnRef.current) return;
-            toggleBtnRef.current.classList.remove('is-leave');
-            void toggleBtnRef.current.offsetWidth;
-            toggleBtnRef.current.classList.add('is-enter');
-          }}
-          onMouseLeave={() => {
-            if (!toggleBtnRef.current) return;
-            toggleBtnRef.current.classList.remove('is-enter');
-            toggleBtnRef.current.classList.remove('is-leave');
-          }}
           type="button"
         >
           <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">
