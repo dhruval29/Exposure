@@ -40,7 +40,7 @@ const StaggeredMenuFinal = ({
   const textCycleAnimRef = useRef(null);
   const busyRef = useRef(false);
 
-  const [textLines, setTextLines] = useState(['Menu', 'Close']);
+  const [textLines, setTextLines] = useState(['Menu']);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -236,23 +236,12 @@ const StaggeredMenuFinal = ({
     if (!inner) return;
     textCycleAnimRef.current?.kill();
 
-    const currentLabel = opening ? 'Menu' : 'Close';
-    const targetLabel = opening ? 'Close' : 'Menu';
-    const cycles = 3;
-    const seq = [currentLabel];
-    let last = currentLabel;
-    for (let i = 0; i < cycles; i++) {
-      last = last === 'Menu' ? 'Close' : 'Menu';
-      seq.push(last);
+    // Only animate when closing to show "Menu" text
+    if (!opening) {
+      setTextLines(['Menu']);
+      gsap.set(inner, { yPercent: 0 });
+      // No animation needed since we only have one text line
     }
-    if (last !== targetLabel) seq.push(targetLabel);
-    seq.push(targetLabel);
-    setTextLines(seq);
-
-    gsap.set(inner, { yPercent: 0 });
-    const lineCount = seq.length;
-    const finalShift = ((lineCount - 1) / lineCount) * 100;
-    textCycleAnimRef.current = gsap.to(inner, { yPercent: -finalShift, duration: 0.5 + lineCount * 0.07, ease: 'power4.out' });
   }, []);
 
   const toggleMenu = useCallback(() => {
@@ -300,6 +289,22 @@ const StaggeredMenuFinal = ({
         ))}
       </div>
       <header className="smf-header" aria-label="Main navigation header">
+        <button
+          className="smf-contact-button"
+          aria-label="Contact us"
+          onClick={() => {
+            // Navigate to contact page or open contact modal
+            window.location.href = '/contact';
+          }}
+          type="button"
+        >
+          <img 
+            src="/assets/icons/photo-camera-svgrepo-com.svg" 
+            alt="Camera icon" 
+            className="smf-contact-icon"
+          />
+          <span className="smf-contact-text">Contact</span>
+        </button>
         
         <button
           ref={toggleBtnRef}

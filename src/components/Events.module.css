@@ -15,7 +15,7 @@
   font-size: 96px;
   color: #000;
   font-family: Helvetica;
-  padding: 160px 20px 0 20px; /* increased top padding to prevent text clipping */
+  padding: 220px 20px 0 20px; /* increased top padding to account for navigation bar (62px) + extra spacing */
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
@@ -53,7 +53,7 @@
 
 .events2 {
   position: absolute;
-  top: 180px; /* moved down further */
+  top: 210px; /* moved up a bit for better positioning */
   left: 56.5px;
   font-size: 96px;
   font-weight: bold;
@@ -66,7 +66,7 @@
 
 .searchContainer {
   position: absolute;
-  top: 190px; /* moved down to align with Events title */
+  top: 220px; /* moved up to align with Events title */
   right: 65px;
   border-radius: 47.78px;
   background-color: #d9d9d9;
@@ -109,7 +109,7 @@
 
 .eventsItem {
   position: absolute;
-  top: 300px; /* moved down to align with new layout */
+  top: 330px; /* moved up to align with new layout */
   left: 56.5px;
   right: 56.5px;
   border-top: 1px solid #000;
@@ -120,7 +120,7 @@
 
 .eventsList {
   position: absolute;
-  top: 280px; /* moved down to align with new layout */
+  top: 310px; /* moved up to align with new layout */
   left: 0;
   right: 0;
   bottom: 0;
@@ -198,7 +198,7 @@
   
   .events2 {
     font-size: 72px;
-    top: 45px;
+    top: 85px; /* moved up a bit for better positioning */
     left: 40px;
     height: 55px;
   }
@@ -207,7 +207,7 @@
     width: 180px;
     max-width: 180px;
     height: 38px;
-    top: 52px;
+    top: 95px; /* moved up to align with Events title */
     left: 370px;
   }
   
@@ -221,13 +221,13 @@
   }
   
   .eventsItem {
-    top: 150px;
+    top: 180px; /* moved up to align with new layout */
     left: 40px;
     right: 40px;
   }
   
   .eventsList {
-    top: 130px;
+    top: 160px; /* moved up to align with new layout */
     padding: 0 20px;
   }
 }
@@ -245,7 +245,7 @@
   
   .events2 {
     font-size: 44px;
-    top: 38px;
+    top: 78px; /* moved up a bit for better positioning */
     left: 20px;
     height: 42px;
   }
@@ -254,7 +254,7 @@
     width: 160px;
     max-width: 160px;
     height: 30px;
-    top: 42px;
+    top: 88px; /* moved up to align with Events title */
     left: 230px;
   }
   
@@ -268,13 +268,13 @@
   }
   
   .eventsItem {
-    top: 112px;
+    top: 152px; /* moved up to align with new layout */
     left: 20px;
     right: 20px;
   }
   
   .eventsList {
-    top: 92px;
+    top: 132px; /* moved up to align with new layout */
     padding: 0 14px;
   }
 }
@@ -292,7 +292,7 @@
   
   .events2 {
     font-size: 32px;
-    top: 34px;
+    top: 74px; /* moved up a bit for better positioning */
     left: 15px;
     height: 36px;
   }
@@ -301,7 +301,7 @@
     width: 140px;
     max-width: 140px;
     height: 26px;
-    top: 40px;
+    top: 80px; /* moved up to align with Events title */
     left: 220px;
   }
   
@@ -315,13 +315,13 @@
   }
   
   .eventsItem {
-    top: 84px;
+    top: 124px; /* moved up to align with new layout */
     left: 15px;
     right: 15px;
   }
   
   .eventsList {
-    top: 74px;
+    top: 114px; /* moved up to align with new layout */
     padding: 0 10px;
   }
 }
@@ -338,7 +338,7 @@
   
   .events2 {
     font-size: 26px;
-    top: 28px;
+    top: 68px; /* moved up a bit for better positioning */
     left: 10px;
     height: 32px;
   }
@@ -347,7 +347,7 @@
     width: 120px;
     max-width: 120px;
     height: 24px;
-    top: 27px;
+    top: 74px; /* moved up to align with Events title */
     left: 145px;
   }
   
@@ -361,13 +361,13 @@
   }
   
   .eventsItem {
-    top: 66px;
+    top: 106px; /* moved up to align with new layout */
     left: 15px;
     right: 10px;
   }
   
   .eventsList {
-    top: 66px;
+    top: 106px; /* moved up to align with new layout */
     padding: 0 5px;
   }
 }
@@ -383,7 +383,7 @@
   
   .events2 {
     font-size: 120px;
-    top: 60px;
+    top: 100px; /* moved up a bit for better positioning */
     left: 65px;
     height: 80px;
   }
@@ -391,7 +391,7 @@
   .searchContainer {
     width: 50%;
     height: 60px;
-    top: 85px;
+    top: 125px; /* moved up to align with Events title */
     right: 200px;
   }
   
@@ -405,13 +405,13 @@
   }
   
   .eventsItem {
-    top: 210px;
+    top: 240px; /* moved up to align with new layout */
     left: 80px;
     right: 80px;
   }
   
   .eventsList {
-    top: 200px;
+    top: 230px; /* moved up to align with new layout */
     padding: 0 20px;
   }
 }

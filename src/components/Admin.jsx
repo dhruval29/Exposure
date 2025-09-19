@@ -178,7 +178,24 @@ function Admin() {
         if (mounted) { setIsAdmin(false); setChecking(false) }
         return
       }
-      const { data: isAdminResp } = await supabase.rpc('is_admin', { uid })
+      const { data: isAdminResp, error: rpcError } = await supabase.rpc('is_admin', { uid })
+      
+      if (rpcError) {
+        console.error('RPC Error:', rpcError)
+        console.error('Error details:', {
+          message: rpcError.message,
+          details: rpcError.details,
+          hint: rpcError.hint,
+          code: rpcError.code
+        })
+        if (mounted) { 
+          setIsAdmin(false); 
+          setChecking(false)
+          setStatus(`Admin check failed: ${rpcError.message}`)
+        }
+        return
+      }
+      
       const result = Boolean(isAdminResp)
       sessionStorage.setItem('ee_admin_check', JSON.stringify({ isAdmin: result }))
       if (mounted) { setIsAdmin(result); setChecking(false) }

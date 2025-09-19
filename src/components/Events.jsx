@@ -5,14 +5,13 @@ import FlowingMenu from './FlowingMenu';
 import StaggeredMenuFinal from './StaggeredMenuFinal';
 import { supabase } from '../lib/supabaseClient';
 import '../styles/Gallery.css';
-import Rectangle18 from './Rectangle18';
 
 const Events = () => {
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
-    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
+    { label: 'Our Journey', ariaLabel: 'Learn about our journey', link: '/ourjourney' },
+    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
+    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' }
   ];
 
   const socialItems = [
@@ -328,7 +327,6 @@ const Events = () => {
 
   return (
     <div className={styles.events}>
-      <Rectangle18 isVisible={true} isSlidingUp={false} showText={false} />
       <StaggeredMenuFinal
         position="right"
         items={menuItems}
