@@ -2,10 +2,24 @@ import React, { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
 import styles from './Events.module.css';
 import FlowingMenu from './FlowingMenu';
+import StaggeredMenuFinal from './StaggeredMenuFinal';
 import { supabase } from '../lib/supabaseClient';
 import '../styles/Gallery.css';
+import Rectangle18 from './Rectangle18';
 
 const Events = () => {
+  const menuItems = [
+    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
+    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
+  ];
+
+  const socialItems = [
+    { label: 'Twitter', link: 'https://twitter.com' },
+    { label: 'GitHub', link: 'https://github.com' },
+    { label: 'LinkedIn', link: 'https://linkedin.com' }
+  ];
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -314,6 +328,22 @@ const Events = () => {
 
   return (
     <div className={styles.events}>
+      <Rectangle18 isVisible={true} isSlidingUp={false} showText={false} />
+      <StaggeredMenuFinal
+        position="right"
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials={true}
+        displayItemNumbering={false}
+        menuButtonColor="#000"
+        openMenuButtonColor="#000"
+        changeMenuColorOnOpen={true}
+        colors={["#fecaca", "#fde68a"]}
+        logoUrl="/assets/icons/new-arrow.svg"
+        accentColor="#ff6b6b"
+        onMenuOpen={() => console.log('Menu opened')}
+        onMenuClose={() => console.log('Menu closed')}
+      />
       {showLoader && (
         <div
           ref={loaderRef}

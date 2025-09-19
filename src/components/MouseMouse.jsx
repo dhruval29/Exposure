@@ -331,9 +331,27 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
     }
   }, [visible, isLoaded, isTouch, startAnimation, stopAnimation]);
 
-  // Don't render anything on mobile devices
+  // On mobile devices: mount a minimal, no-op container (no canvas/effects)
   if (isMobileDevice()) {
-    return null;
+    return (
+      <main 
+        role="presentation"
+        aria-hidden="true"
+        className={styles.homeContainer}
+        style={{ 
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: zIndex,
+          pointerEvents: 'none',
+          display: visible ? 'block' : 'none',
+          background: 'transparent',
+          animation: 'none'
+        }}
+      />
+    );
   }
 
   return (

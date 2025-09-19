@@ -12,35 +12,36 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
   const finalShowText = externalShowText !== undefined ? externalShowText : showText;
 
 
+  // Effect 1: Control title fade timing (independent of external visibility/slide props)
   useEffect(() => {
-    // Only manage scroll logic if external props are not provided
-    if (externalIsVisible !== undefined || externalIsSlidingUp !== undefined || externalShowText !== undefined) {
-      return;
-    }
+    // If parent explicitly controls showText, skip internal control
+    if (externalShowText !== undefined) return;
 
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
+      const triggerAt = viewportHeight; // when sliding page top reaches window top
+      setShowText(scrollTop >= triggerAt);
+    };
 
-      // Align navbar title appearance with Frame50's scroll hint disappearance
-      // Frame50 fades out the centered hint at: triggerPoint = 100vh - 200
-      const triggerPoint = viewportHeight - 200;
-      if (scrollTop >= triggerPoint) {
-        setShowText(true);
-      } else {
-        setShowText(false);
-      }
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [externalShowText]);
 
-      // Hide nav bar when reaching the marquee text animation (Frame60 section)
-      // Frame60 starts at 100vh + SLIDING_HEIGHT (same as marquee animation)
-      const SLIDING_HEIGHT = 2768; // Same as Landing.jsx
+  // Effect 2: Only manage navbar visibility/slide if not controlled externally
+  useEffect(() => {
+    if (externalIsVisible !== undefined || externalIsSlidingUp !== undefined) return;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const SLIDING_HEIGHT = 2768; // Same as Landing.jsx default desktop
       const marqueeSectionStart = viewportHeight + SLIDING_HEIGHT;
       if (scrollTop >= marqueeSectionStart) {
         setIsSlidingUp(true);
-        // Hide completely after slide animation
         setTimeout(() => setIsVisible(false), 600);
       } else {
-        // Reset states when scrolling back up
         setIsVisible(true);
         setIsSlidingUp(false);
       }
@@ -48,7 +49,7 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [externalIsVisible, externalIsSlidingUp, externalShowText]);
+  }, [externalIsVisible, externalIsSlidingUp]);
 
   if (!finalIsVisible) return null;
 

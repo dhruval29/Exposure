@@ -4,13 +4,21 @@ const Frame60 = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
   const [fontSizePx, setFontSizePx] = useState(64);
+  const [offsetY, setOffsetY] = useState(0);
 
   useEffect(() => {
     const measure = () => {
       if (!containerRef.current) return;
       const h = containerRef.current.clientHeight;
-      // Make text height smaller; reduced scale factor
-      setFontSizePx(Math.max(24, Math.floor(h * 0.6)));
+      // Responsive font sizing: larger on mobile to avoid excess whitespace
+      const isMobile = window.innerWidth <= 768;
+      const scaleFactor = isMobile ? 0.82 : 0.6;
+      const minFont = isMobile ? 32 : 24;
+      const computedFont = Math.max(minFont, Math.floor(h * scaleFactor));
+      setFontSizePx(computedFont);
+      // Nudge text down a bit relative to its size (more on mobile)
+      const verticalNudge = Math.round(computedFont * (isMobile ? 0.10 : 0.05));
+      setOffsetY(verticalNudge);
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -64,7 +72,7 @@ const Frame60 = () => {
       const eased = easeInOutCubic(norm);
       const blend = 0.08 + 0.12 * eased; // adaptive smoothing
       current = (current + delta * blend + segmentWidth) % segmentWidth;
-      track.style.transform = `translate3d(${-current}px, 0, 0)`;
+      track.style.transform = `translate3d(${-current}px, ${offsetY}px, 0)`;
       rafId = requestAnimationFrame(animate);
     };
     rafId = requestAnimationFrame(animate);
@@ -74,12 +82,12 @@ const Frame60 = () => {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);
     };
-  }, [fontSizePx]);
+  }, [fontSizePx, offsetY]);
 
   const line = ' capture live create ';
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: '1.5vh 0', borderTop: '1px solid rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(0,0,0,0.15)' }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0`, borderTop: '1px solid rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(0,0,0,0.15)' }}>
       <div
         ref={trackRef}
         style={{
@@ -92,16 +100,16 @@ const Frame60 = () => {
         aria-hidden="true"
       >
         <div style={{ display: 'inline-flex' }}>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
         </div>
         <div style={{ display: 'inline-flex' }} aria-hidden="true">
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
         </div>
       </div>
     </div>

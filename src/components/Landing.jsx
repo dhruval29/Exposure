@@ -638,6 +638,7 @@ const Landing = () => {
   const [isMenuHidden, setIsMenuHidden] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const navVisibilityRef = useRef('visible')
+  const [showNavTitle, setShowNavTitle] = useState(false)
   // Mouse effect removed - page left blank as requested
 
   // Enhanced mobile detection for different device sizes
@@ -735,6 +736,7 @@ const Landing = () => {
       const shouldShow = scrollTop <= (marqueeSectionStart - SHOW_BUFFER)
 
       if (navVisibilityRef.current === 'visible' && shouldHide) {
+        // Begin smooth slide-up, then hide after the animation duration (match navbar ~600ms)
         navVisibilityRef.current = 'hiding'
         setIsMenuSlidingUp(true)
         setTimeout(() => {
@@ -753,9 +755,19 @@ const Landing = () => {
           navVisibilityRef.current = 'visible'
         }, 300)
       }
+
+      // Update nav title visibility exactly when sliding section's top hits viewport top
+      if (slidingRef.current) {
+        const top = slidingRef.current.getBoundingClientRect().top
+        setShowNavTitle(top <= 0)
+      }
     }
 
     window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleScroll)
+
+    // Initialize on mount
+    handleScroll()
 
     // Temporarily disable Lenis (native scroll)
     const ENABLE_LENIS = false
@@ -806,6 +818,7 @@ const Landing = () => {
       if (lenisRef.current) lenisRef.current.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
     }
   }, [])
 
@@ -938,7 +951,7 @@ const Landing = () => {
       <Rectangle18 
         isVisible={isMenuVisible}
         isSlidingUp={isMenuSlidingUp}
-        showText={true}
+        showText={showNavTitle}
       />
       
       {/* StaggeredMenu */}
@@ -955,48 +968,13 @@ const Landing = () => {
           colors={['#B19EEF', '#5227FF']}
           logoUrl="/src/assets/logos/reactbits-gh-white.svg"
           accentColor="#ff6b6b"
+          headerSlidingUp={isMenuSlidingUp}
           onMenuOpen={() => {}}
           onMenuClose={() => {}}
         />
       )}
       
-      {/* Persistent title overlay (always mounted; toggled via style for stability) */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '35vh',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1200,
-          pointerEvents: 'none',
-          textAlign: 'left',
-          lineHeight: 1.0,
-          color: '#000',
-          display: isMobile ? 'block' : 'none'
-        }}
-        aria-hidden="true"
-      >
-        <div
-          style={{
-            fontFamily: "'PP Editorial New', serif",
-            fontWeight: 400,
-            letterSpacing: '-2px',
-            fontSize: 'clamp(24px, 10vw, 72px)'
-          }}
-        >
-          {'EXPOSURE '}
-        </div>
-        <div
-          style={{
-            fontFamily: "'PP Editorial New', serif",
-            fontWeight: 400,
-            letterSpacing: '-2px',
-            fontSize: 'clamp(24px, 10vw, 72px)'
-          }}
-        >
-          EXPLORERS
-        </div>
-      </div>
+      {/* Mobile title overlay removed as requested */}
 
       {/* All loading screens removed */}
       {/* Mouse trail overlay on top of all content */}

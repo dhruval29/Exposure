@@ -10,6 +10,7 @@
 	font-size: 28px;
 	color: #000;
 	font-family: 'PP Editorial New';
+	--cu-delay-base: 1000ms;
 }
 
 /* Animations */
@@ -42,7 +43,7 @@
 	font-size: 128px;
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 80ms;
+	animation-delay: calc(var(--cu-delay-base) + 80ms);
 }
 .wantHelpCoveringContainer {
 	position: absolute;
@@ -51,7 +52,7 @@
 	font-size: 36px;
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 160ms;
+	animation-delay: calc(var(--cu-delay-base) + 160ms);
 }
 .wantHelpCovering {
 	margin: 0;
@@ -67,7 +68,7 @@
 	transform-origin: left center;
 	transform: scaleX(0);
 	animation: cu-lineGrow 800ms ease-out forwards;
-	animation-delay: 120ms;
+	animation-delay: calc(var(--cu-delay-base) + 120ms);
 }
 .yourNameOr {
 	position: absolute;
@@ -75,7 +76,7 @@
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 220ms;
+	animation-delay: calc(var(--cu-delay-base) + 220ms);
 }
 .whatsTheEvent {
 	position: absolute;
@@ -83,7 +84,7 @@
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 420ms;
+	animation-delay: calc(var(--cu-delay-base) + 420ms);
 }
 .contactUsItem {
 	position: absolute;
@@ -96,7 +97,7 @@
 	transform-origin: left center;
 	transform: scaleX(0);
 	animation: cu-lineGrow 800ms ease-out forwards;
-	animation-delay: 440ms;
+	animation-delay: calc(var(--cu-delay-base) + 440ms);
 }
 .whensTheEvent {
 	position: absolute;
@@ -104,7 +105,7 @@
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 520ms;
+	animation-delay: calc(var(--cu-delay-base) + 520ms);
 }
 .contactUsInner {
 	position: absolute;
@@ -117,7 +118,7 @@
 	transform-origin: left center;
 	transform: scaleX(0);
 	animation: cu-lineGrow 800ms ease-out forwards;
-	animation-delay: 540ms;
+	animation-delay: calc(var(--cu-delay-base) + 540ms);
 }
 .lineDiv {
 	position: absolute;
@@ -130,7 +131,7 @@
 	transform-origin: left center;
 	transform: scaleX(0);
 	animation: cu-lineGrow 800ms ease-out forwards;
-	animation-delay: 260ms;
+	animation-delay: calc(var(--cu-delay-base) + 260ms);
 }
 .contactUsContactUsChild {
 	position: absolute;
@@ -143,7 +144,7 @@
 	transform-origin: left center;
 	transform: scaleX(0);
 	animation: cu-lineGrow 800ms ease-out forwards;
-	animation-delay: 340ms;
+	animation-delay: calc(var(--cu-delay-base) + 340ms);
 }
 .contactUsChild2 {
 	position: absolute;
@@ -156,7 +157,7 @@
 	transform-origin: left center;
 	transform: scaleX(0);
 	animation: cu-lineGrow 800ms ease-out forwards;
-	animation-delay: 380ms;
+	animation-delay: calc(var(--cu-delay-base) + 380ms);
 }
 .pointOfContact {
 	position: absolute;
@@ -164,7 +165,7 @@
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 300ms;
+	animation-delay: calc(var(--cu-delay-base) + 300ms);
 }
 .email {
 	position: absolute;
@@ -172,7 +173,7 @@
 	left: 44.44%; /* align with left column labels */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 360ms;
+	animation-delay: calc(var(--cu-delay-base) + 360ms);
 }
 /* Inputs aligned to lines - invisible borders, use the line as underline */
 .inputBase {
@@ -228,7 +229,7 @@
 	padding: 0; /* override inputBase padding so vertical alignment matches label */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 560ms;
+	animation-delay: calc(var(--cu-delay-base) + 560ms);
 }
 .submitMsg {
 	position: absolute;
@@ -254,7 +255,7 @@
 	padding: 10px;
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 700ms;
+	animation-delay: calc(var(--cu-delay-base) + 700ms);
 }
 .exposureexplorersnitgoaaci {
 	position: relative;
@@ -267,7 +268,7 @@
 	left: 42.78%; /* 596 / 1393 of frameParent width */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 760ms;
+	animation-delay: calc(var(--cu-delay-base) + 760ms);
 	cursor: pointer;
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
@@ -282,7 +283,7 @@
 	left: 69.03%; /* 961 / 1393 */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 820ms;
+	animation-delay: calc(var(--cu-delay-base) + 820ms);
 	cursor: pointer;
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
@@ -297,7 +298,7 @@
 	left: 94.25%; /* 1313 / 1393 */
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 880ms;
+	animation-delay: calc(var(--cu-delay-base) + 880ms);
 	cursor: pointer;
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
@@ -316,7 +317,7 @@
 	height: 40px;
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: 600ms;
+	animation-delay: calc(var(--cu-delay-base) + 600ms);
 }
 .reachUs {
 	width: 100%;

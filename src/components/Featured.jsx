@@ -17,7 +17,8 @@ const Featured = () => {
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'Events', ariaLabel: 'View our events', link: '/events' },
-    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' }
+    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
+    { label: 'Contact', ariaLabel: 'Go to contact page', link: '/contact' }
   ];
 
   const socialItems = [
@@ -183,6 +184,7 @@ const Featured = () => {
         accentColor="#ff6b6b"
         onMenuOpen={() => {}}
         onMenuClose={() => {}}
+        showHeaderContact={false}
       />
 
       {/* Main Content */}

@@ -9,6 +9,7 @@ const Frame50 = () => {
 	const [hasScrolled, setHasScrolled] = useState(false)
 	const [showMore, setShowMore] = useState(false)
 	const [typedSuffix, setTypedSuffix] = useState('')
+	const [footerVisible, setFooterVisible] = useState(false)
 
 	// Hide on gallery page
 	if (location.pathname === '/gallery') {
@@ -72,6 +73,26 @@ const Frame50 = () => {
 		return () => window.removeEventListener('scroll', handleScroll)
 	}, [isAtBottom, showMore])
 
+	// Observe footer and fade out indicator when footer is visible
+	useEffect(() => {
+		const footerEl = document.getElementById('site-footer')
+		if (!footerEl) return
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					setFooterVisible(entry.isIntersecting)
+				}
+			},
+			{
+				root: null,
+				rootMargin: '0px 0px -20% 0px',
+				threshold: [0, 0.01, 0.1]
+			}
+		)
+		observer.observe(footerEl)
+		return () => observer.disconnect()
+	}, [])
+
 	// Typing effect for the "MORE" suffix when showMore is active
 	useEffect(() => {
 		const fullSuffix = 'MORE'
@@ -91,36 +112,37 @@ const Frame50 = () => {
 		return () => clearInterval(interval)
 	}, [showMore])
 
-	// Reverse typing effect for hiding "MORE" text when collapsing
-	useEffect(() => {
-		if (!hasScrolled) return
-		
-		const fullSuffix = 'MORE'
-		let index = fullSuffix.length
-		const interval = setInterval(() => {
-			index -= 1
-			setTypedSuffix(fullSuffix.slice(0, index))
-			if (index <= 0) {
-				clearInterval(interval)
-			}
-		}, 40) // Slightly faster for hiding
-		return () => clearInterval(interval)
-	}, [hasScrolled])
-
 	return (
-		<div 
-			className={`${styles.component16} ${styles.variant1} ${showMore ? styles.expanded : ''} ${hasScrolled ? styles.collapsed : ''}`}
-			onClick={scrollToTop}
-			style={{ cursor: 'pointer' }}
-		>
-			<div className={styles.component16Child} />
-			<img 
-				className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
-				alt="" 
-				src="/arrow-pointing-to-up-svgrepo-com.svg" 
-			/>
-			<div className={styles.scroll}>SCROLL<span className={`${styles.moreSuffix} ${typedSuffix ? styles.hasContent : ''}`}>{typedSuffix}</span></div>
-		</div>
+		<>
+			{/* Variant 1 - Centered (fades out when scrolling). Expands and types " MORE" mid-way. */}
+			<div 
+				className={`${styles.component16} ${styles.variant1} ${showMore ? styles.expanded : ''} ${footerVisible ? styles.fadeOut : hasScrolled ? styles.fadeOut : styles.fadeIn}`}
+				onClick={scrollToTop}
+				style={{ cursor: 'pointer' }}
+			>
+				<div className={styles.component16Child} />
+				<img 
+					className={styles.vectorIcon} 
+					alt="" 
+					src="/arrow-pointing-to-up-svgrepo-com.svg" 
+				/>
+				<div className={styles.scroll}>SCROLL<span className={`${styles.moreSuffix} ${typedSuffix ? styles.hasContent : ''}`}>{typedSuffix}</span></div>
+			</div>
+
+			{/* Variant 2 - Right aligned (fades in when scrolling, no text, bouncy) */}
+			<div 
+				className={`${styles.component16} ${styles.variant2} ${footerVisible ? styles.fadeOut : hasScrolled ? styles.fadeInBouncy : styles.fadeOut}`}
+				onClick={scrollToTop}
+				style={{ cursor: 'pointer' }}
+			>
+				<div className={styles.component16Child} />
+				<img 
+					className={`${styles.vectorIcon} ${isAtBottom ? styles.rotateUp : ''}`} 
+					alt="" 
+					src="/arrow-pointing-to-up-svgrepo-com.svg" 
+				/>
+			</div>
+		</>
 	)
 }
 

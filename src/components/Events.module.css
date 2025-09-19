@@ -15,7 +15,7 @@
   font-size: 96px;
   color: #000;
   font-family: Helvetica;
-  padding: 0 20px;
+  padding: 160px 20px 0 20px; /* increased top padding to prevent text clipping */
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
@@ -53,7 +53,7 @@
 
 .events2 {
   position: absolute;
-  top: 54px;
+  top: 180px; /* moved down further */
   left: 56.5px;
   font-size: 96px;
   font-weight: bold;
@@ -66,16 +66,16 @@
 
 .searchContainer {
   position: absolute;
-  top: 60px;
+  top: 190px; /* moved down to align with Events title */
   right: 65px;
   border-radius: 47.78px;
   background-color: #d9d9d9;
-  width: 24%;
-  max-width: 420px;
+  width: 20%;
+  max-width: 360px;
   height: 40px;
   display: flex;
   align-items: center;
-  padding: 0 20px 0 8px;
+  padding: 0 20px 0 24px;
   box-sizing: border-box;
   z-index: 3;
 }
@@ -109,7 +109,7 @@
 
 .eventsItem {
   position: absolute;
-  top: 172.5px;
+  top: 300px; /* moved down to align with new layout */
   left: 56.5px;
   right: 56.5px;
   border-top: 1px solid #000;
@@ -120,7 +120,7 @@
 
 .eventsList {
   position: absolute;
-  top: 150px;
+  top: 280px; /* moved down to align with new layout */
   left: 0;
   right: 0;
   bottom: 0;

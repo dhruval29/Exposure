@@ -21,7 +21,9 @@ export const StaggeredMenu = ({
   changeMenuColorOnOpen = true,
   onMenuOpen,
   onMenuClose,
-  hideButton = false
+  hideButton = false,
+  headerSlidingUp = false,
+  showHeaderContact = true
 }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -332,7 +334,8 @@ export const StaggeredMenu = ({
           return arr.map((c, i) => <div key={i} className="sm-prelayer" style={{ background: c }} />);
         })()}
       </div>
-      <header className="clean-staggered-menu-header" aria-label="Main navigation header">
+      <header className={"clean-staggered-menu-header" + (headerSlidingUp ? " sm-header-sliding-up" : "")} aria-label="Main navigation header">
+        {showHeaderContact ? (
         <button
           ref={contactBtnRef}
           className="sm-contact-button"
@@ -360,6 +363,31 @@ export const StaggeredMenu = ({
             <span className="sm-contact-char">t</span>
           </span>
         </button>
+        ) : (
+        <button
+          className="sm-contact-button"
+          aria-hidden="true"
+          tabIndex={-1}
+          type="button"
+          style={{ visibility: 'hidden', pointerEvents: 'none' }}
+        >
+          <img 
+            src="/assets/icons/photo-camera-svgrepo-com.svg" 
+            alt=""
+            className="sm-contact-icon"
+            aria-hidden="true"
+          />
+          <span className="sm-contact-text" aria-hidden="true">
+            <span className="sm-contact-char">C</span>
+            <span className="sm-contact-char">o</span>
+            <span className="sm-contact-char">n</span>
+            <span className="sm-contact-char">t</span>
+            <span className="sm-contact-char">a</span>
+            <span className="sm-contact-char">c</span>
+            <span className="sm-contact-char">t</span>
+          </span>
+        </button>
+        )}
         <div className="sm-logo" aria-label="Logo">
           <img
             src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}

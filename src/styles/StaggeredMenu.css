@@ -13,8 +13,8 @@
 .clean-staggered-menu-header {
   position: fixed;
   top: 0;
-  left: 40px;
-  right: 40px;
+  left: 16px;
+  right: 16px;
   width: auto;
   height: 62px;
   display: flex;
@@ -27,6 +27,12 @@
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sm-header-sliding-up {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .clean-staggered-menu-header > * {
@@ -51,6 +57,7 @@
   justify-content: center;
   height: 100%;
   padding-top: 0;
+  margin-top: 10px;
   /* Remove tap highlight on mobile devices */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -71,9 +78,9 @@
   margin-right: 8px;
   filter: brightness(0) saturate(100%);
   transition: filter 0.3s ease;
-  align-self: center;
-  position: relative;
-  top:-4px;
+  align-self: baseline;
+  margin-top: 10px;
+  vertical-align: baseline;
 }
 
 /* Removed header marquee styles; marquee is now in Frame60 */
@@ -203,7 +210,6 @@
     display: flex;
     align-items: center;
     font-size: 24px;
-    height: 100%;
   }
   
   .sm-toggle-textWrap {
@@ -445,13 +451,13 @@
 .sm-panel-item {
   position: relative;
   color: #000 !important;
-  font-family: 'Helvetica', Arial, sans-serif;
-  font-weight: 600;
+  font-family: 'PP Editorial New', serif;
+  font-weight: 400;
   font-size: 3.5rem;
   cursor: pointer;
   line-height: 1;
-  letter-spacing: -2px;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   text-align: left;
   transition:
     background 0.25s,
@@ -464,6 +470,41 @@
   margin-bottom: 0.2em;
   opacity: 1 !important;
   visibility: visible !important;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Make label text lowercase with only the first letter uppercase */
+.sm-panel-itemLabel {
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+.sm-panel-itemLabel::first-letter {
+  text-transform: uppercase;
+}
+
+/* Remove blue outline/border on hover/focus for panel buttons and links */
+.sm-panel-item:focus,
+.sm-panel-item:focus-visible,
+.sm-panel-item:active,
+.sm-panel-item:hover,
+.clean-staggered-menu-panel button:focus,
+.clean-staggered-menu-panel button:focus-visible,
+.clean-staggered-menu-panel button:active,
+.clean-staggered-menu-panel button:hover,
+.clean-staggered-menu-panel a:focus,
+.clean-staggered-menu-panel a:focus-visible,
+.clean-staggered-menu-panel a:active,
+.clean-staggered-menu-panel a:hover {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.sm-socials-link {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .clean-staggered-menu-panel .sm-socials-list .sm-socials-link {
@@ -586,8 +627,8 @@
   
   .clean-staggered-menu-header {
     top: 63px;
-    left: 20px;
-    right: 20px;
+    left: 12px;
+    right: 12px;
   }
 }
 
@@ -595,22 +636,22 @@
 @media (max-width: 768px) {
   .clean-staggered-menu-header {
     top: 0;
-    left: 15px;
-    right: 15px;
+    left: 10px;
+    right: 10px;
     height: 56px;
   }
   
-  /* Remove padding from nav buttons on mobile */
   .sm-contact-button,
   .sm-toggle {
-    padding: 0;
-    font-size: 18px;
+    padding: 8px 12px;
+    font-size: 24px;
   }
   .sm-contact-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 6px;
-    top: -2px;
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
+    vertical-align: baseline;
+    align-self: baseline;
   }
   
   /* header marquee removed */
@@ -620,22 +661,24 @@
 @media (max-width: 480px) {
   .clean-staggered-menu-header {
     top: 0;
-    left: 10px;
-    right: 10px;
+    left: 8px;
+    right: 8px;
     height: 52px;
   }
   
   /* Remove padding from nav buttons on mobile */
   .sm-contact-button,
   .sm-toggle {
-    padding: 0;
-    font-size: 16px;
+    padding: 8px 12px;
+    font-size: 24px;
   }
   .sm-contact-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
-    top: -2px;
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
+    vertical-align: baseline;
+    align-self: baseline;
+    margin-top: 1px;
   }
   
   /* header marquee removed */
@@ -645,22 +688,21 @@
 @media (max-width: 360px) {
   .clean-staggered-menu-header {
     top: 0;
-    left: 5px;
-    right: 5px;
+    left: 6px;
+    right: 6px;
     height: 48px;
   }
   
   /* Remove padding from nav buttons on mobile */
   .sm-contact-button,
   .sm-toggle {
-    padding: 0;
-    font-size: 14px;
+    padding: 8px 12px;
+    font-size: 24px;
   }
   .sm-contact-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-    top: -1px;
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
   }
   
   /* header marquee removed */
