@@ -4,7 +4,9 @@
   width: 100%;
   max-width: 100%;
   position: relative;
-  background: white; /* solid white background instead of gradient */
+  background: linear-gradient(-45deg, rgba(236, 253, 243, 0.2), rgba(209, 250, 229, 0.2), rgba(167, 243, 208, 0.2), rgba(110, 231, 183, 0.2), rgba(52, 211, 153, 0.2), rgba(16, 185, 129, 0.2));
+  background-size: 400% 400%;
+  animation: eventsGradientShift 10s ease-in-out infinite;
   /* 10 items visible: header/search area ~150px + 10 * item height */
   height: 100vh; /* full viewport height to cover gradient */
   min-height: 100vh; /* ensure it covers the full screen */
@@ -23,6 +25,23 @@
 @keyframes cu-textReveal {
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Events gradient animation */
+@keyframes eventsGradientShift {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 50%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .events {
+    animation: none !important;
+    background: rgba(236, 253, 243, 0.2) !important;
+  }
 }
 
 /* Remove scrolling on mobile devices */
@@ -242,18 +261,18 @@
   }
   
   .events2 {
-    font-size: 52px; /* scaled up for mobile landscape */
+    font-size: 78px; /* 1.5x scaled for mobile landscape (52px * 1.5) */
     top: 68px; /* reduced top margin for mobile landscape */
     left: 20px; /* original mobile landscape positioning */
-    height: 42px;
+    height: 63px;
   }
   
   .searchContainer {
     width: 160px;
     max-width: 160px;
     height: 30px;
-    top: 78px; /* moved up on mobile landscape */
-    left: 260px; /* moved more to the right for mobile landscape */
+    top: 111px; /* moved up 20px from base of Events heading (68px + 63px - 20px) */
+    left: 260px; /* moved right for mobile landscape */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
@@ -294,18 +313,18 @@
   }
   
   .events2 {
-    font-size: 40px; /* scaled up for mobile portrait */
+    font-size: 60px; /* 1.5x scaled for mobile portrait (40px * 1.5) */
     top: 60px; /* reduced top margin for mobile portrait */
     left: 15px; /* original mobile portrait positioning */
-    height: 36px;
+    height: 54px;
   }
   
   .searchContainer {
     width: 140px;
     max-width: 140px;
     height: 26px;
-    top: 77px; /* moved up on mobile portrait */
-    left: 250px; /* moved more to the right for mobile portrait */
+    top: 94px; /* moved up 20px from base of Events heading (60px + 54px - 20px) */
+    left: 240px; /* moved right for mobile portrait */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
@@ -341,18 +360,18 @@
   }
   
   .events2 {
-    font-size: 32px; /* scaled up for small mobile */
+    font-size: 48px; /* 1.5x scaled for small mobile (32px * 1.5) */
     top: 54px; /* reduced top margin for small mobile */
     left: 10px; /* original small mobile positioning */
-    height: 32px;
+    height: 48px;
   }
   
   .searchContainer {
     width: 120px;
     max-width: 120px;
     height: 24px;
-    top: 64px; /* moved up on small mobile */
-    left: 175px; /* moved more to the right for small mobile */
+    top: 82px; /* moved up 20px from base of Events heading (54px + 48px - 20px) */
+    left: 200px; /* moved right for small mobile */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
