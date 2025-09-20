@@ -48,7 +48,7 @@
   height: 45.6px;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   padding: 0;
   transition: all 0.3s ease;
   display: flex;
@@ -87,7 +87,7 @@
   height: 45.6px;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   padding: 0;
   transition: all 0.3s ease;
   display: flex;
@@ -126,7 +126,7 @@
   height: 45.6px;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   padding: 0;
   transition: all 0.3s ease;
   display: flex;
@@ -165,7 +165,7 @@
   height: 53.2px;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   padding: 0;
   transition: all 0.3s ease;
   display: flex;

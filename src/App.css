@@ -35,23 +35,22 @@ html, body {
   justify-content: center;
 }
 
-/* Global custom cursor */
+/* Global custom cursor - applied everywhere */
 html, body, * {
-  cursor: url('/assets/mobile/icons/cursor-final.png') 0 0, pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
 /* Ensure interactive elements keep the custom cursor */
 a, a:hover, button, button:hover, [role="button"],
 .nav-link, .nav-link:hover, .nav-logo, .nav-logo:hover,
 .navigation, .nav-container, .nav-links {
-  cursor: url('/W/cursor final.png') 0 0, pointer !important;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer !important;
 }
 
 /* Use custom text cursor over selectable text elements */
-/* We'll show a larger custom text cursor via overlay; keep native to avoid double cursors */
 input[type="text"], textarea, [contenteditable="true"],
 .text, .text-reveal, #headline-reveal, #headline-reveal * {
-  cursor: url('/assets/mobile/icons/Vector.png') 0 0, text;
+  cursor: url('/assets/icons/Vector.png') 16 16, text;
 }
 
 /* Keep existing styles for the home page components */

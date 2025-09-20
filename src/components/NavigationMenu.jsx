@@ -331,7 +331,7 @@ const NavigationMenu = ({ isExiting }) => {
                    isMobile === 'mobile' ? '50px' : 
                    isMobile === 'tablet' ? '60px' : 
                    'clamp(70px, 5.56vw, 100px)', // Responsive height
-            cursor: "url('/assets/mobile/icons/cursor-final.png') 0 0, pointer",
+            cursor: "url('/assets/icons/cursor%20final.png') 16 16, pointer",
             overflow: 'visible',
             width: '100%'
           }}

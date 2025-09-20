@@ -11,7 +11,6 @@ const StaggeredMenuFinal = ({
   position = 'right',
   colors = DEFAULT_COLORS,
   items = [],
-  socialItems = [],
   displaySocials = true,
   displayItemNumbering = true,
   className,
@@ -79,7 +78,6 @@ const StaggeredMenuFinal = ({
 
     const itemEls = Array.from(panel.querySelectorAll('.smf-itemLabel'));
     const numberEls = Array.from(panel.querySelectorAll('.smf-list[data-numbering] .smf-item'));
-    const socialTitle = panel.querySelector('.smf-socials-title');
     const socialLinks = Array.from(panel.querySelectorAll('.smf-socials-link'));
 
     const layerStates = layers.map(el => ({ el, start: Number(gsap.getProperty(el, 'xPercent')) }));
@@ -87,7 +85,6 @@ const StaggeredMenuFinal = ({
 
     if (itemEls.length) gsap.set(itemEls, { yPercent: 140, rotate: 10 });
     if (numberEls.length) gsap.set(numberEls, { '--smf-num-opacity': 0 });
-    if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
     if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
     const tl = gsap.timeline({ paused: true });
@@ -127,23 +124,20 @@ const StaggeredMenuFinal = ({
       }
     }
 
-    if (socialTitle || socialLinks.length) {
+    if (socialLinks.length) {
       const socialsStart = panelInsertTime + panelDuration * 0.4;
-      if (socialTitle) tl.to(socialTitle, { opacity: 1, duration: 0.5, ease: 'power2.out' }, socialsStart);
-      if (socialLinks.length) {
-        tl.to(
-          socialLinks,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.55,
-            ease: 'power3.out',
-            stagger: { each: 0.08, from: 'start' },
-            onComplete: () => gsap.set(socialLinks, { clearProps: 'opacity' })
-          },
-          socialsStart + 0.04
-        );
-      }
+      tl.to(
+        socialLinks,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.55,
+          ease: 'power3.out',
+          stagger: { each: 0.08, from: 'start' },
+          onComplete: () => gsap.set(socialLinks, { clearProps: 'opacity' })
+        },
+        socialsStart + 0.04
+      );
     }
 
     openTlRef.current = tl;
@@ -185,9 +179,7 @@ const StaggeredMenuFinal = ({
         if (itemEls.length) gsap.set(itemEls, { yPercent: 140, rotate: 10 });
         const numberEls = Array.from(panel.querySelectorAll('.smf-list[data-numbering] .smf-item'));
         if (numberEls.length) gsap.set(numberEls, { '--smf-num-opacity': 0 });
-        const socialTitle = panel.querySelector('.smf-socials-title');
         const socialLinks = Array.from(panel.querySelectorAll('.smf-socials-link'));
-        if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
         if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
         busyRef.current = false;
       }
@@ -272,7 +264,6 @@ const StaggeredMenuFinal = ({
   }, [onMenuClose, playClose, animateIcon, animateColor, animateText]);
 
   const menuItems = Array.isArray(items) ? items : [];
-  const socials = Array.isArray(socialItems) ? socialItems : [];
   const safeLogo = logoUrl || '/assets/icons/new-arrow.svg';
 
   return (
@@ -355,33 +346,37 @@ const StaggeredMenuFinal = ({
             )}
           </ul>
 
-          {displaySocials && socials.length > 0 && (
+          {displaySocials && (
             <div className="smf-socials" aria-label="Social links">
-              <h3 className="smf-socials-title">Socials</h3>
-              <ul className="smf-socials-list" role="list">
-                {socials.map((s, i) => {
-                  const label = (s.label || '').toLowerCase();
-                  let iconSrc;
-                  if (label.includes('instagram')) {
-                    iconSrc = instagramIcon;
-                  } else if (label.includes('youtube')) {
-                    iconSrc = youtubeIcon;
-                  } else if (label.includes('linkedin')) {
-                    iconSrc = linkedinIcon;
-                  }
-                  return (
-                    <li key={(s.label || 'social') + i} className="smf-socials-item">
-                      <a href={s.link} target="_blank" rel="noopener noreferrer" className="smf-socials-link">
-                        {iconSrc ? (
-                          <img src={iconSrc} alt={s.label} className="smf-socials-icon" />
-                        ) : (
-                          s.label
-                        )}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+              <div className="smf-socials-icons">
+                <a 
+                  href="https://www.instagram.com/exposure.explorers_nitg/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="smf-socials-link"
+                  aria-label="Instagram"
+                >
+                  <img src={instagramIcon} alt="Instagram" className="smf-socials-icon" />
+                </a>
+                <a 
+                  href="https://www.linkedin.com/company/exposure-explorers/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="smf-socials-link"
+                  aria-label="LinkedIn"
+                >
+                  <img src={linkedinIcon} alt="LinkedIn" className="smf-socials-icon" />
+                </a>
+                <a 
+                  href="https://www.youtube.com/@Exposure-Explorers" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="smf-socials-link"
+                  aria-label="YouTube"
+                >
+                  <img src={youtubeIcon} alt="YouTube" className="smf-socials-icon" />
+                </a>
+              </div>
             </div>
           )}
         </div>

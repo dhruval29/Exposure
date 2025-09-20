@@ -56,7 +56,7 @@
 .hamburgerButton {
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   padding: 8px;
   display: flex;
   align-items: center;

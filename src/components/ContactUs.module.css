@@ -269,7 +269,7 @@
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 760ms);
-	cursor: pointer;
+	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
@@ -284,7 +284,7 @@
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 820ms);
-	cursor: pointer;
+	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
@@ -299,7 +299,7 @@
 	opacity: 0;
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 880ms);
-	cursor: pointer;
+	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;

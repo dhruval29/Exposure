@@ -48,7 +48,7 @@
   justify-content: center;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   color: #000000;
   font-weight: 500;
   line-height: 1;
@@ -199,7 +199,7 @@
     color 0.3s ease,
     opacity 0.3s ease;
   pointer-events: auto;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
 .sm-socials-link:hover {
@@ -212,7 +212,7 @@
   filter: brightness(0) invert(0);
   transition: filter 0.3s ease;
   pointer-events: auto;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
 .sm-socials-link:hover .sm-socials-icon {
@@ -252,7 +252,7 @@
   font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 600;
   font-size: 3.5rem;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   line-height: 1;
   letter-spacing: -2px;
   text-transform: uppercase;

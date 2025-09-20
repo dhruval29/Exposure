@@ -9,16 +9,11 @@ import '../styles/Gallery.css';
 const Events = () => {
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'Our Journey', ariaLabel: 'Learn about our journey', link: '/ourjourney' },
-    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
-    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' }
+    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
+    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 
-  const socialItems = [
-    { label: 'Twitter', link: 'https://twitter.com' },
-    { label: 'GitHub', link: 'https://github.com' },
-    { label: 'LinkedIn', link: 'https://linkedin.com' }
-  ];
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -330,7 +325,6 @@ const Events = () => {
       <StaggeredMenuFinal
         position="right"
         items={menuItems}
-        socialItems={socialItems}
         displaySocials={true}
         displayItemNumbering={false}
         menuButtonColor="#000"
@@ -338,7 +332,7 @@ const Events = () => {
         changeMenuColorOnOpen={true}
         colors={["#fecaca", "#fde68a"]}
         logoUrl="/assets/icons/new-arrow.svg"
-        accentColor="#ff6b6b"
+        accentColor="#6b7280"
         onMenuOpen={() => console.log('Menu opened')}
         onMenuClose={() => console.log('Menu closed')}
       />

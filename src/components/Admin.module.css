@@ -260,7 +260,7 @@
   letter-spacing: 0.01em;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   outline: none;
   text-decoration: none;
   min-height: 48px;
@@ -422,7 +422,7 @@
   color: #000; /* Icon color follows this via currentColor */
   border: none;
   border-radius: 50%;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   transition: all 0.2s ease;
   z-index: 10;
   opacity: 1; /* Always visible */
@@ -855,7 +855,7 @@
   border-radius: var(--border-radius-sm);
   font-size: 13px;
   font-weight: 500;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -923,7 +923,7 @@
 .closeButton {
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   padding: var(--spacing-xs);
   border-radius: var(--border-radius-sm);
   color: var(--color-neutral-500);
@@ -1070,7 +1070,7 @@
   color: var(--color-primary);
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   transition: all 0.2s ease;
 }
 

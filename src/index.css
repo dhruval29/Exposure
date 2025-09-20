@@ -90,6 +90,7 @@ body {
   animation: var(--app-gradient-anim);
   overflow-x: clip; /* avoid transient horizontal scrollbar during initial layout */
   overflow-y: visible;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
 #root {
@@ -112,7 +113,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   transition: border-color 0.25s;
 }
 button:hover {

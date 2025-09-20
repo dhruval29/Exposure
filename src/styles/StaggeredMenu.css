@@ -27,7 +27,6 @@
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .sm-header-sliding-up {
@@ -42,14 +41,13 @@
 .sm-contact-button {
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   color: #000000;
   font-family: 'PP Editorial New', serif;
   font-weight: 400;
   font-size: 24px;
   padding: 8px 12px;
   text-decoration: none;
-  transition: color 0.3s ease;
   pointer-events: auto;
   outline: none;
   display: flex;
@@ -77,7 +75,6 @@
   height: 26px;
   margin-right: 8px;
   filter: brightness(0) saturate(100%);
-  transition: filter 0.3s ease;
   align-self: baseline;
   margin-top: 10px;
   vertical-align: baseline;
@@ -131,7 +128,7 @@
   justify-content: center;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   color: #000000;
   font-family: 'PP Editorial New', serif;
   font-weight: 400;
@@ -288,26 +285,17 @@
   padding: 0.2em 0.6em !important;
   margin-bottom: 0.3em !important;
   box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4) !important;
-  transform: scale(1.05) !important;
-  animation: pulseLeft 2s infinite alternate !important;
 }
 
-[data-position='left'] .sm-panel-item:hover {
-  transform: scale(1.15) !important;
-  color: #ffffff !important;
-  background: linear-gradient(45deg, #ff6b6b, #ff4757) !important;
+[data-position='left'] .sm-panel-item:hover .sm-panel-itemLabel {
+  color: #808080 !important;
 }
 
 [data-position='left'] .sm-socials-link {
   font-size: 1.5rem !important;
   color: #ff6b6b !important;
-  transform: scale(1.2) !important;
 }
 
-@keyframes pulseLeft {
-  0% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4); }
-  100% { box-shadow: 0 12px 35px rgba(255, 107, 107, 0.8); }
-}
 
 .sm-prelayers {
   position: absolute;
@@ -397,11 +385,8 @@
   position: relative;
   padding: 2px 0;
   display: inline-block;
-  transition:
-    color 0.3s ease,
-    opacity 0.3s ease;
   pointer-events: auto;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
 .sm-socials-link:hover {
@@ -412,9 +397,8 @@
   width: 24px;
   height: 24px;
   filter: brightness(0) invert(0);
-  transition: filter 0.3s ease;
   pointer-events: auto;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
 .sm-socials-link:hover .sm-socials-icon {
@@ -454,14 +438,11 @@
   font-family: 'PP Editorial New', serif;
   font-weight: 400;
   font-size: 3.5rem;
-  cursor: pointer;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
   line-height: 1;
   letter-spacing: 0;
   text-transform: none;
   text-align: left;
-  transition:
-    background 0.25s,
-    color 0.25s;
   display: inline-block !important;
   text-decoration: none;
   padding: 0.1em 0.4em 0.1em 0.2em;
@@ -473,6 +454,14 @@
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   appearance: none;
+  /* Prevent any movement or positioning changes */
+  transform: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 0 0.2em 0 !important;
+  padding: 0.1em 0.4em 0.1em 0.2em !important;
 }
 
 /* Make label text lowercase with only the first letter uppercase */
@@ -485,22 +474,34 @@
   text-transform: uppercase;
 }
 
-/* Remove blue outline/border on hover/focus for panel buttons and links */
+/* Remove all outlines, borders, and prevent any movement on hover/focus */
+.sm-panel-item,
 .sm-panel-item:focus,
 .sm-panel-item:focus-visible,
 .sm-panel-item:active,
 .sm-panel-item:hover,
+.sm-panel-item:focus-within,
+.clean-staggered-menu-panel button,
 .clean-staggered-menu-panel button:focus,
 .clean-staggered-menu-panel button:focus-visible,
 .clean-staggered-menu-panel button:active,
 .clean-staggered-menu-panel button:hover,
+.clean-staggered-menu-panel button:focus-within,
+.clean-staggered-menu-panel a,
 .clean-staggered-menu-panel a:focus,
 .clean-staggered-menu-panel a:focus-visible,
 .clean-staggered-menu-panel a:active,
-.clean-staggered-menu-panel a:hover {
-  outline: none;
-  border: none;
-  box-shadow: none;
+.clean-staggered-menu-panel a:hover,
+.clean-staggered-menu-panel a:focus-within {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
 }
 
 .sm-socials-link {
@@ -509,7 +510,6 @@
 
 .clean-staggered-menu-panel .sm-socials-list .sm-socials-link {
   opacity: 1;
-  transition: opacity 0.3s ease;
 }
 
 .clean-staggered-menu-panel .sm-socials-list:hover .sm-socials-link:not(:hover) {
@@ -527,15 +527,30 @@
 
 .sm-panel-itemLabel {
   display: inline-block !important;
-  will-change: transform;
   transform-origin: 50% 100%;
   opacity: 1 !important;
   visibility: visible !important;
   color: #000 !important;
+  transition: color 0.3s ease;
 }
 
-.sm-panel-item:hover {
-  color: var(--sm-accent, #fecaca);
+.sm-panel-item:hover .sm-panel-itemLabel {
+  color: #808080;
+}
+
+/* Ensure no movement on any state change */
+.sm-panel-item:hover,
+.sm-panel-item:focus,
+.sm-panel-item:active,
+.sm-panel-item:focus-within {
+  transform: none !important;
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 0 0.2em 0 !important;
+  padding: 0.1em 0.4em 0.1em 0.2em !important;
 }
 
 .sm-panel-list[data-numbering] {
@@ -569,7 +584,6 @@
   width: 20px;
   height: 2px;
   display: block;
-  transition: 0.4s;
 }
 
 .hamburger-line-1 {
@@ -595,18 +609,7 @@
   display: none;
 }
 
-/* Clean Hover Effects - Simple X Transform */
-.sm-toggle:hover .hamburger-line-1 {
-  transform: translateX(-50%) translateY(6px) rotate(45deg);
-}
-
-.sm-toggle:hover .hamburger-line-2 {
-  opacity: 0;
-}
-
-.sm-toggle:hover .hamburger-line-3 {
-  transform: translateX(-50%) translateY(-6px) rotate(-45deg);
-}
+/* No hover effects - completely static */
 
 /* Simple hamburger - no complex animations */
 
