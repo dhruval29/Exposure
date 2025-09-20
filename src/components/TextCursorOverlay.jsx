@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import textPng from '/assets/icons/Text.png'
+import textPng from '/assets/icons/cursor final.png'
 
 const TextCursorOverlay = ({ selector = '#headline-reveal, #headline-reveal *' }) => {
   const ref = useRef(null)
