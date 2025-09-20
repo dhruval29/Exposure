@@ -347,10 +347,45 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
           zIndex: zIndex,
           pointerEvents: 'none',
           display: visible ? 'block' : 'none',
-          background: 'transparent',
-          animation: 'none'
+          background: 'linear-gradient(135deg, #faf8f2 0%, #e8e2d4 25%, #f5f1e8 50%, #ede7d9 75%, #faf8f2 100%)',
+          backgroundSize: '400% 400%',
+          animation: 'mobileGradientShift 8s ease-in-out infinite'
         }}
-      />
+      >
+        {/* Mobile text content - centered on screen but left-aligned within box */}
+        <div
+          className={styles.mobileTextContent}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'left',
+            color: '#000',
+            fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
+            fontSize: 'clamp(48px, 15vw, 84px)',
+            fontWeight: '400',
+            letterSpacing: '-0.02em',
+            lineHeight: '97%',
+            textTransform: 'uppercase',
+            pointerEvents: 'none',
+            zIndex: 1
+          }}
+        >
+          <div style={{ 
+            margin: 0, 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'flex-start'
+          }}>
+            <div>EXPOSURE</div>
+            <div>EXPLORERS</div>
+          </div>
+        </div>
+      </main>
     );
   }
 
@@ -368,7 +403,10 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
         height: '100vh',
         zIndex: zIndex,
         pointerEvents: 'none',
-        display: visible ? 'block' : 'none'
+        display: visible ? 'block' : 'none',
+        background: 'linear-gradient(135deg, #faf8f2 0%, #e8e2d4 25%, #f5f1e8 50%, #ede7d9 75%, #faf8f2 100%)',
+        backgroundSize: '400% 400%',
+        animation: 'mobileGradientShift 8s ease-in-out infinite'
       }}
     >
       <canvas
