@@ -281,23 +281,6 @@ const StaggeredMenuFinal = ({
       </div>
       <header className="smf-header" aria-label="Main navigation header">
         <button
-          className="smf-contact-button"
-          aria-label="Contact us"
-          onClick={() => {
-            // Navigate to contact page or open contact modal
-            window.location.href = '/contact';
-          }}
-          type="button"
-        >
-          <img 
-            src="/assets/icons/photo-camera-svgrepo-com.svg" 
-            alt="Camera icon" 
-            className="smf-contact-icon"
-          />
-          <span className="smf-contact-text">Contact</span>
-        </button>
-        
-        <button
           ref={toggleBtnRef}
           className="smf-toggle"
           aria-label={open ? 'Close menu' : 'Open menu'}

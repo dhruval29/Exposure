@@ -1,14 +1,13 @@
 .events {
   --menu-item-height: 160px; /* keep in sync with FlowingMenu.css - consistent across all sizes */
+  --cu-delay-base: 500ms; /* same as contact page */
   width: 100%;
   max-width: 100%;
   position: relative;
-  background: var(--app-gradient);
-  background-size: var(--app-gradient-size);
-  animation: var(--app-gradient-anim);
+  background: white; /* solid white background instead of gradient */
   /* 10 items visible: header/search area ~150px + 10 * item height */
-  height: calc(150px + (10 * var(--menu-item-height)));
-  min-height: calc(150px + (10 * var(--menu-item-height))); /* Ensure consistent minimum height */
+  height: 100vh; /* full viewport height to cover gradient */
+  min-height: 100vh; /* ensure it covers the full screen */
   overflow-x: hidden;
   overflow-y: auto;
   text-align: left;
@@ -20,54 +19,45 @@
   scroll-behavior: smooth;
 }
 
+/* Contact page style text animations */
+@keyframes cu-textReveal {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 /* Remove scrolling on mobile devices */
 @media (max-width: 1024px) {
   .events {
     overflow-y: hidden;
   }
+  
+  .eventsList {
+    margin-top: 30px; /* reduced margin for tablet */
+  }
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  20% {
-    background-position: 25% 50%;
-  }
-  40% {
-    background-position: 50% 75%;
-  }
-  60% {
-    background-position: 75% 100%;
-  }
-  80% {
-    background-position: 50% 75%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 /* remove extra overlay to match menu */
 .events::before { display: none; }
 
 .events2 {
   position: absolute;
-  top: 210px; /* moved up a bit for better positioning */
-  left: 56.5px;
-  font-size: 96px;
-  font-weight: bold;
+  top: 130px; /* reduced by 20px */
+  left: 56.5px; /* original Events positioning */
+  font-size: 128px; /* same size as contact */
+  font-family: 'PP Editorial New', serif; /* PP Editorial italic font */
+  font-style: italic;
   margin: 0;
   z-index: 3;
-  display: flex;
-  align-items: center;
-  height: 66px;
+  opacity: 0;
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 80ms);
 }
 
 .searchContainer {
   position: absolute;
   top: 220px; /* moved up to align with Events title */
-  right: 65px;
+  right: 10px; /* positioned even more to the right on desktop */
   border-radius: 47.78px;
   background-color: #d9d9d9;
   width: 20%;
@@ -78,6 +68,10 @@
   padding: 0 20px 0 24px;
   box-sizing: border-box;
   z-index: 3;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 200ms); /* appears after Events title */
 }
 
 .searchInput {
@@ -99,6 +93,10 @@
 .searchInput::placeholder {
   color: #6c6a6a;
   font-family: 'PP Editorial New', serif;
+}
+
+.eventsList {
+  margin-top: 40px; /* Add space between Events title/search bar and flowing menu */
 }
 
 .magnifyingGlassSvgrepoCom1Icon {
@@ -197,9 +195,9 @@
   }
   
   .events2 {
-    font-size: 72px;
-    top: 85px; /* moved up a bit for better positioning */
-    left: 40px;
+    font-size: 88px; /* scaled up for tablet */
+    top: 75px; /* reduced top margin for tablet */
+    left: 40px; /* original tablet positioning */
     height: 55px;
   }
   
@@ -207,8 +205,8 @@
     width: 180px;
     max-width: 180px;
     height: 38px;
-    top: 95px; /* moved up to align with Events title */
-    left: 370px;
+    top: 80px; /* moved up on tablet */
+    left: 400px; /* moved more to the right for tablet */
   }
   
   .searchInput {
@@ -244,9 +242,9 @@
   }
   
   .events2 {
-    font-size: 44px;
-    top: 78px; /* moved up a bit for better positioning */
-    left: 20px;
+    font-size: 52px; /* scaled up for mobile landscape */
+    top: 68px; /* reduced top margin for mobile landscape */
+    left: 20px; /* original mobile landscape positioning */
     height: 42px;
   }
   
@@ -254,8 +252,13 @@
     width: 160px;
     max-width: 160px;
     height: 30px;
-    top: 88px; /* moved up to align with Events title */
-    left: 230px;
+    top: 78px; /* moved up on mobile landscape */
+    left: 260px; /* moved more to the right for mobile landscape */
+    padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
+  }
+  
+  .eventsList {
+    margin-top: 25px; /* reduced margin for mobile landscape */
   }
   
   .searchInput {
@@ -291,9 +294,9 @@
   }
   
   .events2 {
-    font-size: 32px;
-    top: 74px; /* moved up a bit for better positioning */
-    left: 15px;
+    font-size: 40px; /* scaled up for mobile portrait */
+    top: 60px; /* reduced top margin for mobile portrait */
+    left: 15px; /* original mobile portrait positioning */
     height: 36px;
   }
   
@@ -301,8 +304,9 @@
     width: 140px;
     max-width: 140px;
     height: 26px;
-    top: 80px; /* moved up to align with Events title */
-    left: 220px;
+    top: 77px; /* moved up on mobile portrait */
+    left: 250px; /* moved more to the right for mobile portrait */
+    padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
   .searchInput {
@@ -337,9 +341,9 @@
   }
   
   .events2 {
-    font-size: 26px;
-    top: 68px; /* moved up a bit for better positioning */
-    left: 10px;
+    font-size: 32px; /* scaled up for small mobile */
+    top: 54px; /* reduced top margin for small mobile */
+    left: 10px; /* original small mobile positioning */
     height: 32px;
   }
   
@@ -347,8 +351,9 @@
     width: 120px;
     max-width: 120px;
     height: 24px;
-    top: 74px; /* moved up to align with Events title */
-    left: 145px;
+    top: 64px; /* moved up on small mobile */
+    left: 175px; /* moved more to the right for small mobile */
+    padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
   .searchInput {
@@ -382,9 +387,9 @@
   }
   
   .events2 {
-    font-size: 120px;
-    top: 100px; /* moved up a bit for better positioning */
-    left: 65px;
+    font-size: 120px; /* original large screen size */
+    top: 60px; /* reduced by 20px */
+    left: 65px; /* original large screen positioning */
     height: 80px;
   }
   
@@ -392,7 +397,7 @@
     width: 50%;
     height: 60px;
     top: 125px; /* moved up to align with Events title */
-    right: 200px;
+    right: 150px; /* moved more to the right for large screens */
   }
   
   .searchInput {

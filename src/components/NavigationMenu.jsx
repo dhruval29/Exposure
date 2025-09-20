@@ -346,10 +346,16 @@ const NavigationMenu = ({ isExiting }) => {
                  top: '50%',
                  transform: 'translateY(-50%)',
                  color: 'white',
-                 fontSize: 'clamp(36px, 3.33vw, 64px)', // Responsive font: 48px at 1440px, scales up to 64px
+                 fontSize: isMobile === 'small-mobile' ? '24px' : 
+                           isMobile === 'mobile' ? '28px' : 
+                           isMobile === 'tablet' ? '32px' : 
+                           'clamp(36px, 3.33vw, 64px)', // Mobile: smaller sizes, Desktop: responsive font
                  fontFamily: 'Helvetica, sans-serif',
                  fontWeight: '400',
-                 letterSpacing: 'clamp(0.5px, 0.07vw, 1.5px)', // Responsive letter spacing
+                 letterSpacing: isMobile === 'small-mobile' ? '0.3px' : 
+                                isMobile === 'mobile' ? '0.4px' : 
+                                isMobile === 'tablet' ? '0.5px' : 
+                                'clamp(0.5px, 0.07vw, 1.5px)', // Mobile: tighter spacing, Desktop: responsive
                  opacity: 0, // Back to hidden for animation
                  pointerEvents: 'none' // Prevent any interaction interference
                }}

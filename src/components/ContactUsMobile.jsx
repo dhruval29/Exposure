@@ -3,7 +3,7 @@ import './ContactUsMobile.css';
 import { supabase } from '../lib/supabaseClient';
 import { Calendar24 } from '@/components/Calendar24';
 
-const BASE_DELAY_MS = 1000;
+const BASE_DELAY_MS = 500;
 
 function LabelWithLine({ label, delayMs = 0 }) {
   return (

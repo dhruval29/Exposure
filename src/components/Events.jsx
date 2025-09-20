@@ -15,32 +15,26 @@ const Events = () => {
   ];
 
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const listRef = useRef(null);
-  const loadingPageRef = useRef(null);
   const [showGuide, setShowGuide] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [showLoader, setShowLoader] = useState(true);
-  const loaderRef = useRef(null);
-  const loaderPanelRef = useRef(null);
-  const loaderTextRef = useRef(null);
 
   // Set page size based on screen size
   useEffect(() => {
     const updatePageSize = () => {
       const width = window.innerWidth;
       if (width <= 360) {
-        setPageSize(8); // Small mobile devices
+        setPageSize(9); // Small mobile devices - display 9 events
       } else if (width <= 480) {
-        setPageSize(8); // Mobile portrait
+        setPageSize(9); // Mobile portrait - display 9 events
       } else if (width <= 768) {
-        setPageSize(9); // Mobile landscape
+        setPageSize(9); // Mobile landscape - display 9 events
       } else if (width <= 1024) {
-        setPageSize(9); // Tablet
+        setPageSize(9); // Tablet - display 9 events
       } else {
         setPageSize(10); // Desktop - keep original
       }
@@ -53,27 +47,6 @@ const Events = () => {
 
 
 
-  // Shutter loader animation
-  useEffect(() => {
-    if (!showLoader) return;
-    const wrapper = loaderRef.current;
-    const panel = loaderPanelRef.current;
-    const text = loaderTextRef.current;
-    if (!wrapper || !panel || !text) return;
-
-    gsap.set(panel, { height: '100vh' });
-    gsap.set(text, { autoAlpha: 1, y: 0 });
-
-    const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
-    tl.to(text, { autoAlpha: 1, duration: 0.2 })
-      .add('reveal')
-      .to(panel, { height: 0, duration: 2.0, ease: 'power4.inOut' }, 'reveal')
-      .to(text, { autoAlpha: 0, duration: 0.6, ease: 'power2.out' }, 'reveal+=0.3')
-      .set(wrapper, { pointerEvents: 'none', display: 'none' })
-      .add(() => setShowLoader(false));
-
-    return () => { tl.kill(); };
-  }, [showLoader]);
 
   useEffect(() => {
     // Enhanced smooth scroll for better browser support
@@ -131,7 +104,6 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        setLoading(true);
         const { data: events, error } = await supabase
           .from('events')
           .select(`
@@ -228,7 +200,6 @@ const Events = () => {
         setError('Failed to fetch events');
         console.error('Error fetching events:', err);
       } finally {
-        setLoading(false);
       }
     };
 
@@ -249,7 +220,7 @@ const Events = () => {
   // Show guide for first-time users
   useEffect(() => {
     const hasVisitedEvents = localStorage.getItem('hasVisitedEvents');
-    if (!hasVisitedEvents && !loading && events.length > 0) {
+    if (!hasVisitedEvents && events.length > 0) {
       // Find the first event with a valid link
       const firstClickableEvent = events.find(event => 
         event.links && event.links.length > 0 && event.links[0] !== '#'
@@ -262,7 +233,7 @@ const Events = () => {
         }, 2000);
       }
     }
-  }, [loading, events]);
+  }, [events]);
 
   // Handle user interaction to hide guide
   const handleUserInteraction = () => {
@@ -336,37 +307,7 @@ const Events = () => {
         onMenuOpen={() => console.log('Menu opened')}
         onMenuClose={() => console.log('Menu closed')}
       />
-      {showLoader && (
-        <div
-          ref={loaderRef}
-          style={{ position: 'fixed', inset: 0, zIndex: 100000, overflow: 'hidden', pointerEvents: 'auto' }}
-        >
-          <div
-            ref={loaderPanelRef}
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100vh', background: 'white', transformOrigin: 'top center' }}
-          />
-          <div
-            ref={loaderTextRef}
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black', fontSize: 'clamp(24px, 6vw, 64px)', fontFamily: 'Helvetica, Arial, sans-serif', letterSpacing: '0.02em' }}
-          >
-            Events
-          </div>
-        </div>
-      )}
-      {loading && (
-        <div className="c-loading-page" ref={loadingPageRef}>
-          <div className="c-loading-page__content">
-            <p className="c-loading-page__text">
-              {'Events'.split('').map((char, index) => (
-                <span key={index} className="char" style={{ animationDelay: `${index * 100}ms` }}>
-                  {char}
-                </span>
-              ))}
-            </p>
-          </div>
-        </div>
-      )}
-      <b className={styles.events2}>Events</b>
+      <i className={styles.events2}>Events</i>
       <div className={styles.searchContainer}>
         <img 
           className={styles.magnifyingGlassSvgrepoCom1Icon} 
@@ -382,12 +323,6 @@ const Events = () => {
         />
       </div>
       
-      {loading && (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-          <p>Loading events...</p>
-        </div>
-      )}
       
       {error && (
         <div className={styles.errorContainer}>
@@ -395,7 +330,7 @@ const Events = () => {
         </div>
       )}
       
-      {!loading && !error && (
+      {!error && (
         <div className={styles.eventsList} ref={listRef}>
           {eventsData.length > 0 ? (
             <>

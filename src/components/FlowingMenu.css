@@ -11,6 +11,22 @@
 
 /* animation declared globally in index.css */
 
+/* Contact page style text animations */
+@keyframes cu-textReveal {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cu-lineGrow {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+/* Base delay variable for staggered animations */
+.menu-wrap {
+  --cu-delay-base: 500ms;
+}
+
 /* remove extra overlay to avoid double tint */
 .menu-wrap::before { display: none; }
 
@@ -33,15 +49,30 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-  height: 160px;
-  min-height: 160px; /* Ensure consistent minimum height */
+  height: 120px;
+  min-height: 120px; /* Reduced height */
   overflow: hidden;
   background: transparent;
-  border-bottom: 1px solid #000;
+  border-bottom: none;
   display: flex;
   align-items: center;
   transition: background-color 0.3s ease;
   box-sizing: border-box; /* Include padding/border in height calculation */
+}
+
+/* Animated border lines - synchronized with Events title */
+.menu__item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 120ms); /* same timing as Events title */
 }
 
 .menu__bg {
@@ -174,7 +205,21 @@
 }
 
 .menu__item:first-child {
-  border-top: 1px solid #000;
+  border-top: none;
+}
+
+.menu__item:first-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 100ms); /* same timing as Events title */
 }
 
 .menu__item-link {
@@ -188,7 +233,7 @@
   text-decoration: none;
   color: #000000;
   font-family: 'PP Editorial New', serif;
-  font-size: 3rem;
+  font-size: 2.2rem; /* Scaled down title text */
   font-weight: 400;
   letter-spacing: 0.02em;
   padding-left: 2rem;
@@ -262,27 +307,55 @@
   -ms-hyphens: none !important; /* IE/Edge */
 }
 
+/* Contact page style animations for menu items - synchronized with Events title */
+.menu__title--animated {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 80ms); /* same timing as Events title */
+}
+
+.menu__date--animated {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 160ms); /* slight delay after Events title */
+}
+
+/* Arrow starts hidden and only appears on hover */
+.menu__arrow--animated {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Arrow appears on hover */
+.menu__item:hover .menu__arrow--animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 
 /* Responsive design */
 /* Tablet styles */
 @media (max-width: 1024px) {
   .menu__item {
-    height: 160px; /* Keep desktop height for tablets */
-    min-height: 160px;
+    height: 120px; /* Reduced height for tablets */
+    min-height: 120px;
   }
 }
 
 /* Mobile landscape */
 @media (max-width: 768px) {
   .menu__item {
-    height: 108px;
-    min-height: 108px; /* Ensure consistent minimum height */
+    height: 85px;
+    min-height: 85px; /* Reduced height for mobile landscape */
   }
   
   .menu__item-link {
     font-family: 'PP Editorial New', serif;
-    font-size: 1.9rem;
+    font-size: 1.4rem; /* Scaled down for mobile landscape */
     letter-spacing: 0.02em;
     padding-left: 1rem;
     gap: 0.8rem; /* Smaller gap on mobile */
@@ -336,12 +409,12 @@
 /* Large mobile devices (like Galaxy S24 FE 6.7") */
 @media (max-width: 768px) and (min-height: 900px) {
   .menu__item {
-    height: 112px; /* Slightly larger for tall screens */
-    min-height: 112px;
+    height: 90px; /* Reduced height for large mobile */
+    min-height: 90px;
   }
   
   .menu__item-link {
-    font-size: 2.0rem; /* Slightly larger font */
+    font-size: 1.5rem; /* Scaled down for large mobile */
     padding-left: 1.1rem;
     gap: 0.9rem;
   }
@@ -382,13 +455,13 @@
 /* Mobile portrait */
 @media (max-width: 480px) {
   .menu__item {
-    height: 92px;
-    min-height: 92px; /* Ensure consistent minimum height */
+    height: 75px;
+    min-height: 75px; /* Reduced height for mobile portrait */
   }
   
   .menu__item-link {
     font-family: 'PP Editorial New', serif;
-    font-size: 1.6rem;
+    font-size: 1.2rem; /* Scaled down for mobile portrait */
     letter-spacing: 0.02em;
     padding-left: 0.8rem;
     gap: 0.6rem; /* Even smaller gap on small mobile */
@@ -447,12 +520,12 @@
 /* Small mobile devices */
 @media (max-width: 360px) {
   .menu__item {
-    height: 88px; /* Slightly smaller for very small screens */
-    min-height: 88px;
+    height: 70px; /* Reduced height for small mobile */
+    min-height: 70px;
   }
   
   .menu__item-link {
-    font-size: 1.5rem; /* Slightly smaller for very small screens */
+    font-size: 1.1rem; /* Scaled down for small mobile */
     padding-left: 0.8rem;
     gap: 0.5rem; /* Minimal gap on very small screens */
   }
@@ -488,12 +561,12 @@
 /* Extra large screens */
 @media (min-width: 1440px) {
   .menu__item {
-    height: 160px; /* Keep consistent height even on large screens */
-    min-height: 160px;
+    height: 120px; /* Reduced height for large screens */
+    min-height: 120px;
   }
   
   .menu__item-link {
-    font-size: 3.2rem; /* Slightly larger font for large screens */
+    font-size: 2.4rem; /* Scaled down for large screens */
     padding-left: 2.5rem;
   }
   
