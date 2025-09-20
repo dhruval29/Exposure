@@ -79,6 +79,7 @@
   .smf-toggle {
     font-size: 22px;
     padding: 5px 8px;
+    margin-top: 8px;
   }
   .smf-item {
     font-size: clamp(52px, 7.75vw, 96px);
@@ -98,6 +99,7 @@
   .smf-toggle {
     font-size: 20px;
     padding: 4px 6px;
+    margin-top: 8px;
   }
   .smf-item {
     font-size: clamp(46px, 7vw, 88px);
@@ -117,6 +119,7 @@
   .smf-toggle {
     font-size: 18px;
     padding: 3px 5px;
+    margin-top: 8px;
   }
   .smf-item {
     font-size: clamp(40px, 6.25vw, 76px);
