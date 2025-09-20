@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import StaggeredMenu from './StaggeredMenu';
+import StaggeredMenuFinal from './StaggeredMenuFinal';
 import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
 
@@ -14,11 +14,10 @@ const Featured = () => {
   const loadingPageRef = useRef(null);
 
   const menuItems = [
-    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'Events', ariaLabel: 'View our events', link: '/events' },
-    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
-    { label: 'Contact', ariaLabel: 'Go to contact page', link: '/contact' }
+    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
+    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 
   const socialItems = [
@@ -131,9 +130,8 @@ const Featured = () => {
     <div
       className="gallery-container"
       style={{
-        overflowY: hasManyImages ? 'auto' : 'hidden',
-        height: hasManyImages ? 'auto' : '100vh',
-        minHeight: hasManyImages ? '100vh' : undefined
+        overflowY: 'auto',
+        minHeight: '100vh'
       }}
     >
       {/* Shutter Loader Overlay */}
@@ -169,30 +167,32 @@ const Featured = () => {
         </div>
       )}
 
-      {/* StaggeredMenu */}
-      <StaggeredMenu
+      {/* Mobile Navigation Brand Text */}
+      <div className="mobileNavBrand">
+        <div className="brandLine1">EXPOSURE</div>
+        <div className="brandLine2">EXPLORERS</div>
+      </div>
+      
+      <StaggeredMenuFinal
         position="right"
         items={menuItems}
-        socialItems={socialItems}
         displaySocials={true}
         displayItemNumbering={false}
         menuButtonColor="#000"
         openMenuButtonColor="#000"
         changeMenuColorOnOpen={true}
-        colors={['#fde68a', '#fecaca']}
-        logoUrl="/src/assets/logos/reactbits-gh-white.svg"
-        accentColor="#ff6b6b"
-        onMenuOpen={() => {}}
-        onMenuClose={() => {}}
-        showHeaderContact={false}
+        colors={["#fde68a", "#fecaca"]}
+        logoUrl="/assets/icons/new-arrow.svg"
+        accentColor="#6b7280"
+        onMenuOpen={() => console.log('Menu opened')}
+        onMenuClose={() => console.log('Menu closed')}
       />
 
       {/* Main Content */}
       <main
         className="main"
         style={{
-          height: hasManyImages ? 'auto' : '100vh',
-          minHeight: hasManyImages ? '100vh' : undefined
+          minHeight: '100vh'
         }}
       >
         <div className="p-home">
@@ -201,8 +201,8 @@ const Featured = () => {
             <div
               className="p-home-left-section"
               style={{
-                height: hasManyImages ? 'auto' : '100vh',
-                overflow: hasManyImages ? 'visible' : 'hidden'
+                height: 'auto',
+                overflow: 'visible'
               }}
             >
               {/* Grid Contents */}

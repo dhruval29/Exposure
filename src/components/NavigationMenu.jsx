@@ -327,10 +327,10 @@ const NavigationMenu = ({ isExiting }) => {
           onMouseLeave={() => handleHover(index, false)}
           style={{
             position: 'relative',
-            height: isMobile === 'small-mobile' ? '40px' : 
-                   isMobile === 'mobile' ? '50px' : 
-                   isMobile === 'tablet' ? '60px' : 
-                   'clamp(70px, 5.56vw, 100px)', // Responsive height
+            height: isMobile === 'small-mobile' ? '50px' : 
+                   isMobile === 'mobile' ? '65px' : 
+                   isMobile === 'tablet' ? '80px' : 
+                   'clamp(90px, 7.5vw, 130px)', // Responsive height - increased
             cursor: "url('/assets/icons/cursor%20final.png') 16 16, pointer",
             overflow: 'visible',
             width: '100%'
@@ -346,10 +346,10 @@ const NavigationMenu = ({ isExiting }) => {
                  top: '50%',
                  transform: 'translateY(-50%)',
                  color: 'white',
-                 fontSize: isMobile === 'small-mobile' ? '24px' : 
-                           isMobile === 'mobile' ? '28px' : 
-                           isMobile === 'tablet' ? '32px' : 
-                           'clamp(36px, 3.33vw, 64px)', // Mobile: smaller sizes, Desktop: responsive font
+                 fontSize: isMobile === 'small-mobile' ? '28px' : 
+                           isMobile === 'mobile' ? '34px' : 
+                           isMobile === 'tablet' ? '40px' : 
+                           'clamp(44px, 4.2vw, 80px)', // Mobile: increased sizes, Desktop: responsive font - increased
                  fontFamily: 'Helvetica, sans-serif',
                  fontWeight: '400',
                  letterSpacing: isMobile === 'small-mobile' ? '0.3px' : 

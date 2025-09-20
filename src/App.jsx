@@ -8,6 +8,7 @@ import Frame50 from './components/Frame50'
 import TestPage from './components/TestPage'
 import MembersPage from './components/MembersPage'
 import Featured from './components/Featured'
+import FeaturedMobile from './components/FeaturedMobile'
 import TeamPage from './components/TeamPage'
 import OurJourney from './components/OurJourney'
 import Admin from './components/Admin'
@@ -39,6 +40,29 @@ function ContactRoute() {
   return isMobile ? <ContactUsMobile /> : <ContactUs />;
 }
 
+function FeaturedRoute() {
+  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 1024px)').matches);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1024px)');
+    const handler = (e) => setIsMobile(e.matches);
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler);
+    } else {
+      mq.addListener(handler);
+    }
+    return () => {
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', handler);
+      } else {
+        mq.removeListener(handler);
+      }
+    };
+  }, []);
+
+  return isMobile ? <FeaturedMobile /> : <Featured />;
+}
+
 function App() {
   return (
     <Router>
@@ -59,8 +83,8 @@ function InnerApp() {
         <Route path="/" element={<Landing />} />
         <Route path="/our-journey" element={<OurJourney />} />
         <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
-        <Route path="/gallery" element={<Featured />} />
-        <Route path="/pictures" element={<Featured />} />
+        <Route path="/gallery" element={<FeaturedRoute />} />
+        <Route path="/pictures" element={<FeaturedRoute />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/members" element={<MembersPage />} />
         <Route path="/team" element={<TeamPage />} />
