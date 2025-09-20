@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 100%;
   position: relative;
-  background: linear-gradient(-45deg, rgba(236, 253, 243, 0.2), rgba(209, 250, 229, 0.2), rgba(167, 243, 208, 0.2), rgba(110, 231, 183, 0.2), rgba(52, 211, 153, 0.2), rgba(16, 185, 129, 0.2));
+  background: linear-gradient(-45deg, rgba(236, 253, 243, 0.4), rgba(209, 250, 229, 0.4), rgba(167, 243, 208, 0.4), rgba(110, 231, 183, 0.4), rgba(52, 211, 153, 0.4), rgba(16, 185, 129, 0.4));
   background-size: 400% 400%;
   animation: eventsGradientShift 10s ease-in-out infinite;
   /* 10 items visible: header/search area ~150px + 10 * item height */
@@ -40,7 +40,7 @@
 @media (prefers-reduced-motion: reduce) {
   .events {
     animation: none !important;
-    background: rgba(236, 253, 243, 0.2) !important;
+    background: rgba(236, 253, 243, 0.4) !important;
   }
 }
 
@@ -59,9 +59,84 @@
 /* remove extra overlay to match menu */
 .events::before { display: none; }
 
+/* Mobile Navigation Brand Text */
+.mobileNavBrand {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-family: 'PP Editorial New', serif;
+  font-weight: 400;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 9999; /* Very high z-index to stay above navigation bar */
+  display: none; /* Hidden by default */
+  line-height: 1;
+  pointer-events: none; /* Allow clicks to pass through */
+}
+
+.brandLine1,
+.brandLine2 {
+  display: block;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-family: 'PP Editorial New', serif;
+  letter-spacing: -0.02em;
+}
+
+/* Show on mobile versions only */
+@media (max-width: 1024px) {
+  .mobileNavBrand {
+    display: block;
+    top: 18px;
+    left: 18px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 18px;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) {
+  .mobileNavBrand {
+    top: 16px;
+    left: 16px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 17px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  .mobileNavBrand {
+    top: 14px;
+    left: 14px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 16px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 360px) {
+  .mobileNavBrand {
+    top: 12px;
+    left: 12px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 15px;
+  }
+}
+
 .events2 {
   position: absolute;
-  top: 130px; /* reduced by 20px */
+  top: 140px; /* added 10px padding after nav bar */
   left: 56.5px; /* original Events positioning */
   font-size: 128px; /* same size as contact */
   font-family: 'PP Editorial New', serif; /* PP Editorial italic font */
@@ -75,8 +150,8 @@
 
 .searchContainer {
   position: absolute;
-  top: 220px; /* moved up to align with Events title */
-  right: 10px; /* positioned even more to the right on desktop */
+  top: 230px; /* moved up to align with Events title + 10px padding */
+  right: 30px; /* positioned on the right side for desktop */
   border-radius: 47.78px;
   background-color: #d9d9d9;
   width: 20%;
@@ -126,7 +201,7 @@
 
 .eventsItem {
   position: absolute;
-  top: 330px; /* moved up to align with new layout */
+  top: 340px; /* moved up to align with new layout + 10px padding */
   left: 56.5px;
   right: 56.5px;
   border-top: 1px solid #000;
@@ -137,7 +212,7 @@
 
 .eventsList {
   position: absolute;
-  top: 310px; /* moved up to align with new layout */
+  top: 320px; /* moved up to align with new layout + 10px padding */
   left: 0;
   right: 0;
   bottom: 0;
@@ -416,7 +491,7 @@
     width: 50%;
     height: 60px;
     top: 125px; /* moved up to align with Events title */
-    right: 150px; /* moved more to the right for large screens */
+    right: 20px; /* positioned on the right side for large screens */
   }
   
   .searchInput {

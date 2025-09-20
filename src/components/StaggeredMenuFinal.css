@@ -38,7 +38,7 @@
 .smf-wrapper[data-position="right"] .smf-panel { right: 0; }
 .smf-wrapper[data-position="left"] .smf-panel { left: 0; }
 
-.smf-panel-inner { height: 100%; display: grid; grid-template-rows: 1fr auto; padding: 120px 48px 32px; gap: 24px; }
+.smf-panel-inner { height: 100%; display: grid; grid-template-rows: 1fr auto; padding: 140px 48px 32px; gap: 24px; }
 .smf-list { list-style: none; margin: 0; padding: 0; }
 .smf-itemWrap { margin: 0; padding: 0; }
 .smf-item { position: relative; display: block; padding: 14px 0; color: #000; text-decoration: none; font: 400 clamp(20px, 4.2vw, 56px)/1.05 'PP Editorial New', serif; letter-spacing: 0; transition: color 0.3s ease; }
@@ -56,7 +56,7 @@
   .smf-prelayers, .smf-panel { width: 100vw; }
   .smf-wrapper[data-open][data-position="right"] .smf-overlay { right: 100vw; }
   .smf-wrapper[data-open][data-position="left"] .smf-overlay { left: 100vw; }
-  .smf-panel-inner { padding: 96px 28px 24px; }
+  .smf-panel-inner { padding: 116px 28px 24px; gap: 34px; }
   .smf-list[data-numbering] .smf-item::before { left: -28px; }
   .smf-header { top: 0; }
   
@@ -66,7 +66,7 @@
     padding: 6px 10px;
   }
   .smf-item {
-    font-size: clamp(48px, 7.5vw, 96px);
+    font-size: clamp(56px, 8.5vw, 112px);
     padding: 10px 0;
   }
 }
@@ -81,11 +81,12 @@
     padding: 5px 8px;
   }
   .smf-item {
-    font-size: clamp(42px, 6.75vw, 84px);
+    font-size: clamp(52px, 7.75vw, 96px);
     padding: 8px 0;
   }
   .smf-panel-inner {
-    padding: 80px 24px 20px;
+    padding: 100px 24px 20px;
+    gap: 34px;
   }
 }
 
@@ -99,11 +100,12 @@
     padding: 4px 6px;
   }
   .smf-item {
-    font-size: clamp(36px, 6vw, 72px);
+    font-size: clamp(46px, 7vw, 88px);
     padding: 6px 0;
   }
   .smf-panel-inner {
-    padding: 70px 20px 18px;
+    padding: 120px 20px 18px;
+    gap: 34px;
   }
 }
 
@@ -117,11 +119,12 @@
     padding: 3px 5px;
   }
   .smf-item {
-    font-size: clamp(30px, 5.25vw, 60px);
+    font-size: clamp(40px, 6.25vw, 76px);
     padding: 5px 0;
   }
   .smf-panel-inner {
-    padding: 60px 16px 16px;
+    padding: 80px 16px 16px;
+    gap: 34px;
   }
 }
 

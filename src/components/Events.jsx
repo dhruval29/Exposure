@@ -9,8 +9,8 @@ import '../styles/Gallery.css';
 const Events = () => {
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
-    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
+    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
+    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 
@@ -293,6 +293,12 @@ const Events = () => {
 
   return (
     <div className={styles.events}>
+      {/* Mobile Navigation Brand Text */}
+      <div className={styles.mobileNavBrand}>
+        <div className={styles.brandLine1}>EXPOSURE</div>
+        <div className={styles.brandLine2}>EXPLORERS</div>
+      </div>
+      
       <StaggeredMenuFinal
         position="right"
         items={menuItems}
