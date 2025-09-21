@@ -93,6 +93,12 @@ body {
   cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
+/* Prevent layout shift when modal opens */
+body.modal-open {
+  padding-right: var(--scrollbar-width, 0px);
+  overflow-y: hidden;
+}
+
 #root {
   background: transparent; /* inherit animated gradient from body */
   width: 100%;

@@ -7,16 +7,19 @@ import { supabase } from '../lib/supabaseClient';
 const Featured = () => {
   const [loading, setLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const loaderRef = useRef(null);
   const loaderPanelRef = useRef(null);
   const loaderTextRef = useRef(null);
   const rightSideImageRef = useRef(null);
   const loadingPageRef = useRef(null);
+  const modalRef = useRef(null);
 
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
-    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' },
+    { label: 'Team', ariaLabel: 'View team page', link: '/team' },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 
@@ -66,14 +69,13 @@ const Featured = () => {
           }
         } else {
           // Use fallback images if Supabase fails or returns no data
-          console.log('Using fallback images - Supabase error:', error);
           if (isMounted) {
             setImages(fallbackImages);
             setPreviewImages(fallbackImages);
           }
         }
       } catch (err) {
-        console.error('Error loading images:', err);
+        // Handle error silently in production
         // Use fallback images on error
         if (isMounted) {
           setImages(fallbackImages);
@@ -110,6 +112,95 @@ const Featured = () => {
     return () => { tl.kill(); };
   }, [showLoader]);
 
+  // Modal animation with non-uniform fade-in
+  useEffect(() => {
+    if (!modalRef.current) return;
+    
+    if (showModal) {
+      const modal = modalRef.current;
+      const image = modal.querySelector('.image-modal-image');
+      const title = modal.querySelector('.image-modal-title');
+      const navigation = modal.querySelector('.image-modal-navigation');
+      
+      // Reset initial states
+      gsap.set(modal, { opacity: 0 });
+      gsap.set(image, { opacity: 0, scale: 0.9, y: 20 });
+      gsap.set(title, { opacity: 0, y: 20 });
+      gsap.set(navigation, { opacity: 0, y: 20, scale: 0.9 });
+      
+      // Create non-uniform timeline
+      const tl = gsap.timeline();
+      
+      // Background fade-in with slight delay
+      tl.to(modal, { 
+        opacity: 1, 
+        duration: 0.4, 
+        ease: 'power2.out' 
+      })
+      // Image appears with smooth fade and scale
+      .to(image, { 
+        opacity: 1, 
+        scale: 1, 
+        y: 0, 
+        duration: 0.5, 
+        ease: 'power2.out' 
+      }, '-=0.2')
+      // Title slides up with slight delay
+      .to(title, { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.4, 
+        ease: 'power2.out' 
+      }, '-=0.3')
+      // Navigation bar slides up and scales in
+      .to(navigation, { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1, 
+        duration: 0.5, 
+        ease: 'power2.out' 
+      }, '-=0.2');
+    }
+  }, [showModal]);
+
+  // Keyboard support for modal
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!showModal) return;
+      
+      switch (event.key) {
+        case 'Escape':
+          handleCloseModal();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          handlePreviousImage();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          handleNextImage();
+          break;
+        default:
+          break;
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener('keydown', handleKeyDown);
+      
+      // Calculate scrollbar width and prevent layout shift
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+      document.body.classList.add('modal-open');
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.classList.remove('modal-open');
+      document.documentElement.style.removeProperty('--scrollbar-width');
+    };
+  }, [showModal, selectedImage]);
+
   const handleImageHover = (imageIndex) => {
     if (rightSideImageRef.current && imageIndex >= 1 && imageIndex <= previewImages.length) {
       rightSideImageRef.current.style.opacity = '0';
@@ -124,6 +215,131 @@ const Featured = () => {
         }
       }, 300);
     }
+  };
+
+  const handleImageClick = (image, index) => {
+    setSelectedImage({ ...image, index });
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    if (!modalRef.current) {
+      setShowModal(false);
+      setSelectedImage(null);
+      return;
+    }
+
+    const modal = modalRef.current;
+    const image = modal.querySelector('.image-modal-image');
+    const title = modal.querySelector('.image-modal-title');
+    const navigation = modal.querySelector('.image-modal-navigation');
+    
+    if (!image || !title || !navigation) {
+      setShowModal(false);
+      setSelectedImage(null);
+      return;
+    }
+
+    // Create reverse animation timeline
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setShowModal(false);
+        setSelectedImage(null);
+      }
+    });
+
+    // Reverse the appearance animation
+    tl.to(navigation, { 
+      opacity: 0, 
+      y: 20, 
+      scale: 0.9, 
+      duration: 0.3, 
+      ease: 'power2.in' 
+    })
+    .to(title, { 
+      opacity: 0, 
+      y: 20, 
+      duration: 0.2, 
+      ease: 'power2.in' 
+    }, '-=0.1')
+    .to(image, { 
+      opacity: 0, 
+      scale: 0.9, 
+      y: 20, 
+      duration: 0.3, 
+      ease: 'power2.in' 
+    }, '-=0.1')
+    .to(modal, { 
+      opacity: 0, 
+      duration: 0.2, 
+      ease: 'power2.in' 
+    }, '-=0.1');
+  };
+
+  const handleModalClick = (e) => {
+    if (e.target === modalRef.current) {
+      handleCloseModal();
+    }
+  };
+
+  const handlePreviousImage = () => {
+    if (selectedImage && selectedImage.index > 0) {
+      const prevIndex = selectedImage.index - 1;
+      animateImageTransition(() => {
+        setSelectedImage({ ...images[prevIndex], index: prevIndex });
+      });
+    }
+  };
+
+  const handleNextImage = () => {
+    if (selectedImage && selectedImage.index < images.length - 1) {
+      const nextIndex = selectedImage.index + 1;
+      animateImageTransition(() => {
+        setSelectedImage({ ...images[nextIndex], index: nextIndex });
+      });
+    }
+  };
+
+  const animateImageTransition = (callback) => {
+    if (!modalRef.current) return;
+    
+    const image = modalRef.current.querySelector('.image-modal-image');
+    const title = modalRef.current.querySelector('.image-modal-title');
+    
+    if (!image || !title) return;
+    
+    // Create transition animation
+    const tl = gsap.timeline({
+      onComplete: callback
+    });
+    
+    // Fade out current image and title
+    tl.to(image, { 
+      opacity: 0, 
+      duration: 0.2, 
+      ease: 'power2.in' 
+    })
+    .to(title, { 
+      opacity: 0, 
+      duration: 0.15, 
+      ease: 'power2.in' 
+    }, '-=0.1')
+    // Update image source immediately after fade out
+    .add(() => {
+      // The callback will update the image source
+      callback();
+    })
+    // Fade in new image and title
+    .to(image, { 
+      opacity: 1, 
+      duration: 0.3, 
+      ease: 'power2.in' 
+    })
+    .to(title, { 
+      opacity: 1, 
+      duration: 0.2, 
+      ease: 'power2.in' 
+    }, '-=0.1');
   };
 
   return (
@@ -167,7 +383,7 @@ const Featured = () => {
         </div>
       )}
 
-      {/* Mobile Navigation Brand Text */}
+      {/* Navigation Brand Text */}
       <div className="mobileNavBrand">
         <div className="brandLine1">EXPOSURE</div>
         <div className="brandLine2">EXPLORERS</div>
@@ -184,8 +400,8 @@ const Featured = () => {
         colors={["#fde68a", "#fecaca"]}
         logoUrl="/assets/icons/new-arrow.svg"
         accentColor="#6b7280"
-        onMenuOpen={() => console.log('Menu opened')}
-        onMenuClose={() => console.log('Menu closed')}
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
       />
 
       {/* Main Content */}
@@ -208,12 +424,13 @@ const Featured = () => {
               {/* Grid Contents */}
               <div className="p-home-grid-mode__contents">
                 {images.map((image, index) => (
-                  <a 
-                    href="#" 
+                  <div 
                     key={index}
                     className="p-home-grid-mode__item" 
                     data-image-index={index + 1}
                     onMouseEnter={() => handleImageHover(index + 1)}
+                    onClick={() => handleImageClick(image, index)}
+                    style={{ cursor: 'pointer' }}
                   >
                     <p className="p-home-grid-mode__item-num">{index + 1}</p>
                     <div 
@@ -238,7 +455,7 @@ const Featured = () => {
                         }}
                       />
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             </div>
@@ -266,6 +483,70 @@ const Featured = () => {
           </section>
         </div>
       </main>
+
+      {/* Modal Overlay */}
+      {showModal && selectedImage && (
+        <div 
+          ref={modalRef}
+          className="image-modal-overlay"
+          onClick={handleModalClick}
+        >
+          <div className="image-modal-content">
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.title}
+              className="image-modal-image"
+            />
+            <div className="image-modal-title">
+              {selectedImage.title}
+            </div>
+            
+            {/* Navigation Snack Bar */}
+            <div className="image-modal-navigation">
+              <button 
+                className="nav-button nav-prev"
+                onClick={handlePreviousImage}
+                disabled={selectedImage.index === 0}
+                aria-label="Previous image"
+              >
+                <img 
+                  src="/new-arrow.svg" 
+                  alt="Previous" 
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    transform: 'rotate(180deg)',
+                    filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1)'
+                  }}
+                />
+              </button>
+              <button 
+                className="nav-button nav-close"
+                onClick={handleCloseModal}
+                aria-label="Close modal"
+              >
+                ×
+              </button>
+              <button 
+                className="nav-button nav-next"
+                onClick={handleNextImage}
+                disabled={selectedImage.index === images.length - 1}
+                aria-label="Next image"
+              >
+                <img 
+                  src="/new-arrow.svg" 
+                  alt="Next" 
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1)'
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -27,8 +27,8 @@ const CleanStaggeredMenuExample = () => {
         openMenuButtonColor="#000"
         changeMenuColorOnOpen={true}
         accentColor="#5227ff"
-        onMenuOpen={() => console.log('Menu opened')}
-        onMenuClose={() => console.log('Menu closed')}
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
       />
     </div>
   );

@@ -122,7 +122,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
         pin: true,
         markers: false,
         anticipatePin: 1,
-        refreshPriority: responsiveValues.isLargeMobile ? -1 : 0, // Lower priority refresh for stability
+        refreshPriority: 1, // Higher priority to ensure this triggers first
+        pinSpacing: true, // Ensure proper spacing calculation
         onLeave: () => {
           if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current)
           if (navExitTimeoutRef.current) { 
@@ -690,10 +691,22 @@ const Landing = () => {
     // Video duration will be set dynamically when video loads
 
     // Additional scroll listener to ensure MouseMouse visibility works in both directions
+    // Throttle scroll handler to prevent excessive updates on mobile
+    let scrollTimeout = null
     const handleScroll = () => {
-      const scrollTop = window.scrollY
-      const viewportHeight = window.innerHeight
-      const slidingHeight = 2768
+      // Clear existing timeout
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout)
+      }
+      
+      // Throttle scroll events on mobile for better performance
+      const isMobile = window.innerWidth <= 768
+      const throttleDelay = isMobile ? 16 : 8 // ~60fps on mobile, ~120fps on desktop
+      
+      scrollTimeout = setTimeout(() => {
+        const scrollTop = window.scrollY
+        const viewportHeight = window.innerHeight
+        const slidingHeight = 2768
       
       // Show MouseMouse when we're in the sliding section (after 100vh, before new section)
       const slidingSectionStart = viewportHeight
@@ -703,10 +716,10 @@ const Landing = () => {
       let newSectionHeightPx
       if (isMobile && window.innerWidth >= 400 && window.innerHeight >= 900) {
         // Large mobile devices - use the same calculation as getNewSectionHeight
-        newSectionHeightPx = Math.max(400, window.innerHeight * 0.45)
+        newSectionHeightPx = Math.max(600, window.innerHeight * 0.8)
       } else if (isMobile && window.innerWidth >= 375 && window.innerHeight >= 800) {
         // Medium mobile devices
-        newSectionHeightPx = Math.max(350, window.innerHeight * 0.5)
+        newSectionHeightPx = Math.max(500, window.innerHeight * 0.7)
       } else if (isMobile) {
         // Small mobile devices - convert 62vh to pixels
         newSectionHeightPx = window.innerHeight * 0.62
@@ -735,6 +748,7 @@ const Landing = () => {
       const shouldHide = scrollTop >= marqueeSectionStart // Same as navbar - no delay
       const shouldShow = scrollTop <= (marqueeSectionStart - SHOW_BUFFER)
 
+      // Only update navigation state if there's an actual change to prevent unnecessary re-renders
       if (navVisibilityRef.current === 'visible' && shouldHide) {
         // Begin smooth slide-up, then hide after the animation duration (match navbar ~600ms)
         navVisibilityRef.current = 'hiding'
@@ -761,6 +775,7 @@ const Landing = () => {
         const top = slidingRef.current.getBoundingClientRect().top
         setShowNavTitle(top <= 0)
       }
+      }, throttleDelay) // Close the setTimeout
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -792,6 +807,8 @@ const Landing = () => {
           pin: true,
           anticipatePin: 1,
           markers: false,
+          refreshPriority: 0, // Lower priority than zoom reveal
+          pinSpacing: true, // Ensure proper spacing calculation
           onUpdate: () => {
             // Use actual slide position to decide overlay visibility (robust to fast scroll)
             const y = Number(gsap.getProperty(slidingRef.current, 'yPercent')) || 0
@@ -812,13 +829,24 @@ const Landing = () => {
     // Remove text animation and references – placeholder reserved for future
 
     // Ensure positions are recalculated after timelines are set up
-    setTimeout(() => ScrollTrigger.refresh(), 0)
+    // Use requestAnimationFrame for better timing on mobile
+    const refreshScrollTriggers = () => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        // Force a second refresh on mobile to ensure proper pinning
+        if (window.innerWidth <= 768) {
+          requestAnimationFrame(() => ScrollTrigger.refresh())
+        }
+      })
+    }
+    refreshScrollTriggers()
 
     return () => {
       if (lenisRef.current) lenisRef.current.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleScroll)
+      if (scrollTimeout) clearTimeout(scrollTimeout)
     }
   }, [])
 
@@ -869,10 +897,10 @@ const Landing = () => {
     // to prevent gaps and animation issues
     if (vw >= 400 && vh >= 900) {
       // Large mobile devices - use calculated pixel height instead of vh
-      return `${Math.max(400, vh * 0.45)}px` // 45% of viewport height, minimum 400px
+      return `${Math.max(600, vh * 0.8)}px` // 80% of viewport height, minimum 600px
     } else if (vw >= 375 && vh >= 800) {
       // Medium mobile devices
-      return `${Math.max(350, vh * 0.5)}px` // 50% of viewport height, minimum 350px
+      return `${Math.max(500, vh * 0.7)}px` // 70% of viewport height, minimum 500px
     } else {
       // Small mobile devices - keep vh units as they work fine
       return '62vh'
@@ -894,10 +922,10 @@ const Landing = () => {
     
     // For larger mobile devices, use pixel calculations to prevent gaps
     if (vw >= 400 && vh >= 900) {
-      const newSectionPx = Math.max(400, vh * 0.45)
+      const newSectionPx = Math.max(600, vh * 0.8) // Increased from 0.45 to 0.8 for more scroll space
       return `calc(${baseHeight} + ${newSectionPx}px)`
     } else if (vw >= 375 && vh >= 800) {
-      const newSectionPx = Math.max(350, vh * 0.5)
+      const newSectionPx = Math.max(500, vh * 0.7) // Increased from 0.5 to 0.7
       return `calc(${baseHeight} + ${newSectionPx}px)`
     } else {
       return `calc(${baseHeight} + 62vh)` // Small mobile devices

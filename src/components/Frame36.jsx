@@ -83,7 +83,7 @@ const Frame36 = () => {
 
   const handleMarkClick = () => {
     // Add your mark/logo click handler here
-    console.log('Mark clicked')
+    // Mark clicked - placeholder for future functionality
   }
 
 

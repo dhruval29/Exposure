@@ -1,3 +1,13 @@
+/* Hide scrollbar for entire pictures page */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none; /* Webkit browsers (Chrome, Safari, Edge) */
+}
+
 .gallery-container {
   font-family: Helvetica, Arial, sans-serif;
   background: #ffffff;
@@ -8,7 +18,14 @@
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
+  /* Hide scrollbar for Webkit browsers */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.gallery-container::-webkit-scrollbar {
+  display: none; /* Webkit browsers (Chrome, Safari, Edge) */
 }
 
 /* Light gray left side background */
@@ -72,7 +89,7 @@
   }
 }
 
-/* Mobile Navigation Brand Text */
+/* Navigation Brand Text */
 .mobileNavBrand {
   position: fixed;
   top: 15px;
@@ -83,7 +100,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   z-index: 9999; /* Very high z-index to stay above navigation bar */
-  display: none; /* Hidden by default */
+  display: block; /* Show by default on desktop */
   line-height: 1;
   pointer-events: none; /* Allow clicks to pass through */
 }
@@ -343,18 +360,18 @@
 /* Navigation Snack Bar */
 .image-modal-navigation {
   position: absolute;
-  bottom: -100px;
+  bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 20px;
+  padding: 4px 16px;
   background: rgba(128, 128, 128, 0.9);
   border-radius: 50px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 320px;
+  width: 260px;
   flex-shrink: 0;
 }
 
@@ -508,7 +525,6 @@
   max-width: none;
   margin: 0;
   padding: 0;
-  padding-top: 40px; /* Add top spacing to move section down from window edge */
 }
 
 .p-home-grid-mode__contents {
@@ -630,7 +646,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0;
+  padding: 60px 0 0 0; /* Add top padding only to left section */
   height: 100vh;
   overflow: hidden;
   position: relative;

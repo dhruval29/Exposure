@@ -60,13 +60,12 @@ const FeaturedMobile = () => {
           }
         } else {
           // Use fallback images if Supabase fails or returns no data
-          console.log('Using fallback images - Supabase error:', error);
           if (isMounted) {
             setImages(fallbackImages);
           }
         }
       } catch (err) {
-        console.error('Error loading images:', err);
+        // Handle error silently in production
         // Use fallback images on error
         if (isMounted) {
           setImages(fallbackImages);
@@ -370,8 +369,8 @@ const FeaturedMobile = () => {
         colors={["#fde68a", "#fecaca"]}
         logoUrl="/assets/icons/new-arrow.svg"
         accentColor="#6b7280"
-        onMenuOpen={() => console.log('Menu opened')}
-        onMenuClose={() => console.log('Menu closed')}
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
       />
 
       {/* Main Content - Mobile Grid Only */}

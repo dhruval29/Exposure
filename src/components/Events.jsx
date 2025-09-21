@@ -118,7 +118,6 @@ const Events = () => {
           .eq('is_public', true);
 
         if (error) {
-          console.error('Error fetching events:', error);
           setError(error.message);
         } else {
           // Fetch cover images separately to avoid relationship conflicts
@@ -198,7 +197,6 @@ const Events = () => {
         }
       } catch (err) {
         setError('Failed to fetch events');
-        console.error('Error fetching events:', err);
       } finally {
       }
     };
@@ -310,8 +308,8 @@ const Events = () => {
         colors={["#fecaca", "#fde68a"]}
         logoUrl="/assets/icons/new-arrow.svg"
         accentColor="#6b7280"
-        onMenuOpen={() => console.log('Menu opened')}
-        onMenuClose={() => console.log('Menu closed')}
+        onMenuOpen={() => {}}
+        onMenuClose={() => {}}
       />
       <i className={styles.events2}>Events</i>
       <div className={styles.searchContainer}>
