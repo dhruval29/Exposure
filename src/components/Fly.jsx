@@ -10,21 +10,30 @@ export const IMAGES = [
   '/assets/mobile/images/fly-images/4.webp',
   '/assets/mobile/images/fly-images/5.webp',
   '/assets/mobile/images/fly-images/6.webp',
+  '/assets/mobile/images/fly-images/7.webp',
+  '/assets/mobile/images/fly-images/8.webp',
+  '/assets/mobile/images/fly-images/9.webp',
+  '/assets/mobile/images/fly-images/10.webp',
 ]
 
 // Fixed, hand-picked z-indexes to avoid changing on reload
-export const Z_INDEXES = [12, 8, 4, 10, 6, 2]
+export const Z_INDEXES = [12, 8, 4, 10, 6, 2, 14, 16, 18, 20]
 
 // Fixed positions and sizes (no randomness)
 // Positions derived from 1536x776 px design, converted to percentages
 // Each has: top %, left %, width % (relative to container width)
+// More images in bottom half, scattered with no initial overlap
 export const POSITIONS = [
-  { top: '28.61%', left: '-30%',   widthPct: 36 },
-  { top: '23.30%', left: '101.58%', widthPct: 16.25 },
-  { top: '110.55%', left: '20.37%', widthPct: 26.72 },
-  { top: '-10.22%',  left: '70.82%', widthPct: 14.14 },
-  { top: '80.23%', left: '70.85%', widthPct: 20.4 },
-  { top: '-20.31%',  left: '25.26%', widthPct: 23.98 },
+  { top: '-40%', left: '-50%',   widthPct: 28 },    // Top-left, mostly off
+  { top: '-25%', left: '100%', widthPct: 24 },      // Top-right, off right edge
+  { top: '140%', left: '-40%', widthPct: 26 },      // Far bottom-left, off bottom
+  { top: '-35%',  left: '85%', widthPct: 22 },      // Top-right, partially off
+  { top: '110%', left: '110%', widthPct: 20 },      // Bottom-right, off right
+  { top: '-60%',  left: '15%', widthPct: 30 },      // Far top-center, mostly off
+  { top: '80%', left: '-60%', widthPct: 28 },       // Bottom-left, mostly off
+  { top: '125%', left: '120%', widthPct: 25 },      // Far bottom-right corner
+  { top: '90%', left: '25%', widthPct: 18 },        // Bottom-center-left
+  { top: '105%', left: '60%', widthPct: 23 },       // Bottom-center-right
 ]
 
 // Initial depth tweak per image to bring a few very close initially
@@ -36,6 +45,10 @@ export const START_Z_OFFSETS = [
   800,
   1200, // make image 5 start even closer
   800,
+  1000, // image 7
+  1100, // image 8
+  900,  // image 9
+  1300, // image 10
 ]
 
 const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {

@@ -820,8 +820,8 @@ const Landing = () => {
         }
       })
       gsap.set(slidingRef.current, { yPercent: 100 })
-      // Phase 1: slide page from bottom to full screen with gentle easing to prevent flashing
-      tl.to(slidingRef.current, { yPercent: 0, ease: 'power2.out', duration: 1 })
+      // Phase 1: slide page from bottom to full screen with decelerated initial motion
+      tl.to(slidingRef.current, { yPercent: 0, ease: 'power3.out', duration: 1 })
       // Sliding page left blank per request
       slidingAnimRef.current = tl
     }

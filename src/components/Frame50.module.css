@@ -21,10 +21,6 @@
 	transform: translateX(-50%);
 }
 
-/* Expanded state for variant1 to accommodate "SCROLL MORE" */
-.component16.variant1.expanded {
-	width: 200px;
-}
 
 /* Variant 2 - Right aligned position (no collapse animations) */
 .component16.variant2 {
@@ -119,16 +115,6 @@
 	white-space: nowrap;
 }
 
-/* typing suffix styling */
-.moreSuffix {
-	display: inline-block;
-	width: auto;
-	vertical-align: baseline;
-}
-
-.hasContent {
-	margin-left: var(--text-gap);
-}
 
 /* Collapsed state styles */
 .component16.collapsed {

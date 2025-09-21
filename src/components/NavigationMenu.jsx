@@ -206,17 +206,25 @@ const NavigationMenu = ({ isExiting }) => {
   };
 
   const handleHover = (index, isHovering) => {
+    // Kill any existing animations on this element to prevent conflicts
+    gsap.killTweensOf(textRefs.current[index]);
+    gsap.killTweensOf(borderRefs.current[index]);
+    gsap.killTweensOf(arrowRefs.current[index]);
+    gsap.killTweensOf(backgroundImageRefs.current[index]);
+
     gsap.to(textRefs.current[index], {
       x: isHovering ? 12 : 0,
       duration: 0.6,
       ease: "power2.out",
-      delay: isHovering ? 0.05 : 0
+      delay: isHovering ? 0.05 : 0,
+      overwrite: "auto"
     });
     
     gsap.to(borderRefs.current[index], {
       scaleY: isHovering ? 2 : 1,
       duration: 0.5, // Increased from 0.3s to 0.5s
-      ease: "power2.out"
+      ease: "power2.out",
+      overwrite: "auto"
     });
 
     if (isHovering) {
@@ -226,7 +234,8 @@ const NavigationMenu = ({ isExiting }) => {
         transform: 'translateY(-50%) translate(0, 0)',
         duration: 0.6,
         ease: "power2.out",
-        delay: 0.12
+        delay: 0.12,
+        overwrite: "auto"
       });
 
       // Fade in background image
@@ -234,7 +243,8 @@ const NavigationMenu = ({ isExiting }) => {
         opacity: 1,
         duration: 0.6,
         ease: "power2.out",
-        delay: 0.06
+        delay: 0.06,
+        overwrite: "auto"
       });
     } else {
       // Return to initial professional position
@@ -242,14 +252,16 @@ const NavigationMenu = ({ isExiting }) => {
         opacity: 0,
         transform: 'translateY(-50%) translate(-20%, 20%)',
         duration: 0.5,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
+        overwrite: "auto"
       });
 
       // Fade out background image
       gsap.to(backgroundImageRefs.current[index], {
         opacity: 0,
         duration: 0.5,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
+        overwrite: "auto"
       });
     }
   };
