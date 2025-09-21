@@ -5,9 +5,8 @@
 .animatedLine {
   display: inline-block;
   opacity: 0;
-  filter: blur(8px);
-  transform: translateY(20px);
-  animation: lineReveal 0.8s ease-out forwards;
+  transform: translateY(10px);
+  animation: lineReveal 0.6s ease-out forwards;
   animation-play-state: paused;
 }
 
@@ -23,12 +22,10 @@
 @keyframes lineReveal {
   0% {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
-    filter: blur(0px);
     transform: translateY(0px);
   }
 }

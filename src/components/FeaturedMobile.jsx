@@ -18,7 +18,7 @@ const FeaturedMobile = () => {
   const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
-    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' },
+    { label: 'Team', ariaLabel: 'View team page', link: '/team' },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 

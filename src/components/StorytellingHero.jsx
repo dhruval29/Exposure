@@ -35,17 +35,17 @@ const StorytellingHero = () => {
   return (
     	<div ref={containerRef} className={styles.weUseTheContainer}>
       			<p className={styles.weUseThe}>
-      				<span ref={(el) => (lineRefs.current[0] = el)} className={styles.animatedLine} style={{ animationDelay: '0s' }}>
+      				<span ref={(el) => (lineRefs.current[0] = el)} className={styles.animatedLine} style={{ animationDelay: '0ms' }}>
       					We use the power of storytelling to
       				</span>
       			</p>
       			<p className={styles.weUseThe}>
-      				<span ref={(el) => (lineRefs.current[1] = el)} className={styles.animatedLine} style={{ animationDelay: '0.4s' }}>
+      				<span ref={(el) => (lineRefs.current[1] = el)} className={styles.animatedLine} style={{ animationDelay: '160ms' }}>
       					fire the imagination, stir the soul,
       				</span>
       			</p>
       			<p className={styles.weUseThe}>
-      				<span ref={(el) => (lineRefs.current[2] = el)} className={styles.animatedLine} style={{ animationDelay: '0.8s' }}>
+      				<span ref={(el) => (lineRefs.current[2] = el)} className={styles.animatedLine} style={{ animationDelay: '320ms' }}>
       					and ultimately inspire people.
       				</span>
       			</p>

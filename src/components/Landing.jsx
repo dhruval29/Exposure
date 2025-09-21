@@ -802,8 +802,8 @@ const Landing = () => {
         scrollTrigger: {
           trigger: wireframeRef.current,
           start: 'top top',
-          end: '+=100%',
-          scrub: 4,
+          end: '+=30%', // Slightly more scroll distance to reduce flashing
+          scrub: 4, // Much smoother scrub for silky smooth animation
           pin: true,
           anticipatePin: 1,
           markers: false,
@@ -820,8 +820,8 @@ const Landing = () => {
         }
       })
       gsap.set(slidingRef.current, { yPercent: 100 })
-      // Phase 1: slide page from bottom to full screen over the whole timeline
-      tl.to(slidingRef.current, { yPercent: 0, ease: 'none', duration: 1 })
+      // Phase 1: slide page from bottom to full screen with gentle easing to prevent flashing
+      tl.to(slidingRef.current, { yPercent: 0, ease: 'power2.out', duration: 1 })
       // Sliding page left blank per request
       slidingAnimRef.current = tl
     }
