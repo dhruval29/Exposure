@@ -281,13 +281,12 @@
 .buttonSecondary {
   background: white;
   color: var(--color-primary);
-  border: 1px solid var(--color-neutral-200);
+  border: none;
   box-shadow: var(--shadow-subtle);
 }
 
 .buttonSecondary:hover:not(:disabled) {
   background: var(--color-neutral-50);
-  border-color: var(--color-neutral-300);
   box-shadow: var(--shadow-soft);
 }
 
@@ -386,6 +385,57 @@
   border-radius: var(--border-radius-sm);
   margin-left: auto;
 }
+
+/* Accordion */
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: 10px 12px;
+  background: white;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-subtle);
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
+}
+
+.accordionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.accordionActions { display: inline-flex; gap: 8px; align-items: center; }
+
+.plusButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--color-primary);
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
+}
+
+.accordionPanel {
+  overflow: hidden;
+  transition: grid-template-rows 0.25s ease, padding 0.25s ease;
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.accordionPanelOpen { grid-template-rows: 1fr; }
+
+.accordionInner { min-height: 0; }
 
 /* Image Grid */
 .imageGrid {

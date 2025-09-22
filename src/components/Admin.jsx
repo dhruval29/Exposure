@@ -137,6 +137,15 @@ function Admin() {
   const [uploadingEventImage, setUploadingEventImage] = useState(false)
   const eventImageInputRef = useRef(null)
 
+  // Accordion state
+  const [openSection, setOpenSection] = useState({
+    media: true,
+    featured: true,
+    contacts: false,
+    events: false,
+  })
+  const toggleSection = (key) => setOpenSection(prev => ({ ...prev, [key]: !prev[key] }))
+
   // Hide any global scroll indicator overlays while on Admin
   useEffect(() => {
     const selectors = [
@@ -640,12 +649,24 @@ function Admin() {
             </div>
           ) : (
             <main className={styles.main}>
-              <section
-                className={`${styles.uploadZone} ${drag ? styles.uploadZoneDrag : ''}`}
-                onDragOver={(e) => { e.preventDefault(); setDrag(true) }}
-                onDragLeave={() => setDrag(false)}
-                onDrop={onDrop}
-              >
+              {/* Media Management (Accordion) */}
+              <div className={styles.accordionHeader} onClick={() => toggleSection('media')}>
+                <h2 className={styles.accordionTitle}>
+                  <ImageIcon />
+                  <span>Media Management</span>
+                </h2>
+                <div className={styles.accordionActions}>
+                  <button type="button" className={styles.plusButton}>{openSection.media ? '−' : '+'}</button>
+                </div>
+              </div>
+              <div className={`${styles.accordionPanel} ${openSection.media ? styles.accordionPanelOpen : ''}`}>
+                <div className={styles.accordionInner}>
+                  <section
+                    className={`${styles.uploadZone} ${drag ? styles.uploadZoneDrag : ''}`}
+                    onDragOver={(e) => { e.preventDefault(); setDrag(true) }}
+                    onDragLeave={() => setDrag(false)}
+                    onDrop={onDrop}
+                  >
                 <div className={styles.uploadIcon}>
                   <UploadIcon />
                 </div>
@@ -695,7 +716,9 @@ function Admin() {
                     </div>
                   </div>
                 )}
-              </section>
+                  </section>
+                </div>
+              </div>
 
               {status && (
                 <div className={`${styles.statusMessage} ${status.includes('success') ? styles.statusSuccess : styles.statusInfo}`}>
@@ -762,25 +785,30 @@ function Admin() {
                 </section>
               )}
 
-              {/* Featured Pictures Management */}
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2 className={styles.sectionTitle}>
-                    <ImageIcon />
-                    <span>Featured Pictures</span>
-                    <span className={styles.count}>{availableImages.length}</span>
-                  </h2>
-                  <div className={styles.sectionActions}>
-                    <button 
-                      className={styles.buttonSecondary}
-                      onClick={loadAvailableImages}
-                      type="button"
-                    >
-                      <SearchIcon />
-                      <span>Refresh</span>
-                    </button>
-                  </div>
+              {/* Featured Pictures (Accordion) */}
+              <div className={styles.accordionHeader} onClick={() => toggleSection('featured')}>
+                <h2 className={styles.accordionTitle}>
+                  <ImageIcon />
+                  <span>Featured Pictures</span>
+                </h2>
+                <div className={styles.accordionActions}>
+                  <span className={styles.count}>{availableImages.length}</span>
+                  <button type="button" className={styles.plusButton}>{openSection.featured ? '−' : '+'}</button>
                 </div>
+              </div>
+              <div className={`${styles.accordionPanel} ${openSection.featured ? styles.accordionPanelOpen : ''}`}>
+                <div className={styles.accordionInner}>
+                  <section className={styles.section}>
+                    <div className={styles.sectionActions}>
+                      <button 
+                        className={styles.buttonSecondary}
+                        onClick={loadAvailableImages}
+                        type="button"
+                      >
+                        <SearchIcon />
+                        <span>Refresh</span>
+                      </button>
+                    </div>
 
                 {/* Upload into library with optional auto-feature */}
                 <div className={styles.uploadSection} style={{ marginBottom: 12 }}>
@@ -876,10 +904,24 @@ function Admin() {
                     <p>No images found. Upload images first.</p>
                   </div>
                 )}
-              </section>
+                  </section>
+                </div>
+              </div>
 
-              {/* Contact Messages Section */}
-              <section className={styles.section}>
+              {/* Contact Messages (Accordion) */}
+              <div className={styles.accordionHeader} onClick={() => toggleSection('contacts')}>
+                <h2 className={styles.accordionTitle}>
+                  <MessageIcon />
+                  <span>Contact Messages</span>
+                </h2>
+                <div className={styles.accordionActions}>
+                  <span className={styles.count}>{contactMessages.length}</span>
+                  <button type="button" className={styles.plusButton}>{openSection.contacts ? '−' : '+'}</button>
+                </div>
+              </div>
+              <div className={`${styles.accordionPanel} ${openSection.contacts ? styles.accordionPanelOpen : ''}`}>
+                <div className={styles.accordionInner}>
+                  <section className={styles.section}>
                 <div className={styles.sectionHeader}>
                   <h2 className={styles.sectionTitle}>
                     <MessageIcon />
@@ -980,10 +1022,24 @@ function Admin() {
                     )}
                   </div>
                 )}
-              </section>
+                  </section>
+                </div>
+              </div>
 
-              {/* Events Management Section */}
-              <section className={styles.section}>
+              {/* Events Management (Accordion) */}
+              <div className={styles.accordionHeader} onClick={() => toggleSection('events')}>
+                <h2 className={styles.accordionTitle}>
+                  <EventIcon />
+                  <span>Events Management</span>
+                </h2>
+                <div className={styles.accordionActions}>
+                  <span className={styles.count}>{events.length}</span>
+                  <button type="button" className={styles.plusButton}>{openSection.events ? '−' : '+'}</button>
+                </div>
+              </div>
+              <div className={`${styles.accordionPanel} ${openSection.events ? styles.accordionPanelOpen : ''}`}>
+                <div className={styles.accordionInner}>
+                  <section className={styles.section}>
                 <div className={styles.sectionHeader}>
                   <h2 className={styles.sectionTitle}>
                     <EventIcon />
@@ -1079,7 +1135,9 @@ function Admin() {
                     )}
                   </div>
                 )}
-              </section>
+                  </section>
+                </div>
+              </div>
 
               {/* Contact Message Detail Modal */}
               {showContactMessage && (
