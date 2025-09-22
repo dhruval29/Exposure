@@ -112,6 +112,9 @@ function Admin() {
   // Events management state
   const [events, setEvents] = useState([])
   const [availableImages, setAvailableImages] = useState([])
+  const [autoFeature, setAutoFeature] = useState(true)
+  const [featureUploadFiles, setFeatureUploadFiles] = useState([])
+  const featureUploadInputRef = useRef(null)
   const [showEventForm, setShowEventForm] = useState(false)
   const [editingEvent, setEditingEvent] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -266,8 +269,9 @@ function Admin() {
     try {
       const { data, error } = await supabase
         .from('images')
-        .select('id, public_url, title')
+        .select('id, public_url, title, is_featured, featured_order, storage_path')
         .eq('is_public', true)
+        .order('featured_order', { ascending: true, nullsFirst: false })
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -277,6 +281,83 @@ function Admin() {
       }
     } catch (err) {
       console.error('Error loading images:', err)
+    }
+  }
+
+  const toggleFeatured = async (imageId, current) => {
+    try {
+      const { error } = await supabase
+        .from('images')
+        .update({ is_featured: !current })
+        .eq('id', imageId)
+      if (error) throw error
+      setAvailableImages(prev => prev.map(img => img.id === imageId ? { ...img, is_featured: !current } : img))
+    } catch (err) {
+      setStatus(`Failed to update featured: ${err.message}`)
+    }
+  }
+
+  const updateFeaturedOrder = async (imageId, orderVal) => {
+    const parsed = Number.isFinite(orderVal) ? Math.trunc(orderVal) : null
+    try {
+      const { error } = await supabase
+        .from('images')
+        .update({ featured_order: parsed })
+        .eq('id', imageId)
+      if (error) throw error
+      setAvailableImages(prev => prev.map(img => img.id === imageId ? { ...img, featured_order: parsed } : img))
+    } catch (err) {
+      setStatus(`Failed to update order: ${err.message}`)
+    }
+  }
+
+  const deleteImage = async (img) => {
+    if (!img) return
+    if (!confirm('Delete this image permanently?')) return
+    setStatus('Deleting image...')
+    try {
+      if (img.storage_path) {
+        const { error: rmErr } = await supabase.storage.from('images').remove([img.storage_path])
+        if (rmErr) console.warn('Storage remove warning:', rmErr.message)
+      }
+      const { error: delErr } = await supabase
+        .from('images')
+        .delete()
+        .eq('id', img.id)
+      if (delErr) throw delErr
+      setAvailableImages(prev => prev.filter(x => x.id !== img.id))
+      setStatus('Image deleted')
+    } catch (err) {
+      setStatus(`Delete failed: ${err.message}`)
+    }
+  }
+
+  const onFeatureUploadBrowse = (e) => {
+    const list = Array.from(e.target.files || []).filter(f => f.type.startsWith('image/'))
+    if (list.length) setFeatureUploadFiles(list)
+  }
+
+  const onFeatureUpload = async () => {
+    if (!featureUploadFiles.length) return
+    setStatus('Uploading to featured...')
+    try {
+      const rows = await uploadImagesBatch(featureUploadFiles, { isPublic: true })
+      // Optionally mark featured
+      if (autoFeature && rows && rows.length) {
+        const ids = rows.map(r => r.id)
+        const { error } = await supabase
+          .from('images')
+          .update({ is_featured: true })
+          .in('id', ids)
+        if (error) throw error
+      }
+      // Refresh list and clear
+      await loadAvailableImages()
+      setFeatureUploadFiles([])
+      if (featureUploadInputRef.current) featureUploadInputRef.current.value = ''
+      setStatus('Featured upload successful')
+    } catch (err) {
+      setStatus(`Upload failed: ${err.message}`)
     }
   }
 
@@ -680,6 +761,122 @@ function Admin() {
                   </div>
                 </section>
               )}
+
+              {/* Featured Pictures Management */}
+              <section className={styles.section}>
+                <div className={styles.sectionHeader}>
+                  <h2 className={styles.sectionTitle}>
+                    <ImageIcon />
+                    <span>Featured Pictures</span>
+                    <span className={styles.count}>{availableImages.length}</span>
+                  </h2>
+                  <div className={styles.sectionActions}>
+                    <button 
+                      className={styles.buttonSecondary}
+                      onClick={loadAvailableImages}
+                      type="button"
+                    >
+                      <SearchIcon />
+                      <span>Refresh</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Upload into library with optional auto-feature */}
+                <div className={styles.uploadSection} style={{ marginBottom: 12 }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <input
+                      ref={featureUploadInputRef}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={onFeatureUploadBrowse}
+                      className={styles.hiddenInput}
+                    />
+                    <button
+                      type="button"
+                      className={styles.buttonSecondary}
+                      onClick={() => featureUploadInputRef.current?.click()}
+                    >
+                      <FolderIcon />
+                      <span>Select Images</span>
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.buttonPrimary}
+                      disabled={!featureUploadFiles.length}
+                      onClick={onFeatureUpload}
+                    >
+                      <UploadIcon />
+                      <span>Upload {featureUploadFiles.length ? `(${featureUploadFiles.length})` : ''}</span>
+                    </button>
+                    <label className={styles.toggleLabel} style={{ marginLeft: 'auto' }}>
+                      <input
+                        type="checkbox"
+                        className={styles.toggleInput}
+                        checked={autoFeature}
+                        onChange={() => setAutoFeature(v => !v)}
+                      />
+                      <span>Auto‑feature after upload</span>
+                    </label>
+                  </div>
+                </div>
+
+                {availableImages.length ? (
+                  <div className={styles.imageGrid}>
+                    {availableImages.map((img) => (
+                      <div key={img.id} className={styles.imageCard}>
+                        <div className={styles.imageWrapper}>
+                          <img src={img.public_url} alt={img.title || 'image'} />
+                        </div>
+                        <div className={styles.imageInfo}>
+                          <span className={styles.imageName}>{img.title || 'Untitled'}</span>
+                        </div>
+                        <div className={styles.formInlineRow}>
+                          <label className={styles.toggleLabel}>
+                            <input
+                              type="checkbox"
+                              className={styles.toggleInput}
+                              checked={Boolean(img.is_featured)}
+                              onChange={() => toggleFeatured(img.id, Boolean(img.is_featured))}
+                            />
+                            <span>Featured</span>
+                          </label>
+                          <label className={styles.orderLabel}>
+                            <span>Order</span>
+                            <input
+                              type="number"
+                              min="0"
+                              inputMode="numeric"
+                              className={styles.orderInput}
+                              value={img.featured_order ?? ''}
+                              placeholder="—"
+                              onChange={(e) => {
+                                const val = e.target.value === '' ? '' : Number(e.target.value)
+                                setAvailableImages(prev => prev.map(x => x.id === img.id ? { ...x, featured_order: val === '' ? null : val } : x))
+                              }}
+                              onBlur={(e) => updateFeaturedOrder(img.id, e.target.value === '' ? null : Number(e.target.value))}
+                            />
+                          </label>
+                          <button 
+                            type="button" 
+                            className={styles.buttonDanger}
+                            onClick={() => deleteImage(img)}
+                          >
+                            <CloseIcon />
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <ImageIcon />
+                    <p>No images found. Upload images first.</p>
+                  </div>
+                )}
+              </section>
 
               {/* Contact Messages Section */}
               <section className={styles.section}>

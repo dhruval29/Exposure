@@ -880,6 +880,84 @@
   opacity: 0.5;
 }
 
+/* Featured Controls */
+.formInlineRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: 10px var(--spacing-sm);
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.toggleLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--color-neutral-700);
+  padding: 8px 10px; /* increase hit area */
+  border-radius: var(--border-radius-sm);
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
+}
+
+.toggleInput {
+  width: 56px;  /* larger touch target */
+  height: 32px; /* larger touch target */
+  appearance: none;
+  background: var(--color-neutral-300);
+  border-radius: 999px;
+  position: relative;
+  outline: none;
+  cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
+  transition: background 0.2s ease;
+}
+
+.toggleInput:checked {
+  background: var(--color-primary);
+}
+
+.toggleInput::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;   /* knob size */
+  height: 24px;  /* knob size */
+  background: white;
+  border-radius: 50%;
+  box-shadow: var(--shadow-subtle);
+  transition: transform 0.2s ease;
+}
+
+.toggleInput:checked::after {
+  transform: translateX(24px); /* move knob across wider track */
+}
+
+.orderLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-neutral-700);
+}
+
+.orderInput {
+  width: 80px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--border-radius-sm);
+  font-size: 13px;
+  outline: none;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.orderInput:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+}
+
 /* Modal Styles */
 .modalOverlay {
   position: fixed;

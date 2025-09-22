@@ -200,8 +200,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     // If Fly items already present, compose now and then add Zoom segment
     const { flyMaxDuration } = composeFlySegment()
 
-    // Place Zoom segment start around 70% of Fly segment
-    const zoomStart = flyMaxDuration > 0 ? flyMaxDuration * 0.70 : 0
+    // Place Zoom segment start at ~20% of Fly segment for earliest overlap
+    const zoomStart = flyMaxDuration > 0 ? flyMaxDuration * 0.20 : 0
 
     // Reset any stale transforms and assert percent-based centering before animating
     gsap.set(img, { clearProps: 'transform' })
@@ -231,20 +231,23 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       force3D: true, // Hardware acceleration
       zIndex: 1000,
       duration: responsiveValues.isLargeMobile ? 1.2 : 1, // Slightly longer for large mobile
-      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut' // Smoother easing for large mobile
+      // Gentle initial deceleration
+      ease: 'sine.inOut'
     }, zoomStart)
 
     // 2. Text movement animation (synchronized with image scaling) - optimized for mobile
     tl.to(left, {
       x: -responsiveValues.offScreenDistance,
       duration: responsiveValues.isLargeMobile ? 1.2 : 1,
-      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut',
+      // Gentle initial deceleration
+      ease: 'sine.inOut',
       force3D: true // Hardware acceleration
     }, zoomStart)
     .to(right, {
       x: responsiveValues.offScreenDistance,
       duration: responsiveValues.isLargeMobile ? 1.2 : 1,
-      ease: responsiveValues.isLargeMobile ? 'power2.out' : 'power2.inOut',
+      // Gentle initial deceleration
+      ease: 'sine.inOut',
       force3D: true // Hardware acceleration
     }, zoomStart)
 
@@ -634,6 +637,17 @@ const Landing = () => {
   const loaderPanelRef = useRef(null)
   const loaderTextRef = useRef(null)
   const [showMouseOverlay, setShowMouseOverlay] = useState(true)
+  // Debounced, hysteresis control for mouse overlay visibility to avoid flicker
+  const overlayDesiredRef = useRef(showMouseOverlay)
+  const overlayDebounceRef = useRef(null)
+  const setOverlayVisibleDebounced = useRef((nextVisible, delay = 120) => {
+    if (overlayDesiredRef.current === nextVisible) return
+    overlayDesiredRef.current = nextVisible
+    if (overlayDebounceRef.current) clearTimeout(overlayDebounceRef.current)
+    overlayDebounceRef.current = setTimeout(() => {
+      setShowMouseOverlay(overlayDesiredRef.current)
+    }, delay)
+  }).current
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
@@ -803,25 +817,26 @@ const Landing = () => {
           trigger: wireframeRef.current,
           start: 'top top',
           end: '+=30%', // Slightly more scroll distance to reduce flashing
-          scrub: 4, // Much smoother scrub for silky smooth animation
+          scrub: (window.innerWidth >= 400 && window.innerHeight >= 900) ? 1.5 : 2, // Match ZoomReveal feel
           pin: true,
           anticipatePin: 1,
           markers: false,
           refreshPriority: 0, // Lower priority than zoom reveal
           pinSpacing: true, // Ensure proper spacing calculation
           onUpdate: () => {
-            // Use actual slide position to decide overlay visibility (robust to fast scroll)
+            // Hysteresis thresholds to prevent rapid toggling around 0
             const y = Number(gsap.getProperty(slidingRef.current, 'yPercent')) || 0
-            const shouldShow = y > 1 // keep visible until slide fully reaches 0%
-            if (shouldShow !== showMouseOverlay) setShowMouseOverlay(shouldShow)
+            // Show while page is still notably sliding in (> 4%), hide when fully settled (<= 0%)
+            const shouldShow = y > 4
+            setOverlayVisibleDebounced(shouldShow)
           },
-          onLeave: () => setShowMouseOverlay(false),
-          onEnterBack: () => setShowMouseOverlay(true)
+          onLeave: () => setOverlayVisibleDebounced(false, 80),
+          onEnterBack: () => setOverlayVisibleDebounced(true, 80)
         }
       })
-      gsap.set(slidingRef.current, { yPercent: 100 })
+      gsap.set(slidingRef.current, { yPercent: 100, willChange: 'transform', force3D: true, transform: 'translate3d(0,0,0)' })
       // Phase 1: slide page from bottom to full screen with decelerated initial motion
-      tl.to(slidingRef.current, { yPercent: 0, ease: 'power3.out', duration: 1 })
+      tl.to(slidingRef.current, { yPercent: 0, ease: 'none', duration: 1, force3D: true })
       // Sliding page left blank per request
       slidingAnimRef.current = tl
     }

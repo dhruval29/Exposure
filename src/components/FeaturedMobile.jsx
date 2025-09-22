@@ -49,7 +49,7 @@ const FeaturedMobile = () => {
     (async () => {
       try {
         const { data, error } = await supabase
-          .from('public_gallery')
+          .from('featured_gallery')
           .select('*')
           .limit(50);
 
@@ -59,16 +59,13 @@ const FeaturedMobile = () => {
             setImages(list);
           }
         } else {
-          // Use fallback images if Supabase fails or returns no data
           if (isMounted) {
-            setImages(fallbackImages);
+            setImages([]);
           }
         }
       } catch (err) {
-        // Handle error silently in production
-        // Use fallback images on error
         if (isMounted) {
-          setImages(fallbackImages);
+          setImages([]);
         }
       }
     })();
