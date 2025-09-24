@@ -199,26 +199,48 @@
 	color: #000;
 	font-size: 28px;
 	padding: 6px 0;
+	transition: all 0.2s ease;
+}
+
+.inputName:focus,
+.inputPhone:focus,
+.inputEmail:focus,
+.inputEventAbout:focus {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
+	box-shadow: 0 0 0 2px rgba(17, 42, 70, 0.2);
+}
+
+.inputName::placeholder,
+.inputPhone::placeholder,
+.inputEmail::placeholder,
+.inputEventAbout::placeholder {
+	color: rgba(0, 0, 0, 0.4);
+	font-style: italic;
 }
 .inputName {
 	top: 37.6%;
 	left: 65.6%;
 	width: 29.6%;
+	cursor: url('/assets/icons/Vector.png') 16 16, text;
 }
 .inputPhone {
-	top: 60.9%;
+	top: 45.5%;
 	left: 65.6%;
 	width: 29.6%;
+	cursor: url('/assets/icons/Vector.png') 16 16, text;
 }
 .inputEmail {
-	top: 53.2%;
+	top: 52.2%;
 	left: 65.6%;
 	width: 29.6%;
+	cursor: url('/assets/icons/Vector.png') 16 16, text;
 }
 .inputEventAbout {
-	top: 69.8%;
+	top: 61.2%;
 	left: 65.6%;
 	width: 29.6%;
+	cursor: url('/assets/icons/Vector.png') 16 16, text;
 }
 .inputEventWhen {
 	top: 67.8%;
@@ -231,11 +253,22 @@
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 560ms);
 }
+
+.inputEventWhen * {
+	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer !important;
+}
 .submitMsg {
 	position: absolute;
 	bottom: 6.5%;
 	left: 4.58%;
 	font-size: 20px;
+	background: rgba(255, 255, 255, 0.9);
+	padding: 12px 16px;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border-left: 4px solid #112a46;
+	max-width: 400px;
+	line-height: 1.4;
 }
 .frameParent {
 	position: absolute;
@@ -258,9 +291,33 @@
 	animation-delay: calc(var(--cu-delay-base) + 700ms);
 }
 .exposureexplorersnitgoaaci {
-	position: relative;
-	text-decoration: underline;
-	color: inherit;
+    position: relative;
+    color: #000 !important;
+    text-decoration: none;
+    cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
+    transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
+}
+.exposureexplorersnitgoaaci:link,
+.exposureexplorersnitgoaaci:visited,
+.exposureexplorersnitgoaaci:hover,
+.exposureexplorersnitgoaaci:active {
+    color: #000 !important;
+    text-decoration: none;
+}
+.exposureexplorersnitgoaaci::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: #000;
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 260ms ease;
+}
+.exposureexplorersnitgoaaci:hover::after {
+    transform: scaleX(1);
 }
 .instagram {
 	position: absolute;

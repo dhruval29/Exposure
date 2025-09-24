@@ -15,12 +15,24 @@ const ContactUs = () => {
 		eventWhen: ''
 	});
 
-	const [submitting, setSubmitting] = React.useState(false);
+		const [submitting, setSubmitting] = React.useState(false);
 	const [submitMsg, setSubmitMsg] = React.useState('');
 	const [showLoader, setShowLoader] = useState(true);
 	const loaderRef = useRef(null);
 	const loaderPanelRef = useRef(null);
 	const loaderTextRef = useRef(null);
+
+		const handleEmailCopy = async (e) => {
+			e && e.preventDefault();
+			try {
+				await navigator.clipboard.writeText('exposure.explorers@nitgoa.ac.in');
+				setSubmitMsg('Email copied to clipboard');
+				setTimeout(() => setSubmitMsg(''), 2000);
+			} catch (_) {
+				setSubmitMsg('Could not copy email');
+				setTimeout(() => setSubmitMsg(''), 2000);
+			}
+		};
 
 	// Intro shutter loader
 	useEffect(() => {
@@ -46,31 +58,66 @@ const ContactUs = () => {
 	}, [showLoader]);
 
 	const handleChange = (field) => (e) => {
-		setForm(prev => ({ ...prev, [field]: e.target.value }));
+		const value = e.target.value;
+		console.log(`Form field ${field} changed to:`, value);
+		setForm(prev => ({ ...prev, [field]: value }));
 	};
 
 	const handleSubmit = async () => {
 		if (submitting) return;
 		setSubmitMsg('');
-		// basic validation
-		if (!form.name || !form.phone || !form.email) {
-			setSubmitMsg('Please fill name, phone and email.');
+		
+		console.log('Form submission started with data:', form);
+		
+		// Enhanced validation
+		const missingFields = [];
+		if (!form.name.trim()) missingFields.push('Name');
+		if (!form.phone.trim()) missingFields.push('Phone');
+		if (!form.email.trim()) missingFields.push('Email');
+		
+		if (missingFields.length > 0) {
+			const errorMsg = `Please fill in: ${missingFields.join(', ')}.`;
+			console.log('Validation failed:', errorMsg);
+			setSubmitMsg(errorMsg);
 			return;
 		}
+		
+		// Email validation
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(form.email)) {
+			const errorMsg = 'Please enter a valid email address.';
+			console.log('Email validation failed:', errorMsg);
+			setSubmitMsg(errorMsg);
+			return;
+		}
+		
 		setSubmitting(true);
+		console.log('Submitting to Supabase...');
+		
 		try {
-			const { error } = await supabase.from('event_contact_requests').insert({
-				name: form.name,
-				phone: form.phone,
-				email: form.email,
-				event_about: form.eventAbout,
+			const dataToInsert = {
+				name: form.name.trim(),
+				phone: form.phone.trim(),
+				email: form.email.trim(),
+				event_about: form.eventAbout.trim(),
 				event_when: form.eventWhen
-			});
-			if (error) throw error;
+			};
+			
+			console.log('Data to insert:', dataToInsert);
+			
+			const { error } = await supabase.from('event_contact_requests').insert(dataToInsert);
+			
+			if (error) {
+				console.error('Supabase error:', error);
+				throw error;
+			}
+			
+			console.log('Form submitted successfully!');
 			setSubmitMsg('Thanks! We will get back to you soon.');
 			setForm({ name: '', phone: '', email: '', eventAbout: '', eventWhen: '' });
 		} catch (e) {
-			setSubmitMsg('Submission failed. Please try again.');
+			console.error('Submission error:', e);
+			setSubmitMsg(`Submission failed: ${e.message || 'Please try again.'}`);
 		} finally {
 			setSubmitting(false);
 		}
@@ -171,7 +218,14 @@ const ContactUs = () => {
 				</div>
 				<div className={styles.frameParent}>
 						<div className={styles.exposureexplorersnitgoaaciWrapper}>
-								<a className={styles.exposureexplorersnitgoaaci} href="mailto:exposure.explorers@nitgoa.ac.in" target="_blank">exposure.explorers@nitgoa.ac.in</a>
+							<a
+								className={styles.exposureexplorersnitgoaaci}
+								href="#"
+								onClick={handleEmailCopy}
+								rel="noopener noreferrer"
+							>
+								exposure.explorers@nitgoa.ac.in
+							</a>
 						</div>
 						<a className={styles.instagram} href="https://www.instagram.com/exposure.explorers_nitg/" target="_blank" rel="noopener noreferrer">Instagram</a>
 						<a className={styles.linkedin} href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer">{`Linkedin `}</a>

@@ -87,7 +87,19 @@ const Frame60 = () => {
   const line = ' capture live create ';
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0`, borderTop: '1px solid rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(0,0,0,0.15)' }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
+      {/* Animated gradient directly behind marquee text */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(183, 186, 229, 0.35) 0%, rgba(183, 186, 229, 0.3) 15%, rgba(183, 186, 229, 0.2) 35%, rgba(183, 186, 229, 0.12) 55%, rgba(183, 186, 229, 0.06) 78%, transparent 100%)',
+          zIndex: 0,
+          pointerEvents: 'none',
+          animation: 'none',
+          opacity: 1
+        }}
+      />
       <div
         ref={trackRef}
         style={{
@@ -95,7 +107,8 @@ const Frame60 = () => {
           left: 0,
           whiteSpace: 'nowrap',
           willChange: 'transform',
-          display: 'flex'
+          display: 'flex',
+          zIndex: 1
         }}
         aria-hidden="true"
       >

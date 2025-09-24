@@ -14,6 +14,8 @@ const NavigationMenu = ({ isExiting }) => {
   const animationTimeline = useRef(null);
   const isMenuVisible = useRef(false);
   const [isMobile, setIsMobile] = useState(false);
+  // Feature flag to control hover background image changes
+  const ENABLE_HOVER_BG = false;
 
   const menuItems = [
     { id: 'our-journey', label: 'Our Journey', image: '/assets/mobile/images/navigation/7.webp' },
@@ -237,15 +239,16 @@ const NavigationMenu = ({ isExiting }) => {
         delay: 0.12,
         overwrite: "auto"
       });
-
-      // Fade in background image
-      gsap.to(backgroundImageRefs.current[index], {
-        opacity: 1,
-        duration: 0.6,
-        ease: "power2.out",
-        delay: 0.06,
-        overwrite: "auto"
-      });
+      if (ENABLE_HOVER_BG) {
+        // Fade in background image
+        gsap.to(backgroundImageRefs.current[index], {
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          delay: 0.06,
+          overwrite: "auto"
+        });
+      }
     } else {
       // Return to initial professional position
       gsap.to(arrowRefs.current[index], {
@@ -255,14 +258,15 @@ const NavigationMenu = ({ isExiting }) => {
         ease: "power2.inOut",
         overwrite: "auto"
       });
-
-      // Fade out background image
-      gsap.to(backgroundImageRefs.current[index], {
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.inOut",
-        overwrite: "auto"
-      });
+      if (ENABLE_HOVER_BG) {
+        // Fade out background image
+        gsap.to(backgroundImageRefs.current[index], {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+          overwrite: "auto"
+        });
+      }
     }
   };
 
@@ -308,8 +312,8 @@ const NavigationMenu = ({ isExiting }) => {
               width: '100%',
               height: '100%',
               backgroundColor: 'rgba(0,0,0,0.3)', // Black overlay to decrease brightness
-              backdropFilter: 'blur(1px) saturate(110%)', // Subtle blur effect over the image
-              WebkitBackdropFilter: 'blur(1px) saturate(110%)'
+              backdropFilter: 'blur(1px)', // Subtle blur effect over the image
+              WebkitBackdropFilter: 'blur(1px)'
             }}
           />
         </div>

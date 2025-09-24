@@ -562,8 +562,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: 'rgba(255,255,255,0.1)', // Subtle white overlay
-          backdropFilter: 'blur(1px) saturate(110%)', // Subtle blur effect
-          WebkitBackdropFilter: 'blur(1px) saturate(110%)',
+          backdropFilter: 'blur(1px)', // Subtle blur effect
+          WebkitBackdropFilter: 'blur(1px)',
           opacity: 0,
           pointerEvents: 'none'
         }}
@@ -1080,6 +1080,21 @@ const Landing = () => {
                   opacity: 0.7
                 }}
               />
+              {/* Static gradient at bottom border to mirror marquee background (transparent at the very bottom for seamless join) */}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: '140px',
+                  background: 'linear-gradient(to top, rgba(183, 186, 229, 0.35) 0%, rgba(183, 186, 229, 0.28) 35%, rgba(183, 186, 229, 0.18) 60%, rgba(183, 186, 229, 0.09) 80%, transparent 100%)',
+                  zIndex: 1,
+                  pointerEvents: 'none',
+                  animation: 'none',
+                  opacity: 1
+                }}
+              />
               <style dangerouslySetInnerHTML={{
                 __html: `
                   @keyframes gradientFade {
@@ -1214,7 +1229,7 @@ const Landing = () => {
             left: 0,
             right: 0,
             height: NEW_SECTION_HEIGHT,
-            background: 'black',
+            background: 'white',
             zIndex: 998,
             display: 'flex',
             flexDirection: 'column',
@@ -1228,7 +1243,34 @@ const Landing = () => {
             overflow: 'hidden'
           }}
         >
-          <Frame60 />
+          {/* Animated gradient overlay, similar to sliding page */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+              zIndex: 0,
+              pointerEvents: 'none',
+              animation: 'gradientFade 6s ease-in-out infinite',
+              opacity: 0.7
+            }}
+          />
+          {/* Keyframes (duplicated here to ensure availability) */}
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              @keyframes gradientFade {
+                0% { opacity: 0.4; transform: translateY(-15px); }
+                25% { opacity: 0.8; transform: translateY(0px); }
+                50% { opacity: 1; transform: translateY(0px); }
+                75% { opacity: 0.6; transform: translateY(8px); }
+                100% { opacity: 0.4; transform: translateY(-15px); }
+              }
+            `
+          }} />
+          {/* Content wrapper above gradient */}
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Frame60 />
+          </div>
         </div>
 
         {/* ZoomReveal placed after the new content section */}
