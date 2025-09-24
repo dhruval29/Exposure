@@ -59,62 +59,38 @@
 /* remove extra overlay to match menu */
 .events::before { display: none; }
 
-/* Mobile Navigation Brand Text */
+/* Navigation Brand Text - Visible on all screen sizes */
 .mobileNavBrand {
   position: fixed;
-  top: 15px;
+  top: 31px; /* Half of 62px header height to center vertically */
   left: 15px;
+  transform: translateY(-50%); /* Center vertically within the 62px header */
   font-family: 'PP Editorial New', serif;
   font-weight: 400;
   color: #000;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   z-index: 9999; /* Very high z-index to stay above navigation bar */
-  display: none; /* Hidden by default */
+  display: block; /* Visible on all screen sizes */
   line-height: 1;
   pointer-events: none; /* Allow clicks to pass through */
+  text-align: left; /* Ensure left alignment */
 }
 
 .brandLine1,
 .brandLine2 {
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   margin: 0;
   padding: 0;
   font-family: 'PP Editorial New', serif;
   letter-spacing: -0.02em;
 }
 
-/* Show on mobile versions only */
-@media (max-width: 1024px) {
+/* Desktop and larger screens */
+@media (min-width: 1025px) {
   .mobileNavBrand {
-    display: block;
-    top: 18px;
-    left: 18px;
-  }
-  .brandLine1,
-  .brandLine2 {
-    font-size: 18px;
-  }
-}
-
-/* Mobile landscape */
-@media (max-width: 768px) {
-  .mobileNavBrand {
-    top: 16px;
-    left: 16px;
-  }
-  .brandLine1,
-  .brandLine2 {
-    font-size: 17px;
-  }
-}
-
-/* Mobile portrait */
-@media (max-width: 480px) {
-  .mobileNavBrand {
-    top: 14px;
-    left: 14px;
+    left: 20px;
   }
   .brandLine1,
   .brandLine2 {
@@ -122,11 +98,10 @@
   }
 }
 
-/* Small mobile devices */
-@media (max-width: 360px) {
+/* Tablet and mobile versions */
+@media (max-width: 1024px) {
   .mobileNavBrand {
-    top: 12px;
-    left: 12px;
+    left: 18px;
   }
   .brandLine1,
   .brandLine2 {
@@ -134,9 +109,42 @@
   }
 }
 
+/* Mobile landscape */
+@media (max-width: 768px) {
+  .mobileNavBrand {
+    left: 16px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 14px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  .mobileNavBrand {
+    left: 14px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 13px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 360px) {
+  .mobileNavBrand {
+    left: 12px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 12px;
+  }
+}
+
 .events2 {
   position: absolute;
-  top: 140px; /* added 10px padding after nav bar */
+  top: 155px; /* added 15px to original 140px for desktop */
   left: 56.5px; /* original Events positioning */
   font-size: 128px; /* same size as contact */
   font-family: 'PP Editorial New', serif; /* PP Editorial italic font */
@@ -150,7 +158,7 @@
 
 .searchContainer {
   position: absolute;
-  top: 230px; /* moved up to align with Events title + 10px padding */
+  top: 245px; /* added 15px to original 230px for desktop */
   right: 30px; /* positioned on the right side for desktop */
   border-radius: 47.78px;
   background-color: #d9d9d9;
@@ -201,7 +209,7 @@
 
 .eventsItem {
   position: absolute;
-  top: 340px; /* moved up to align with new layout + 10px padding */
+  top: 355px; /* added 15px to align with new Events title position */
   left: 56.5px;
   right: 56.5px;
   border-top: 1px solid #000;
@@ -212,7 +220,7 @@
 
 .eventsList {
   position: absolute;
-  top: 320px; /* moved up to align with new layout + 10px padding */
+  top: 335px; /* added 15px to align with new Events title position */
   left: 0;
   right: 0;
   bottom: 0;
@@ -480,9 +488,17 @@
     font-size: 120px;
   }
   
+  .mobileNavBrand {
+    left: 25px;
+  }
+  .brandLine1,
+  .brandLine2 {
+    font-size: 18px;
+  }
+  
   .events2 {
     font-size: 120px; /* original large screen size */
-    top: 60px; /* reduced by 20px */
+    top: 75px; /* added 15px to original 60px for large screens */
     left: 65px; /* original large screen positioning */
     height: 80px;
   }
@@ -490,7 +506,7 @@
   .searchContainer {
     width: 50%;
     height: 60px;
-    top: 125px; /* moved up to align with Events title */
+    top: 140px; /* added 15px to align with new Events title position */
     right: 20px; /* positioned on the right side for large screens */
   }
   
@@ -504,13 +520,13 @@
   }
   
   .eventsItem {
-    top: 240px; /* moved up to align with new layout */
+    top: 255px; /* added 15px to align with new Events title position */
     left: 80px;
     right: 80px;
   }
   
   .eventsList {
-    top: 230px; /* moved up to align with new layout */
+    top: 245px; /* added 15px to align with new Events title position */
     padding: 0 20px;
   }
 }

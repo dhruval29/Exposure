@@ -137,6 +137,32 @@ function Admin() {
   const [uploadingEventImage, setUploadingEventImage] = useState(false)
   const eventImageInputRef = useRef(null)
 
+  // Image metadata editing state (title/description)
+  const [editedMeta, setEditedMeta] = useState({})
+  const setMetaField = (id, field, value) => {
+    setEditedMeta(prev => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), [field]: value }
+    }))
+  }
+  const saveImageMeta = async (img) => {
+    const meta = editedMeta[img.id] || {}
+    const nextTitle = meta.title ?? img.title ?? ''
+    const nextDesc = meta.description ?? img.description ?? ''
+    try {
+      const { error } = await supabase
+        .from('images')
+        .update({ title: nextTitle || null, description: nextDesc || null })
+        .eq('id', img.id)
+      if (error) throw error
+      // reflect in UI
+      setAvailableImages(prev => prev.map(x => x.id === img.id ? { ...x, title: nextTitle || null, description: nextDesc || null } : x))
+      setStatus('Saved image details')
+    } catch (err) {
+      setStatus(`Save failed: ${err.message}`)
+    }
+  }
+
   // Accordion state
   const [openSection, setOpenSection] = useState({
     media: true,
@@ -779,6 +805,31 @@ function Admin() {
                           </span>
                           <span className={styles.imageStatus}>Live</span>
                         </div>
+                        <div className={styles.formInlineColumn} style={{ gap: 6, marginTop: 8 }}>
+                          <input
+                            type="text"
+                            placeholder="Title"
+                            value={(editedMeta[row.id]?.title) ?? row.title ?? ''}
+                            onChange={(e) => setMetaField(row.id, 'title', e.target.value)}
+                            className={styles.metaInput}
+                          />
+                          <textarea
+                            rows="2"
+                            placeholder="Short description"
+                            value={(editedMeta[row.id]?.description) ?? row.description ?? ''}
+                            onChange={(e) => setMetaField(row.id, 'description', e.target.value)}
+                            className={styles.metaTextarea}
+                          />
+                          <div style={{ display: 'flex', gap: 8 }}>
+                            <button
+                              type="button"
+                              className={styles.buttonPrimary}
+                              onClick={() => saveImageMeta(row)}
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -894,6 +945,31 @@ function Admin() {
                             <CloseIcon />
                             <span>Delete</span>
                           </button>
+                        </div>
+                        <div className={styles.formInlineColumn} style={{ gap: 6, marginTop: 8 }}>
+                          <input
+                            type="text"
+                            placeholder="Title"
+                            value={(editedMeta[img.id]?.title) ?? img.title ?? ''}
+                            onChange={(e) => setMetaField(img.id, 'title', e.target.value)}
+                            className={styles.metaInput}
+                          />
+                          <textarea
+                            rows="2"
+                            placeholder="Short description"
+                            value={(editedMeta[img.id]?.description) ?? img.description ?? ''}
+                            onChange={(e) => setMetaField(img.id, 'description', e.target.value)}
+                            className={styles.metaTextarea}
+                          />
+                          <div style={{ display: 'flex', gap: 8 }}>
+                            <button
+                              type="button"
+                              className={styles.buttonPrimary}
+                              onClick={() => saveImageMeta(img)}
+                            >
+                              Save
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}

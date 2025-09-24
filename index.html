@@ -7,9 +7,14 @@
     <link rel="apple-touch-icon" href="/assets/icons/bombbomb.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exposure Explorers</title>
+    <!-- Preconnect to Supabase REST and Storage to speed up initial handshakes -->
+    <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co" crossorigin>
+    <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co/storage" crossorigin>
   </head>
   <body>
     <div id="root"></div>
+    <!-- Early bootstrap to discover and preload the first featured image -->
+    <script type="module" src="/src/bootstrap/featuredBoot.js"></script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

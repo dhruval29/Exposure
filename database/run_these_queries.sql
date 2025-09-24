@@ -1,3 +1,40 @@
+-- EXIF columns for images
+alter table if exists public.images
+  add column if not exists exif_json jsonb,
+  add column if not exists camera_make text,
+  add column if not exists camera_model text,
+  add column if not exists lens_model text,
+  add column if not exists focal_length_mm numeric,
+  add column if not exists aperture_fnumber numeric,
+  add column if not exists shutter_speed text,
+  add column if not exists iso int,
+  add column if not exists taken_at timestamptz;
+
+-- Extend public_gallery view with EXIF (drop/create)
+drop view if exists public.public_gallery cascade;
+create view public.public_gallery as
+select 
+  id,
+  public_url as url,
+  title,
+  description,
+  created_at,
+  width,
+  height,
+  exif_json,
+  camera_make,
+  camera_model,
+  lens_model,
+  focal_length_mm,
+  aperture_fnumber,
+  shutter_speed,
+  iso,
+  taken_at
+from public.images
+where is_public = true
+order by created_at desc;
+
+grant select on public.public_gallery to authenticated, anon;
 -- DIAGNOSTIC QUERIES FOR IMAGE ISSUE
 -- Copy and paste these queries one by one into your Supabase SQL Editor
 

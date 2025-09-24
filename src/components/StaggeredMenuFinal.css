@@ -34,7 +34,7 @@
 .smf-icon-line { position: absolute; top: 50%; left: 50%; width: 16px; height: 2px; background: currentColor; border-radius: 2px; transform: translate(-50%, -50%); }
 .smf-icon-line-v { transform: translate(-50%, -50%) rotate(90deg); }
 
-.smf-panel { position: fixed; top: 0; bottom: 0; width: clamp(260px, 38vw, 420px); max-width: none; background: #ffffff; color: #000; pointer-events: auto; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.smf-panel { position: fixed; top: 0; bottom: 0; width: clamp(260px, 38vw, 420px); max-width: none; background: linear-gradient(135deg, #b19eef 0%, #5227ff 25%, #fecaca 55%, #fde68a 85%, #b19eef 100%); background-size: 300% 300%; animation: smf-panel-gradient-breathe 16s ease-in-out infinite; color: #000; pointer-events: auto; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
 .smf-wrapper[data-position="right"] .smf-panel { right: 0; }
 .smf-wrapper[data-position="left"] .smf-panel { left: 0; }
 
@@ -139,5 +139,14 @@
 /* Accent utilities */
 .smf-toggle:hover .smf-icon-line { background: var(--smf-accent); }
 .smf-item:hover { color: var(--smf-accent); }
+
+
+@keyframes smf-panel-gradient-breathe {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 60%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 40%; }
+  100% { background-position: 0% 50%; }
+}
 
 

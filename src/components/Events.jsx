@@ -291,7 +291,7 @@ const Events = () => {
 
   return (
     <div className={styles.events}>
-      {/* Mobile Navigation Brand Text */}
+      {/* Navigation Brand Text */}
       <div className={styles.mobileNavBrand}>
         <div className={styles.brandLine1}>EXPOSURE</div>
         <div className={styles.brandLine2}>EXPLORERS</div>

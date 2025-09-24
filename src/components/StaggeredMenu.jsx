@@ -322,6 +322,23 @@ export const StaggeredMenu = ({
       data-open={open || undefined}
       data-hide-button={hideButton || undefined}
     >
+      {/* viewport overlay */}
+      <div
+        aria-hidden={!open}
+        onClick={() => {
+          if (openRef.current) {
+            toggleMenu();
+          }
+        }}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: open ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0)',
+          transition: 'background 240ms ease',
+          pointerEvents: open ? 'auto' : 'none',
+          zIndex: 10000
+        }}
+      />
       <div ref={preLayersRef} className="sm-prelayers" aria-hidden="true">
         {(() => {
           const raw = colors && colors.length ? colors.slice(0, 4) : ['#1e1e22', '#35353c'];

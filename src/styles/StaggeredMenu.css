@@ -239,7 +239,16 @@
   right: 0;
   width: clamp(260px, 38vw, 420px);
   height: 100vh;
-  background: #ffffff;
+  background: linear-gradient(
+    135deg,
+    #b19eef 0%,   /* purple */
+    #5227ff 25%,  /* indigo */
+    #fecaca 55%,  /* blush */
+    #fde68a 85%,  /* warm yellow */
+    #b19eef 100%  /* back to purple */
+  );
+  background-size: 300% 300%;
+  animation: sm-panel-gradient-breathe 16s ease-in-out infinite;
   border-left: 1px solid #e5e5e5;
   display: flex;
   flex-direction: column;
@@ -254,6 +263,14 @@
   /* Force layout calculation even when off-screen */
   will-change: transform;
   /* Removed debug rules - back to normal behavior */
+}
+
+@keyframes sm-panel-gradient-breathe {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 60%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 40%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Remove the general debug rules - only apply to left position */
@@ -280,11 +297,11 @@
 [data-position='left'] .sm-panel-item {
   font-size: 4rem !important;
   color: #ff6b6b !important;
-  background: linear-gradient(45deg, #fde68a, #fecaca) !important;
-  border-radius: 15px !important;
+  background: transparent !important;
+  border-radius: 0 !important;
   padding: 0.2em 0.6em !important;
   margin-bottom: 0.3em !important;
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4) !important;
+  box-shadow: none !important;
 }
 
 [data-position='left'] .sm-panel-item:hover .sm-panel-itemLabel {
@@ -446,8 +463,8 @@
   display: inline-block !important;
   text-decoration: none;
   padding: 0.1em 0.4em 0.1em 0.2em;
-  background: #ffffff;
-  border-radius: 8px;
+  background: transparent;
+  border-radius: 0;
   margin-bottom: 0.2em;
   opacity: 1 !important;
   visibility: visible !important;

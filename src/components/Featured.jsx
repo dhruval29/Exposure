@@ -29,9 +29,34 @@ const Featured = () => {
     { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
   ];
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(() => {
+    const boot = typeof window !== 'undefined' ? window.__BOOTSTRAP_FEATURED__ : null;
+    return boot ? [{ src: boot.src, thumb: boot.thumb, title: boot.title }] : [];
+  });
   const hasManyImages = images.length > 16;
   const [previewImages, setPreviewImages] = useState([]);
+  const loadMoreRef = useRef(null);
+  const isLoadingMoreRef = useRef(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
+  const pageSize = 20;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+
+  const getTransformedUrl = (url, width, quality = 70, format = 'webp') => {
+    try {
+      if (!url) return url;
+      if (supabaseUrl && String(url).startsWith(supabaseUrl)) {
+        const u = new URL(url);
+        u.searchParams.set('width', String(width));
+        u.searchParams.set('quality', String(quality));
+        u.searchParams.set('format', format);
+        return u.toString();
+      }
+      return url;
+    } catch {
+      return url;
+    }
+  };
 
   // Fallback images for testing
   const fallbackImages = [
@@ -54,38 +79,128 @@ const Featured = () => {
     setLoading(true);
     const timer = setTimeout(() => isMounted && setLoading(false), 1200);
 
-    (async () => {
+    const fetchPage = async (pageIndex) => {
+      if (!isMounted) return;
+      const start = pageIndex * pageSize;
+      const end = start + pageSize - 1;
       try {
         const { data, error } = await supabase
           .from('featured_gallery')
           .select('*')
-          .limit(50);
+          .range(start, end);
 
-        if (!error && Array.isArray(data) && data.length > 0) {
-          const list = data.map((it, idx) => ({ src: it.url, title: it.title || `Image ${idx + 1}` }));
+        if (!error && Array.isArray(data)) {
+          const list = data.map((it, idx) => ({
+            src: it.url,
+            thumb: it.thumbnail_url ? it.thumbnail_url : getTransformedUrl(it.url, 400),
+            title: it.title || `Image ${start + idx + 1}`
+          }));
           if (isMounted) {
-            setImages(list);
-            setPreviewImages(list);
+            setImages((prev) => (pageIndex === 0 ? list : [...prev, ...list]));
+            const listForPreview = list.map(({ src, title }) => ({ src, title }));
+            setPreviewImages((prev) => (pageIndex === 0 ? listForPreview : [...prev, ...listForPreview]));
+            setHasMore(data.length === pageSize);
+            setLoading(false);
+            // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
           }
-        } else {
-          if (isMounted) {
-            setImages([]);
-            setPreviewImages([]);
-          }
+        } else if (isMounted) {
+          setHasMore(false);
+          setLoading(false);
+          // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
         }
       } catch (err) {
         if (isMounted) {
-          setImages([]);
-          setPreviewImages([]);
+          setHasMore(false);
+          setLoading(false);
+          // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
         }
       }
-    })();
+    };
+
+    // If bootstrap seeded the first image, still fetch page 0 but avoid duplicate
+    fetchPage(0);
+    setPage(0);
 
     return () => {
       isMounted = false;
       clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    const sentinel = loadMoreRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && hasMore && !isLoadingMoreRef.current) {
+        isLoadingMoreRef.current = true;
+        const nextPage = page + 1;
+        const start = nextPage * pageSize;
+        const end = start + pageSize - 1;
+        supabase
+          .from('featured_gallery')
+          .select('*')
+          .range(start, end)
+          .then(({ data, error }) => {
+            if (!error && Array.isArray(data) && data.length > 0) {
+              const list = data.map((it, idx) => ({
+                src: it.url,
+                thumb: it.thumbnail_url ? it.thumbnail_url : getTransformedUrl(it.url, 400),
+                title: it.title || `Image ${start + idx + 1}`
+              }));
+              setImages((prev) => [...prev, ...list]);
+              const listForPreview = list.map(({ src, title }) => ({ src, title }));
+              setPreviewImages((prev) => [...prev, ...listForPreview]);
+              setHasMore(data.length === pageSize);
+              setPage(nextPage);
+            } else {
+              setHasMore(false);
+            }
+          })
+          .finally(() => {
+            isLoadingMoreRef.current = false;
+          });
+      }
+    }, { rootMargin: '200px 0px' });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, page]);
+
+  // Preload full-size images in the background once initial page load completes
+  const preloadedSetRef = useRef(new Set());
+  useEffect(() => {
+    if (loading || showLoader) return;
+    if (document.readyState !== 'complete') {
+      const onLoad = () => {
+        // small delay to let main thread settle
+        setTimeout(() => {
+          const limit = 16; // cap background preloads
+          images.slice(0, limit).forEach((img) => {
+            const url = img.src;
+            if (!url || preloadedSetRef.current.has(url)) return;
+            preloadedSetRef.current.add(url);
+            const i = new Image();
+            i.decoding = 'async';
+            i.loading = 'eager';
+            i.src = url;
+          });
+        }, 300);
+      };
+      window.addEventListener('load', onLoad, { once: true });
+      return () => window.removeEventListener('load', onLoad);
+    }
+    // If already loaded
+    const limit = 16;
+    images.slice(0, limit).forEach((img) => {
+      const url = img.src;
+      if (!url || preloadedSetRef.current.has(url)) return;
+      preloadedSetRef.current.add(url);
+      const i = new Image();
+      i.decoding = 'async';
+      i.loading = 'eager';
+      i.src = url;
+    });
+  }, [images, loading, showLoader]);
 
   // Shutter loader animation (white panel shrinks from top, revealing from bottom)
   useEffect(() => {
@@ -199,13 +314,14 @@ const Featured = () => {
   }, [showModal, selectedImage]);
 
   const handleImageHover = (imageIndex) => {
-    if (rightSideImageRef.current && imageIndex >= 1 && imageIndex <= previewImages.length) {
+    if (rightSideImageRef.current && imageIndex >= 1 && imageIndex <= images.length) {
       rightSideImageRef.current.style.opacity = '0';
       rightSideImageRef.current.style.transform = 'scale(0.95)';
       setTimeout(() => {
         if (rightSideImageRef.current) {
-          rightSideImageRef.current.src = previewImages[imageIndex - 1].src;
-          rightSideImageRef.current.alt = previewImages[imageIndex - 1].title;
+          const imgObj = images[imageIndex - 1];
+          rightSideImageRef.current.src = imgObj.thumb || imgObj.src;
+          rightSideImageRef.current.alt = imgObj.title;
           rightSideImageRef.current.offsetHeight;
           rightSideImageRef.current.style.opacity = '1';
           rightSideImageRef.current.style.transform = 'scale(1)';
@@ -440,11 +556,14 @@ const Featured = () => {
                       }}
                     >
                       <img
-                        src={image.src}
+                        src={image.thumb || image.src}
                         alt={image.title}
                         width="200"
                         height="300"
-                        loading="lazy"
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        fetchpriority={index === 0 ? 'high' : 'auto'}
+                        decoding="async"
+                        sizes="(max-width: 768px) 50vw, 25vw"
                         onLoad={(e) => {
                           if (e.target.naturalWidth === e.target.naturalHeight) {
                             e.target.parentElement.classList.add('square-image');
@@ -454,18 +573,22 @@ const Featured = () => {
                     </div>
                   </div>
                 ))}
+                <div ref={loadMoreRef} style={{ height: '1px' }} />
               </div>
             </div>
 
             {/* Right Side Component */}
             <div className="p-home-right-component">
               <div className="p-home-right-component__image-container">
-                {previewImages.length > 0 ? (
+                {images.length > 0 ? (
                   <img
                     ref={rightSideImageRef}
-                    src={previewImages[0].src}
-                    alt={previewImages[0].title || 'Preview image'}
+                    src={images[0].thumb || images[0].src}
+                    alt={images[0].title || 'Preview image'}
                     id="rightSideImage"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
                   />
                 ) : (
                   <div style={{ opacity: 0.6 }}>No images yet</div>
@@ -494,6 +617,25 @@ const Featured = () => {
               alt={selectedImage.title}
               className="image-modal-image"
             />
+            {/* Left metadata panel (desktop) */}
+            {(() => {
+              const img = images[selectedImage.index] || {};
+              const lines = [];
+              if (img.camera_make || img.camera_model) lines.push(`${img.camera_make || ''} ${img.camera_model || ''}`.trim());
+              if (img.lens_model) lines.push(img.lens_model);
+              const specs = [
+                img.focal_length_mm ? `${img.focal_length_mm}mm` : null,
+                img.aperture_fnumber ? `f/${img.aperture_fnumber}` : null,
+                img.shutter_speed || null,
+                img.iso ? `ISO ${img.iso}` : null,
+              ].filter(Boolean).join(' • ');
+              if (specs) lines.push(specs);
+              return lines.length ? (
+                <div className="image-metadata-left">
+                  {lines.join('\n')}
+                </div>
+              ) : null;
+            })()}
             <div className="image-modal-title">
               {selectedImage.title}
             </div>

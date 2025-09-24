@@ -365,6 +365,39 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   flex-shrink: 0;
 }
 
+/* Desktop: place title to the right at 25% from the right window border */
+@media (min-width: 1025px) {
+  .image-modal-title {
+    position: fixed; /* relative to viewport to avoid shifting image layout */
+    top: 50%;
+    right: 25vw; /* 25% from the right edge */
+    transform: translateY(-50%);
+    margin-top: 0; /* override below-image spacing */
+    text-align: left;
+    font-size: 20px;
+    line-height: 1.4;
+    max-width: 28ch; /* readable line length */
+    color: #111;
+    z-index: 10001; /* above modal content */
+    background: transparent;
+  }
+  .image-metadata-left {
+    position: fixed;
+    top: 50%;
+    left: 25vw; /* mirror of 25vw from right */
+    transform: translateY(-50%);
+    text-align: right;
+    font-size: 14px;
+    line-height: 1.3;
+    color: #111;
+    z-index: 10001;
+    white-space: pre-line;
+    opacity: 0.9;
+  }
+}
+
+/* Desktop overrides removed to restore original below-image centered title */
+
 /* Navigation Snack Bar */
 .image-modal-navigation {
   position: absolute;
@@ -374,12 +407,12 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 16px;
+  padding: 1px 10px; /* a bit more compact */
   background: rgba(128, 128, 128, 0.9);
   border-radius: 50px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 260px;
+  width: 240px;
   flex-shrink: 0;
 }
 
@@ -388,9 +421,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   color: white;
   border: none;
   border-radius: 8px;
-  width: 45px;
-  height: 45px;
-  font-size: 20px;
+  width: 30px; /* further reduced */
+  height: 30px; /* further reduced */
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -425,10 +458,16 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 .nav-close {
   background: transparent;
-  font-size: 48px;
+  font-size: 30px; /* a bit smaller */
   color: white;
   font-weight: 300;
   font-family: Arial, sans-serif;
+}
+
+/* Ensure arrow icon images conform to reduced height */
+.image-modal-navigation img {
+  width: 26px;
+  height: 26px;
 }
 
 .nav-close:hover:not(:disabled) {
@@ -457,20 +496,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   }
   
   .image-modal-navigation {
-    width: 280px;
-    padding: 6px 15px;
+    width: 240px;
+    padding: 4px 10px;
     bottom: -80px;
   }
   
   .nav-button {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
     border-radius: 6px;
   }
   
   .nav-close {
-    font-size: 42px;
+    font-size: 32px;
     font-weight: 300;
     font-family: Arial, sans-serif;
   }
@@ -497,15 +536,15 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   }
   
   .image-modal-navigation {
-    width: 240px;
-    padding: 5px 12px;
+    width: 220px;
+    padding: 3px 8px;
     bottom: -70px;
   }
   
   .nav-button {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
     border-radius: 5px;
   }
   

@@ -22,8 +22,33 @@ const FeaturedMobile = () => {
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(() => {
+    const boot = typeof window !== 'undefined' ? window.__BOOTSTRAP_FEATURED__ : null;
+    return boot ? [{ src: boot.src, thumb: boot.thumb, title: boot.title }] : [];
+  });
   const hasManyImages = images.length > 16;
+  const loadMoreRef = useRef(null);
+  const isLoadingMoreRef = useRef(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
+  const pageSize = 20;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+
+  const getTransformedUrl = (url, width, quality = 70, format = 'webp') => {
+    try {
+      if (!url) return url;
+      if (supabaseUrl && String(url).startsWith(supabaseUrl)) {
+        const u = new URL(url);
+        u.searchParams.set('width', String(width));
+        u.searchParams.set('quality', String(quality));
+        u.searchParams.set('format', format);
+        return u.toString();
+      }
+      return url;
+    } catch {
+      return url;
+    }
+  };
 
   // Fallback images for testing
   const fallbackImages = [
@@ -46,35 +71,103 @@ const FeaturedMobile = () => {
     setLoading(true);
     const timer = setTimeout(() => isMounted && setLoading(false), 1200);
 
-    (async () => {
+    const fetchPage = async (pageIndex) => {
+      if (!isMounted) return;
+      const start = pageIndex * pageSize;
+      const end = start + pageSize - 1;
       try {
         const { data, error } = await supabase
           .from('featured_gallery')
           .select('*')
-          .limit(50);
+          .range(start, end);
 
-        if (!error && Array.isArray(data) && data.length > 0) {
-          const list = data.map((it, idx) => ({ src: it.url, title: it.title || `Image ${idx + 1}` }));
+        if (!error && Array.isArray(data)) {
+          const list = data.map((it, idx) => ({
+            src: it.url,
+            thumb: it.thumbnail_url ? it.thumbnail_url : getTransformedUrl(it.url, 400),
+            title: it.title || `Image ${start + idx + 1}`
+          }));
           if (isMounted) {
-            setImages(list);
+            setImages((prev) => (pageIndex === 0 ? list : [...prev, ...list]));
+            setHasMore(data.length === pageSize);
+            setLoading(false);
+            // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
           }
-        } else {
-          if (isMounted) {
-            setImages([]);
-          }
+        } else if (isMounted) {
+          setHasMore(false);
+          setLoading(false);
+          // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
         }
       } catch (err) {
         if (isMounted) {
-          setImages([]);
+          setHasMore(false);
+          setLoading(false);
+          // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
         }
       }
-    })();
+    };
+
+    fetchPage(0);
+    setPage(0);
 
     return () => {
       isMounted = false;
       clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    const sentinel = loadMoreRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && hasMore && !isLoadingMoreRef.current) {
+        isLoadingMoreRef.current = true;
+        const nextPage = page + 1;
+        const start = nextPage * pageSize;
+        const end = start + pageSize - 1;
+        supabase
+          .from('featured_gallery')
+          .select('*')
+          .range(start, end)
+          .then(({ data, error }) => {
+            if (!error && Array.isArray(data) && data.length > 0) {
+              const list = data.map((it, idx) => ({
+                src: it.url,
+                thumb: it.thumbnail_url ? it.thumbnail_url : getTransformedUrl(it.url, 400),
+                title: it.title || `Image ${start + idx + 1}`
+              }));
+              setImages((prev) => [...prev, ...list]);
+              setHasMore(data.length === pageSize);
+              setPage(nextPage);
+            } else {
+              setHasMore(false);
+            }
+          })
+          .finally(() => {
+            isLoadingMoreRef.current = false;
+          });
+      }
+    }, { rootMargin: '200px 0px' });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, page]);
+
+  // Preload full-size images (mobile) after initial load to reduce modal latency
+  const preloadedSetRef = useRef(new Set());
+  useEffect(() => {
+    if (loading || showLoader) return;
+    const limit = 12;
+    images.slice(0, limit).forEach((img) => {
+      const url = img.src;
+      if (!url || preloadedSetRef.current.has(url)) return;
+      preloadedSetRef.current.add(url);
+      const i = new Image();
+      i.decoding = 'async';
+      i.loading = 'eager';
+      i.src = url;
+    });
+  }, [images, loading, showLoader]);
 
   // Shutter loader animation (white panel shrinks from top, revealing from bottom)
   useEffect(() => {
@@ -409,11 +502,14 @@ const FeaturedMobile = () => {
                       }}
                     >
                       <img
-                        src={image.src}
+                        src={image.thumb || image.src}
                         alt={image.title}
                         width="200"
                         height="300"
-                        loading="lazy"
+                        loading={index < 2 ? 'eager' : 'lazy'}
+                        fetchpriority={index < 2 ? 'high' : 'auto'}
+                        decoding="async"
+                        sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
                         onLoad={(e) => {
                           if (e.target.naturalWidth === e.target.naturalHeight) {
                             e.target.parentElement.classList.add('square-image');
@@ -423,6 +519,7 @@ const FeaturedMobile = () => {
                     </div>
                   </div>
                 ))}
+                <div ref={loadMoreRef} style={{ height: '1px' }} />
               </div>
             </div>
           </section>
@@ -442,6 +539,7 @@ const FeaturedMobile = () => {
               alt={selectedImage.title}
               className="image-modal-image"
             />
+            {/* Note: metadata panel omitted on mobile to avoid clutter */}
             <div className="image-modal-title">
               {selectedImage.title}
             </div>

@@ -28,7 +28,11 @@ create table if not exists public.user_roles (
 
 -- Helper: is_admin(uid)
 create or replace function public.is_admin(uid uuid)
-returns boolean language sql stable as $$
+returns boolean
+language sql
+stable
+set search_path = public, pg_temp
+as $$
   select exists (
     select 1
     from public.user_roles ur
@@ -47,6 +51,14 @@ create table if not exists public.images (
   width int,
   height int,
   taken_at timestamptz,
+  exif_json jsonb,
+  camera_make text,
+  camera_model text,
+  lens_model text,
+  focal_length_mm numeric,
+  aperture_fnumber numeric,
+  shutter_speed text,
+  iso int,
   uploaded_by uuid references public.users(id) on delete set null,
   is_public boolean not null default true,
   created_at timestamptz not null default now()
@@ -67,7 +79,10 @@ create table if not exists public.albums (
 
 -- Trigger to auto-update updated_at
 create or replace function public.set_updated_at()
-returns trigger language plpgsql as $$
+returns trigger
+language plpgsql
+set search_path = public, pg_temp
+as $$
 begin
   new.updated_at = now();
   return new;
@@ -145,95 +160,95 @@ alter table public.team_members enable row level security;
 -- USERS policies
 drop policy if exists users_select_self on public.users;
 create policy users_select_self on public.users
-for select using (auth.uid() = id or public.is_admin(auth.uid()));
+for select using ((select auth.uid()) = id or public.is_admin((select auth.uid())));
 
 drop policy if exists users_insert_self on public.users;
 create policy users_insert_self on public.users
-for insert with check (auth.uid() = id or public.is_admin(auth.uid()));
+for insert with check ((select auth.uid()) = id or public.is_admin((select auth.uid())));
 
 drop policy if exists users_update_self on public.users;
 create policy users_update_self on public.users
-for update using (auth.uid() = id or public.is_admin(auth.uid())) with check (auth.uid() = id or public.is_admin(auth.uid()));
+for update using ((select auth.uid()) = id or public.is_admin((select auth.uid()))) with check ((select auth.uid()) = id or public.is_admin((select auth.uid())));
 
 -- ROLES policies (admin only except select)
 drop policy if exists roles_select_all on public.roles;
 create policy roles_select_all on public.roles for select using (true);
 
 drop policy if exists roles_admin_ins on public.roles;
-create policy roles_admin_ins on public.roles for insert with check (public.is_admin(auth.uid()));
+create policy roles_admin_ins on public.roles for insert with check (public.is_admin((select auth.uid())));
 
 drop policy if exists roles_admin_upd on public.roles;
-create policy roles_admin_upd on public.roles for update using (public.is_admin(auth.uid()));
+create policy roles_admin_upd on public.roles for update using (public.is_admin((select auth.uid())));
 
 drop policy if exists roles_admin_del on public.roles;
-create policy roles_admin_del on public.roles for delete using (public.is_admin(auth.uid()));
+create policy roles_admin_del on public.roles for delete using (public.is_admin((select auth.uid())));
 
 -- USER_ROLES policies (admin only except select own)
 drop policy if exists user_roles_select on public.user_roles;
-create policy user_roles_select on public.user_roles for select using (public.is_admin(auth.uid()) or user_id = auth.uid());
+create policy user_roles_select on public.user_roles for select using (public.is_admin((select auth.uid())) or user_id = (select auth.uid()));
 
 drop policy if exists user_roles_admin_ins on public.user_roles;
-create policy user_roles_admin_ins on public.user_roles for insert with check (public.is_admin(auth.uid()));
+create policy user_roles_admin_ins on public.user_roles for insert with check (public.is_admin((select auth.uid())));
 
 drop policy if exists user_roles_admin_upd on public.user_roles;
-create policy user_roles_admin_upd on public.user_roles for update using (public.is_admin(auth.uid()));
+create policy user_roles_admin_upd on public.user_roles for update using (public.is_admin((select auth.uid())));
 
 drop policy if exists user_roles_admin_del on public.user_roles;
-create policy user_roles_admin_del on public.user_roles for delete using (public.is_admin(auth.uid()));
+create policy user_roles_admin_del on public.user_roles for delete using (public.is_admin((select auth.uid())));
 
 -- IMAGES policies
 drop policy if exists images_select_public on public.images;
 create policy images_select_public on public.images
-for select using (is_public = true or uploaded_by = auth.uid() or public.is_admin(auth.uid()));
+for select using (is_public = true or uploaded_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 drop policy if exists images_insert_own on public.images;
 create policy images_insert_own on public.images
-for insert with check (uploaded_by = auth.uid() or public.is_admin(auth.uid()));
+for insert with check (uploaded_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 drop policy if exists images_update_own on public.images;
 create policy images_update_own on public.images
-for update using (uploaded_by = auth.uid() or public.is_admin(auth.uid()));
+for update using (uploaded_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 drop policy if exists images_delete_own on public.images;
 create policy images_delete_own on public.images
-for delete using (uploaded_by = auth.uid() or public.is_admin(auth.uid()));
+for delete using (uploaded_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 -- ALBUMS policies
 drop policy if exists albums_select_public on public.albums;
 create policy albums_select_public on public.albums
-for select using (is_public = true or created_by = auth.uid() or public.is_admin(auth.uid()));
+for select using (is_public = true or created_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 drop policy if exists albums_insert_own on public.albums;
 create policy albums_insert_own on public.albums
-for insert with check (created_by = auth.uid() or public.is_admin(auth.uid()));
+for insert with check (created_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 drop policy if exists albums_update_own on public.albums;
 create policy albums_update_own on public.albums
-for update using (created_by = auth.uid() or public.is_admin(auth.uid()));
+for update using (created_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 drop policy if exists albums_delete_own on public.albums;
 create policy albums_delete_own on public.albums
-for delete using (created_by = auth.uid() or public.is_admin(auth.uid()));
+for delete using (created_by = (select auth.uid()) or public.is_admin((select auth.uid())));
 
 -- ALBUM_IMAGES follows albums/images access
 drop policy if exists album_images_sel on public.album_images;
 create policy album_images_sel on public.album_images for select using (
-  exists (select 1 from public.albums a where a.id = album_id and (a.is_public = true or a.created_by = auth.uid() or public.is_admin(auth.uid())))
+  exists (select 1 from public.albums a where a.id = album_id and (a.is_public = true or a.created_by = (select auth.uid()) or public.is_admin((select auth.uid()))))
 );
 
 drop policy if exists album_images_ins on public.album_images;
 create policy album_images_ins on public.album_images for insert with check (
-  exists (select 1 from public.albums a where a.id = album_id and (a.created_by = auth.uid() or public.is_admin(auth.uid())))
+  exists (select 1 from public.albums a where a.id = album_id and (a.created_by = (select auth.uid()) or public.is_admin((select auth.uid()))))
 );
 
 drop policy if exists album_images_upd on public.album_images;
 create policy album_images_upd on public.album_images for update using (
-  exists (select 1 from public.albums a where a.id = album_id and (a.created_by = auth.uid() or public.is_admin(auth.uid())))
+  exists (select 1 from public.albums a where a.id = album_id and (a.created_by = (select auth.uid()) or public.is_admin((select auth.uid()))))
 );
 
 drop policy if exists album_images_del on public.album_images;
 create policy album_images_del on public.album_images for delete using (
-  exists (select 1 from public.albums a where a.id = album_id and (a.created_by = auth.uid() or public.is_admin(auth.uid())))
+  exists (select 1 from public.albums a where a.id = album_id and (a.created_by = (select auth.uid()) or public.is_admin((select auth.uid()))))
 );
 
 -- TAGS and IMAGE_TAGS (public read; admin manage)
@@ -241,30 +256,34 @@ drop policy if exists tags_select on public.tags;
 create policy tags_select on public.tags for select using (true);
 
 drop policy if exists tags_admin_ins on public.tags;
-create policy tags_admin_ins on public.tags for insert with check (public.is_admin(auth.uid()));
+create policy tags_admin_ins on public.tags for insert with check (public.is_admin((select auth.uid())));
 
 drop policy if exists tags_admin_upd on public.tags;
-create policy tags_admin_upd on public.tags for update using (public.is_admin(auth.uid()));
+create policy tags_admin_upd on public.tags for update using (public.is_admin((select auth.uid())));
 
 drop policy if exists tags_admin_del on public.tags;
-create policy tags_admin_del on public.tags for delete using (public.is_admin(auth.uid()));
+create policy tags_admin_del on public.tags for delete using (public.is_admin((select auth.uid())));
 
 drop policy if exists image_tags_sel on public.image_tags;
 create policy image_tags_sel on public.image_tags for select using (true);
 
 drop policy if exists image_tags_admin_ins on public.image_tags;
-create policy image_tags_admin_ins on public.image_tags for insert with check (public.is_admin(auth.uid()));
+create policy image_tags_admin_ins on public.image_tags for insert with check (public.is_admin((select auth.uid())));
 
 drop policy if exists image_tags_admin_upd on public.image_tags;
-create policy image_tags_admin_upd on public.image_tags for update using (public.is_admin(auth.uid()));
+create policy image_tags_admin_upd on public.image_tags for update using (public.is_admin((select auth.uid())));
 
 drop policy if exists image_tags_admin_del on public.image_tags;
-create policy image_tags_admin_del on public.image_tags for delete using (public.is_admin(auth.uid()));
+create policy image_tags_admin_del on public.image_tags for delete using (public.is_admin((select auth.uid())));
 
 -- EVENTS and EVENT_IMAGES (public read; admin/editor manage)
 -- Create helper: is_editor(uid)
 create or replace function public.is_editor(uid uuid)
-returns boolean language sql stable as $$
+returns boolean
+language sql
+stable
+set search_path = public, pg_temp
+as $$
   select exists (
     select 1
     from public.user_roles ur
@@ -277,13 +296,29 @@ drop policy if exists events_select on public.events;
 create policy events_select on public.events for select using (true);
 
 drop policy if exists events_edit on public.events;
-create policy events_edit on public.events for all using (public.is_editor(auth.uid())) with check (public.is_editor(auth.uid()));
+-- Replace single permissive ALL policy with separate non-SELECT policies
+drop policy if exists events_insert_editors on public.events;
+create policy events_insert_editors on public.events for insert with check (public.is_editor((select auth.uid())));
+
+drop policy if exists events_update_editors on public.events;
+create policy events_update_editors on public.events for update using (public.is_editor((select auth.uid()))) with check (public.is_editor((select auth.uid())));
+
+drop policy if exists events_delete_editors on public.events;
+create policy events_delete_editors on public.events for delete using (public.is_editor((select auth.uid())));
 
 drop policy if exists event_images_select on public.event_images;
 create policy event_images_select on public.event_images for select using (true);
 
 drop policy if exists event_images_edit on public.event_images;
-create policy event_images_edit on public.event_images for all using (public.is_editor(auth.uid())) with check (public.is_editor(auth.uid()));
+-- Replace single permissive ALL policy with separate non-SELECT policies
+drop policy if exists event_images_insert_editors on public.event_images;
+create policy event_images_insert_editors on public.event_images for insert with check (public.is_editor((select auth.uid())));
+
+drop policy if exists event_images_update_editors on public.event_images;
+create policy event_images_update_editors on public.event_images for update using (public.is_editor((select auth.uid()))) with check (public.is_editor((select auth.uid())));
+
+drop policy if exists event_images_delete_editors on public.event_images;
+create policy event_images_delete_editors on public.event_images for delete using (public.is_editor((select auth.uid())));
 
 -- TEAM MEMBERS (public read; admin manage)
 drop policy if exists team_members_select on public.team_members;
@@ -332,7 +367,7 @@ for update to authenticated using (
 drop policy if exists storage_objects_delete_admin on storage.objects;
 create policy storage_objects_delete_admin on storage.objects
 for delete to authenticated using (
-  bucket_id = 'images' and public.is_admin(auth.uid())
+  bucket_id = 'images' and public.is_admin((select auth.uid()))
 );
 
 -- Helpful views (without SECURITY DEFINER to avoid security warnings)
@@ -340,8 +375,8 @@ for delete to authenticated using (
 drop view if exists public.public_events cascade;
 drop view if exists public.public_gallery cascade;
 
--- Create public_events view (safe, without SECURITY DEFINER)
-create view public.public_events as
+-- Create public_events view (secure: use invoker rights)
+create view public.public_events with (security_invoker = on) as
 select 
   e.id, 
   e.title, 
@@ -357,8 +392,8 @@ left join public.images i on i.id = e.cover_image_id
 where e.is_public = true
 order by e.created_at desc;
 
--- Create public_gallery view (safe, without SECURITY DEFINER)
-create view public.public_gallery as
+-- Create public_gallery view (secure: use invoker rights)
+create or replace view public.public_gallery with (security_invoker = on) as
 select 
   id, 
   public_url as url, 
@@ -366,7 +401,16 @@ select
   description, 
   created_at,
   width,
-  height
+  height,
+  exif_json,
+  camera_make,
+  camera_model,
+  lens_model,
+  focal_length_mm,
+  aperture_fnumber,
+  shutter_speed,
+  iso,
+  taken_at
 from public.images
 where is_public = true
 order by created_at desc;
