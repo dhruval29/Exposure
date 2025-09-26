@@ -1083,7 +1083,6 @@ const Landing = () => {
                   background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
                   zIndex: 1,
                   pointerEvents: 'none',
-                  animation: 'gradientFade 6s ease-in-out infinite',
                   opacity: 0.7
                 }}
               />
@@ -1102,32 +1101,7 @@ const Landing = () => {
                   opacity: 1
                 }}
               />
-              <style dangerouslySetInnerHTML={{
-                __html: `
-                  @keyframes gradientFade {
-                    0% {
-                      opacity: 0.4;
-                      transform: translateY(-15px);
-                    }
-                    25% {
-                      opacity: 0.8;
-                      transform: translateY(0px);
-                    }
-                    50% {
-                      opacity: 1;
-                      transform: translateY(0px);
-                    }
-                    75% {
-                      opacity: 0.6;
-                      transform: translateY(8px);
-                    }
-                    100% {
-                      opacity: 0.4;
-                      transform: translateY(-15px);
-                    }
-                  }
-                `
-              }} />
+              
               <div style={{ 
                 left: '6.3vw', 
                 top: '6.25vh', 
@@ -1255,25 +1229,13 @@ const Landing = () => {
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
-              zIndex: 0,
-              pointerEvents: 'none',
-              animation: 'gradientFade 6s ease-in-out infinite',
-              opacity: 0.7
+             background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+             zIndex: 0,
+             pointerEvents: 'none',
+             opacity: 0.7
             }}
           />
-          {/* Keyframes (duplicated here to ensure availability) */}
-          <style dangerouslySetInnerHTML={{
-            __html: `
-              @keyframes gradientFade {
-                0% { opacity: 0.4; transform: translateY(-15px); }
-                25% { opacity: 0.8; transform: translateY(0px); }
-                50% { opacity: 1; transform: translateY(0px); }
-                75% { opacity: 0.6; transform: translateY(8px); }
-                100% { opacity: 0.4; transform: translateY(-15px); }
-              }
-            `
-          }} />
+          
           {/* Content wrapper above gradient */}
           <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Frame60 />
