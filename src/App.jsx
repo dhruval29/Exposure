@@ -1,20 +1,20 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import './App.css'
 import './styles/responsive.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import Landing from './components/Landing'
-import TextCursorOverlay from './components/TextCursorOverlay'
-import Frame50 from './components/Frame50'
-import MembersPage from './components/MembersPage'
-import Featured from './components/Featured'
-import FeaturedMobile from './components/FeaturedMobile'
-import TeamPage from './components/TeamPage'
-import OurJourney from './components/OurJourney'
-import Admin from './components/Admin'
-import Fly from './components/Fly'
-import Events from './components/Events'
-import ContactUs from './components/ContactUs'
-import ContactUsMobile from './components/ContactUsMobile'
+const Landing = lazy(() => import('./components/Landing'))
+const TextCursorOverlay = lazy(() => import('./components/TextCursorOverlay'))
+const Frame50 = lazy(() => import('./components/Frame50'))
+const MembersPage = lazy(() => import('./components/MembersPage'))
+const Featured = lazy(() => import('./components/Featured'))
+const FeaturedMobile = lazy(() => import('./components/FeaturedMobile'))
+const TeamPage = lazy(() => import('./components/TeamPage'))
+const OurJourney = lazy(() => import('./components/OurJourney'))
+const Admin = lazy(() => import('./components/Admin'))
+const Fly = lazy(() => import('./components/Fly'))
+const Events = lazy(() => import('./components/Events'))
+const ContactUs = lazy(() => import('./components/ContactUs'))
+const ContactUsMobile = lazy(() => import('./components/ContactUsMobile'))
 
 function ContactRoute() {
   const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches);
@@ -65,7 +65,9 @@ function FeaturedRoute() {
 function App() {
   return (
     <Router>
-      <InnerApp />
+      <Suspense fallback={null}>
+        <InnerApp />
+      </Suspense>
     </Router>
   );
 }

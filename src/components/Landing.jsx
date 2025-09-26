@@ -636,7 +636,7 @@ const Landing = () => {
   const loaderRef = useRef(null)
   const loaderPanelRef = useRef(null)
   const loaderTextRef = useRef(null)
-  const [showMouseOverlay, setShowMouseOverlay] = useState(true)
+  const [showMouseOverlay, setShowMouseOverlay] = useState(false)
   // Debounced, hysteresis control for mouse overlay visibility to avoid flicker
   const overlayDesiredRef = useRef(showMouseOverlay)
   const overlayDebounceRef = useRef(null)
@@ -980,13 +980,20 @@ const Landing = () => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              color: 'black',
-              fontSize: 'clamp(24px, 6vw, 64px)',
-              fontFamily: 'Helvetica, Arial, sans-serif',
-              letterSpacing: '0.02em'
+              color: '#000',
+              fontSize: 'clamp(32px, 6.67vw, 96px)',
+              fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
+              letterSpacing: '-0.02em',
+              lineHeight: '97%',
+              textAlign: 'left',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
             }}
           >
-            Home
+            <p style={{ margin: 0 }}>EXPOSURE </p>
+            <p style={{ margin: 0 }}>EXPLORERS</p>
           </div>
         </div>
       )}

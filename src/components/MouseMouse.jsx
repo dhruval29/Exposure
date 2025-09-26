@@ -409,10 +409,35 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
         animation: 'mobileGradientShift 8s ease-in-out infinite'
       }}
     >
+      {/* Video background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 1
+        }}
+      >
+        <source src="/videos/1093650-hd_1920_1080_30fps.mp4" type="video/mp4" />
+      </video>
+      
       <canvas
         ref={canvasRef}
         className={styles.canvas}
-        style={{ display: visible ? 'block' : 'none', width: '100vw', height: '100vh' }}
+        style={{ 
+          display: visible ? 'block' : 'none', 
+          width: '100vw', 
+          height: '100vh',
+          position: 'relative',
+          zIndex: 2
+        }}
       />
       {/* Expanded hover hotzone with inner text */}
       <div

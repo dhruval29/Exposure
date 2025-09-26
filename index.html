@@ -10,11 +10,14 @@
     <!-- Preconnect to Supabase REST and Storage to speed up initial handshakes -->
     <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co" crossorigin>
     <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co/storage" crossorigin>
+    <!-- Preload critical font files (swap in CSS will prevent FOIT) -->
+    <link rel="preload" as="font" href="/assets/fonts/PPEditorialNew-Regular-BF644b214ff145f.otf" type="font/otf" crossorigin>
+    <link rel="preload" as="font" href="/assets/fonts/PPEditorialNew-Italic-BF644b214fb0c0a.otf" type="font/otf" crossorigin>
   </head>
   <body>
     <div id="root"></div>
     <!-- Early bootstrap to discover and preload the first featured image -->
-    <script type="module" src="/src/bootstrap/featuredBoot.js"></script>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/bootstrap/featuredBoot.js" defer></script>
+    <script type="module" src="/src/main.jsx" defer></script>
   </body>
 </html>
