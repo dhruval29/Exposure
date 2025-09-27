@@ -468,7 +468,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  background: #ede9e4;
   color: #000; /* Icon color follows this via currentColor */
   border: none;
   border-radius: 50%;
@@ -484,7 +484,7 @@
 }
 
 .removeButton:hover {
-  background: #ffffff;
+  background: #ede9e4;
   transform: scale(1.1);
 }
 

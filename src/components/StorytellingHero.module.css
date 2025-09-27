@@ -4,10 +4,12 @@
 
 .animatedLine {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: lineReveal 0.6s ease-out forwards;
+  opacity: 0.001;
+  filter: blur(10px);
+  transform: translateX(0px) translateY(20px) scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
+  animation: lineReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   animation-play-state: paused;
+  will-change: transform, opacity, filter;
 }
 
 .weUseTheContainer.animate .animatedLine {
@@ -21,22 +23,32 @@
 
 @keyframes lineReveal {
   0% {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0.001;
+    filter: blur(10px);
+    transform: translateX(0px) translateY(20px) scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
   }
   100% {
     opacity: 1;
-    transform: translateY(0px);
+    filter: blur(0px);
+    transform: none;
   }
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 .weUseTheContainer {
   	width: 1400px;
   	position: relative;
-  	font-size: 79.47px;
+  	font-size: 95px;
   	letter-spacing: 0.02em;
   	line-height: 122.71%;
-  	font-family: 'PP Editorial New';
+  	font-family: 'Instrument Serif', serif;
   	color: #000;
   	text-align: left;
   	display: inline-block;

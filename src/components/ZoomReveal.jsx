@@ -154,7 +154,7 @@ const ZoomReveal = ({
         position: 'relative',
         width: '100%',
         height: '100vh',
-        background: 'white',
+        background: '#ede9e4',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -169,7 +169,7 @@ const ZoomReveal = ({
         justifyContent: 'center',
         width: '100%',
         height: '100%',
-        background: 'white', // Additional background layer
+        background: '#ede9e4', // Additional background layer
         zIndex: 1001
       }}>
         {/* Background overlay to ensure complete coverage */}
@@ -179,7 +179,7 @@ const ZoomReveal = ({
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'white',
+          background: '#ede9e4',
           zIndex: 1002
         }} />
         
@@ -248,7 +248,7 @@ const ZoomReveal = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            backgroundColor: 'rgba(237, 233, 228, 0.1)',
             opacity: 1
           }}
         >

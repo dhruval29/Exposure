@@ -87,7 +87,7 @@ const Frame60 = () => {
   const line = ' capture live create ';
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', background: 'white', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', background: '#ede9e4', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
       {/* Animated gradient directly behind marquee text */}
       <div
         style={{

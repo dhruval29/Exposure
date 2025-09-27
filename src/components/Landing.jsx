@@ -461,7 +461,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   return (
     <div
       ref={containerRef}
-      style={{ position: 'relative', width: '100%', height: '100%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ position: 'relative', width: '100%', height: '100%', background: '#ede9e4', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
         {/* Fly images behind the zoomed image */}
@@ -561,7 +561,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'rgba(255,255,255,0.1)', // Subtle white overlay
+          backgroundColor: 'rgba(237, 233, 228, 0.1)', // Subtle beige overlay
           backdropFilter: 'blur(1px)', // Subtle blur effect
           WebkitBackdropFilter: 'blur(1px)',
           opacity: 0,
@@ -818,11 +818,9 @@ const Landing = () => {
           start: 'top top',
           end: '+=30%', // Slightly more scroll distance to reduce flashing
           scrub: (window.innerWidth >= 400 && window.innerHeight >= 900) ? 1.5 : 2, // Match ZoomReveal feel
-          pin: true,
-          anticipatePin: 1,
+          pin: false, // Don't pin the video section - keep it fixed
           markers: false,
           refreshPriority: 0, // Lower priority than zoom reveal
-          pinSpacing: true, // Ensure proper spacing calculation
           onUpdate: () => {
             // Hysteresis thresholds to prevent rapid toggling around 0
             const y = Number(gsap.getProperty(slidingRef.current, 'yPercent')) || 0
@@ -835,8 +833,13 @@ const Landing = () => {
         }
       })
       gsap.set(slidingRef.current, { yPercent: 100, willChange: 'transform', force3D: true, transform: 'translate3d(0,0,0)' })
-      // Phase 1: slide page from bottom to full screen with decelerated initial motion
-      tl.to(slidingRef.current, { yPercent: 0, ease: 'none', duration: 1, force3D: true })
+      // Phase 1: slide page from bottom to full screen with deceleration as it approaches the top
+      tl.to(slidingRef.current, { 
+        yPercent: 0, 
+        ease: 'power1.out', // More gradual deceleration - less tight, more relaxed
+        duration: 1, 
+        force3D: true 
+      })
       // Sliding page left blank per request
       slidingAnimRef.current = tl
     }
@@ -969,7 +972,7 @@ const Landing = () => {
               left: 0,
               right: 0,
               height: '100vh',
-              background: 'white',
+              background: '#ede9e4',
               transformOrigin: 'top center'
             }}
           />
@@ -1029,23 +1032,52 @@ const Landing = () => {
       {/* All loading screens removed */}
       {/* Mouse trail overlay on top of all content */}
       <MouseMouse visible={showMouseOverlay} zIndex={800} />
-      {/* Mouse-follow section - fixed at 10vh */}
+      {/* First landing page section with video background - fixed at 100vh */}
       <div
         ref={wireframeRef}
         style={{
           width: '100%',
-          height: '10vh',
+          height: '100vh',
           position: 'fixed',
           top: 0,
           left: 0,
-          background: 'transparent',
+          background: '#0066ff',
           overflow: 'hidden',
           perspective: '900px',
           transformStyle: 'preserve-3d',
           zIndex: 0
         }}
       >
-        {/* Mouse effect removed - page left blank as requested */}
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }}
+        >
+          <source src="/videos/1093650-hd_1920_1080_30fps.mp4" type="video/mp4" />
+        </video>
+        {/* Fallback background color in case video fails to load */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: '#0066ff',
+          zIndex: 0
+        }} />
       </div>
 
       {/* Sliding page content - positioned after 100vh */}
@@ -1057,19 +1089,19 @@ const Landing = () => {
           left: 0,
           right: 0,
           height: SLIDING_HEIGHT,
-          background: 'white',
+          background: '#ede9e4',
           zIndex: 999,
           overflow: 'hidden',
           isolation: 'isolate'
         }}
       >
-          <div style={{ width: '100%', height: '100%', position: 'relative', background: 'white', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: '100%', position: 'relative', background: '#ede9e4', overflow: 'hidden' }}>
             {/* Desktop content - hidden on mobile */}
             <div style={{ 
               width: '100%', 
               height: '100%', 
               position: 'relative', 
-              background: 'white',
+              background: '#ede9e4',
               display: isMobile ? 'none' : 'block'
             }}>
               {/* Animated gradient background that fades out by first row */}
@@ -1080,7 +1112,7 @@ const Landing = () => {
                   left: 0,
                   right: 0,
                   height: '1300px', // Fades out by first row of images
-                  background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+                  background: 'linear-gradient(to bottom, #ede9e4 0%, #ede9e4 60%, rgba(237, 233, 228, 0.8) 80%, rgba(237, 233, 228, 0.4) 90%, rgba(237, 233, 228, 0.1) 95%, transparent 100%)',
                   zIndex: 1,
                   pointerEvents: 'none',
                   opacity: 0.7
@@ -1210,13 +1242,13 @@ const Landing = () => {
             left: 0,
             right: 0,
             height: NEW_SECTION_HEIGHT,
-            background: 'white',
+            background: '#ede9e4',
             zIndex: 998,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            color: 'white',
+            color: 'black',
             padding: 0,
             minHeight: isMobile && window.innerWidth >= 400 && window.innerHeight >= 900 
               ? `${Math.max(350, window.innerHeight * 0.4)}px`
@@ -1229,7 +1261,7 @@ const Landing = () => {
             style={{
               position: 'absolute',
               inset: 0,
-             background: 'linear-gradient(to bottom, #b7bae5 0%, #b7bae5 60%, rgba(183, 186, 229, 0.8) 80%, rgba(183, 186, 229, 0.4) 90%, rgba(183, 186, 229, 0.1) 95%, transparent 100%)',
+             background: 'linear-gradient(to bottom, #ede9e4 0%, #ede9e4 60%, rgba(237, 233, 228, 0.8) 80%, rgba(237, 233, 228, 0.4) 90%, rgba(237, 233, 228, 0.1) 95%, transparent 100%)',
              zIndex: 0,
              pointerEvents: 'none',
              opacity: 0.7
@@ -1250,7 +1282,7 @@ const Landing = () => {
             left: 0,
             right: 0,
             height: '100vh',
-            background: 'white',
+            background: '#ede9e4',
             zIndex: 998
           }}
         >

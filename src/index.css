@@ -134,7 +134,7 @@ button:focus-visible {
   /* Force light background even in dark mode to avoid dark bands behind fixed sections */
   :root {
     color: #000000;
-    background-color: #ffffff;
+    background-color: #ede9e4;
   }
   a:hover {
     color: #747bff;

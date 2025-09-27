@@ -416,7 +416,7 @@ const FeaturedMobile = () => {
         >
           <div
             ref={loaderPanelRef}
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100vh', background: 'white', transformOrigin: 'top center' }}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100vh', background: '#ede9e4', transformOrigin: 'top center' }}
           />
           <div
             ref={loaderTextRef}
