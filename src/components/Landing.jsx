@@ -28,7 +28,7 @@ const DEFAULT_ZR_CONFIG = {
   textDuration: 2.5,
   textLead: 0, // seconds text starts before image (negative to start after)
   navDelayMs: 500,
-  postZoomScrollPad: 0.3,
+  postZoomScrollPad: 0.15,
   ease: 'power2.inOut',
   markers: false,
   pin: true,
@@ -116,7 +116,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        end: responsiveValues.isLargeMobile ? '+=150%' : '+=125%', // Longer scroll distance for large mobile
+        end: responsiveValues.isLargeMobile ? '+=135%' : '+=110%', // Longer scroll distance for large mobile
         scrub: responsiveValues.isLargeMobile ? 1.5 : 2, // Smoother scrub for large mobile
         pin: true,
         markers: false,
