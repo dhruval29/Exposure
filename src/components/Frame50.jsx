@@ -23,18 +23,32 @@ const Frame50 = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
+			// For Events page, hide scroll display after 50vh
+			const fiftyVh = window.innerHeight * 0.5 // 50vh
+			
 			// Check if scrolled down enough to start transition (just before sliding page at 100vh)
 			const slidingPageStart = window.innerHeight // 100vh
 			const triggerPoint = slidingPageStart - 200 // 200px before sliding page
 			const midwayPoint = slidingPageStart * 0.25 // 25% to pull-up page
 			
-			// Both slide to right and collapse happen simultaneously
-			if (window.scrollY > triggerPoint) {
-				setHasScrolled(true)
-				setIsCollapsed(true)
+			// For Events page: hide after 50vh, for other pages use original logic
+			if (window.location.pathname === '/events') {
+				if (window.scrollY > fiftyVh) {
+					setHasScrolled(true)
+					setIsCollapsed(true)
+				} else {
+					setHasScrolled(false)
+					setIsCollapsed(false)
+				}
 			} else {
-				setHasScrolled(false)
-				setIsCollapsed(false)
+				// Original logic for other pages
+				if (window.scrollY > triggerPoint) {
+					setHasScrolled(true)
+					setIsCollapsed(true)
+				} else {
+					setHasScrolled(false)
+					setIsCollapsed(false)
+				}
 			}
 
 

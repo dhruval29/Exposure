@@ -40,9 +40,9 @@
   justify-content: flex-start;
   align-items: stretch;
   gap: 0;
-  padding: 0;
+  padding: 0 0 40px 0; /* Add bottom padding to prevent clipping */
   z-index: 2;
-  overflow: hidden; /* Prevent scrollbars */
+  overflow: visible; /* Allow content to be visible */
 }
 
 .menu__item {
@@ -102,16 +102,16 @@
 }
 
 .menu__item:hover .menu__bg {
-  opacity: 0.7;
+  opacity: 0.4;
+  filter: blur(2px);
 }
 
 .menu__item--clickable:hover {
-  transform: translateY(-2px);
-  transition: transform 0.3s ease;
+  /* Removed transform movement - button stays in place */
 }
 
 .menu__item--clickable .menu__item-link:hover {
-  color: #333333;
+  color: #ffffff;
 }
 
 .menu__item--disabled {
@@ -322,17 +322,19 @@
   animation-delay: calc(var(--cu-delay-base) + 160ms); /* slight delay after Events title */
 }
 
-/* Arrow starts hidden and only appears on hover */
+/* Arrow starts completely hidden - only shows on hover */
 .menu__arrow--animated {
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translate(-15px, 10px); /* Move diagonally up-left (opposite of arrow direction) */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  visibility: hidden;
 }
 
-/* Arrow appears on hover */
+/* Arrow appears and animates only on hover */
 .menu__item:hover .menu__arrow--animated {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(0, 0); /* Move to final position */
+  visibility: visible;
 }
 
 
@@ -348,6 +350,10 @@
 
 /* Mobile landscape */
 @media (max-width: 768px) {
+  .menu {
+    padding: 0 0 30px 0; /* Reduced bottom padding for mobile landscape */
+  }
+  
   .menu__item {
     height: 85px;
     min-height: 85px; /* Reduced height for mobile landscape */
@@ -387,12 +393,11 @@
   }
   
   .menu__item--clickable:hover {
-    transform: none;
-    transition: none;
+    /* No movement needed */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #000000;
+    color: #ffffff;
   }
   
   /* Responsive tooltip for mobile */
@@ -443,17 +448,20 @@
   }
   
   .menu__item--clickable:hover {
-    transform: none;
-    transition: none;
+    /* No movement needed */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #000000;
+    color: #ffffff;
   }
 }
 
 /* Mobile portrait */
 @media (max-width: 480px) {
+  .menu {
+    padding: 0 0 25px 0; /* Reduced bottom padding for mobile portrait */
+  }
+  
   .menu__item {
     height: 75px;
     min-height: 75px; /* Reduced height for mobile portrait */
@@ -486,12 +494,11 @@
   }
   
   .menu__item--clickable:hover {
-    transform: none;
-    transition: none;
+    /* No movement needed */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #000000;
+    color: #ffffff;
   }
   
   /* Mobile portrait tooltip - position above */
@@ -519,6 +526,10 @@
 
 /* Small mobile devices */
 @media (max-width: 360px) {
+  .menu {
+    padding: 0 0 20px 0; /* Reduced bottom padding for small mobile */
+  }
+  
   .menu__item {
     height: 70px; /* Reduced height for small mobile */
     min-height: 70px;
@@ -549,12 +560,11 @@
   }
   
   .menu__item--clickable:hover {
-    transform: none;
-    transition: none;
+    /* No movement needed */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #000000;
+    color: #ffffff;
   }
 }
 

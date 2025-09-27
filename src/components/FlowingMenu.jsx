@@ -1,20 +1,38 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import './FlowingMenu.css';
 
 function FlowingMenu({ items = [], onUserInteraction }) {
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  useEffect(() => {
+    // Set data loaded state when items are available and have actual content
+    if (items && items.length > 0 && items[0].text) {
+      setDataLoaded(true);
+    } else {
+      setDataLoaded(false);
+    }
+  }, [items]);
+
+
   return (
     <div className="menu-wrap">
       <nav className="menu">
         {items.map((item, idx) => (
-          <MenuItem key={idx} {...item} onUserInteraction={onUserInteraction} />
+          <MenuItem 
+            key={idx} 
+            {...item} 
+            onUserInteraction={onUserInteraction}
+            dataLoaded={dataLoaded}
+            index={idx}
+          />
         ))}
       </nav>
     </div>
   );
 }
 
-function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUserInteraction }) {
+function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUserInteraction, dataLoaded, index }) {
   const itemRef = useRef(null);
   const textRef = useRef(null);
   const dateRef = useRef(null);
@@ -26,6 +44,8 @@ function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUse
     // Simply display text without animations
     textRef.current.textContent = text;
   }, [text]);
+
+  // Arrows now only show on hover, no automatic animation needed
 
   // Removed GSAP hover animations - now using CSS animations
 
@@ -79,7 +99,7 @@ function MenuItem({ link, text, image, monthYear, hasValidLink, showGuide, onUse
           ref={arrowRef}
           className="menu__arrow--animated"
           style={{
-            display: 'inline-block',
+            display: dataLoaded ? 'inline-block' : 'none',
             verticalAlign: 'middle',
             position: 'relative',
             top: '-2px',

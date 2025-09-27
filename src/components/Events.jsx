@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Events.module.css';
 import FlowingMenu from './FlowingMenu';
 import StaggeredMenuFinal from './StaggeredMenuFinal';
+import Frame50 from './Frame50';
 import { supabase } from '../lib/supabaseClient';
 import '../styles/Gallery.css';
 
@@ -22,6 +24,50 @@ const Events = () => {
   const listRef = useRef(null);
   const [showGuide, setShowGuide] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [showPagination, setShowPagination] = useState(false);
+  const eventsSectionRef = useRef(null);
+
+  // Register ScrollTrigger and setup smooth scroll
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      if (eventsSectionRef.current) {
+        // Create smooth scroll effect for the Featured section
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: eventsSectionRef.current,
+            start: 'top top',
+            end: '+=80vh', // Match the section height
+            scrub: 1.5, // Smooth scroll speed
+            pin: false, // Don't pin, just smooth scroll
+            markers: false,
+            anticipatePin: 1,
+          },
+          defaults: { ease: 'none' },
+        });
+
+        // Add subtle parallax effect to the images - move opposite direction when scrolling
+        const leftImage = eventsSectionRef.current?.querySelector(`.${styles.img2024101415521735Icon}`);
+        const rightImage = eventsSectionRef.current?.querySelector(`.${styles.img2024101415521736Icon}`);
+        
+        if (leftImage && rightImage) {
+          // Set initial position (original position when page loads)
+          gsap.set([leftImage, rightImage], { y: 0, opacity: 1 });
+          
+          // Parallax effect - move up when scrolling down
+          tl.fromTo(
+            [leftImage, rightImage],
+            { y: 0, opacity: 1 },
+            { y: -30, opacity: 0.9, duration: 1, ease: 'power2.out' },
+            0
+          );
+        }
+      }
+    }, eventsSectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   // Set page size based on screen size
   useEffect(() => {
@@ -98,6 +144,25 @@ const Events = () => {
         link.removeEventListener('click', handleSmoothScroll);
       });
     };
+  }, []);
+
+  // Scroll detection for pagination visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const searchBar = document.querySelector(`.${styles.searchContainer}`);
+      if (searchBar) {
+        const searchBarRect = searchBar.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const searchBarCrossed40Percent = searchBarRect.top <= (viewportHeight * 0.4);
+        setShowPagination(searchBarCrossed40Percent);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Check initial state
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Fetch events from Supabase
@@ -290,7 +355,9 @@ const Events = () => {
   };
 
   return (
-    <div className={styles.events}>
+    <>
+      <Frame50 />
+      <div className={styles.events}>
       {/* Navigation Brand Text */}
       <div className={styles.mobileNavBrand}>
         <div className={styles.brandLine1}>EXPOSURE</div>
@@ -311,7 +378,23 @@ const Events = () => {
         onMenuOpen={() => {}}
         onMenuClose={() => {}}
       />
-      <i className={styles.events2}>Events</i>
+      {/* Featured Events section - moved up */}
+      <div className={styles.eventsSection} ref={eventsSectionRef}>
+        <div className={styles.img2024101415521735Parent}>
+          <img className={styles.img2024101415521735Icon} alt="" src="https://picsum.photos/600/400?random=1" />
+          <img className={styles.img2024101415521736Icon} alt="" src="https://picsum.photos/600/400?random=2" />
+          <div className={styles.featured}>FEATURED</div>
+          <div className={styles.textBox}>
+            <p>hello</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Events title aligned with search container */}
+      <div className={styles.eventsTitleContainer}>
+        <h1 className={styles.eventsTitle}>Events</h1>
+      </div>
+      
       <div className={styles.searchContainer}>
         <img 
           className={styles.magnifyingGlassSvgrepoCom1Icon} 
@@ -327,7 +410,6 @@ const Events = () => {
         />
       </div>
       
-      
       {error && (
         <div className={styles.errorContainer}>
           <p>Error: {error}</p>
@@ -339,7 +421,7 @@ const Events = () => {
           {eventsData.length > 0 ? (
             <>
               <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
-              {totalPages >= 1 && (
+              {totalPages >= 1 && showPagination && (
                 <div className={styles.footerBar}>
                   <div className={styles.pagination}>
                     <button className={styles.pageButton} onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
@@ -371,6 +453,7 @@ const Events = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

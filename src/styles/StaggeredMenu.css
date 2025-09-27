@@ -241,11 +241,11 @@
   height: 100vh;
   background: linear-gradient(
     135deg,
-    #b19eef 0%,   /* purple */
-    #5227ff 25%,  /* indigo */
-    #fecaca 55%,  /* blush */
-    #fde68a 85%,  /* warm yellow */
-    #b19eef 100%  /* back to purple */
+    #ede9e4 0%,   /* beige */
+    #f0e6d6 25%,  /* lighter beige */
+    #f2e8da 55%,  /* warm beige */
+    #f4eadc 85%,  /* light beige */
+    #ede9e4 100%  /* back to beige */
   );
   background-size: 300% 300%;
   animation: sm-panel-gradient-breathe 16s ease-in-out infinite;

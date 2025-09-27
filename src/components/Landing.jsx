@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react'
-import MouseMouse from './MouseMouse'
 import Rectangle18 from './Rectangle18'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
@@ -636,18 +635,6 @@ const Landing = () => {
   const loaderRef = useRef(null)
   const loaderPanelRef = useRef(null)
   const loaderTextRef = useRef(null)
-  const [showMouseOverlay, setShowMouseOverlay] = useState(false)
-  // Debounced, hysteresis control for mouse overlay visibility to avoid flicker
-  const overlayDesiredRef = useRef(showMouseOverlay)
-  const overlayDebounceRef = useRef(null)
-  const setOverlayVisibleDebounced = useRef((nextVisible, delay = 120) => {
-    if (overlayDesiredRef.current === nextVisible) return
-    overlayDesiredRef.current = nextVisible
-    if (overlayDebounceRef.current) clearTimeout(overlayDebounceRef.current)
-    overlayDebounceRef.current = setTimeout(() => {
-      setShowMouseOverlay(overlayDesiredRef.current)
-    }, delay)
-  }).current
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
@@ -704,7 +691,6 @@ const Landing = () => {
   useEffect(() => {
     // Video duration will be set dynamically when video loads
 
-    // Additional scroll listener to ensure MouseMouse visibility works in both directions
     // Throttle scroll handler to prevent excessive updates on mobile
     let scrollTimeout = null
     const handleScroll = () => {
@@ -722,7 +708,6 @@ const Landing = () => {
         const viewportHeight = window.innerHeight
         const slidingHeight = 2768
       
-      // Show MouseMouse when we're in the sliding section (after 100vh, before new section)
       const slidingSectionStart = viewportHeight
       const newSectionStart = viewportHeight + SLIDING_HEIGHT // New section starts after sliding page
       
@@ -744,16 +729,6 @@ const Landing = () => {
       
       const zoomComponentStart = newSectionStart + newSectionHeightPx // Zoom component start position
       
-      if (scrollTop >= slidingSectionStart && scrollTop < newSectionStart) {
-        // In sliding section - show MouseMouse
-        setShowMouseOverlay(true)
-      } else if (scrollTop < slidingSectionStart) {
-        // Before sliding section - show MouseMouse
-        setShowMouseOverlay(true)
-      } else {
-        // In new section or after zoom component - hide MouseMouse
-        setShowMouseOverlay(false)
-      }
 
       // Menu visibility synchronized with navbar disappearance
       // Use the exact same trigger point as navbar (Rectangle18.jsx)
@@ -824,12 +799,9 @@ const Landing = () => {
           onUpdate: () => {
             // Hysteresis thresholds to prevent rapid toggling around 0
             const y = Number(gsap.getProperty(slidingRef.current, 'yPercent')) || 0
-            // Show while page is still notably sliding in (> 4%), hide when fully settled (<= 0%)
-            const shouldShow = y > 4
-            setOverlayVisibleDebounced(shouldShow)
           },
-          onLeave: () => setOverlayVisibleDebounced(false, 80),
-          onEnterBack: () => setOverlayVisibleDebounced(true, 80)
+          onLeave: () => {},
+          onEnterBack: () => {}
         }
       })
       gsap.set(slidingRef.current, { yPercent: 100, willChange: 'transform', force3D: true, transform: 'translate3d(0,0,0)' })
@@ -1030,8 +1002,6 @@ const Landing = () => {
       {/* Mobile title overlay removed as requested */}
 
       {/* All loading screens removed */}
-      {/* Mouse trail overlay on top of all content */}
-      <MouseMouse visible={showMouseOverlay} zIndex={800} />
       {/* First landing page section with video background - fixed at 100vh */}
       <div
         ref={wireframeRef}

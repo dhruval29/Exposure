@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 .events {
   --menu-item-height: 160px; /* keep in sync with FlowingMenu.css - consistent across all sizes */
   --cu-delay-base: 500ms; /* same as contact page */
@@ -7,9 +14,9 @@
   background: linear-gradient(-45deg, rgba(236, 253, 243, 0.4), rgba(209, 250, 229, 0.4), rgba(167, 243, 208, 0.4), rgba(110, 231, 183, 0.4), rgba(52, 211, 153, 0.4), rgba(16, 185, 129, 0.4));
   background-size: 400% 400%;
   animation: eventsGradientShift 10s ease-in-out infinite;
-  /* 10 items visible: header/search area ~150px + 10 * item height */
-  height: 100vh; /* full viewport height to cover gradient */
-  min-height: 100vh; /* ensure it covers the full screen */
+  /* Dynamic height calculation based on content */
+  height: auto; /* Changed from fixed 250vh to auto */
+  min-height: 120vh; /* Increased minimum height to accommodate moved menu */
   overflow-x: hidden;
   overflow-y: auto;
   text-align: left;
@@ -44,10 +51,10 @@
   }
 }
 
-/* Remove scrolling on mobile devices */
+/* Mobile devices - allow scrolling to prevent clipping */
 @media (max-width: 1024px) {
   .events {
-    overflow-y: hidden;
+    overflow-y: auto; /* Changed from hidden to auto to prevent clipping */
   }
   
   .eventsList {
@@ -156,10 +163,30 @@
   animation-delay: calc(var(--cu-delay-base) + 80ms);
 }
 
+.eventsTitleContainer {
+  position: absolute;
+  top: 780px !important; /* moved down to align with flowing menu */
+  right: 30px; /* positioned on the right side for desktop */
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 200ms); /* appears after Events title */
+}
+
+.eventsTitle {
+  font-size: 128px;
+  font-family: 'PP Editorial New', serif;
+  font-style: italic;
+  margin: 0;
+  color: #000;
+  font-weight: 400;
+}
+
 .searchContainer {
   position: absolute;
-  top: 245px; /* added 15px to original 230px for desktop */
-  right: 30px; /* positioned on the right side for desktop */
+  top: 780px !important; /* moved down to align with flowing menu */
+  left: 30px; /* positioned on the left side for desktop */
   border-radius: 47.78px;
   background-color: #d9d9d9;
   width: 20%;
@@ -167,13 +194,88 @@
   height: 40px;
   display: flex;
   align-items: center;
-  padding: 0 20px 0 24px;
+  padding : 0 20px 0 24px;
   box-sizing: border-box;
   z-index: 3;
   opacity: 0;
   transform: translateY(10px);
   animation: cu-textReveal 600ms ease-out forwards;
   animation-delay: calc(var(--cu-delay-base) + 200ms); /* appears after Events title */
+}
+
+/* 50vh section between search and events list */
+.eventsSection {
+  height: 80vh;
+  width: 100%;
+  margin: -150px 0 20px 0; /* moved up by reducing top margin */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+/* Frame69 content styles - converted to percentages for responsiveness */
+.img2024101415521735Parent {
+  width: 100%;
+  position: relative;
+  background: transparent;
+  height: 100%;
+  overflow: hidden;
+  text-align: left;
+  font-size: 18px;
+  color: #000;
+  font-family: Inter;
+}
+
+.img2024101415521735Icon {
+  position: absolute;
+  top: 7.5%; /* aligned with right image's top border */
+  left: 8%; /* moved right from 2% */
+  width: 45%; /* increased width to reduce space between images */
+  height: 68%; /* reduced height by 20% (85% - 17% = 68%) */
+  object-fit: cover;
+}
+
+.img2024101415521736Icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 54%; /* increased space between images */
+  width: 45%; /* increased width to reduce space between images */
+  height: 85%; /* increased height for larger section */
+  object-fit: cover;
+}
+
+.featured {
+  position: absolute;
+  top: 7%; /* aligned with top border of image */
+  left: 2%; /* moved left a bit */
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 400;
+  margin: 0;
+  color: #000;
+}
+
+.textBox {
+  position: absolute;
+  bottom: 8%; /* aligned with right image's bottom border */
+  left: 8%; /* aligned with left image */
+  width: 45%; /* same width as left image */
+  height: 17%; /* height to match the space below left image */
+  background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.textBox p {
+  margin: 0;
+  font-size: 72px;
+  font-family: 'PP Editorial New', serif;
+  color: #000;
+  font-weight: 400;
 }
 
 .searchInput {
@@ -219,15 +321,14 @@
 }
 
 .eventsList {
-  position: absolute;
-  top: 335px; /* added 15px to align with new Events title position */
+  position: relative; /* Changed from absolute to relative */
+  margin-top: 120px; /* Increased space between search and events list */
   left: 0;
   right: 0;
-  bottom: 0;
   padding: 0 20px;
   box-sizing: border-box;
   z-index: 2;
-  overflow: hidden; /* Prevent internal scrollbars */
+  overflow: visible; /* Allow content to be visible */
 }
 
 .fadeOut { opacity: 0; transform: translateY(10px); transition: opacity 220ms ease, transform 220ms ease; }
@@ -290,10 +391,10 @@
   .events {
     /* item height remains 160px for tablets */
     --menu-item-height: 160px;
-    height: calc(150px + (9 * var(--menu-item-height)));
-    min-height: calc(150px + (9 * var(--menu-item-height)));
+    height: auto; /* Changed from fixed calculation to auto */
+    min-height: 120vh; /* Increased minimum height for tablet */
     font-size: 72px;
-    overflow-y: hidden;
+    overflow-y: auto; /* Allow scrolling to prevent clipping */
   }
   
   .events2 {
@@ -307,7 +408,7 @@
     width: 180px;
     max-width: 180px;
     height: 38px;
-    top: 80px; /* moved up on tablet */
+    top: 280px !important; /* moved down to align with flowing menu */
     left: 400px; /* moved more to the right for tablet */
   }
   
@@ -327,7 +428,8 @@
   }
   
   .eventsList {
-    top: 160px; /* moved up to align with new layout */
+    position: relative; /* Changed from absolute to relative */
+    margin-top: 80px; /* Increased space for tablet */
     padding: 0 20px;
   }
 }
@@ -336,11 +438,11 @@
 @media (max-width: 768px) {
   .events {
     --menu-item-height: 108px; /* matches FlowingMenu.css tweak */
-    height: calc(140px + (9 * var(--menu-item-height)));
-    min-height: calc(140px + (9 * var(--menu-item-height)));
+    height: auto; /* Changed from fixed calculation to auto */
+    min-height: 120vh; /* Increased minimum height for mobile landscape */
     font-size: 44px;
     padding: 0 14px;
-    overflow-y: hidden;
+    overflow-y: auto; /* Allow scrolling to prevent clipping */
   }
   
   .events2 {
@@ -354,7 +456,7 @@
     width: 160px;
     max-width: 160px;
     height: 30px;
-    top: 111px; /* moved up 20px from base of Events heading (68px + 63px - 20px) */
+    top: 300px !important; /* moved down to align with flowing menu */
     left: 260px; /* moved right for mobile landscape */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
@@ -379,7 +481,8 @@
   }
   
   .eventsList {
-    top: 132px; /* moved up to align with new layout */
+    position: relative; /* Changed from absolute to relative */
+    margin-top: 60px; /* Increased margin for mobile landscape */
     padding: 0 14px;
   }
 }
@@ -388,11 +491,11 @@
 @media (max-width: 480px) {
   .events {
     --menu-item-height: 92px; /* matches FlowingMenu.css tweak */
-    height: calc(130px + (8 * var(--menu-item-height)));
-    min-height: calc(130px + (8 * var(--menu-item-height)));
+    height: auto; /* Changed from fixed calculation to auto */
+    min-height: 120vh; /* Increased minimum height for mobile portrait */
     font-size: 32px;
     padding: 0 10px;
-    overflow-y: hidden;
+    overflow-y: auto; /* Allow scrolling to prevent clipping */
   }
   
   .events2 {
@@ -406,7 +509,7 @@
     width: 140px;
     max-width: 140px;
     height: 26px;
-    top: 94px; /* moved up 20px from base of Events heading (60px + 54px - 20px) */
+    top: 280px !important; /* moved down to align with flowing menu */
     left: 240px; /* moved right for mobile portrait */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
@@ -427,7 +530,8 @@
   }
   
   .eventsList {
-    top: 114px; /* moved up to align with new layout */
+    position: relative; /* Changed from absolute to relative */
+    margin-top: 50px; /* Increased space for mobile portrait */
     padding: 0 10px;
   }
 }
@@ -436,10 +540,10 @@
 @media (max-width: 360px) {
   .events {
     --menu-item-height: 88px; /* align with FlowingMenu.css */
-    height: calc(120px + (8 * var(--menu-item-height)));
-    min-height: calc(120px + (8 * var(--menu-item-height)));
+    height: auto; /* Changed from fixed calculation to auto */
+    min-height: 120vh; /* Increased minimum height for small mobile */
     font-size: 28px;
-    overflow-y: hidden;
+    overflow-y: auto; /* Allow scrolling to prevent clipping */
   }
   
   .events2 {
@@ -474,7 +578,8 @@
   }
   
   .eventsList {
-    top: 106px; /* moved up to align with new layout */
+    position: relative; /* Changed from absolute to relative */
+    margin-top: 40px; /* Increased space for small mobile */
     padding: 0 5px;
   }
 }
@@ -483,8 +588,8 @@
 @media (min-width: 1440px) {
   .events {
     --menu-item-height: 160px; /* keep consistent height even on large screens */
-    height: calc(150px + (10 * var(--menu-item-height)));
-    min-height: calc(150px + (10 * var(--menu-item-height)));
+    height: auto; /* Changed from fixed calculation to auto */
+    min-height: 120vh; /* Increased minimum height for extra large screens */
     font-size: 120px;
   }
   
@@ -526,7 +631,8 @@
   }
   
   .eventsList {
-    top: 245px; /* added 15px to align with new Events title position */
+    position: relative; /* Changed from absolute to relative */
+    margin-top: 100px; /* Increased space for extra large screens */
     padding: 0 20px;
   }
 }
