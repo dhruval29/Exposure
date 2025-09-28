@@ -87,19 +87,7 @@ const Frame60 = () => {
   const line = ' capture live create ';
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', background: '#ede9e4', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
-      {/* Animated gradient directly behind marquee text */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(183, 186, 229, 0.35) 0%, rgba(183, 186, 229, 0.3) 15%, rgba(183, 186, 229, 0.2) 35%, rgba(183, 186, 229, 0.12) 55%, rgba(183, 186, 229, 0.06) 78%, transparent 100%)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          animation: 'none',
-          opacity: 1
-        }}
-      />
+    <div ref={containerRef} style={{ width: '100%', height: '100%', background: '#000000', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
       <div
         ref={trackRef}
         style={{
@@ -113,16 +101,16 @@ const Frame60 = () => {
         aria-hidden="true"
       >
         <div style={{ display: 'inline-flex' }}>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
         </div>
         <div style={{ display: 'inline-flex' }} aria-hidden="true">
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
-          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#000', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
+          <span style={{ fontFamily: "'PP Editorial New', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.02em', color: '#ffffff', fontSize: `${fontSizePx}px`, lineHeight: 1.1, paddingRight: '2vw' }}>{line}</span>
         </div>
       </div>
     </div>

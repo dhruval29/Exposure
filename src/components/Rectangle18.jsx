@@ -36,7 +36,7 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
-      const SLIDING_HEIGHT = 2768; // Same as Landing.jsx default desktop
+      const SLIDING_HEIGHT = viewportHeight * 3.0; // 300vh equivalent
       const marqueeSectionStart = viewportHeight + SLIDING_HEIGHT;
       if (scrollTop >= marqueeSectionStart) {
         setIsSlidingUp(true);

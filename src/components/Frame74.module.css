@@ -1,0 +1,53 @@
+.img2024122515315821Parent {
+	width: 100%;
+	position: relative;
+	background-color: #fff;
+	height: 100%; /* 776px -> fill parent section */
+	overflow: hidden;
+	text-align: left;
+	font-size: 32px;
+	color: #000;
+	font-family: 'PP Editorial New';
+}
+
+.img2024122515315821Icon {
+	position: absolute;
+	top: -49.74%; /* -386px / 776px */
+	left: 4.82%; /* 74px / 1536px */
+	width: 56.72%; /* 871px / 1536px */
+	height: 59.53%; /* 462px / 776px */
+	object-fit: cover;
+	border: 2px solid #000;
+}
+
+.img202501062013271Icon {
+	position: absolute;
+	top: 51.68%; /* 401px / 776px */
+	left: 25.00%; /* 384px / 1536px */
+	width: 19.79%; /* 304px / 1536px */
+	height: 39.18%; /* 304px / 776px */
+	object-fit: cover;
+	border: 2px solid #000;
+}
+
+.img202412262008557Icon {
+	position: absolute;
+	top: 25.52%; /* 198px / 776px */
+	left: 49.15%; /* 755px / 1536px */
+	width: 47.14%; /* 724px / 1536px */
+	height: 65.34%; /* 507px / 776px */
+	object-fit: cover;
+	border: 2px solid #000;
+}
+
+.weUseTheContainer {
+	position: absolute;
+	top: 25.52%; /* 198px / 776px */
+	left: 2.86%; /* 44px / 1536px */
+	letter-spacing: 0.02em;
+	line-height: 122.71%;
+}
+
+.weUseThe {
+	margin: 0;
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const IPhone13141 = () => {
   const [screenSize, setScreenSize] = useState('desktop');
-  const [componentHeight, setComponentHeight] = useState(2768);
+  const [componentHeight, setComponentHeight] = useState(window.innerHeight * 3.0);
 
   // Enhanced screen size detection with responsive height calculation
   useEffect(() => {
@@ -10,20 +10,20 @@ const IPhone13141 = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       
-      // Calculate responsive height for mobile devices
-      let newHeight = 2768; // Default height
+      // Calculate responsive height for mobile devices - now using 300vh
+      let newHeight = height * 3.0; // 300vh equivalent
       
       if (width <= 768) {
         // Mobile device - adjust height based on viewport
         if (width >= 400 && height >= 900) {
           // Large mobile devices (like Galaxy S24 FE)
-          newHeight = Math.max(2768, height * 2.8);
+          newHeight = height * 3.0;
         } else if (width >= 375 && height >= 800) {
           // Medium mobile devices
-          newHeight = Math.max(2768, height * 2.6);
+          newHeight = height * 3.0;
         } else {
           // Small mobile devices
-          newHeight = Math.max(2768, height * 2.4);
+          newHeight = height * 3.0;
         }
       }
       
@@ -90,13 +90,13 @@ const IPhone13141 = () => {
       />
       <div style={{
         position: 'absolute',
-        top: '0.8%', // 22px / 2768px
+        top: '2%', // Adjusted for 250vh height
         left: '4.9%', // 19px / 390px (mobile width)
         letterSpacing: '-0.02em',
         lineHeight: '122.71%',
         display: 'inline-block',
         width: '89%', // 347px / 390px (mobile width)
-        height: '8%' // 222px / 2768px
+        height: '6%' // Adjusted for 250vh height
       }}>
         We use the power of storytelling to fire the imagination, stir the soul, and ultimately inspire people.
       </div>
@@ -105,10 +105,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/1.webp"
         style={{
           position: 'absolute',
-          top: '10%', // 276px / 2768px
+          top: '12%', // Adjusted for 250vh height
           left: '4.9%', // 19px / 390px (mobile width)
           width: '89%', // 347px / 390px (mobile width)
-          height: '7.4%', // 205px / 2768px
+          height: '8%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 1" 
@@ -118,10 +118,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/2.webp"
         style={{
           position: 'absolute',
-          top: '18.4%', // 510px / 2768px
+          top: '22%', // Adjusted for 250vh height
           left: '62.8%', // 245px / 390px (mobile width)
           width: '31.5%', // 123px / 390px (mobile width)
-          height: '10.9%', // 303px / 2768px
+          height: '12%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 2" 
@@ -131,10 +131,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/3.webp"
         style={{
           position: 'absolute',
-          top: '26.4%', // 731px / 2768px
+          top: '32%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '51.8%', // 202px / 390px (mobile width)
-          height: '13.4%', // 371px / 2768px
+          height: '15%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 3" 
@@ -144,10 +144,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/4.webp"
         style={{
           position: 'absolute',
-          top: '35.4%', // 979px / 2768px
+          top: '42%', // Adjusted for 250vh height
           left: '62.8%', // 245px / 390px (mobile width)
           width: '31.5%', // 123px / 390px (mobile width)
-          height: '4.4%', // 123px / 2768px
+          height: '5%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 4" 
@@ -157,10 +157,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/5.webp"
         style={{
           position: 'absolute',
-          top: '30.2%', // 835px / 2768px
+          top: '36%', // Adjusted for 250vh height
           left: '62.8%', // 245px / 390px (mobile width)
           width: '31.5%', // 123px / 390px (mobile width)
-          height: '4.4%', // 123px / 2768px
+          height: '5%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 5" 
@@ -170,10 +170,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/6.webp"
         style={{
           position: 'absolute',
-          top: '41%', // 1134px / 2768px
+          top: '49%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '89%', // 347px / 390px (mobile width)
-          height: '6.4%', // 177px / 2768px
+          height: '7%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 6" 
@@ -183,10 +183,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/7.webp"
         style={{
           position: 'absolute',
-          top: '48.5%', // 1343px / 2768px
+          top: '58%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '42.1%', // 164px / 390px (mobile width)
-          height: '10.5%', // 290px / 2768px
+          height: '12%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 7" 
@@ -196,10 +196,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/8.webp"
         style={{
           position: 'absolute',
-          top: '48.5%', // 1343px / 2768px
+          top: '58%', // Adjusted for 250vh height
           left: '52.6%', // 205px / 390px (mobile width)
           width: '41.8%', // 163px / 390px (mobile width)
-          height: '10.5%', // 290px / 2768px
+          height: '12%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 8" 
@@ -209,10 +209,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/9.webp"
         style={{
           position: 'absolute',
-          top: '59.8%', // 1655px / 2768px
+          top: '72%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '89%', // 347px / 390px (mobile width)
-          height: '7.3%', // 202px / 2768px
+          height: '8%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 9" 
@@ -222,10 +222,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/10.webp"
         style={{
           position: 'absolute',
-          top: '18.2%', // 503px / 2768px
+          top: '22%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '51.5%', // 201px / 390px (mobile width)
-          height: '7.3%', // 201px / 2768px
+          height: '8%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 10" 
@@ -235,10 +235,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/11.png"
         style={{
           position: 'absolute',
-          top: '67.9%', // 1879px / 2768px
+          top: '81%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '42.3%', // 165px / 390px (mobile width)
-          height: '10.5%', // 292px / 2768px
+          height: '12%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 11" 
@@ -248,10 +248,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/12.png"
         style={{
           position: 'absolute',
-          top: '67.9%', // 1879px / 2768px
+          top: '81%', // Adjusted for 250vh height
           left: '52.6%', // 205px / 390px (mobile width)
           width: '44.4%', // 173px / 390px (mobile width)
-          height: '6.2%', // 173px / 2768px
+          height: '7%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 12" 
@@ -261,10 +261,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/13.png"
         style={{
           position: 'absolute',
-          top: '75.1%', // 2079px / 2768px
+          top: '90%', // Adjusted for 250vh height
           left: '52.6%', // 205px / 390px (mobile width)
           width: '44.4%', // 173px / 390px (mobile width)
-          height: '11.1%', // 307px / 2768px
+          height: '13%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 13" 
@@ -274,10 +274,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/14.png"
         style={{
           position: 'absolute',
-          top: '79.5%', // 2200px / 2768px
+          top: '95%', // Adjusted for 250vh height
           left: '5.4%', // 21px / 390px (mobile width)
           width: '42.3%', // 165px / 390px (mobile width)
-          height: '10.6%', // 293px / 2768px
+          height: '12%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 14" 
@@ -287,10 +287,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/15.png"
         style={{
           position: 'absolute',
-          top: '87.2%', // 2413px / 2768px
+          top: '105%', // Adjusted for 250vh height
           left: '52.6%', // 205px / 390px (mobile width)
           width: '44.4%', // 173px / 390px (mobile width)
-          height: '3.5%', // 97px / 2768px
+          height: '4%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 15" 
@@ -300,10 +300,10 @@ const IPhone13141 = () => {
         src="/assets/mobile/images/sliding-page/16.png"
         style={{
           position: 'absolute',
-          top: '91.7%', // 2537px / 2768px
+          top: '110%', // Adjusted for 250vh height
           left: '7.2%', // 28px / 390px (mobile width)
           width: '90.5%', // 353px / 390px (mobile width)
-          height: '7.2%', // 199px / 2768px
+          height: '8%', // Adjusted for 250vh height
           objectFit: 'cover'
         }}
         alt="Image 16" 

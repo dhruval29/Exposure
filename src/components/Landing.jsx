@@ -16,6 +16,7 @@ import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 import IPhone13141 from './IPhone13141'
 import Frame60 from './Frame60'
+import MergedFrame from './MergedFrame'
 import '../styles/Gallery.css'
 
 
@@ -840,25 +841,9 @@ const Landing = () => {
     }
   }, [])
 
-  // Responsive sliding height based on device characteristics
+  // Fixed sliding height - 300vh
   const getSlidingHeight = () => {
-    if (!isMobile) return 2768
-    
-    const vh = window.innerHeight
-    const vw = window.innerWidth
-    
-    // For larger mobile devices (like Galaxy S24 FE 6.7"), adjust height
-    // to prevent gaps by using viewport-based calculations
-    if (vw >= 400 && vh >= 900) {
-      // Large mobile devices - scale based on viewport
-      return Math.max(2768, vh * 2.8) // Minimum 2768px or 2.8x viewport height
-    } else if (vw >= 375 && vh >= 800) {
-      // Medium mobile devices
-      return Math.max(2768, vh * 2.6)
-    } else {
-      // Small mobile devices
-      return Math.max(2768, vh * 2.4)
-    }
+    return window.innerHeight * 3.0 // 300vh
   }
   
   const SLIDING_HEIGHT = getSlidingHeight()
@@ -1058,151 +1043,15 @@ const Landing = () => {
           top: '100vh',
           left: 0,
           right: 0,
-          height: SLIDING_HEIGHT,
-          background: '#ede9e4',
+          height: '300vh',
+          background: 'transparent',
           zIndex: 999,
-          overflow: 'hidden',
+          overflow: 'visible', // Changed from hidden to visible for parallax
           isolation: 'isolate'
         }}
       >
-          <div style={{ width: '100%', height: '100%', position: 'relative', background: '#ede9e4', overflow: 'hidden' }}>
-            {/* Desktop content - hidden on mobile */}
-            <div style={{ 
-              width: '100%', 
-              height: '100%', 
-              position: 'relative', 
-              background: '#ede9e4',
-              display: isMobile ? 'none' : 'block'
-            }}>
-              {/* Animated gradient background that fades out by first row */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: '1300px', // Fades out by first row of images
-                  background: 'linear-gradient(to bottom, #ede9e4 0%, #ede9e4 60%, rgba(237, 233, 228, 0.8) 80%, rgba(237, 233, 228, 0.4) 90%, rgba(237, 233, 228, 0.1) 95%, transparent 100%)',
-                  zIndex: 1,
-                  pointerEvents: 'none',
-                  opacity: 0.7
-                }}
-              />
-              {/* Static gradient at bottom border to mirror marquee background (transparent at the very bottom for seamless join) */}
-              <div
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: '140px',
-                  background: 'linear-gradient(to top, rgba(183, 186, 229, 0.35) 0%, rgba(183, 186, 229, 0.28) 35%, rgba(183, 186, 229, 0.18) 60%, rgba(183, 186, 229, 0.09) 80%, transparent 100%)',
-                  zIndex: 1,
-                  pointerEvents: 'none',
-                  animation: 'none',
-                  opacity: 1
-                }}
-              />
-              
-              <div style={{ 
-                left: '6.3vw', 
-                top: '6.25vh', 
-                position: 'absolute', 
-                zIndex: 20
-              }}>
-                <StorytellingHero />
-              </div>
-              <HoverImage 
-                src="/assets/images/ui/1.webp" 
-                style={responsiveImagePositions.image1}
-                caption="Sydney Opera House, NSW"
-              />
-                           <HoverImage 
-                 src="/assets/images/ui/2.webp" 
-                 style={responsiveImagePositions.image2}
-                 caption="Beech WaterFalls, Victoria"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/3.webp" 
-                 style={responsiveImagePositions.image3}
-                 caption="Gower Street, Melbourne"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/4.webp" 
-                 style={responsiveImagePositions.image4}
-                 caption="Sydney Opera House, NSW"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/5.webp" 
-                 style={responsiveImagePositions.image5}
-                 caption="Fitzroy Garden, Melbourne"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/6.webp" 
-                 style={responsiveImagePositions.image6}
-                 caption="South Bank, Brisbane"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/7.webp" 
-                 style={responsiveImagePositions.image7}
-                 caption="Twelve Apostles, Victoria"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/8.webp" 
-                 style={responsiveImagePositions.image8}
-                 caption="Beech Forest, Victoria"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/9.webp" 
-                 style={responsiveImagePositions.image9}
-                 caption="Melbourne, Victoria"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/10.webp" 
-                 style={responsiveImagePositions.image10}
-                 caption="Fitzroy Garden, Melbourne"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/11.webp" 
-                 style={responsiveImagePositions.image11}
-                 caption="Circular Quay, NSW"
-               />
-
-                           <HoverImage 
-                 src="/assets/images/ui/12.webp" 
-                 style={responsiveImagePositions.image12}
-                 caption="Gower Street, Melbourne"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/13.webp" 
-                 style={responsiveImagePositions.image13}
-                 caption="Melbourne, Victoria"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/14.webp" 
-                 style={responsiveImagePositions.image14}
-                 caption="Melbourne, Victoria"
-               />
-                           <HoverImage 
-                 src="/assets/images/ui/15.webp" 
-                 style={responsiveImagePositions.image15}
-                 caption="Cairns, Queensland"
-               />
-            </div>
-
-            {/* Mobile content - IPhone13141 component */}
-            <div style={{ 
-              width: '100%', 
-              height: '100%', 
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              display: isMobile ? 'block' : 'none'
-            }}>
-              <IPhone13141 />
-            </div>
-          </div>
-        </div>
+        <MergedFrame />
+      </div>
 
         {/* New Content Section - 50-60vh between sliding page and ZoomReveal */}
         <div
