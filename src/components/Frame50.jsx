@@ -53,10 +53,18 @@ const Frame50 = () => {
 
 
 			// Check if we've reached 75% through the contact us page (ZoomReveal section)
-			// The contact us page now starts at: 100vh + 300vh + 60vh (new section)
+			// The contact us page now starts at: 100vh + SLIDING_HEIGHT + 60vh (new section)
 			// ZoomReveal section height: 100vh + 15% = 115vh
 			// Rotate at 75% through: start + (115vh * 0.75)
-			const slidingHeight = window.innerHeight * 3.0 // 300vh equivalent
+			const vw = window.innerWidth
+			const vh = window.innerHeight
+			const slidingHeight = (vw <= 1024)
+				? (vw >= 400 && vh >= 900
+					? Math.max(2768, vh * 2.8)
+					: (vw >= 375 && vh >= 800
+						? Math.max(2768, vh * 2.6)
+						: Math.max(2768, vh * 2.4)))
+				: vh * 3.0 // desktop 300vh
 			const newSectionHeight = window.innerHeight * 0.6 // 60vh
 			const contactUsStart = window.innerHeight + slidingHeight + newSectionHeight
 			const zoomRevealHeight = window.innerHeight * 1.15 // 100vh + 15%

@@ -36,7 +36,15 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
-      const SLIDING_HEIGHT = viewportHeight * 3.0; // 300vh equivalent
+      const vw = window.innerWidth;
+      const isHandheld = vw <= 1024;
+      const SLIDING_HEIGHT = isHandheld
+        ? (vw >= 400 && viewportHeight >= 900
+            ? Math.max(2768, viewportHeight * 2.8)
+            : (vw >= 375 && viewportHeight >= 800
+                ? Math.max(2768, viewportHeight * 2.6)
+                : Math.max(2768, viewportHeight * 2.4)))
+        : viewportHeight * 3.0; // desktop 300vh
       const marqueeSectionStart = viewportHeight + SLIDING_HEIGHT;
       if (scrollTop >= marqueeSectionStart) {
         setIsSlidingUp(true);

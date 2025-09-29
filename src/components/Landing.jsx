@@ -644,7 +644,7 @@ const Landing = () => {
   const [showNavTitle, setShowNavTitle] = useState(false)
   // Mouse effect removed - page left blank as requested
 
-  // Enhanced mobile detection for different device sizes
+  // Enhanced mobile/tablet detection for different device sizes
   useEffect(() => {
     const checkMobile = () => {
       const width = window.innerWidth
@@ -652,11 +652,13 @@ const Landing = () => {
       const aspectRatio = height / width
       
       // More comprehensive mobile detection
-      // Consider both width and aspect ratio for better detection
       const isMobileWidth = width <= 768
       const isMobileAspectRatio = aspectRatio > 1.3 // Portrait orientation with tall aspect ratio
-      
-      setIsMobile(isMobileWidth && isMobileAspectRatio)
+
+      // Tablet detection (landscape tablets may have smaller aspect ratios)
+      const isTablet = width > 768 && width <= 1024
+
+      setIsMobile((isMobileWidth && isMobileAspectRatio) || isTablet)
     }
     
     checkMobile()
@@ -809,7 +811,7 @@ const Landing = () => {
       // Phase 1: slide page from bottom to full screen with deceleration as it approaches the top
       tl.to(slidingRef.current, { 
         yPercent: 0, 
-        ease: 'power1.out', // More gradual deceleration - less tight, more relaxed
+        ease: 'none',
         duration: 1, 
         force3D: true 
       })
@@ -841,9 +843,21 @@ const Landing = () => {
     }
   }, [])
 
-  // Fixed sliding height - 300vh
+  // Sliding height: desktop 300vh, mobile/tablet reverted to original 2768-based logic
   const getSlidingHeight = () => {
-    return window.innerHeight * 3.0 // 300vh
+    const vw = window.innerWidth
+    const vh = window.innerHeight
+    const isHandheld = vw <= 1024
+    if (!isHandheld) return vh * 3.0 // desktop: 300vh
+
+    // Handheld (mobile/tablet) – original logic
+    if (vw >= 400 && vh >= 900) {
+      return Math.max(2768, vh * 2.8)
+    } else if (vw >= 375 && vh >= 800) {
+      return Math.max(2768, vh * 2.6)
+    } else {
+      return Math.max(2768, vh * 2.4)
+    }
   }
   
   const SLIDING_HEIGHT = getSlidingHeight()
@@ -1043,17 +1057,18 @@ const Landing = () => {
           top: '100vh',
           left: 0,
           right: 0,
-          height: '300vh',
+          height: isMobile ? `${SLIDING_HEIGHT}px` : '300vh',
           background: 'transparent',
           zIndex: 999,
           overflow: 'visible', // Changed from hidden to visible for parallax
           isolation: 'isolate'
         }}
       >
-        <MergedFrame />
+        {isMobile ? <IPhone13141 /> : <MergedFrame />}
       </div>
 
-        {/* New Content Section - 50-60vh between sliding page and ZoomReveal */}
+      {/* New Content Section - only for desktop/tablet; hidden on mobile */}
+      {!isMobile && (
         <div
           style={{
             position: 'absolute',
@@ -1069,9 +1084,7 @@ const Landing = () => {
             alignItems: 'center',
             color: 'black',
             padding: 0,
-            minHeight: isMobile && window.innerWidth >= 400 && window.innerHeight >= 900 
-              ? `${Math.max(350, window.innerHeight * 0.4)}px`
-              : '50vh',
+            minHeight: '50vh',
             overflow: 'hidden'
           }}
         >
@@ -1080,10 +1093,10 @@ const Landing = () => {
             style={{
               position: 'absolute',
               inset: 0,
-             background: 'linear-gradient(to bottom, #ede9e4 0%, #ede9e4 60%, rgba(237, 233, 228, 0.8) 80%, rgba(237, 233, 228, 0.4) 90%, rgba(237, 233, 228, 0.1) 95%, transparent 100%)',
-             zIndex: 0,
-             pointerEvents: 'none',
-             opacity: 0.7
+              background: 'linear-gradient(to bottom, #ede9e4 0%, #ede9e4 60%, rgba(237, 233, 228, 0.8) 80%, rgba(237, 233, 228, 0.4) 90%, rgba(237, 233, 228, 0.1) 95%, transparent 100%)',
+              zIndex: 0,
+              pointerEvents: 'none',
+              opacity: 0.7
             }}
           />
           
@@ -1092,19 +1105,22 @@ const Landing = () => {
             <Frame60 />
           </div>
         </div>
+      )}
 
-        {/* ZoomReveal placed after the new content section */}
-        <div
-          style={{
-            position: 'absolute',
-            top: `calc(100vh + ${SLIDING_HEIGHT}px + ${NEW_SECTION_HEIGHT})`,
-            left: 0,
-            right: 0,
-            height: '100vh',
-            background: '#ede9e4',
-            zIndex: 998
-          }}
-        >
+      {/* ZoomReveal placed after sliding (mobile) or after new section (desktop/tablet) */}
+      <div
+        style={{
+          position: 'absolute',
+          top: isMobile 
+            ? `calc(100vh + ${SLIDING_HEIGHT}px)`
+            : `calc(100vh + ${SLIDING_HEIGHT}px + ${NEW_SECTION_HEIGHT})`,
+          left: 0,
+          right: 0,
+          height: '100vh',
+          background: '#ede9e4',
+          zIndex: 998
+        }}
+      >
                      <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
         </div>
     </div>

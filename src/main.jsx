@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
 import './index.css'
+// Initialize global ScrollTrigger defaults (smooth scrub without Lenis)
+import './lib/scroll.ts'
+import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 
 // Hydrate root after main thread settles for a tick

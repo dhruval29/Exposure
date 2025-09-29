@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const IPhone13141 = () => {
   const [screenSize, setScreenSize] = useState('desktop');
-  const [componentHeight, setComponentHeight] = useState(window.innerHeight * 3.0);
+  const [componentHeight, setComponentHeight] = useState(2768);
 
   // Enhanced screen size detection with responsive height calculation
   useEffect(() => {
@@ -10,20 +10,20 @@ const IPhone13141 = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       
-      // Calculate responsive height for mobile devices - now using 300vh
-      let newHeight = height * 3.0; // 300vh equivalent
+      // Calculate responsive height for mobile devices - original 2768-based logic
+      let newHeight = 2768; // Default height
       
       if (width <= 768) {
         // Mobile device - adjust height based on viewport
         if (width >= 400 && height >= 900) {
           // Large mobile devices (like Galaxy S24 FE)
-          newHeight = height * 3.0;
+          newHeight = Math.max(2768, height * 2.8);
         } else if (width >= 375 && height >= 800) {
           // Medium mobile devices
-          newHeight = height * 3.0;
+          newHeight = Math.max(2768, height * 2.6);
         } else {
           // Small mobile devices
-          newHeight = height * 3.0;
+          newHeight = Math.max(2768, height * 2.4);
         }
       }
       
