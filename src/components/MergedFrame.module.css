@@ -34,6 +34,56 @@
 	margin: 0;
 }
 
+/* Blur reveal animation classes - word-based */
+.animatedWord {
+	display: inline-block;
+	opacity: 0.001;
+	filter: blur(10px);
+	transform: translateX(0px) translateY(20px) scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
+	animation: wordReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	animation-play-state: paused;
+	will-change: transform, opacity, filter;
+	margin-right: 0.2em; /* Small spacing between words */
+}
+
+.animatedWord.play {
+	animation-play-state: running;
+}
+
+@keyframes wordReveal {
+	0% {
+		opacity: 0.001;
+		filter: blur(10px);
+		transform: translateX(0px) translateY(20px) scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
+	}
+	100% {
+		opacity: 1;
+		filter: blur(0px);
+		transform: none;
+	}
+}
+
+/* Lorem container slide-in animation with clipping */
+.loremSlideIn {
+	opacity: 1;
+	overflow: hidden; /* Clip content at container edges */
+	animation: loremSlideIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	animation-play-state: paused;
+}
+
+.loremSlideIn.play {
+	animation-play-state: running;
+}
+
+@keyframes loremSlideIn {
+	0% {
+		clip-path: inset(0 100% 0 0); /* Clip everything except right edge */
+	}
+	100% {
+		clip-path: inset(0 0% 0 0); /* Reveal everything */
+	}
+}
+
 /* Image containers - positioned absolutely */
 .frame1Image1Container {
 	position: absolute;
@@ -83,8 +133,9 @@
 
 .frame2TextContainer {
 	position: absolute;
-	top: calc(100vh + 70.00% - 100vh); /* Moved down from 60% to 70% */
+	top: calc(100vh + 50.00% - 100vh); /* Moved up from 70% to 50% */
 	left: 67.05%; /* 1030px / 1536px */
+	width: 30%; /* Limit width to control line breaks */
 	letter-spacing: 0.02em;
 	line-height: 122.71%;
 	transform: none !important; /* Ensure no transform inheritance */
@@ -110,12 +161,12 @@
 .frame2LoremContainer {
 	position: absolute;
 	top: calc(100vh + 85.00% - 100vh); /* Moved down from 80% to 85% */
-	left: 67.93%; /* 1043px / 1536px */
+	left: 67.05%; /* Aligned with main text container */
 	font-size: 20px;
 	letter-spacing: 0.02em;
 	line-height: 122.71%;
 	font-family: Helvetica;
-	transform: none !important; /* Ensure no transform inheritance */
+	/* Removed transform: none !important to allow slide animation */
 }
 
 /* Frame 3 Section - Bottom 100vh (200vh to 300vh) */
@@ -132,7 +183,7 @@
 
 .frame3Image2Container {
 	position: absolute;
-	top: calc(200vh + 40% - 200vh); /* Moved down from 30% to 40% */
+	top: calc(200vh + 50% - 200vh); /* Moved down from 40% to 50% */
 	left: 25.00%; /* 384px / 1536px */
 	width: 19.79%; /* 304px / 1536px */
 	height: 45%; /* Increased height to accommodate parallax movement */
@@ -149,7 +200,7 @@
 
 .frame3Image3Container {
 	position: absolute;
-	top: calc(200vh + 20% - 200vh); /* Moved down from 10% to 20% */
+	top: calc(200vh + 30% - 200vh); /* Moved down from 20% to 30% */
 	left: 49.15%; /* 755px / 1536px */
 	width: 47.14%; /* 724px / 1536px */
 	height: 65.34%; /* 507px / 776px */

@@ -15,107 +15,167 @@ const MergedFrame = () => {
 	const img4Ref = useRef(null)
 	const img5Ref = useRef(null)
 
+	// Text animation refs - now for individual words
+	const textWordRefs = useRef([])
+	const loremContainerRef = useRef(null)
+
 	// Add error boundary state
 	const [hasError, setHasError] = useState(false)
 
+	// Helper function to split text into animated words with frame-specific timing
+	const createAnimatedWords = (text, frameIndex = 0, lineIndex = 0) => {
+		const words = text.split(' ')
+		return words.map((word, index) => (
+			<span 
+				key={index}
+				ref={(el) => (textWordRefs.current.push(el))} 
+				className={styles.animatedWord}
+				data-frame={frameIndex}
+				data-line={lineIndex}
+				data-word-index={index}
+			>
+				{word}
+			</span>
+		))
+	}
+
+	// Image parallax with Intersection Observer
 	useEffect(() => {
-		const triggers = []
-		let isMounted = true
+		const imageRefs = [img1Ref, img2Ref, img3Ref, img4Ref, img5Ref]
+		const parallaxSpeeds = [0.06, 0.06, 0.06, 0.03, 0.06]
+		const scaleValues = [1.02, 1.02, 1.02, 1.01, 1.02]
+		
+		const imageObservers = imageRefs.map((imgRef, index) => {
+			if (!imgRef.current) return null
+			
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							// Start parallax animation when image comes into view
+							const startScrollY = window.scrollY
+							const handleScroll = () => {
+								const currentScrollY = window.scrollY
+								const relativeScroll = Math.max(0, currentScrollY - startScrollY)
+								const offset = relativeScroll * parallaxSpeeds[index]
+								
+								gsap.set(imgRef.current, {
+									y: offset,
+									scale: scaleValues[index],
+									transformOrigin: 'center center',
+									force3D: true
+								})
+							}
+							
+							// Add scroll listener for this specific image
+							window.addEventListener('scroll', handleScroll, { passive: true })
+							
+							// Store cleanup function
+							imgRef.current._cleanup = () => {
+								window.removeEventListener('scroll', handleScroll)
+							}
+						} else {
+							// Clean up when image leaves view
+							if (imgRef.current && imgRef.current._cleanup) {
+								imgRef.current._cleanup()
+								imgRef.current._cleanup = null
+							}
+						}
+					})
+				},
+				{
+					threshold: 0.1, // Trigger when 10% visible
+					rootMargin: '0px 0px -100px 0px' // Start before fully visible
+				}
+			)
+			
+			observer.observe(imgRef.current)
+			return observer
+		})
 
-		// Enhanced scroll-based parallax with varying speeds and directions
-		const handleScroll = () => {
-			if (!isMounted) return
+		return () => {
+			imageObservers.forEach(observer => {
+				if (observer) observer.disconnect()
+			})
+			// Clean up any remaining scroll listeners
+			imageRefs.forEach(imgRef => {
+				if (imgRef.current && imgRef.current._cleanup) {
+					imgRef.current._cleanup()
+				}
+			})
+		}
+	}, [])
 
-			const scrollY = window.scrollY
-			const windowHeight = window.innerHeight
-			
-			// Calculate parallax offsets based on scroll position
-			// The sliding page starts at 100vh, so we need to account for that
-			const slidingPageStart = windowHeight // 100vh
-			const relativeScroll = Math.max(0, scrollY - slidingPageStart)
-			
-			// Apply doubled parallax effects to all images for more noticeable movement
-			// All images now have doubled parallax values
-			if (img1Ref.current) {
-				const offset = relativeScroll * 0.06 // Doubled speed
-				gsap.set(img1Ref.current, { 
-					y: offset, 
-					scale: 1.02, // Doubled scaling
-					transformOrigin: 'center center' 
+	// Text animation intersection observer - frame-based timing
+	useEffect(() => {
+		const textObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						// Get frame, line, and word index from data attributes
+						const frameIndex = parseInt(entry.target.dataset.frame)
+						const lineIndex = parseInt(entry.target.dataset.line)
+						const wordIndex = parseInt(entry.target.dataset.wordIndex)
+						
+						if (!isNaN(frameIndex) && !isNaN(lineIndex) && !isNaN(wordIndex)) {
+							// Calculate cumulative delay: line offset + word offset (no frame offset)
+							const lineOffset = lineIndex * 700 // Each line gets 700ms offset within frame
+							const wordOffset = wordIndex * 100 // Each word gets 100ms offset within line
+							const totalDelay = lineOffset + wordOffset
+							
+							setTimeout(() => {
+								entry.target.classList.add(styles.play)
+								// Stop observing this element after animation starts
+								textObserver.unobserve(entry.target)
+							}, totalDelay)
+						}
+					}
 				})
+			},
+			{ 
+				threshold: 0.3, // Trigger when 30% visible
+				rootMargin: '0px 0px -100px 0px' // Trigger 100px before fully visible
 			}
-			if (img2Ref.current) {
-				const offset = relativeScroll * 0.06 // Doubled speed
-				gsap.set(img2Ref.current, { 
-					y: offset, 
-					scale: 1.02, // Doubled scaling
-					transformOrigin: 'center center' 
+		)
+
+		// Observe all word elements
+		textWordRefs.current.forEach((element) => {
+			if (element) {
+				textObserver.observe(element)
+			}
+		})
+
+		return () => {
+			textObserver.disconnect()
+		}
+	}, [])
+
+	// Lorem container slide-in animation
+	useEffect(() => {
+		const loremObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						// Add delay to start after main text animation
+						setTimeout(() => {
+							entry.target.classList.add(styles.play)
+							loremObserver.unobserve(entry.target)
+						}, 2000) // 2 second delay after main text
+					}
 				})
+			},
+			{ 
+				threshold: 0.3,
+				rootMargin: '0px 0px -100px 0px'
 			}
-			if (img3Ref.current) {
-				const offset = relativeScroll * 0.06 // Doubled speed
-				gsap.set(img3Ref.current, { 
-					y: offset, 
-					scale: 1.02, // Doubled scaling
-					transformOrigin: 'center center' 
-				})
-			}
-			if (img4Ref.current) {
-				const offset = relativeScroll * 0.03 // Doubled speed for frame3Image2
-				gsap.set(img4Ref.current, { 
-					y: offset, 
-					scale: 1.01, // Doubled scaling for frame3Image2
-					transformOrigin: 'center center' 
-				})
-			}
-			if (img5Ref.current) {
-				const offset = relativeScroll * 0.06 // Doubled speed
-				gsap.set(img5Ref.current, { 
-					y: offset, 
-					scale: 1.02, // Doubled scaling
-					transformOrigin: 'center center' 
-				})
-			}
-			
-			// Text containers remain static - no parallax applied
+		)
+
+		if (loremContainerRef.current) {
+			loremObserver.observe(loremContainerRef.current)
 		}
 
-		// Throttled scroll handler for better performance
-		let scrollTimeout = null
-		const throttledScroll = () => {
-			if (scrollTimeout) return
-			scrollTimeout = setTimeout(() => {
-				handleScroll()
-				scrollTimeout = null
-			}, 16) // ~60fps
-		}
-
-		try {
-			// Add scroll listener
-			window.addEventListener('scroll', throttledScroll, { passive: true })
-			
-			// Initial call
-			handleScroll()
-
-			// Also setup a listener for window resize
-			const handleResize = () => {
-				if (isMounted) {
-					handleScroll()
-				}
-			}
-			window.addEventListener('resize', handleResize)
-
-			return () => {
-				isMounted = false
-				window.removeEventListener('scroll', throttledScroll)
-				window.removeEventListener('resize', handleResize)
-				if (scrollTimeout) {
-					clearTimeout(scrollTimeout)
-				}
-			}
-		} catch (error) {
-			console.error('Error in MergedFrame useEffect:', error)
-			setHasError(true)
+		return () => {
+			loremObserver.disconnect()
 		}
 	}, [])
 
@@ -172,9 +232,15 @@ const MergedFrame = () => {
 			{/* Frame 1 Content - Top Section (0vh to 100vh) */}
 			<div ref={frame1Ref} className={styles.frame1Section}>
 				<div className={styles.weUseTheContainer}>
-					<p className={styles.weUseThe}>We use the power of storytelling to</p>
-					<p className={styles.weUseThe}>fire the imagination, stir the soul,</p>
-					<p className={styles.weUseThe}>and ultimately inspire people.</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("We use the power of storytelling to", 0, 0)}
+					</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("fire the imagination, stir the soul,", 0, 1)}
+					</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("and ultimately inspire people.", 0, 2)}
+					</p>
 				</div>
 				<div className={styles.frame1Image1Container}>
 					<img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/1.webp" alt="Storytelling image" />
@@ -187,16 +253,19 @@ const MergedFrame = () => {
 			{/* Frame 2 Content - Middle Section (100vh to 200vh) */}
 			<div ref={frame2Ref} className={styles.frame2Section}>
 				<div className={styles.frame2TextContainer}>
-					<p className={styles.weUseThe}>We use the power of</p>
-					<p className={styles.weUseThe}>{` storytelling to fire `}</p>
-					<p className={styles.weUseThe}>{` the imagination, `}</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("We freeze time, find beauty,", 1, 0)}
+					</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("and give memories a home", 1, 1)}
+					</p>
 				</div>
 				<div className={styles.frame2Image3Container}>
 					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
 				</div>
-				<div className={styles.frame2LoremContainer}>
-					<p className={styles.weUseThe}>{`dgLorem ipsum dolor sit amet, `}</p>
-					<p className={styles.weUseThe}>{`consectetur adipiscing elit, sed do `}</p>
+				<div ref={loremContainerRef} className={`${styles.frame2LoremContainer} ${styles.loremSlideIn}`}>
+					<p className={styles.weUseThe}>Professional picture takers</p>
+					<p className={styles.weUseThe}>Amateur joke makers</p>
 				</div>
 			</div>
 
@@ -209,9 +278,15 @@ const MergedFrame = () => {
 					<img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/8.webp" alt="Imagination spark" />
 				</div>
 				<div className={styles.frame3TextContainer}>
-					<p className={styles.weUseThe}>We use the power of</p>
-					<p className={styles.weUseThe}>{` storytelling to fire `}</p>
-					<p className={styles.weUseThe}>{` the imagination, `}</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("Join us on this journey", 2, 0)}
+					</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("of discovery and inspiration,", 2, 1)}
+					</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("where every frame tells a story.", 2, 2)}
+					</p>
 				</div>
 			</div>
 		</div>
