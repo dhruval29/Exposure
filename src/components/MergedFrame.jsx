@@ -17,7 +17,7 @@ const MergedFrame = () => {
 
 	// Text animation refs - now for individual words
 	const textWordRefs = useRef([])
-	const loremContainerRef = useRef(null)
+	const frame2TextRef = useRef(null)
 
 	// Add error boundary state
 	const [hasError, setHasError] = useState(false)
@@ -118,9 +118,9 @@ const MergedFrame = () => {
 						const wordIndex = parseInt(entry.target.dataset.wordIndex)
 						
 						if (!isNaN(frameIndex) && !isNaN(lineIndex) && !isNaN(wordIndex)) {
-							// Calculate cumulative delay: line offset + word offset (no frame offset)
-							const lineOffset = lineIndex * 700 // Each line gets 700ms offset within frame
-							const wordOffset = wordIndex * 100 // Each word gets 100ms offset within line
+							// Calculate cumulative delay: line offset + word offset (reduced per-word delay)
+							const lineOffset = lineIndex * 700 // Keep line spacing consistent
+							const wordOffset = wordIndex * 60 // Reduced per-word delay from 100ms to 60ms
 							const totalDelay = lineOffset + wordOffset
 							
 							setTimeout(() => {
@@ -150,34 +150,31 @@ const MergedFrame = () => {
 		}
 	}, [])
 
-	// Lorem container slide-in animation
+	// Trigger for lorem inner slide based on Frame 2 main text container visibility
 	useEffect(() => {
-		const loremObserver = new IntersectionObserver(
+		const target = document.getElementById('loremInner')
+		const triggerEl = frame2TextRef.current
+		if (!target || !triggerEl) return
+
+		const observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
-						// Add delay to start after main text animation
 						setTimeout(() => {
-							entry.target.classList.add(styles.play)
-							loremObserver.unobserve(entry.target)
-						}, 2000) // 2 second delay after main text
+							target.classList.add(styles.play)
+							observer.unobserve(entry.target)
+						}, 400)
 					}
 				})
 			},
-			{ 
-				threshold: 0.3,
-				rootMargin: '0px 0px -100px 0px'
-			}
+			{ threshold: 0.35, rootMargin: '0px 0px -80px 0px' }
 		)
 
-		if (loremContainerRef.current) {
-			loremObserver.observe(loremContainerRef.current)
-		}
-
-		return () => {
-			loremObserver.disconnect()
-		}
+		observer.observe(triggerEl)
+		return () => observer.disconnect()
 	}, [])
+
+	// Removed lorem container animation
 
 	// Error fallback
 	if (hasError) {
@@ -252,20 +249,22 @@ const MergedFrame = () => {
 
 			{/* Frame 2 Content - Middle Section (100vh to 200vh) */}
 			<div ref={frame2Ref} className={styles.frame2Section}>
-				<div className={styles.frame2TextContainer}>
+				<div ref={frame2TextRef} className={styles.frame2TextContainer}>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("We freeze time, find beauty,", 1, 0)}
+						{createAnimatedWords("We freeze time, find beauty, and give", 1, 0)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("and give memories a home", 1, 1)}
+						{createAnimatedWords("memories a home", 1, 1)}
 					</p>
 				</div>
 				<div className={styles.frame2Image3Container}>
 					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
 				</div>
-				<div ref={loremContainerRef} className={`${styles.frame2LoremContainer} ${styles.loremSlideIn}`}>
-					<p className={styles.weUseThe}>Professional picture takers</p>
-					<p className={styles.weUseThe}>Amateur joke makers</p>
+				<div className={styles.frame2LoremContainer}>
+					<div id="loremInner" className={styles.loremInner}>
+						<p className={styles.weUseThe}>Professional picture takers</p>
+						<p className={styles.weUseThe}>Amateur joke makers</p>
+					</div>
 				</div>
 			</div>
 
@@ -279,13 +278,13 @@ const MergedFrame = () => {
 				</div>
 				<div className={styles.frame3TextContainer}>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("Join us on this journey", 2, 0)}
+						{createAnimatedWords("We frame the love,", 2, 0)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("of discovery and inspiration,", 2, 1)}
+						{createAnimatedWords("laughter, and", 2, 1)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("where every frame tells a story.", 2, 2)}
+						{createAnimatedWords("everything in between", 2, 2)}
 					</p>
 				</div>
 			</div>

@@ -63,26 +63,7 @@
 	}
 }
 
-/* Lorem container slide-in animation with clipping */
-.loremSlideIn {
-	opacity: 1;
-	overflow: hidden; /* Clip content at container edges */
-	animation: loremSlideIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-	animation-play-state: paused;
-}
-
-.loremSlideIn.play {
-	animation-play-state: running;
-}
-
-@keyframes loremSlideIn {
-	0% {
-		clip-path: inset(0 100% 0 0); /* Clip everything except right edge */
-	}
-	100% {
-		clip-path: inset(0 0% 0 0); /* Reveal everything */
-	}
-}
+/* Removed lorem slide-in animation */
 
 /* Image containers - positioned absolutely */
 .frame1Image1Container {
@@ -132,13 +113,13 @@
 
 
 .frame2TextContainer {
-	position: absolute;
-	top: calc(100vh + 50.00% - 100vh); /* Moved up from 70% to 50% */
-	left: 67.05%; /* 1030px / 1536px */
-	width: 30%; /* Limit width to control line breaks */
-	letter-spacing: 0.02em;
-	line-height: 122.71%;
-	transform: none !important; /* Ensure no transform inheritance */
+    position: absolute;
+    top: calc(100vh + 52.00% - 100vh); /* Moved down by 2% from 50% to 52% */
+    left: 67.05%; /* 1030px / 1536px */
+    width: 30%; /* Limit width to control line breaks */
+    letter-spacing: 0.02em;
+    line-height: 122.71%;
+    transform: none !important; /* Ensure no transform inheritance */
 }
 
 .frame2Image3Container {
@@ -160,13 +141,31 @@
 
 .frame2LoremContainer {
 	position: absolute;
-	top: calc(100vh + 85.00% - 100vh); /* Moved down from 80% to 85% */
+    top: calc(100vh + 75.00% - 100vh); /* Moved up by 5% */
 	left: 67.05%; /* Aligned with main text container */
 	font-size: 20px;
 	letter-spacing: 0.02em;
 	line-height: 122.71%;
 	font-family: Helvetica;
+    overflow: hidden; /* Keep text animation within container bounds */
 	/* Removed transform: none !important to allow slide animation */
+}
+
+/* Lorem inner text slides inside fixed container */
+.loremInner {
+    transform: translateX(-100%);
+    will-change: transform;
+    animation: loremTextSlide 0.9s ease-out forwards;
+    animation-play-state: paused;
+}
+
+.loremInner.play {
+    animation-play-state: running;
+}
+
+@keyframes loremTextSlide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
 }
 
 /* Frame 3 Section - Bottom 100vh (200vh to 300vh) */
@@ -216,10 +215,10 @@
 }
 
 .frame3TextContainer {
-	position: absolute;
-	top: calc(200vh + 40% - 200vh); /* Moved down from 30% to 40% */
-	left: 2.86%; /* 44px / 1536px */
-	letter-spacing: 0.02em;
-	line-height: 122.71%;
-	transform: none !important; /* Ensure no transform inheritance */
+    position: absolute;
+    top: calc(200vh + 81% - 200vh); /* Moved down by 7% from 40% to 47% */
+    left: 3%; /* 44px / 1536px */
+    letter-spacing: 0.02em;
+    line-height: 122.71%;
+    transform: none !important; /* Ensure no transform inheritance */
 }
