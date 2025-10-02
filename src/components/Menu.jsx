@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Menu.module.css';
 import gsap from 'gsap';
 
@@ -9,10 +9,19 @@ const Menu = ({ onClose }) => {
   const line2Ref = useRef(null);
   const wordRefs = useRef([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNavigation = (path) => {
     if (path === 'home') {
-      onClose(); // Close menu for home
+      // Check if currently on landing screen
+      if (location.pathname === '/') {
+        // If on landing screen, just close the menu
+        onClose();
+      } else {
+        // If on any other page, navigate to home and close menu
+        navigate('/');
+        onClose();
+      }
     } else {
       navigate(path);
       onClose(); // Close menu after navigation

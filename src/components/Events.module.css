@@ -542,7 +542,11 @@
   margin-top: calc(120px + 10vh); /* Increased space between search and events list */
   left: 0;
   right: 0;
-  padding: 0 20px;
+  /* Make the events list full-bleed across the viewport */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
   box-sizing: border-box;
   z-index: 2;
   overflow: visible; /* Allow content to be visible */
