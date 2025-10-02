@@ -34,6 +34,18 @@
   align-items: center;
 }
 
+.titleSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoSvg {
+  height: 30px;
+  width: auto;
+  color: #000;
+}
+
 .contactButton {
   font-family: 'PP Editorial New', serif;
   font-size: clamp(18px, 3vw, 24px);
@@ -56,6 +68,31 @@
   outline: none;
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Desktop contact text - show on larger screens */
+.desktopContactText {
+  display: inline-block;
+}
+
+/* Mobile contact icon - hide on larger screens */
+.mobileContactIcon {
+  display: none;
+}
+
+/* Mobile contact icon styles */
+.mobileContactIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.contactSvg {
+  width: 100%;
+  height: 100%;
+  color: currentColor;
 }
 
 .contactButton:focus,
@@ -222,6 +259,69 @@
   vertical-align: top;
 }
 
+/* Desktop menu text - show on larger screens */
+.desktopMenuText {
+  display: inline-block;
+}
+
+/* Mobile menu icon - hide on larger screens */
+.mobileMenuIcon {
+  display: none;
+}
+
+/* Mobile menu icon styles */
+.mobileMenuIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+/* Remove underline for mobile menu icon */
+.mobileMenuIcon::after {
+  display: none;
+}
+
+/* Remove underline for mobile menu button in all states */
+.menuText .mobileMenuIcon::after {
+  display: none !important;
+}
+
+/* Remove underline for mobile menu button in all pseudo-states */
+.menuText:active .mobileMenuIcon::after,
+.menuText:focus .mobileMenuIcon::after,
+.menuText:hover .mobileMenuIcon::after,
+.menuText[data-menu-open="true"] .mobileMenuIcon::after {
+  display: none !important;
+}
+
+/* Remove underline from mobile menu button itself in all states */
+@media (max-width: 768px) {
+  .menuText::after {
+    display: none !important;
+  }
+  
+  .menuText:active::after,
+  .menuText:focus::after,
+  .menuText:hover::after,
+  .menuText[data-menu-open="true"]::after {
+    display: none !important;
+  }
+}
+
+.menuSvg {
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.menuIconOpen .menuSvg {
+  transform: rotate(90deg);
+}
+
 .slotText {
   display: block;
   line-height: 1.2;
@@ -285,6 +385,29 @@
   .contactButton {
     font-size: clamp(16px, 4vw, 20px);
   }
+  
+  /* Show SVG icon on mobile, hide text */
+  .desktopMenuText {
+    display: none;
+  }
+  
+  .mobileMenuIcon {
+    display: flex !important;
+  }
+  
+  /* Remove underline for mobile menu button */
+  .menuText .mobileMenuIcon::after {
+    display: none !important;
+  }
+  
+  /* Show contact SVG icon on mobile, hide text */
+  .desktopContactText {
+    display: none;
+  }
+  
+  .mobileContactIcon {
+    display: flex !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -303,5 +426,28 @@
   
   .contactButton {
     font-size: clamp(14px, 3.5vw, 18px);
+  }
+  
+  /* Show SVG icon on mobile, hide text */
+  .desktopMenuText {
+    display: none;
+  }
+  
+  .mobileMenuIcon {
+    display: flex !important;
+  }
+  
+  /* Remove underline for mobile menu button */
+  .menuText .mobileMenuIcon::after {
+    display: none !important;
+  }
+  
+  /* Show contact SVG icon on mobile, hide text */
+  .desktopContactText {
+    display: none;
+  }
+  
+  .mobileContactIcon {
+    display: flex !important;
   }
 }

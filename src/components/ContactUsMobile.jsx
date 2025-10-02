@@ -8,8 +8,8 @@ const BASE_DELAY_MS = 500;
 
 function LabelWithLine({ label, delayMs = 0 }) {
   return (
-    <div style={{ width: '100%' }}>
-      <label className="cu-mobile-text" style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: '#000', marginBottom: '1.5vw', animationDelay: `${BASE_DELAY_MS + delayMs}ms` }}>
+    <div style={{ width: '100%', position: 'relative' }}>
+      <label className="cu-mobile-text" style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: 'transparent', marginBottom: '1.5vw', animationDelay: `${BASE_DELAY_MS + delayMs}ms` }}>
         {label}
       </label>
       <div className="cu-mobile-line" style={{ borderBottom: '1px solid #000', width: '100%', height: 1, animationDelay: `${BASE_DELAY_MS + delayMs}ms` }} />
@@ -54,10 +54,10 @@ export default function ContactUsMobile() {
       <SimpleNav />
       <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw' }}>
       <div style={{ marginBottom: '7vh' }}>
-        <h1 className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '2vh', marginBottom: 16, animationDelay: `${BASE_DELAY_MS}ms` }}>
+        <h1 className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '8vh', marginBottom: 16, animationDelay: `${BASE_DELAY_MS}ms` }}>
           Contact
         </h1>
-        <div className="cu-mobile-line" style={{ width: '100%', height: 1, backgroundColor: '#000', marginBottom: '3vh' }} />
+        <div className="cu-mobile-line" style={{ width: '100%', height: 1, backgroundColor: '#000', marginBottom: '6vh' }} />
         <div style={{ textAlign: 'center' }}>
           <p className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 24, color: '#000', lineHeight: 1.5, marginBottom: 4, animationDelay: `${BASE_DELAY_MS + 120}ms` }}>
             Want help covering a event ?
@@ -68,44 +68,144 @@ export default function ContactUsMobile() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '3vw', marginBottom: '10vh' }}>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 240}ms` }}>
+      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '6vw', marginBottom: '10vh' }}>
+        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 240}ms`, position: 'relative' }}>
           <LabelWithLine delayMs={240} label={"Your Name (or your Club's)"} />
           <input
             type="text"
             value={form.name}
             onChange={handleChange('name')}
             autoComplete="name"
-            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.4vh 0' }}
+            placeholder="Your name (or your Club's name)"
+            style={{ 
+              position: 'absolute',
+              top: '20%',
+              left: 0,
+              width: '100%', 
+              background: 'transparent', 
+              border: 'none', 
+              outline: 'none', 
+              fontFamily: "'PP Editorial New', serif", 
+              fontSize: 18, 
+              color: '#000', 
+              padding: '0.4vh 0',
+              transition: 'all 0.2s ease',
+              marginTop: '0px'
+            }}
+            onFocus={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.borderRadius = '4px';
+              e.target.style.boxShadow = '0 0 0 2px rgba(17, 42, 70, 0.2)';
+            }}
+            onBlur={(e) => {
+              e.target.style.background = 'transparent';
+              e.target.style.borderRadius = '0';
+              e.target.style.boxShadow = 'none';
+            }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 320}ms` }}>
+        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 320}ms`, position: 'relative' }}>
           <LabelWithLine delayMs={320} label="Phone" />
           <input
             type="tel"
             value={form.phone}
             onChange={handleChange('phone')}
             autoComplete="tel"
-            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.4vh 0' }}
+            placeholder="Phone number"
+            style={{ 
+              position: 'absolute',
+              top: '20%',
+              left: 0,
+              width: '100%', 
+              background: 'transparent', 
+              border: 'none', 
+              outline: 'none', 
+              fontFamily: "'PP Editorial New', serif", 
+              fontSize: 18, 
+              color: '#000', 
+              padding: '0.4vh 0',
+              transition: 'all 0.2s ease',
+              marginTop: '0px'
+            }}
+            onFocus={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.borderRadius = '4px';
+              e.target.style.boxShadow = '0 0 0 2px rgba(17, 42, 70, 0.2)';
+            }}
+            onBlur={(e) => {
+              e.target.style.background = 'transparent';
+              e.target.style.borderRadius = '0';
+              e.target.style.boxShadow = 'none';
+            }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 380}ms` }}>
+        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 380}ms`, position: 'relative' }}>
           <LabelWithLine delayMs={380} label="Email" />
           <input
             type="email"
             value={form.email}
             onChange={handleChange('email')}
             autoComplete="email"
-            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.4vh 0' }}
+            placeholder="Email address"
+            style={{ 
+              position: 'absolute',
+              top: '20%',
+              left: 0,
+              width: '100%', 
+              background: 'transparent', 
+              border: 'none', 
+              outline: 'none', 
+              fontFamily: "'PP Editorial New', serif", 
+              fontSize: 18, 
+              color: '#000', 
+              padding: '0.4vh 0',
+              transition: 'all 0.2s ease',
+              marginTop: '0px'
+            }}
+            onFocus={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.borderRadius = '4px';
+              e.target.style.boxShadow = '0 0 0 2px rgba(17, 42, 70, 0.2)';
+            }}
+            onBlur={(e) => {
+              e.target.style.background = 'transparent';
+              e.target.style.borderRadius = '0';
+              e.target.style.boxShadow = 'none';
+            }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 440}ms` }}>
+        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 440}ms`, position: 'relative' }}>
           <LabelWithLine delayMs={440} label={"What's the event about?"} />
           <input
             type="text"
             value={form.eventAbout}
             onChange={handleChange('eventAbout')}
-            style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', padding: '0.3vh 0' }}
+            placeholder="Describe your event"
+            style={{ 
+              position: 'absolute',
+              top: '20%',
+              left: 0,
+              width: '100%', 
+              background: 'transparent', 
+              border: 'none', 
+              outline: 'none', 
+              fontFamily: "'PP Editorial New', serif", 
+              fontSize: 18, 
+              color: '#000', 
+              padding: '0.3vh 0',
+              transition: 'all 0.2s ease',
+              marginTop: '0px'
+            }}
+            onFocus={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.borderRadius = '4px';
+              e.target.style.boxShadow = '0 0 0 2px rgba(17, 42, 70, 0.2)';
+            }}
+            onBlur={(e) => {
+              e.target.style.background = 'transparent';
+              e.target.style.borderRadius = '0';
+              e.target.style.boxShadow = 'none';
+            }}
           />
         </div>
         <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 500}ms` }}>

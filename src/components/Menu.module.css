@@ -1,13 +1,25 @@
 .menu {
-  	width: 100%;
-  	position: relative;
-  	background-color: #fdefc9;
-  	height: 100vh; /* Changed from fixed 776px to viewport height */
-  	overflow: hidden;
-  	text-align: left;
-  	font-size: 6vw; /* Changed from fixed 96px to viewport width responsive */
-  	color: #000;
-  	font-family: 'PP Editorial New';
+	width: 100%;
+	position: relative;
+	background-color: #fdefc9;
+	height: 100vh; /* Changed from fixed 776px to viewport height */
+	overflow: hidden;
+	text-align: left;
+	font-size: 6vw; /* Changed from fixed 96px to viewport width responsive */
+	color: #000;
+	font-family: 'PP Editorial New';
+	--cu-delay-base: 500ms;
+}
+
+/* Text reveal animations from contact page - slowed down */
+@keyframes cu-textReveal {
+	0% { opacity: 0; transform: translateY(10px); }
+	100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	* { animation: none !important; transition: none !important; }
 }
 
 .homeOurJourneyContainer {
@@ -23,8 +35,8 @@
 
 .animatedWord {
 	display: inline-block;
-	opacity: 1;
-	transform: none;
+	opacity: 0;
+	transform: translateY(10px);
 	filter: none;
 	transition: none;
 	background: none;
@@ -40,6 +52,28 @@
 	color: inherit;
 	letter-spacing: inherit;
 	position: relative;
+	animation: cu-textReveal 1000ms ease-out forwards;
+}
+
+/* Staggered animation delays for each word - increased spacing */
+.animatedWord[data-word-index="0"] {
+	animation-delay: calc(var(--cu-delay-base) + 150ms);
+}
+
+.animatedWord[data-word-index="1"] {
+	animation-delay: calc(var(--cu-delay-base) + 300ms);
+}
+
+.animatedWord[data-word-index="2"] {
+	animation-delay: calc(var(--cu-delay-base) + 450ms);
+}
+
+.animatedWord[data-word-index="3"] {
+	animation-delay: calc(var(--cu-delay-base) + 600ms);
+}
+
+.animatedWord[data-word-index="4"] {
+	animation-delay: calc(var(--cu-delay-base) + 750ms);
 }
 
 .animatedWord:focus,
@@ -195,6 +229,30 @@
     -webkit-tap-highlight-color: transparent;
     letter-spacing: 0.02em;
     line-height: 1.2;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: cu-textReveal 1000ms ease-out forwards;
+  }
+
+  /* Staggered delays for mobile menu items - increased spacing */
+  .mobileMenuItem:nth-child(1) {
+    animation-delay: calc(var(--cu-delay-base) + 150ms);
+  }
+
+  .mobileMenuItem:nth-child(2) {
+    animation-delay: calc(var(--cu-delay-base) + 300ms);
+  }
+
+  .mobileMenuItem:nth-child(3) {
+    animation-delay: calc(var(--cu-delay-base) + 450ms);
+  }
+
+  .mobileMenuItem:nth-child(4) {
+    animation-delay: calc(var(--cu-delay-base) + 600ms);
+  }
+
+  .mobileMenuItem:nth-child(5) {
+    animation-delay: calc(var(--cu-delay-base) + 750ms);
   }
   
   .mobileMenuItem:focus,

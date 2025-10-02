@@ -1,17 +1,17 @@
 .component16 {
 	position: fixed;
-	bottom: 12.8px; /* 16px * 0.8 */
-	width: 128px; /* 160px * 0.8 */
-	height: 32px; /* 40px * 0.8 */
+	bottom: 10px; /* Scaled down from 12.8px */
+	width: 96px; /* Scaled down from 128px (0.75x) */
+	height: 24px; /* Scaled down from 32px (0.75x) */
 	text-align: left;
-	font-size: 22.34px; /* 27.93px * 0.8 */
+	font-size: 16.75px; /* Scaled down from 22.34px (0.75x) */
 	color: #000;
 	font-family: Helvetica;
 	z-index: 1000;
 	overflow: hidden;
 	transition: width 0.35s ease, opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 	/* Keep spacing consistent between text and arrow */
-	--text-gap: 4px;
+	--text-gap: 3px; /* Scaled down from 4px */
 }
 
 /* Variant 1 - Centered position */
@@ -24,19 +24,19 @@
 
 /* Variant 2 - Right aligned position (no collapse animations) */
 .component16.variant2 {
-	right: 6.4px; /* 8px * 0.8 */
+	right: 5px; /* Scaled down from 6.4px */
 	left: auto;
 	transform: translateX(0);
 	transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-	width: 32px; /* Square shape for variant 2 */
-	height: 32px;
-	border-radius: 6.4px; /* Square with rounded corners, not circular */
+	width: 24px; /* Scaled down from 32px (0.75x) */
+	height: 24px; /* Scaled down from 32px (0.75x) */
+	border-radius: 4.8px; /* Scaled down from 6.4px (0.75x) */
 }
 
 /* Override any collapse behavior for variant 2 */
 .component16.variant2 .component16Child {
 	transition: none;
-	border-radius: 6.4px; /* Square with rounded corners, not circular */
+	border-radius: 4.8px; /* Scaled down from 6.4px (0.75x) */
 }
 
 /* Bouncy fade in animation */
@@ -76,18 +76,18 @@
 	top: 0px;
 	right: 0%;
 	left: 0%;
-	border-radius: 6.4px; /* 8px * 0.8 */
-	background-color: #d9d9d9;
-	height: 32px; /* 40px * 0.8 */
+	border-radius: 4.8px; /* Scaled down from 6.4px (0.75x) */
+	background-color: rgba(217, 217, 217, 0.6); /* Decreased transparency from solid to 60% */
+	height: 24px; /* Scaled down from 32px (0.75x) */
 	transition: all 0.35s ease;
 }
 
 .vectorIcon {
 	position: absolute;
-	height: 15.36px; /* 19.2px * 0.8 */
-	width: 15.36px; /* 19.2px * 0.8 */
-	top: 8.32px; /* 10.4px * 0.8 */
-	right: 8.32px; /* 10.4px * 0.8 */
+	height: 11.52px; /* Scaled down from 15.36px (0.75x) */
+	width: 11.52px; /* Scaled down from 15.36px (0.75x) */
+	top: 6.24px; /* Scaled down from 8.32px (0.75x) */
+	right: 6.24px; /* Scaled down from 8.32px (0.75x) */
 	bottom: auto;
 	left: auto;
 	max-width: 100%;
@@ -108,7 +108,7 @@
 	position: absolute;
 	top: 5.12%; /* 6.4% * 0.8 */
 	left: 3.66%; /* 4.57% * 0.8 */
-	right: calc(8.32px + var(--text-gap));
+	right: calc(6.24px + var(--text-gap)); /* Scaled down from 8.32px (0.75x) */
 	letter-spacing: 0.04em;
 	line-height: 122.71%;
 	transition: color 0.35s ease, transform 0.35s ease;
@@ -118,9 +118,9 @@
 
 /* Collapsed state styles */
 .component16.collapsed {
-	width: 32px; /* 40px * 0.8 */
-	background-color: #ede9e4;
-	border-radius: 6.4px; /* 8px * 0.8 */
+	width: 24px; /* Scaled down from 32px (0.75x) */
+	background-color: rgba(237, 233, 228, 0.6); /* Decreased transparency */
+	border-radius: 4.8px; /* Scaled down from 6.4px (0.75x) */
 }
 
 /* Ensure collapsed state works with both centered and moved states */
@@ -131,20 +131,20 @@
 }
 
 .component16.collapsed.movedToRight {
-	right: 6.4px; /* 8px * 0.8 */
+	right: 5px; /* Scaled down from 6.4px (0.75x) */
 	left: auto;
 	transform: translateX(0);
 }
 
 .component16.collapsed .component16Child {
-	background-color: #ede9e4;
-	border: 1.28px solid #d9d9d9; /* 1.6px * 0.8 */
-	border-radius: 6.4px; /* 8px * 0.8 */
+	background-color: rgba(237, 233, 228, 0.6); /* Decreased transparency */
+	border: 0.96px solid rgba(217, 217, 217, 0.6); /* Scaled down and decreased transparency */
+	border-radius: 4.8px; /* Scaled down from 6.4px (0.75x) */
 }
 
 .component16.collapsed .scroll {
 	opacity: 0;
-	transform: translateX(-64px); /* -80px * 0.8 */
+	transform: translateX(-48px); /* Scaled down from -64px (0.75x) */
 	pointer-events: none;
 }
 

@@ -139,82 +139,25 @@
   opacity: 0.3;
 }
 
-/* Guide Animation Styles */
+/* Guide Animation Styles - Disabled */
 .menu__item--guide {
-  position: relative;
-  animation: guidePulse 2s ease-in-out infinite;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3);
-  border-radius: 8px;
-}
-
-@keyframes guidePulse {
-  0%, 100% {
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.1);
-    transform: scale(1.02);
-  }
+  /* Guide functionality removed */
 }
 
 .guide-tooltip {
-  position: absolute;
-  top: 50%;
-  right: -280px;
-  transform: translateY(-50%);
-  z-index: 1000;
-  pointer-events: none;
-  animation: tooltipFadeIn 0.5s ease-out 0.5s both;
+  display: none; /* Hide tooltip */
 }
 
 .guide-tooltip__content {
-  background: #007bff;
-  color: white;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  display: none; /* Hide tooltip content */
 }
 
 .guide-tooltip__arrow {
-  position: absolute;
-  left: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-right: 8px solid #007bff;
+  display: none; /* Hide tooltip arrow */
 }
 
 .guide-tooltip__text {
-  display: block;
-  animation: textPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes tooltipFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-50%) translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-}
-
-@keyframes textPulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
+  display: none; /* Hide tooltip text */
 }
 
 .menu__item:first-child {
@@ -381,59 +324,70 @@
   }
   
   .menu__item {
-    height: 85px;
-    min-height: 85px; /* Reduced height for mobile landscape */
+    height: 95px; /* Increased height for better touch targets */
+    min-height: 95px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add subtle border */
   }
   
   .menu__item-link {
     font-family: 'PP Editorial New', serif;
-    font-size: 1.4rem; /* Scaled down for mobile landscape */
+    font-size: 1.5rem; /* Slightly larger for better readability */
     letter-spacing: 0.02em;
-    padding-left: 1rem;
-    gap: 0.8rem; /* Smaller gap on mobile */
+    padding-left: 1.2rem;
+    gap: 1rem; /* Better spacing */
   }
   
   .menu__date {
-    font-size: 0.95rem;
-    margin-right: 0.8rem;
+    font-size: 1rem;
+    margin-right: 1rem;
     flex-shrink: 0;
   }
   
   .menu__title {
-    line-height: 1.06; /* Tighter line height on mobile */
+    line-height: 1.1; /* Better line height for mobile */
     flex: 1;
     min-width: 0;
-    max-width: 70%; /* Give more space for the title */
-    padding-right: 0.5rem; /* Add some padding to prevent text from touching date */
+    max-width: 75%; /* More space for title */
+    padding-right: 0.5rem;
   }
   
-  /* Smaller arrow on mobile */
+  /* Better arrow sizing for mobile */
   .menu__arrow {
-    width: 24px !important;
-    height: 24px !important;
+    width: 28px !important;
+    height: 28px !important;
   }
   
-  /* Disable hover animations on mobile landscape */
+  /* Improved hover states for mobile */
   .menu__item:hover .menu__bg {
     opacity: 0;
   }
   
   .menu__item--clickable:hover {
-    /* No movement needed */
+    background-color: rgba(0, 0, 0, 0.05); /* Subtle background on hover */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #ffffff;
+    color: #000000; /* Keep text black for better readability */
   }
   
-  /* Responsive tooltip for mobile */
+  /* Guide tooltip disabled */
   .guide-tooltip {
-    right: -220px;
+    display: none;
   }
   
-  .guide-tooltip__content {
-    font-size: 12px;
-    padding: 8px 12px;
+  /* Touch-friendly interactions */
+  .menu__item--clickable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .menu__item--clickable:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Remove color block on mobile */
+  .menu__item-link::before {
+    display: none;
   }
 }
 
@@ -480,6 +434,11 @@
   .menu__item--clickable .menu__item-link:hover {
     color: #ffffff;
   }
+  
+  /* Remove color block on mobile */
+  .menu__item-link::before {
+    display: none;
+  }
 }
 
 /* Mobile portrait */
@@ -489,64 +448,65 @@
   }
   
   .menu__item {
-    height: 75px;
-    min-height: 75px; /* Reduced height for mobile portrait */
+    height: 85px; /* Increased height for better touch targets */
+    min-height: 85px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add subtle border */
   }
   
   .menu__item-link {
     font-family: 'PP Editorial New', serif;
-    font-size: 1.2rem; /* Scaled down for mobile portrait */
+    font-size: 1.3rem; /* Slightly larger for better readability */
     letter-spacing: 0.02em;
-    padding-left: 0.8rem;
-    gap: 0.6rem; /* Even smaller gap on small mobile */
+    padding-left: 1rem;
+    gap: 0.8rem; /* Better spacing */
   }
   
   .menu__date {
-    font-size: 0.85rem;
-    margin-right: 0.9rem;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
   }
   
   .menu__title {
-    line-height: 1.03; /* Even tighter line height */
+    line-height: 1.1; /* Better line height */
     flex: 1;
     min-width: 0;
-    max-width: 75%; /* More width for small screens */
-    padding-right: 0.4rem;
+    max-width: 80%; /* More space for title on mobile portrait */
+    padding-right: 0.5rem;
   }
   
-  /* Disable hover animations on mobile portrait */
+  /* Better arrow sizing for mobile portrait */
+  .menu__arrow {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  
+  /* Improved hover states for mobile portrait */
   .menu__item:hover .menu__bg {
     opacity: 0;
   }
   
   .menu__item--clickable:hover {
-    /* No movement needed */
+    background-color: rgba(0, 0, 0, 0.05); /* Subtle background on hover */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #ffffff;
+    color: #000000; /* Keep text black for better readability */
   }
   
-  /* Mobile portrait tooltip - position above */
+  /* Touch-friendly interactions */
+  .menu__item--clickable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .menu__item--clickable:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Guide tooltip disabled */
   .guide-tooltip {
-    top: -60px;
-    right: 20px;
-    transform: translateY(0);
-  }
-  
-  .guide-tooltip__arrow {
-    left: 50%;
-    top: 100%;
-    transform: translateX(-50%);
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid #007bff;
-    border-bottom: none;
-  }
-  
-  .guide-tooltip__content {
-    font-size: 11px;
-    padding: 6px 10px;
+    display: none;
   }
 }
 
@@ -557,40 +517,63 @@
   }
   
   .menu__item {
-    height: 70px; /* Reduced height for small mobile */
-    min-height: 70px;
+    height: 80px; /* Increased height for better touch targets */
+    min-height: 80px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add subtle border */
   }
   
   .menu__item-link {
-    font-size: 1.1rem; /* Scaled down for small mobile */
-    padding-left: 0.8rem;
-    gap: 0.5rem; /* Minimal gap on very small screens */
+    font-size: 1.2rem; /* Slightly larger for better readability */
+    padding-left: 0.9rem;
+    gap: 0.7rem; /* Better spacing */
   }
   
   .menu__date {
-    font-size: 0.78rem;
-    margin-right: 0.8rem;
+    font-size: 0.85rem;
+    margin-right: 0.9rem;
+    flex-shrink: 0;
   }
   
   .menu__title {
-    line-height: 1.0; /* Minimal line height for very small screens */
+    line-height: 1.1; /* Better line height */
     flex: 1;
     min-width: 0;
-    max-width: 78%; /* Maximum space for text on very small screens */
-    padding-right: 0.3rem;
+    max-width: 82%; /* More space for text on very small screens */
+    padding-right: 0.4rem;
   }
   
-  /* Disable hover animations on small mobile devices */
+  /* Better arrow sizing for small mobile */
+  .menu__arrow {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  
+  /* Improved hover states for small mobile */
   .menu__item:hover .menu__bg {
     opacity: 0;
   }
   
   .menu__item--clickable:hover {
-    /* No movement needed */
+    background-color: rgba(0, 0, 0, 0.05); /* Subtle background on hover */
   }
   
   .menu__item--clickable .menu__item-link:hover {
-    color: #ffffff;
+    color: #000000; /* Keep text black for better readability */
+  }
+  
+  /* Touch-friendly interactions */
+  .menu__item--clickable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .menu__item--clickable:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Remove color block on mobile */
+  .menu__item-link::before {
+    display: none;
   }
 }
 

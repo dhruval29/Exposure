@@ -9,6 +9,7 @@ import '../styles/Gallery.css';
 const Events = () => {
 
   const [events, setEvents] = useState([]);
+  const [featuredEvents, setFeaturedEvents] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,17 +21,37 @@ const Events = () => {
   const eventsSectionRef = useRef(null);
   const lastScrollYRef = useRef(0);
   const shouldRestoreScrollRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Parallax removed for featured images
+
+  // Function to randomly select events for featured section
+  const selectRandomEvents = (eventsList) => {
+    if (eventsList.length === 0) return [];
+    
+    // Filter events that have cover images
+    const eventsWithImages = eventsList.filter(event => event.cover_image && event.cover_image.public_url);
+    
+    if (eventsWithImages.length === 0) return [];
+    
+    // If we have 1 or 2 events with images, return them
+    if (eventsWithImages.length <= 2) {
+      return eventsWithImages;
+    }
+    
+    // Randomly select 2 events from all uploaded events
+    const shuffled = [...eventsWithImages].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 2);
+  };
 
   // Set page size based on screen size
   useEffect(() => {
     const updatePageSize = () => {
       const width = window.innerWidth;
       if (width <= 360) {
-        setPageSize(9); // Small mobile devices - display 9 events
+        setPageSize(6); // Small mobile devices - display 6 events for better performance
       } else if (width <= 480) {
-        setPageSize(9); // Mobile portrait - display 9 events
+        setPageSize(8); // Mobile portrait - display 8 events
       } else if (width <= 768) {
         setPageSize(9); // Mobile landscape - display 9 events
       } else if (width <= 1024) {
@@ -45,6 +66,13 @@ const Events = () => {
     return () => window.removeEventListener('resize', updatePageSize);
   }, []);
 
+  // Track mobile vs desktop to control rendering of small text boxes
+  useEffect(() => {
+    const updateIsMobile = () => setIsMobile(window.innerWidth <= 768);
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+    return () => window.removeEventListener('resize', updateIsMobile);
+  }, []);
 
 
 
@@ -213,6 +241,10 @@ const Events = () => {
           });
           
           setEvents(sortedEvents);
+          
+          // Select random events for featured section from all uploaded events
+          const randomEvents = selectRandomEvents(sortedEvents);
+          setFeaturedEvents(randomEvents);
         }
       } catch (err) {
         setError('Failed to fetch events');
@@ -242,31 +274,14 @@ const Events = () => {
     }
   }, [searchTerm]);
 
-  // Show guide for first-time users
+  // Guide disabled - no longer showing highlight animation
   useEffect(() => {
-    const hasVisitedEvents = localStorage.getItem('hasVisitedEvents');
-    if (!hasVisitedEvents && events.length > 0) {
-      // Find the first event with a valid link
-      const firstClickableEvent = events.find(event => 
-        event.links && event.links.length > 0 && event.links[0] !== '#'
-      );
-      
-      if (firstClickableEvent) {
-        // Show guide after a short delay to let the page load
-        setTimeout(() => {
-          setShowGuide(true);
-        }, 2000);
-      }
-    }
+    // Guide functionality removed
   }, [events]);
 
-  // Handle user interaction to hide guide
+  // Guide disabled - no longer needed
   const handleUserInteraction = () => {
-    if (!hasInteracted) {
-      setHasInteracted(true);
-      setShowGuide(false);
-      localStorage.setItem('hasVisitedEvents', 'true');
-    }
+    // Guide functionality removed
   };
 
 
@@ -276,10 +291,6 @@ const Events = () => {
     const eventLink = (event.links && event.links.length > 0) ? event.links[0] : '#';
     const hasValidLink = eventLink !== '#' && eventLink && eventLink.trim() !== '';
     
-    // Check if this is the first clickable event for the guide
-    const isFirstClickable = showGuide && hasValidLink && 
-      filteredEvents.findIndex(e => e.links && e.links.length > 0 && e.links[0] !== '#') === index;
-    
     return {
       link: eventLink,
       text: event.title,
@@ -287,7 +298,7 @@ const Events = () => {
       description: event.description,
       monthYear: event.month_year,
       hasValidLink: hasValidLink,
-      showGuide: isFirstClickable,
+      showGuide: false, // Guide disabled
       onInteraction: handleUserInteraction
     };
   });
@@ -298,8 +309,18 @@ const Events = () => {
 
   const goToPage = (page) => {
     const clamped = Math.min(Math.max(page, 1), totalPages);
-    // Scroll to top smoothly and animate list transition
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // On mobile, scroll to events list instead of top
+    if (window.innerWidth <= 768) {
+      const eventsList = document.querySelector(`.${styles.eventsList}`);
+      if (eventsList) {
+        eventsList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      // Desktop behavior - scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     const el = listRef.current;
     if (el) {
       el.classList.add(styles.fadeOut);
@@ -325,12 +346,36 @@ const Events = () => {
       {/* Featured Events section - moved up */}
       <div className={styles.eventsSection} ref={eventsSectionRef}>
         <div className={styles.img2024101415521735Parent}>
-          <img className={styles.img2024101415521735Icon} alt="" src="/assets/images/Sliding Page/1.webp" />
-          <img className={styles.img2024101415521736Icon} alt="" src="/assets/images/Sliding Page/5.webp" />
-          <div className={styles.featured}>FEATURED</div>
-          <div className={styles.textBox}>
-            <p>hello</p>
-          </div>
+          {featuredEvents.length > 0 && (
+            <>
+              <img 
+                className={styles.img2024101415521735Icon} 
+                alt={featuredEvents[0].cover_image?.title || featuredEvents[0].title} 
+                src={featuredEvents[0].cover_image?.public_url || "/assets/images/Sliding Page/1.webp"} 
+              />
+              <div className={styles.textBox1}>{featuredEvents[0].title}</div>
+              
+            </>
+          )}
+          {featuredEvents.length > 1 && (
+            <>
+              <img 
+                className={styles.img2024101415521736Icon} 
+                alt={featuredEvents[1].cover_image?.title || featuredEvents[1].title} 
+                src={featuredEvents[1].cover_image?.public_url || "/assets/images/Sliding Page/5.webp"} 
+              />
+              <div className={styles.textBox1Second}>{featuredEvents[1].title}</div>
+              
+            </>
+          )}
+          {featuredEvents.length === 0 && (
+            <>
+              <img className={styles.img2024101415521735Icon} alt="" src="/assets/images/Sliding Page/1.webp" />
+              <div className={styles.textBox1}>Featured Event Title</div>
+              <img className={styles.img2024101415521736Icon} alt="" src="/assets/images/Sliding Page/5.webp" />
+              <div className={styles.textBox1Second}>Second Event Title</div>
+            </>
+          )}
         </div>
       </div>
       
@@ -355,6 +400,17 @@ const Events = () => {
             lastScrollYRef.current = window.scrollY;
             shouldRestoreScrollRef.current = true;
             setSearchTerm(e.target.value);
+          }}
+          onFocus={() => {
+            // On mobile, scroll to search input when focused
+            if (window.innerWidth <= 768) {
+              setTimeout(() => {
+                const searchContainer = document.querySelector(`.${styles.searchContainer}`);
+                if (searchContainer) {
+                  searchContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }, 100);
+            }
           }}
         />
       </div>

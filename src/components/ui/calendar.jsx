@@ -8,13 +8,13 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3 [&_.rdp-button]:!text-gray-600 [&_.rdp-button]:hover:!text-gray-800 [&_.rdp-day_selected]:!text-gray-800 [&_.rdp-caption_label]:!text-gray-700", className)}
+      className={cn("p-3 [&_.rdp-button]:!text-gray-600 [&_.rdp-button]:hover:!text-gray-800 [&_.rdp-day_selected]:!text-gray-800 [&_.rdp-caption_label]:!text-gray-700 [&_.rdp-dropdown]:!font-light [&_.rdp-dropdown]:!text-gray-700", className)}
       style={{ fontFamily: "'PP Editorial New', serif" }}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium text-gray-700",
+        caption_label: "text-sm font-light text-gray-700",
         nav: "space-x-1 flex items-center",
         nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-gray-600 hover:text-gray-800",
         nav_button_previous: "absolute left-1",

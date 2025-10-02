@@ -20,33 +20,8 @@ const Menu = ({ onClose }) => {
   };
 
   useEffect(() => {
-    if (!menuRef.current) return;
-
-    // Split text into individual words for animation
-    const words1 = ['Home,', 'Our', 'Journey,'];
-    const words2 = ['Featured,', 'Events,', 'Team'];
-
-    // Create animated word elements
-    const createAnimatedWords = (words, lineRef) => {
-      return words.map((word, index) => (
-        <span 
-          key={index}
-          ref={(el) => wordRefs.current.push(el)}
-          className={styles.animatedWord}
-          data-word-index={index}
-        >
-          {word}
-        </span>
-      ));
-    };
-
-    // Set words to visible state immediately - no animation
-    gsap.set(wordRefs.current, {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      scale: 1
-    });
+    // CSS animations will handle the text reveal - no GSAP needed
+    // The text elements start with opacity: 0 and animate in with cu-textReveal
   }, []);
 
   return (
