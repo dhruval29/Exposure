@@ -11,7 +11,6 @@ import NavigationMenu from './NavigationMenu'
 import StorytellingHero from './StorytellingHero'
 import Footer from './Footer'
 import HoverImage from './HoverImage'
-import StaggeredMenu from './StaggeredMenu'
 import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 import IPhone13141 from './IPhone13141'
@@ -862,18 +861,6 @@ const Landing = () => {
   
   const SLIDING_HEIGHT = getSlidingHeight()
 
-  const menuItems = [
-    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/' },
-    { label: 'Events', ariaLabel: 'View our events', link: '/events' },
-    { label: 'Team', ariaLabel: 'Meet our team', link: '/team' },
-    { label: 'Featured', ariaLabel: 'View featured gallery', link: '/pictures' }
-  ];
-
-  const socialItems = [
-    { label: 'Instagram', link: 'https://www.instagram.com/exposure.explorers_nitg/' },
-    { label: 'LinkedIn', link: 'https://www.linkedin.com/company/exposure-explorers/' },
-    { label: 'YouTube', link: 'https://www.youtube.com/@Exposure-Explorers' }
-  ];
 
   // Responsive section height for different mobile device sizes
   const getNewSectionHeight = () => {
@@ -978,25 +965,6 @@ const Landing = () => {
         showText={showNavTitle}
       />
       
-      {/* StaggeredMenu */}
-      {!isMenuHidden && (
-        <StaggeredMenu
-          position="right"
-          items={menuItems}
-          socialItems={socialItems}
-          displaySocials={true}
-          displayItemNumbering={false}
-          menuButtonColor="#000"
-          openMenuButtonColor="#000"
-          changeMenuColorOnOpen={true}
-          colors={['#B19EEF', '#5227FF']}
-          logoUrl="/src/assets/logos/reactbits-gh-white.svg"
-          accentColor="#ff6b6b"
-          headerSlidingUp={isMenuSlidingUp}
-          onMenuOpen={() => {}}
-          onMenuClose={() => {}}
-        />
-      )}
       
       {/* Mobile title overlay removed as requested */}
 

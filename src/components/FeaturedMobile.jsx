@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import StaggeredMenuFinal from './StaggeredMenuFinal';
 import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
+import SimpleNav from './SimpleNav';
 
 const FeaturedMobile = () => {
   const [loading, setLoading] = useState(true);
@@ -15,12 +15,6 @@ const FeaturedMobile = () => {
   const loadingPageRef = useRef(null);
   const modalRef = useRef(null);
 
-  const menuItems = [
-    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
-    { label: 'Team', ariaLabel: 'View team page', link: '/team' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
-  ];
 
   const [images, setImages] = useState(() => {
     const boot = typeof window !== 'undefined' ? window.__BOOTSTRAP_FEATURED__ : null;
@@ -401,11 +395,13 @@ const FeaturedMobile = () => {
   };
 
   return (
-    <div
-      className="gallery-container gallery-mobile"
-      style={{
-        overflowY: 'auto',
-        minHeight: '100vh'
+    <>
+      <SimpleNav />
+      <div
+        className="gallery-container gallery-mobile"
+        style={{
+          overflowY: 'auto',
+          minHeight: '100vh'
       }}
     >
       {/* Shutter Loader Overlay */}
@@ -442,26 +438,7 @@ const FeaturedMobile = () => {
         </div>
       )}
 
-      {/* Mobile Navigation Brand Text */}
-      <div className="mobileNavBrand">
-        <div className="brandLine1">EXPOSURE</div>
-        <div className="brandLine2">EXPLORERS</div>
-      </div>
       
-      <StaggeredMenuFinal
-        position="right"
-        items={menuItems}
-        displaySocials={true}
-        displayItemNumbering={false}
-        menuButtonColor="#000"
-        openMenuButtonColor="#000"
-        changeMenuColorOnOpen={true}
-        colors={["#fde68a", "#fecaca"]}
-        logoUrl="/assets/icons/new-arrow.svg"
-        accentColor="#6b7280"
-        onMenuOpen={() => {}}
-        onMenuClose={() => {}}
-      />
 
       {/* Main Content - Mobile Grid Only */}
       <main
@@ -591,6 +568,7 @@ const FeaturedMobile = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

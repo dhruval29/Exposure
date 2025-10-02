@@ -1,5 +1,6 @@
 import styles from './Frame37.module.css';
 import Lanyard from './Lanyard/Lanyard';
+import SimpleNav from './SimpleNav';
 
 const MembersPage = () => {
   const items = Array.from({ length: 6 }).map((_, idx) => ({
@@ -12,7 +13,9 @@ const MembersPage = () => {
   }));
 
   return (
-    <div className={styles.frameParent}>
+    <>
+      <SimpleNav />
+      <div className={styles.frameParent}>
       <div className={styles.lineParent}>
         <div className={styles.frameChild} />
         <div className={styles.frameItem} />
@@ -35,6 +38,7 @@ const MembersPage = () => {
       <b className={styles.the}>{`the `}</b>
       <b className={styles.team}>team</b>
     </div>
+    </>
   );
 };
 

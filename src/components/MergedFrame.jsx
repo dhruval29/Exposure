@@ -121,13 +121,16 @@ const MergedFrame = () => {
 							// Calculate cumulative delay: line offset + word offset (reduced per-word delay)
 							const lineOffset = lineIndex * 700 // Keep line spacing consistent
 							const wordOffset = wordIndex * 60 // Reduced per-word delay from 100ms to 60ms
-							const totalDelay = lineOffset + wordOffset
 							
-							setTimeout(() => {
-								entry.target.classList.add(styles.play)
-								// Stop observing this element after animation starts
-								textObserver.unobserve(entry.target)
-							}, totalDelay)
+							// Make Frame 3 (frameIndex 2) appear earlier by reducing its delay
+							const frameDelay = frameIndex === 2 ? -300 : 0 // Frame 3 starts 300ms earlier
+							const totalDelay = Math.max(0, lineOffset + wordOffset + frameDelay)
+							
+                            setTimeout(() => {
+                                entry.target.classList.add(styles.play)
+                                // Stop observing this element after animation starts
+                                textObserver.unobserve(entry.target)
+                            }, totalDelay)
 						}
 					}
 				})
@@ -150,29 +153,26 @@ const MergedFrame = () => {
 		}
 	}, [])
 
-	// Trigger for lorem inner slide based on Frame 2 main text container visibility
-	useEffect(() => {
-		const target = document.getElementById('loremInner')
-		const triggerEl = frame2TextRef.current
-		if (!target || !triggerEl) return
+    // Trigger lorem inner slide/fade based on its own visibility
+    useEffect(() => {
+        const target = document.getElementById('loremInner')
+        if (!target) return
 
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						setTimeout(() => {
-							target.classList.add(styles.play)
-							observer.unobserve(entry.target)
-						}, 400)
-					}
-				})
-			},
-			{ threshold: 0.35, rootMargin: '0px 0px -80px 0px' }
-		)
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        target.classList.add(styles.play)
+                        observer.unobserve(entry.target)
+                    }
+                })
+            },
+            { threshold: 0.25, rootMargin: '0px 0px -60px 0px' }
+        )
 
-		observer.observe(triggerEl)
-		return () => observer.disconnect()
-	}, [])
+        observer.observe(target)
+        return () => observer.disconnect()
+    }, [])
 
 	// Removed lorem container animation
 

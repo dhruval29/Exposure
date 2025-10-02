@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Frame66 from './Frame66';
 import './TeamPage.css';
 import '../styles/Gallery.css';
+import SimpleNav from './SimpleNav';
 
 const TeamPage = () => {
   const [loading, setLoading] = useState(true);
@@ -18,7 +19,9 @@ const TeamPage = () => {
   }, []);
 
   return (
-    <div className="team-page">
+    <>
+      <SimpleNav />
+      <div className="team-page">
       {loading && (
         <div className="c-loading-page" ref={loadingPageRef}>
           <div className="c-loading-page__content">
@@ -35,6 +38,7 @@ const TeamPage = () => {
 
       <Frame66 />
     </div>
+    </>
   );
 };
 

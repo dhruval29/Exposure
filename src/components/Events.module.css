@@ -34,6 +34,12 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
+/* Image reveal: slight scale-down + fade, matching page style */
+@keyframes cu-imageReveal {
+  0% { opacity: 0; transform: translateY(10px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* Events gradient animation */
 @keyframes eventsGradientShift {
   0% { background-position: 0% 50%; }
@@ -165,8 +171,8 @@
 
 .eventsTitleContainer {
   position: absolute;
-  top: 780px !important; /* moved down to align with flowing menu */
-  right: 30px; /* positioned on the right side for desktop */
+  top: 100vh; /* viewport-based for responsiveness */
+  right: 1.56%; /* 30px / 1920px = 1.56% for desktop */
   z-index: 3;
   opacity: 0;
   transform: translateY(10px);
@@ -185,8 +191,8 @@
 
 .searchContainer {
   position: absolute;
-  top: 780px !important; /* moved down to align with flowing menu */
-  left: 30px; /* positioned on the left side for desktop */
+  top: calc(100vh + 60px) !important; /* viewport-based with extra spacing below title */
+  left: 1.56%; /* 30px / 1920px = 1.56% for desktop */
   border-radius: 47.78px;
   background-color: #d9d9d9;
   width: 20%;
@@ -231,20 +237,29 @@
 .img2024101415521735Icon {
   position: absolute;
   top: 7.5%; /* aligned with right image's top border */
-  left: 8%; /* moved right from 2% */
-  width: 45%; /* increased width to reduce space between images */
-  height: 68%; /* reduced height by 20% (85% - 17% = 68%) */
+  left: 60%; /* shifted right to account for larger left image */
+  width: 38%; /* make right image narrower */
+  height: 63%; /* reduced by 5% */
   object-fit: cover;
+  will-change: transform;
+  transform-origin: center center;
+  opacity: 0;
+  animation: cu-imageReveal 700ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 120ms);
 }
 
 .img2024101415521736Icon {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 54%; /* increased space between images */
-  width: 45%; /* increased width to reduce space between images */
-  height: 85%; /* increased height for larger section */
+  top: 7.5%; /* align top with left image */
+  left: 8%; /* keep on left side */
+  width: 45%; /* make left image wider */
+  height: 80%; /* reduced by 5% */
   object-fit: cover;
+  will-change: transform;
+  transform-origin: center center;
+  opacity: 0;
+  animation: cu-imageReveal 720ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 160ms);
 }
 
 .featured {
@@ -256,13 +271,17 @@
   font-weight: 400;
   margin: 0;
   color: #000;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 60ms);
 }
 
 .textBox {
   position: absolute;
   bottom: 8%; /* aligned with right image's bottom border */
-  left: 8%; /* aligned with left image */
-  width: 45%; /* same width as left image */
+  left: 60%; /* align with right image's left edge */
+  width: 38%; /* match right image width to prevent overflow */
   height: 17%; /* height to match the space below left image */
   background: transparent;
   display: flex;
@@ -272,10 +291,14 @@
 
 .textBox p {
   margin: 0;
-  font-size: 72px;
+  font-size: 56px;
   font-family: 'PP Editorial New', serif;
   color: #000;
   font-weight: 400;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cu-textReveal 600ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 200ms);
 }
 
 .searchInput {
@@ -300,7 +323,7 @@
 }
 
 .eventsList {
-  margin-top: 40px; /* Add space between Events title/search bar and flowing menu */
+  margin-top: 36%; /* Push FlowingMenu down using percentage */
 }
 
 .magnifyingGlassSvgrepoCom1Icon {
@@ -322,7 +345,7 @@
 
 .eventsList {
   position: relative; /* Changed from absolute to relative */
-  margin-top: 120px; /* Increased space between search and events list */
+  margin-top: calc(120px + 10vh); /* Increased space between search and events list */
   left: 0;
   right: 0;
   padding: 0 20px;
@@ -400,7 +423,7 @@
   .events2 {
     font-size: 88px; /* scaled up for tablet */
     top: 75px; /* reduced top margin for tablet */
-    left: 40px; /* original tablet positioning */
+    left: 4.17%; /* 40px / 960px = 4.17% for tablet */
     height: 55px;
   }
   
@@ -408,8 +431,8 @@
     width: 180px;
     max-width: 180px;
     height: 38px;
-    top: 280px !important; /* moved down to align with flowing menu */
-    left: 400px; /* moved more to the right for tablet */
+    top: 135px !important; /* align with events heading on tablet with spacing */
+    left: 41.67%; /* 400px / 960px = 41.67% for tablet */
   }
   
   .searchInput {
@@ -429,7 +452,7 @@
   
   .eventsList {
     position: relative; /* Changed from absolute to relative */
-    margin-top: 80px; /* Increased space for tablet */
+    margin-top: 16%; /* Increased space for tablet */
     padding: 0 20px;
   }
 }
@@ -448,7 +471,7 @@
   .events2 {
     font-size: 78px; /* 1.5x scaled for mobile landscape (52px * 1.5) */
     top: 68px; /* reduced top margin for mobile landscape */
-    left: 20px; /* original mobile landscape positioning */
+    left: 2.78%; /* 20px / 720px = 2.78% for mobile landscape */
     height: 63px;
   }
   
@@ -456,13 +479,13 @@
     width: 160px;
     max-width: 160px;
     height: 30px;
-    top: 300px !important; /* moved down to align with flowing menu */
-    left: 260px; /* moved right for mobile landscape */
+    top: 128px !important; /* align with events heading on mobile landscape with spacing */
+    left: 36.11%; /* 260px / 720px = 36.11% for mobile landscape */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
   .eventsList {
-    margin-top: 25px; /* reduced margin for mobile landscape */
+    margin-top: 29%; /* push down on mobile landscape */
   }
   
   .searchInput {
@@ -482,7 +505,7 @@
   
   .eventsList {
     position: relative; /* Changed from absolute to relative */
-    margin-top: 60px; /* Increased margin for mobile landscape */
+    margin-top: 26%; /* Increased margin for mobile landscape */
     padding: 0 14px;
   }
 }
@@ -501,7 +524,7 @@
   .events2 {
     font-size: 60px; /* 1.5x scaled for mobile portrait (40px * 1.5) */
     top: 60px; /* reduced top margin for mobile portrait */
-    left: 15px; /* original mobile portrait positioning */
+    left: 3.13%; /* 15px / 480px = 3.13% for mobile portrait */
     height: 54px;
   }
   
@@ -509,8 +532,8 @@
     width: 140px;
     max-width: 140px;
     height: 26px;
-    top: 280px !important; /* moved down to align with flowing menu */
-    left: 240px; /* moved right for mobile portrait */
+    top: 120px !important; /* align with events heading on mobile portrait with spacing */
+    left: 50%; /* 240px / 480px = 50% for mobile portrait */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
@@ -531,7 +554,7 @@
   
   .eventsList {
     position: relative; /* Changed from absolute to relative */
-    margin-top: 50px; /* Increased space for mobile portrait */
+    margin-top: 23%; /* Increased space for mobile portrait */
     padding: 0 10px;
   }
 }
@@ -549,7 +572,7 @@
   .events2 {
     font-size: 48px; /* 1.5x scaled for small mobile (32px * 1.5) */
     top: 54px; /* reduced top margin for small mobile */
-    left: 10px; /* original small mobile positioning */
+    left: 2.78%; /* 10px / 360px = 2.78% for small mobile */
     height: 48px;
   }
   
@@ -557,8 +580,8 @@
     width: 120px;
     max-width: 120px;
     height: 24px;
-    top: 82px; /* moved up 20px from base of Events heading (54px + 48px - 20px) */
-    left: 200px; /* moved right for small mobile */
+    top: 114px; /* align with events heading on small mobile with spacing */
+    left: 55.56%; /* 200px / 360px = 55.56% for small mobile */
     padding: 0 8px 0 10px; /* 40% of desktop: 20px->8px, 24px->10px */
   }
   
@@ -579,7 +602,7 @@
   
   .eventsList {
     position: relative; /* Changed from absolute to relative */
-    margin-top: 40px; /* Increased space for small mobile */
+    margin-top: 21%; /* Increased space for small mobile */
     padding: 0 5px;
   }
 }
@@ -604,15 +627,15 @@
   .events2 {
     font-size: 120px; /* original large screen size */
     top: 75px; /* added 15px to original 60px for large screens */
-    left: 65px; /* original large screen positioning */
+    left: 3.39%; /* 65px / 1920px = 3.39% for large screens */
     height: 80px;
   }
   
   .searchContainer {
     width: 50%;
     height: 60px;
-    top: 140px; /* added 15px to align with new Events title position */
-    right: 20px; /* positioned on the right side for large screens */
+    top: calc(100vh + 80px); /* align with events title on large screens with spacing */
+    right: 1.04%; /* 20px / 1920px = 1.04% for large screens */
   }
   
   .searchInput {
@@ -632,7 +655,7 @@
   
   .eventsList {
     position: relative; /* Changed from absolute to relative */
-    margin-top: 100px; /* Increased space for extra large screens */
+    margin-top: 16%; /* Increased space for extra large screens */
     padding: 0 20px;
   }
 }

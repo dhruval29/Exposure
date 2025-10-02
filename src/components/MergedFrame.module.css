@@ -154,7 +154,8 @@
 /* Lorem inner text slides inside fixed container */
 .loremInner {
     transform: translateX(-100%);
-    will-change: transform;
+    opacity: 0;
+    will-change: transform, opacity;
     animation: loremTextSlide 0.9s ease-out forwards;
     animation-play-state: paused;
 }
@@ -164,8 +165,8 @@
 }
 
 @keyframes loremTextSlide {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(0); }
+    0% { transform: translateX(-100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
 }
 
 /* Frame 3 Section - Bottom 100vh (200vh to 300vh) */

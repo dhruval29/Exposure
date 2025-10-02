@@ -20,23 +20,54 @@
   height: calc(422 / 776 * 100%);
 }
 
+/* Marquee setup */
+.marqueeViewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.marqueeTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200%;
+  display: flex;
+  animation: teamMarquee 32s linear infinite;
+}
+
+.group {
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+
+@keyframes teamMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .component18Child {
   position: absolute;
-  width: 14.24%;
-  top: 0;
-  right: 56.8%;
-  left: 28.97%;
+  width: 11%;
+  top: calc(42 / 422 * 100%);
+  left: 30.395%;
+  right: 58.605%;
   border-radius: 20px;
   background-color: #d9d9d9;
-  height: 100%;
+  height: calc(379.8 / 422 * 100%);
 }
 
 .component18Item {
   position: absolute;
-  width: 12.82%;
+  width: 11%;
   top: calc(42 / 422 * 100%);
-  right: 41.59%;
-  left: 45.59%;
+  left: 44.505%;
+  right: 44.495%;
   border-radius: 20px;
   background-color: #d9d9d9;
   height: calc(379.8 / 422 * 100%);
@@ -44,10 +75,10 @@
 
 .component18Inner {
   position: absolute;
-  width: 12.81%;
+  width: 11%;
   top: calc(42 / 422 * 100%);
-  right: 73.4%;
-  left: 13.79%;
+  left: 16.295%;
+  right: 72.705%;
   border-radius: 20px;
   background-color: #d9d9d9;
   height: calc(379.8 / 422 * 100%);
@@ -55,46 +86,46 @@
 
 .rectangleDiv {
   position: absolute;
-  width: 11.39%;
-  top: calc(84 / 422 * 100%);
-  right: 27.57%;
-  left: 61.04%;
+  width: 11%;
+  top: calc(42 / 422 * 100%);
+  left: 58.605%;
+  right: 30.395%;
   border-radius: 20px;
   background-color: #d9d9d9;
-  height: calc(337.6 / 422 * 100%);
+  height: calc(379.8 / 422 * 100%);
 }
 
 .\31 8ParentComponent18Child {
   position: absolute;
-  width: 11.39%;
-  top: calc(84 / 422 * 100%);
-  right: 13.79%;
-  left: 74.83%;
+  width: 11%;
+  top: calc(42 / 422 * 100%);
+  left: 72.705%;
+  right: 16.295%;
   border-radius: 20px;
   background-color: #d9d9d9;
-  height: calc(337.6 / 422 * 100%);
+  height: calc(379.8 / 422 * 100%);
 }
 
 .component18Child2 {
   position: absolute;
-  width: 11.39%;
-  top: calc(84 / 422 * 100%);
-  right: 0%;
-  left: 88.61%;
+  width: 11%;
+  top: calc(42 / 422 * 100%);
+  left: 86.805%;
+  right: 2.195%;
   border-radius: 20px;
   background-color: #d9d9d9;
-  height: calc(337.6 / 422 * 100%);
+  height: calc(379.8 / 422 * 100%);
 }
 
 .component18Child3 {
   position: absolute;
-  width: 11.4%;
-  top: calc(84 / 422 * 100%);
-  right: 88.6%;
-  left: 0%;
+  width: 11%;
+  top: calc(42 / 422 * 100%);
+  left: 2.195%;
+  right: 86.805%;
   border-radius: 20px;
   background-color: #d9d9d9;
-  height: calc(337.6 / 422 * 100%);
+  height: calc(379.8 / 422 * 100%);
 }
 
 .meetOurTeamContainer { /* left: 70px; top: 89px */

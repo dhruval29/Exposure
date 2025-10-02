@@ -1,0 +1,233 @@
+.menu {
+  	width: 100%;
+  	position: relative;
+  	background-color: #fdefc9;
+  	height: 100vh; /* Changed from fixed 776px to viewport height */
+  	overflow: hidden;
+  	text-align: left;
+  	font-size: 6vw; /* Changed from fixed 96px to viewport width responsive */
+  	color: #000;
+  	font-family: 'PP Editorial New';
+}
+
+.homeOurJourneyContainer {
+  	position: absolute;
+  	top: 31.7%; /* Changed from fixed 246px to percentage (246/776 = 31.7%) */
+  	left: 10.2%; /* Changed from fixed 196px to percentage (196/1920 = 10.2%) */
+}
+
+.homeOurJourney {
+	margin: 0 0 0.3em 0; /* Subtle line spacing between words */
+	line-height: 1.2; /* Moderate line height */
+}
+
+.animatedWord {
+	display: inline-block;
+	opacity: 1;
+	transform: none;
+	filter: none;
+	transition: none;
+	background: none;
+	border: none !important;
+	padding: 0;
+	margin: 0 0.2em 0 0;
+	outline: none;
+	box-shadow: none !important;
+	-webkit-tap-highlight-color: transparent;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	letter-spacing: inherit;
+	position: relative;
+}
+
+.animatedWord:focus,
+.animatedWord:active,
+.animatedWord:hover,
+.animatedWord:visited {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	background: none !important;
+}
+
+.animatedWord::after {
+	content: '';
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: currentColor;
+	transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+
+.animatedWord:hover::after {
+	width: 100%;
+	transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Exclude commas from underline - only underline the text part */
+.animatedWord[data-word-index="0"]:hover::after,
+.animatedWord[data-word-index="1"]:hover::after,
+.animatedWord[data-word-index="2"]:hover::after {
+	width: calc(100% - 0.4em); /* Subtract space for comma */
+}
+
+/* Responsive adjustments for different screen sizes */
+
+/* Desktop and large screens */
+@media (min-width: 1440px) {
+  	.menu {
+    		font-size: 96px; /* Keep original size for large screens */
+  	}
+  	
+  	.homeOurJourneyContainer {
+    		left: 10.2%; /* 196px / 1920px = 10.2% */
+  	}
+}
+
+/* Standard desktop */
+@media (min-width: 1025px) and (max-width: 1439px) {
+  	.menu {
+    		font-size: 5.5vw; /* Slightly smaller for standard desktop */
+  	}
+  	
+  	.homeOurJourneyContainer {
+    		left: 10.5%; /* Adjust for standard desktop */
+  	}
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  	.menu {
+    		font-size: 5vw; /* Smaller for tablet */
+  	}
+  	
+  	.homeOurJourneyContainer {
+    		top: 32%; /* Slightly adjust top position */
+    		left: 8%; /* More left margin for tablet */
+  	}
+}
+
+/* Mobile landscape */
+@media (min-width: 481px) and (max-width: 768px) {
+  	.menu {
+    		font-size: 4.5vw; /* Smaller for mobile landscape */
+  	}
+  	
+  	.homeOurJourneyContainer {
+    		top: 33%; /* Adjust for mobile landscape */
+    		left: 6%; /* More left margin for mobile */
+  	}
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  	.menu {
+    		font-size: 4vw; /* Smallest for mobile portrait */
+  	}
+  	
+  	.homeOurJourneyContainer {
+    		top: 34%; /* Adjust for mobile portrait */
+    		left: 5%; /* Maximum left margin for mobile */
+  	}
+}
+
+/* Small mobile devices */
+@media (max-width: 360px) {
+  .menu {
+    font-size: 3.5vw; /* Even smaller for very small screens */
+  }
+  
+  .homeOurJourneyContainer {
+    top: 35%; /* Adjust for very small screens */
+    left: 4%; /* Maximum left margin */
+  }
+}
+
+/* Desktop Layout - Show horizontal layout */
+.desktopLayout {
+  display: block;
+}
+
+.mobileLayout {
+  display: none;
+}
+
+/* Mobile Layout - Vertical List with Always-Visible Underlines */
+@media (max-width: 768px) {
+  .desktopLayout {
+    display: none;
+  }
+  
+  .mobileLayout {
+    display: block;
+  }
+  
+  .mobileMenuList {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+    padding: 0 2rem;
+  }
+  
+  .mobileMenuItem {
+    font-family: 'PP Editorial New', serif;
+    font-size: clamp(24px, 6vw, 36px);
+    color: #000;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  
+  .mobileMenuItem:focus,
+  .mobileMenuItem:active,
+  .mobileMenuItem:hover,
+  .mobileMenuItem:visited {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: none !important;
+  }
+  
+  /* Always visible underline for mobile */
+  .mobileMenuItem::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    transition: none; /* No hover animation on mobile */
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1920px) {
+  	.menu {
+    		font-size: 96px; /* Keep original size for very large screens */
+  	}
+  	
+  	.homeOurJourneyContainer {
+    		left: 10.2%; /* Maintain percentage for consistency */
+  	}
+}

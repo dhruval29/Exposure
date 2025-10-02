@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabaseClient';
 import { Calendar24 } from '@/components/Calendar24';
 import gsap from 'gsap';
 import '../styles/Gallery.css';
+import SimpleNav from './SimpleNav';
 
 
 const ContactUs = () => {
@@ -124,7 +125,9 @@ const ContactUs = () => {
 	};
 
 	return (
-		<div id="contact" className={styles.contactUs}>
+		<>
+			<SimpleNav />
+			<div id="contact" className={styles.contactUs}>
 			{/* Shutter Loader Overlay */}
 			{showLoader && (
 				<div
@@ -237,7 +240,9 @@ const ContactUs = () => {
 						</button>
 				</div>
 				{submitMsg && <div className={styles.submitMsg}>{submitMsg}</div>}
-		</div>);
+		</div>
+		</>
+	);
 };
 
 export default ContactUs;

@@ -1,20 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import styles from './Events.module.css';
 import FlowingMenu from './FlowingMenu';
-import StaggeredMenuFinal from './StaggeredMenuFinal';
 import Frame50 from './Frame50';
+import SimpleNav from './SimpleNav';
 import { supabase } from '../lib/supabaseClient';
 import '../styles/Gallery.css';
 
 const Events = () => {
-  const menuItems = [
-    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'Our Journey', ariaLabel: 'Go to our journey page', link: '/our-journey' },
-    { label: 'Featured', ariaLabel: 'View featured content', link: '/pictures' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
-  ];
 
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
@@ -26,48 +18,10 @@ const Events = () => {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showPagination, setShowPagination] = useState(false);
   const eventsSectionRef = useRef(null);
+  const lastScrollYRef = useRef(0);
+  const shouldRestoreScrollRef = useRef(false);
 
-  // Register ScrollTrigger and setup smooth scroll
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      if (eventsSectionRef.current) {
-        // Create smooth scroll effect for the Featured section
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: eventsSectionRef.current,
-            start: 'top top',
-            end: '+=80vh', // Match the section height
-            scrub: 1.5, // Smooth scroll speed
-            pin: false, // Don't pin, just smooth scroll
-            markers: false,
-            anticipatePin: 1,
-          },
-          defaults: { ease: 'none' },
-        });
-
-        // Add subtle parallax effect to the images - move opposite direction when scrolling
-        const leftImage = eventsSectionRef.current?.querySelector(`.${styles.img2024101415521735Icon}`);
-        const rightImage = eventsSectionRef.current?.querySelector(`.${styles.img2024101415521736Icon}`);
-        
-        if (leftImage && rightImage) {
-          // Set initial position (original position when page loads)
-          gsap.set([leftImage, rightImage], { y: 0, opacity: 1 });
-          
-          // Parallax effect - move up when scrolling down
-          tl.fromTo(
-            [leftImage, rightImage],
-            { y: 0, opacity: 1 },
-            { y: -30, opacity: 0.9, duration: 1, ease: 'power2.out' },
-            0
-          );
-        }
-      }
-    }, eventsSectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  // Parallax removed for featured images
 
   // Set page size based on screen size
   useEffect(() => {
@@ -280,6 +234,14 @@ const Events = () => {
     setCurrentPage(1);
   }, [searchTerm]);
 
+  // Prevent unintended page movement when search results update
+  useLayoutEffect(() => {
+    if (shouldRestoreScrollRef.current) {
+      window.scrollTo({ top: lastScrollYRef.current, left: 0, behavior: 'auto' });
+      shouldRestoreScrollRef.current = false;
+    }
+  }, [searchTerm]);
+
   // Show guide for first-time users
   useEffect(() => {
     const hasVisitedEvents = localStorage.getItem('hasVisitedEvents');
@@ -356,33 +318,15 @@ const Events = () => {
 
   return (
     <>
+      <SimpleNav />
       <Frame50 />
       <div className={styles.events}>
-      {/* Navigation Brand Text */}
-      <div className={styles.mobileNavBrand}>
-        <div className={styles.brandLine1}>EXPOSURE</div>
-        <div className={styles.brandLine2}>EXPLORERS</div>
-      </div>
       
-      <StaggeredMenuFinal
-        position="right"
-        items={menuItems}
-        displaySocials={true}
-        displayItemNumbering={false}
-        menuButtonColor="#000"
-        openMenuButtonColor="#000"
-        changeMenuColorOnOpen={true}
-        colors={["#fecaca", "#fde68a"]}
-        logoUrl="/assets/icons/new-arrow.svg"
-        accentColor="#6b7280"
-        onMenuOpen={() => {}}
-        onMenuClose={() => {}}
-      />
       {/* Featured Events section - moved up */}
       <div className={styles.eventsSection} ref={eventsSectionRef}>
         <div className={styles.img2024101415521735Parent}>
-          <img className={styles.img2024101415521735Icon} alt="" src="https://picsum.photos/600/400?random=1" />
-          <img className={styles.img2024101415521736Icon} alt="" src="https://picsum.photos/600/400?random=2" />
+          <img className={styles.img2024101415521735Icon} alt="" src="/assets/images/Sliding Page/1.webp" />
+          <img className={styles.img2024101415521736Icon} alt="" src="/assets/images/Sliding Page/5.webp" />
           <div className={styles.featured}>FEATURED</div>
           <div className={styles.textBox}>
             <p>hello</p>
@@ -406,7 +350,12 @@ const Events = () => {
           placeholder="Search events..." 
           className={styles.searchInput}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            // Capture current scroll position and restore it after results render
+            lastScrollYRef.current = window.scrollY;
+            shouldRestoreScrollRef.current = true;
+            setSearchTerm(e.target.value);
+          }}
         />
       </div>
       

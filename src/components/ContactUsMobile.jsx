@@ -2,6 +2,7 @@ import React from 'react';
 import './ContactUsMobile.css';
 import { supabase } from '../lib/supabaseClient';
 import { Calendar24 } from '@/components/Calendar24';
+import SimpleNav from './SimpleNav';
 
 const BASE_DELAY_MS = 500;
 
@@ -49,7 +50,9 @@ export default function ContactUsMobile() {
     }
   };
   return (
-    <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw' }}>
+    <>
+      <SimpleNav />
+      <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw' }}>
       <div style={{ marginBottom: '7vh' }}>
         <h1 className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '2vh', marginBottom: 16, animationDelay: `${BASE_DELAY_MS}ms` }}>
           Contact
@@ -146,6 +149,7 @@ export default function ContactUsMobile() {
         )}
       </div>
     </div>
+    </>
   );
 }
 

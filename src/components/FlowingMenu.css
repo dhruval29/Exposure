@@ -75,19 +75,9 @@
   animation-delay: calc(var(--cu-delay-base) + 120ms); /* same timing as Events title */
 }
 
+/* Disable image-on-hover background and replace with color block animation */
 .menu__bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: contrast(1.05) brightness(0.9);
-  opacity: 0;
-  transition: opacity 300ms ease-in;
-  z-index: 0;
+  display: none;
 }
 
 /* subtle grain overlay */
@@ -101,9 +91,32 @@
   pointer-events: none;
 }
 
-.menu__item:hover .menu__bg {
-  opacity: 0.4;
-  filter: blur(2px);
+/* Sliding color block under text on hover */
+.menu__item-link {
+  position: relative;
+  z-index: 3;
+  overflow: hidden; /* contain the sliding block */
+}
+
+.menu__item-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: #393424; /* block color updated per request */
+  transform: translateY(100%);
+  /* Match arrow speed (~600ms) with strong end deceleration */
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  z-index: 0; /* sit behind text */
+}
+
+.menu__item:hover .menu__item-link::before {
+  transform: translateY(0);
+  /* Keep same timing so block and arrow feel synchronized */
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .menu__item--clickable:hover {
@@ -111,7 +124,7 @@
 }
 
 .menu__item--clickable .menu__item-link:hover {
-  color: #ffffff;
+  color: #ffffff; /* contrast with block */
 }
 
 .menu__item--disabled {
@@ -263,6 +276,19 @@
   letter-spacing: 0.05em;
   white-space: nowrap; /* Prevent date from wrapping to multiple lines */
   flex-shrink: 0; /* Prevent date from shrinking */
+}
+
+/* Ensure text sits above the sliding block */
+.menu__title,
+.menu__date,
+.menu__arrow--animated {
+  position: relative;
+  z-index: 1;
+}
+
+/* Also invert date color on hover for contrast */
+.menu__item--clickable:hover .menu__date {
+  color: #ffffff;
 }
 
 .letter {
