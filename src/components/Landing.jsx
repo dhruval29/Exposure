@@ -56,6 +56,30 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const masterTlRef = useRef(null)
   const flyItemsRef = useRef(null)
   const blurOverlayRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const aspectRatio = height / width
+      
+      // More comprehensive mobile detection
+      const isMobileWidth = width <= 768
+      const isMobileAspectRatio = aspectRatio > 1.3 // Portrait orientation with tall aspect ratio
+      
+      // Tablet detection (landscape tablets may have smaller aspect ratios)
+      const isTablet = width > 768 && width <= 1024
+      
+      setIsMobile((isMobileWidth && isMobileAspectRatio) || isTablet)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Image load handler
   const handleImageLoad = () => {
@@ -117,7 +141,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        end: responsiveValues.isLargeMobile ? '+=135%' : '+=110%', // Longer scroll distance for large mobile
+        end: responsiveValues.isLargeMobile ? '+=135%' : '+=110%', // Normal scroll distance
         scrub: responsiveValues.isLargeMobile ? 1.5 : 2, // Smoother scrub for large mobile
         pin: true,
         markers: false,
@@ -358,6 +382,46 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             slideArmedRef.current = false
             const responsiveValues = getResponsiveValues()
             
+            // Only animate footer slide up if we're past the zoom reveal section
+            // Check if we've scrolled past the zoom reveal (which is at 300vh from top)
+            const zoomRevealEnd = window.innerHeight * 3 // 300vh in pixels
+            const currentScroll = window.scrollY
+            
+            if (currentScroll >= zoomRevealEnd) {
+              // Animate footer slide up
+              gsap.to(slide, { 
+                yPercent: 0, 
+                duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
+                ease: 'power2.out',
+                force3D: true
+              })
+              
+              // Add blur overlay animation
+              if (blurOverlayRef.current) {
+                gsap.to(blurOverlayRef.current, {
+                  opacity: 1,
+                  backdropFilter: 'blur(8px)',
+                  duration: responsiveValues.isLargeMobile ? 1.0 : 0.8,
+                  ease: 'power2.out'
+                })
+              }
+            }
+            
+            cleanupListeners()
+          }
+        }
+        
+        const onTouchStart = () => {
+          if (!slideArmedRef.current) return
+          slideArmedRef.current = false
+          const responsiveValues = getResponsiveValues()
+          
+          // Only animate footer slide up if we're past the zoom reveal section
+          // Check if we've scrolled past the zoom reveal (which is at 300vh from top)
+          const zoomRevealEnd = window.innerHeight * 3 // 300vh in pixels
+          const currentScroll = window.scrollY
+          
+          if (currentScroll >= zoomRevealEnd) {
             // Animate footer slide up
             gsap.to(slide, { 
               yPercent: 0, 
@@ -375,32 +439,6 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
                 ease: 'power2.out'
               })
             }
-            
-            cleanupListeners()
-          }
-        }
-        
-        const onTouchStart = () => {
-          if (!slideArmedRef.current) return
-          slideArmedRef.current = false
-          const responsiveValues = getResponsiveValues()
-          
-          // Animate footer slide up
-          gsap.to(slide, { 
-            yPercent: 0, 
-            duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
-            ease: 'power2.out',
-            force3D: true
-          })
-          
-          // Add blur overlay animation
-          if (blurOverlayRef.current) {
-            gsap.to(blurOverlayRef.current, {
-              opacity: 1,
-              backdropFilter: 'blur(8px)',
-              duration: responsiveValues.isLargeMobile ? 1.0 : 0.8,
-              ease: 'power2.out'
-            })
           }
           
           cleanupListeners()
@@ -699,7 +737,7 @@ const Landing = () => {
         const viewportHeight = window.innerHeight
       
       const slidingSectionStart = viewportHeight
-      const newSectionStart = viewportHeight + SLIDING_HEIGHT // New section starts after sliding page
+      const newSectionStart = viewportHeight + (isMobile ? viewportHeight * 2 : viewportHeight * 3) // New section starts after sliding page
       
       // Calculate new section height in pixels for accurate positioning
       let newSectionHeightPx
@@ -717,8 +755,8 @@ const Landing = () => {
       // Menu visibility synchronized with navbar disappearance
       // Use the exact same trigger point as navbar (Rectangle18.jsx)
       const marqueeSectionStart = isMobile 
-        ? viewportHeight + SLIDING_HEIGHT // Mobile: zoom component starts here
-        : viewportHeight + SLIDING_HEIGHT // Desktop: Frame60 starts here
+        ? viewportHeight + (viewportHeight * 2) // Mobile: zoom component starts here
+        : viewportHeight + (viewportHeight * 3) // Desktop: Frame60 starts here
       const SHOW_BUFFER = 120 // px before threshold to show (for smooth re-appearance)
       const shouldHide = scrollTop >= marqueeSectionStart // Same as navbar - no delay
       const shouldShow = scrollTop <= (marqueeSectionStart - SHOW_BUFFER)
@@ -829,12 +867,11 @@ const Landing = () => {
   // Sliding height: desktop 300vh, mobile/tablet 200vh
   const getSlidingHeight = () => {
     const vw = window.innerWidth
-    const vh = window.innerHeight
     const isHandheld = vw <= 1024
-    if (!isHandheld) return vh * 3.0 // desktop: 300vh
+    if (!isHandheld) return '300vh' // desktop: 300vh
 
     // Handheld (mobile/tablet) – 200vh
-    return vh * 2.0 // mobile: 200vh
+    return '200vh' // mobile: 200vh
   }
   
   const SLIDING_HEIGHT = getSlidingHeight()
@@ -867,11 +904,11 @@ const Landing = () => {
   const getTotalPageHeight = () => {
     if (!isMobile) {
       // Desktop: 100vh (hero) + 300vh (sliding) + 62vh (new section) = 462vh
-      return `calc(100vh + ${SLIDING_HEIGHT}px + 62vh)`
+      return `calc(100vh + ${SLIDING_HEIGHT} + 62vh)`
     }
     
-    // Mobile: 100vh (hero) + 200vh (blank sliding) + 100vh (zoom reveal) + 339px (footer) = 400vh + 339px
-    return `calc(100vh + ${SLIDING_HEIGHT}px + 100vh + 339px)`
+    // Mobile: 100vh (hero) + 200vh (blank sliding) + 100vh (zoom reveal) + 200vh (extra scroll for nav transition) + 339px (footer) = 600vh + 339px
+    return `calc(100vh + ${SLIDING_HEIGHT} + 100vh + 200vh + 339px)`
   }
 
   return (
@@ -991,7 +1028,7 @@ const Landing = () => {
           top: '100vh',
           left: 0,
           right: 0,
-          height: isMobile ? `${SLIDING_HEIGHT}px` : '300vh',
+          height: isMobile ? SLIDING_HEIGHT : '300vh',
           background: 'transparent',
           zIndex: 999,
           overflow: 'visible', // Changed from hidden to visible for parallax
@@ -1006,7 +1043,7 @@ const Landing = () => {
         <div
           style={{
             position: 'absolute',
-            top: `calc(100vh + ${SLIDING_HEIGHT}px)`,
+            top: `calc(100vh + ${SLIDING_HEIGHT})`,
             left: 0,
             right: 0,
             height: NEW_SECTION_HEIGHT,
@@ -1046,8 +1083,8 @@ const Landing = () => {
         style={{
           position: 'absolute',
           top: isMobile 
-            ? `calc(100vh + ${SLIDING_HEIGHT}px)`
-            : `calc(100vh + ${SLIDING_HEIGHT}px + ${NEW_SECTION_HEIGHT})`,
+            ? `calc(100vh + ${SLIDING_HEIGHT})`
+            : `calc(100vh + ${SLIDING_HEIGHT} + ${NEW_SECTION_HEIGHT})`,
           left: 0,
           right: 0,
           height: '100vh',
@@ -1057,6 +1094,21 @@ const Landing = () => {
       >
         <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
       </div>
+
+      {/* Extra scroll spacer for mobile - provides additional scroll space after zoom reveal */}
+      {isMobile && (
+        <div
+          style={{
+            position: 'absolute',
+            top: `calc(100vh + ${SLIDING_HEIGHT} + 100vh)`,
+            left: 0,
+            right: 0,
+            height: '200vh',
+            background: '#ede9e4',
+            zIndex: 997
+          }}
+        />
+      )}
     </div>
   )
 }
