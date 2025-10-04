@@ -9,6 +9,42 @@
   font-family: Helvetica;
 }
 
+.videoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fallbackBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show fallback background when video fails to load */
+.fallbackBackground.show {
+  opacity: 1;
+  z-index: 2;
+}
+
+.footerContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
 .fromGoaWithContainer {
   position: absolute;
   top: calc(50% - 138.5px);
@@ -22,10 +58,6 @@
 
 .fromGoa {
   margin: 0;
-}
-
-.b {
-  font-family: Helvetica;
 }
 
 .socialsParent {
@@ -49,7 +81,9 @@
   font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
 }
 
-.instagram {
+.instagram,
+.youtube,
+.linkedin {
   align-self: stretch;
   position: relative;
   line-height: 100.58%;
@@ -63,12 +97,24 @@
 .instagram:visited,
 .instagram:hover,
 .instagram:active,
-.instagram:focus {
+.instagram:focus,
+.youtube:link,
+.youtube:visited,
+.youtube:hover,
+.youtube:active,
+.youtube:focus,
+.linkedin:link,
+.linkedin:visited,
+.linkedin:hover,
+.linkedin:active,
+.linkedin:focus {
   color: #fff;
   text-decoration: none;
 }
 
-.instagram::after {
+.instagram::after,
+.youtube::after,
+.linkedin::after {
   content: "";
   position: absolute;
   left: 0;
@@ -80,7 +126,11 @@
 }
 
 .instagram:hover::after,
-.instagram:focus-visible::after {
+.instagram:focus-visible::after,
+.youtube:hover::after,
+.youtube:focus-visible::after,
+.linkedin:hover::after,
+.linkedin:focus-visible::after {
   width: 100%;
 }
 

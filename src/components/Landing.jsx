@@ -595,7 +595,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
         }}
       />
 
-      {/* Contact us section with video background - now enabled for mobile */}
+      {/* Footer section - now self-contained with its own video background */}
       <div
         ref={postNavSlideRef}
         style={{
@@ -604,22 +604,10 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           left: 0,
           right: 0,
           height: '339px',
-          zIndex: 3000,
-          background: 'transparent'
+          zIndex: 3000
         }}
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }}
-          src="/65562-515098354_small.mp4"
-        />
-        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </div>
   )
