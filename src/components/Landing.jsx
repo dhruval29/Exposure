@@ -14,6 +14,7 @@ import HoverImage from './HoverImage'
 import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 import IPhone13141 from './IPhone13141'
+import MobileSlidingFrame from './MobileSlidingFrame'
 import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import '../styles/Gallery.css'
@@ -594,34 +595,32 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
         }}
       />
 
-      {/* Contact us section with video background - hidden on mobile */}
-      {!getResponsiveValues().isMobile && (
-        <div
-          ref={postNavSlideRef}
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '339px',
-            zIndex: 3000,
-            background: 'transparent'
-          }}
-        >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }}
-            src="/65562-515098354_small.mp4"
-          />
-          <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
-            <Footer />
-          </div>
+      {/* Contact us section with video background - now enabled for mobile */}
+      <div
+        ref={postNavSlideRef}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '339px',
+          zIndex: 3000,
+          background: 'transparent'
+        }}
+      >
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }}
+          src="/65562-515098354_small.mp4"
+        />
+        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
+          <Footer />
         </div>
-      )}
+      </div>
     </div>
   )
 }
@@ -710,22 +709,15 @@ const Landing = () => {
       scrollTimeout = setTimeout(() => {
         const scrollTop = window.scrollY
         const viewportHeight = window.innerHeight
-        const slidingHeight = 2768
       
       const slidingSectionStart = viewportHeight
       const newSectionStart = viewportHeight + SLIDING_HEIGHT // New section starts after sliding page
       
       // Calculate new section height in pixels for accurate positioning
       let newSectionHeightPx
-      if (isMobile && window.innerWidth >= 400 && window.innerHeight >= 900) {
-        // Large mobile devices - use the same calculation as getNewSectionHeight
-        newSectionHeightPx = Math.max(600, window.innerHeight * 0.8)
-      } else if (isMobile && window.innerWidth >= 375 && window.innerHeight >= 800) {
-        // Medium mobile devices
-        newSectionHeightPx = Math.max(500, window.innerHeight * 0.7)
-      } else if (isMobile) {
-        // Small mobile devices - convert 62vh to pixels
-        newSectionHeightPx = window.innerHeight * 0.62
+      if (isMobile) {
+        // Mobile doesn't have the new section, so zoom component starts right after sliding
+        newSectionHeightPx = 0
       } else {
         // Desktop - convert 62vh to pixels
         newSectionHeightPx = window.innerHeight * 0.62
@@ -736,7 +728,9 @@ const Landing = () => {
 
       // Menu visibility synchronized with navbar disappearance
       // Use the exact same trigger point as navbar (Rectangle18.jsx)
-      const marqueeSectionStart = viewportHeight + SLIDING_HEIGHT // Frame60 starts here
+      const marqueeSectionStart = isMobile 
+        ? viewportHeight + SLIDING_HEIGHT // Mobile: zoom component starts here
+        : viewportHeight + SLIDING_HEIGHT // Desktop: Frame60 starts here
       const SHOW_BUFFER = 120 // px before threshold to show (for smooth re-appearance)
       const shouldHide = scrollTop >= marqueeSectionStart // Same as navbar - no delay
       const shouldShow = scrollTop <= (marqueeSectionStart - SHOW_BUFFER)
@@ -844,21 +838,15 @@ const Landing = () => {
     }
   }, [])
 
-  // Sliding height: desktop 300vh, mobile/tablet reverted to original 2768-based logic
+  // Sliding height: desktop 300vh, mobile/tablet 200vh
   const getSlidingHeight = () => {
     const vw = window.innerWidth
     const vh = window.innerHeight
     const isHandheld = vw <= 1024
     if (!isHandheld) return vh * 3.0 // desktop: 300vh
 
-    // Handheld (mobile/tablet) – original logic
-    if (vw >= 400 && vh >= 900) {
-      return Math.max(2768, vh * 2.8)
-    } else if (vw >= 375 && vh >= 800) {
-      return Math.max(2768, vh * 2.6)
-    } else {
-      return Math.max(2768, vh * 2.4)
-    }
+    // Handheld (mobile/tablet) – 200vh
+    return vh * 2.0 // mobile: 200vh
   }
   
   const SLIDING_HEIGHT = getSlidingHeight()
@@ -887,27 +875,15 @@ const Landing = () => {
   
   const NEW_SECTION_HEIGHT = getNewSectionHeight()
   
-  // Calculate total page height more accurately for large mobile devices
+  // Calculate total page height more accurately for mobile devices
   const getTotalPageHeight = () => {
-    const baseHeight = `200vh + ${SLIDING_HEIGHT}px` // Original height before new section
-    
     if (!isMobile) {
-      return `calc(${baseHeight} + 62vh)` // Desktop unchanged
+      // Desktop: 100vh (hero) + 300vh (sliding) + 62vh (new section) = 462vh
+      return `calc(100vh + ${SLIDING_HEIGHT}px + 62vh)`
     }
     
-    const vh = window.innerHeight
-    const vw = window.innerWidth
-    
-    // For larger mobile devices, use pixel calculations to prevent gaps
-    if (vw >= 400 && vh >= 900) {
-      const newSectionPx = Math.max(600, vh * 0.8) // Increased from 0.45 to 0.8 for more scroll space
-      return `calc(${baseHeight} + ${newSectionPx}px)`
-    } else if (vw >= 375 && vh >= 800) {
-      const newSectionPx = Math.max(500, vh * 0.7) // Increased from 0.5 to 0.7
-      return `calc(${baseHeight} + ${newSectionPx}px)`
-    } else {
-      return `calc(${baseHeight} + 62vh)` // Small mobile devices
-    }
+    // Mobile: 100vh (hero) + 200vh (blank sliding) + 100vh (zoom reveal) + 339px (footer) = 400vh + 339px
+    return `calc(100vh + ${SLIDING_HEIGHT}px + 100vh + 339px)`
   }
 
   return (
@@ -1034,7 +1010,7 @@ const Landing = () => {
           isolation: 'isolate'
         }}
       >
-        {isMobile ? <IPhone13141 /> : <MergedFrame />}
+        {isMobile ? <MobileSlidingFrame /> : <MergedFrame />}
       </div>
 
       {/* New Content Section - only for desktop/tablet; hidden on mobile */}
@@ -1091,8 +1067,8 @@ const Landing = () => {
           zIndex: 998
         }}
       >
-                     <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
-        </div>
+        <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
+      </div>
     </div>
   )
 }

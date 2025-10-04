@@ -40,7 +40,7 @@
 	opacity: 0.001;
 	filter: blur(10px);
 	transform: translateX(0px) translateY(20px) scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
-	animation: wordReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	animation: wordReveal 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 	animation-play-state: paused;
 	will-change: transform, opacity, filter;
 	margin-right: 0.2em; /* Small spacing between words */
@@ -139,35 +139,6 @@
 	transform-origin: center center;
 }
 
-.frame2LoremContainer {
-	position: absolute;
-    top: calc(100vh + 75.00% - 100vh); /* Moved up by 5% */
-	left: 67.05%; /* Aligned with main text container */
-	font-size: 20px;
-	letter-spacing: 0.02em;
-	line-height: 122.71%;
-	font-family: Helvetica;
-    overflow: hidden; /* Keep text animation within container bounds */
-	/* Removed transform: none !important to allow slide animation */
-}
-
-/* Lorem inner text slides inside fixed container */
-.loremInner {
-    transform: translateX(-100%);
-    opacity: 0;
-    will-change: transform, opacity;
-    animation: loremTextSlide 0.9s ease-out forwards;
-    animation-play-state: paused;
-}
-
-.loremInner.play {
-    animation-play-state: running;
-}
-
-@keyframes loremTextSlide {
-    0% { transform: translateX(-100%); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
-}
 
 /* Frame 3 Section - Bottom 100vh (200vh to 300vh) */
 .frame3Section {

@@ -7,7 +7,7 @@
   opacity: 0.001;
   filter: blur(10px);
   transform: translateX(0px) translateY(20px) scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
-  animation: lineReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: lineReveal 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   animation-play-state: paused;
   will-change: transform, opacity, filter;
 }

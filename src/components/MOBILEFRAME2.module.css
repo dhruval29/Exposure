@@ -1,0 +1,75 @@
+.mobileFrame2 {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  height: 100vh;
+  overflow: visible; /* Allow spanning image to show through */
+  text-align: left;
+  font-size: clamp(14px, 3.5vw, 18px);
+  color: #000;
+  font-family: 'PP Editorial New';
+}
+
+.loremIpsumDolorContainer {
+  position: absolute;
+  top: 1.54%; /* 13px / 844px */
+  left: 6.41%; /* 25px / 390px */
+  letter-spacing: 0.02em;
+  line-height: 122.71%;
+  display: inline-block;
+  width: 32.05%; /* 125px / 390px */
+}
+
+.loremIpsumDolor {
+  margin: 0;
+}
+
+.mobileFrame2LoremIpsumDolorContainer {
+  position: absolute;
+  top: 9.95%; /* 84px / 844px */
+  left: 6.41%; /* 25px / 390px */
+  font-size: clamp(8px, 2vw, 12px);
+  letter-spacing: 0.02em;
+  line-height: 122.71%;
+  color: #d9d9d9;
+}
+
+.img202412291336061Icon {
+  position: absolute;
+  top: -10.66%; /* -90px / 844px - extends upward into Frame 1 */
+  left: 43.59%; /* 170px / 390px */
+  width: 51.79%; /* 202px / 390px */
+  height: 43.96%; /* 371px / 844px */
+  object-fit: cover;
+  z-index: 10; /* High z-index to appear above other elements */
+}
+
+.img2024122515315822Icon {
+  position: absolute;
+  top: 39.10%; /* 330px / 844px */
+  left: 6.41%; /* 25px / 390px */
+  width: 88.97%; /* 347px / 390px */
+  height: 23.93%; /* 202px / 844px */
+  object-fit: cover;
+}
+
+.img202501140936073Icon {
+  position: absolute;
+  top: 68.96%; /* 582px / 844px */
+  left: 6.41%; /* 25px / 390px */
+  width: 49.74%; /* 194px / 390px */
+  height: 22.99%; /* 194px / 844px */
+  object-fit: cover;
+}
+
+.loremIpsumDolor2 {
+  position: absolute;
+  top: 70.26%; /* 593px / 844px */
+  left: 66.41%; /* 259px / 390px */
+  font-size: clamp(10px, 2.5vw, 14px);
+  letter-spacing: 0.02em;
+  line-height: 122.71%;
+  display: inline-block;
+  width: 28.72%; /* 112px / 390px */
+  height: 16.00%; /* 135px / 844px */
+}

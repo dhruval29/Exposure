@@ -118,12 +118,12 @@ const MergedFrame = () => {
 						const wordIndex = parseInt(entry.target.dataset.wordIndex)
 						
 						if (!isNaN(frameIndex) && !isNaN(lineIndex) && !isNaN(wordIndex)) {
-							// Calculate cumulative delay: line offset + word offset (reduced per-word delay)
-							const lineOffset = lineIndex * 700 // Keep line spacing consistent
-							const wordOffset = wordIndex * 60 // Reduced per-word delay from 100ms to 60ms
+							// Calculate cumulative delay: line offset + word offset (balanced timing)
+							const lineOffset = lineIndex * 450 // Increased from 300ms to 450ms for better pacing
+							const wordOffset = wordIndex * 45 // Increased from 30ms to 45ms for better word timing
 							
 							// Make Frame 3 (frameIndex 2) appear earlier by reducing its delay
-							const frameDelay = frameIndex === 2 ? -300 : 0 // Frame 3 starts 300ms earlier
+							const frameDelay = frameIndex === 2 ? -600 : 0 // Frame 3 starts 600ms earlier (very early)
 							const totalDelay = Math.max(0, lineOffset + wordOffset + frameDelay)
 							
                             setTimeout(() => {
@@ -136,8 +136,8 @@ const MergedFrame = () => {
 				})
 			},
 			{ 
-				threshold: 0.3, // Trigger when 30% visible
-				rootMargin: '0px 0px -100px 0px' // Trigger 100px before fully visible
+				threshold: 0.2, // Trigger when 20% visible (faster triggering)
+				rootMargin: '0px 0px -150px 0px' // Trigger 150px before fully visible (earlier)
 			}
 		)
 
@@ -153,26 +153,6 @@ const MergedFrame = () => {
 		}
 	}, [])
 
-    // Trigger lorem inner slide/fade based on its own visibility
-    useEffect(() => {
-        const target = document.getElementById('loremInner')
-        if (!target) return
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        target.classList.add(styles.play)
-                        observer.unobserve(entry.target)
-                    }
-                })
-            },
-            { threshold: 0.25, rootMargin: '0px 0px -60px 0px' }
-        )
-
-        observer.observe(target)
-        return () => observer.disconnect()
-    }, [])
 
 	// Removed lorem container animation
 
@@ -201,10 +181,6 @@ const MergedFrame = () => {
 					</div>
 					<div className={styles.frame2Image3Container}>
 						<img className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
-					</div>
-					<div className={styles.frame2LoremContainer}>
-						<p className={styles.weUseThe}>{`dgLorem ipsum dolor sit amet, `}</p>
-						<p className={styles.weUseThe}>{`consectetur adipiscing elit, sed do `}</p>
 					</div>
 				</div>
 				<div className={styles.frame3Section}>
@@ -259,12 +235,6 @@ const MergedFrame = () => {
 				</div>
 				<div className={styles.frame2Image3Container}>
 					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
-				</div>
-				<div className={styles.frame2LoremContainer}>
-					<div id="loremInner" className={styles.loremInner}>
-						<p className={styles.weUseThe}>Professional picture takers</p>
-						<p className={styles.weUseThe}>Amateur joke makers</p>
-					</div>
 				</div>
 			</div>
 

@@ -85,6 +85,7 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
         <button 
           className={`${styles.contactButton} ${finalShowText ? styles.textBlack : ''}`}
           onClick={() => window.location.href = isOnContactPage ? '/' : '/contact'}
+          data-menu-open={isMenuOpen}
         >
           {/* Desktop - Text version */}
           <span className={`${styles.contactText} ${styles.desktopContactText}`}>

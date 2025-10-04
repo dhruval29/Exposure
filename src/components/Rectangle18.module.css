@@ -3,7 +3,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   height: 52px;
   z-index: 2000;
   display: flex;
@@ -13,9 +16,17 @@
   box-sizing: border-box;
   transform: translateY(0);
   opacity: 1;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  /* No visible border for now */
+  /* Frosted glass effect */
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .rectangleDiv {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .rectangleDiv.noBorder {
@@ -77,12 +88,11 @@
 
 /* Mobile contact icon - hide on larger screens */
 .mobileContactIcon {
-  display: none;
+  display: none !important;
 }
 
 /* Mobile contact icon styles */
 .mobileContactIcon {
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
@@ -251,6 +261,10 @@
   color: #000 !important;
 }
 
+.contactButton[data-menu-open="true"] {
+  color: #000 !important;
+}
+
 .slotContainer {
   display: inline-block;
   height: 1.2em;
@@ -266,12 +280,11 @@
 
 /* Mobile menu icon - hide on larger screens */
 .mobileMenuIcon {
-  display: none;
+  display: none !important;
 }
 
 /* Mobile menu icon styles */
 .mobileMenuIcon {
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
@@ -360,6 +373,25 @@
 
 .menuOverlay.menuVisible {
   opacity: 1;
+}
+
+/* Desktop styles - ensure SVGs are hidden */
+@media (min-width: 769px) {
+  .mobileContactIcon {
+    display: none !important;
+  }
+  
+  .mobileMenuIcon {
+    display: none !important;
+  }
+  
+  .desktopContactText {
+    display: inline-block !important;
+  }
+  
+  .desktopMenuText {
+    display: inline-block !important;
+  }
 }
 
 /* Mobile responsive styles */

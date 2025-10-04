@@ -38,6 +38,7 @@
   align-items: flex-start;
   gap: 12px;
   font-size: 32px;
+  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
 }
 
 .socials {
@@ -45,6 +46,7 @@
   position: relative;
   font-size: 24px;
   line-height: 100.58%;
+  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
 }
 
 .instagram {
@@ -54,6 +56,7 @@
   color: #fff;
   text-decoration: none;
   display: inline-block;
+  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
 }
 
 .instagram:link,
@@ -94,6 +97,7 @@
   top: 303px;
   left: 1177px;
   line-height: 100.58%;
+  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
 }
 
 .exposureexplorersnitgoaaci {
@@ -101,6 +105,7 @@
   top: 303px;
   left: 660px;
   line-height: 100.58%;
+  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
 }
 
 /* Responsive breakpoints */

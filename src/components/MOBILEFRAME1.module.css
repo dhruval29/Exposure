@@ -1,0 +1,46 @@
+.mobileFrame1 {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  height: 100vh;
+  overflow: visible; /* Allow spanning image to show through */
+  text-align: left;
+  font-size: 24px;
+  color: #000;
+  font-family: 'PP Editorial New';
+  z-index: 2; /* Higher than spanning image */
+}
+
+.weUseTheContainer {
+  position: absolute;
+  top: 4.03%; /* 34px / 844px */
+  left: 4.87%; /* 19px / 390px */
+  letter-spacing: 0.02em;
+  line-height: 122.71%;
+  z-index: 3; /* Higher than spanning image */
+}
+
+.weUseThe {
+  margin: 0;
+}
+
+.img202501051356542Icon {
+  position: absolute;
+  top: 17.89%; /* 151px / 844px */
+  left: 4.87%; /* 19px / 390px */
+  width: 65.38%; /* 255px / 390px */
+  height: 34.60%; /* 292px / 844px */
+  object-fit: cover;
+  z-index: 3; /* Higher than spanning image */
+}
+
+.img202411290448467Icon {
+  position: absolute;
+  top: 55.81%; /* 471px / 844px */
+  left: 4.36%; /* 17px / 390px */
+  width: 91.03%; /* 355px / 390px */
+  height: 30.09%; /* 254px / 844px */
+  object-fit: cover;
+  z-index: 3; /* Higher than spanning image */
+}
+

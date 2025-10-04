@@ -56,7 +56,9 @@ const Frame60 = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 1, 3) / 2);
+    // Expo easing functions for smoother motion
+    const easeOutExpo = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    const easeInExpo = (t) => t === 0 ? 0 : Math.pow(2, 10 * (t - 1));
     const animate = (ts) => {
       const dt = Math.min(0.05, Math.max(0, (ts - lastTs) / 1000));
       lastTs = ts;
@@ -69,7 +71,8 @@ const Frame60 = () => {
       }
       // Eased blending based on how far we are from target
       const norm = Math.min(1, Math.abs(delta) / (segmentWidth * 0.25));
-      const eased = easeInOutCubic(norm);
+      // Use expo easing for smoother motion - easeOutExpo for approach, easeInExpo for departure
+      const eased = norm < 0.5 ? easeOutExpo(norm * 2) : easeInExpo((norm - 0.5) * 2);
       const blend = 0.08 + 0.12 * eased; // adaptive smoothing
       current = (current + delta * blend + segmentWidth) % segmentWidth;
       track.style.transform = `translate3d(${-current}px, ${offsetY}px, 0)`;
