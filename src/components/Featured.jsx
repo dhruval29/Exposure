@@ -30,6 +30,22 @@ const Featured = () => {
   const pageSize = 20;
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
+  // Mobile detection for tuning prefetch limits
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => {
+      try {
+        const width = window.innerWidth;
+        setIsMobile(width <= 768);
+      } catch {
+        setIsMobile(false);
+      }
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const getTransformedUrl = (url, width, quality = 70, format = 'webp') => {
     try {
       if (!url) return url;
@@ -162,7 +178,7 @@ const Featured = () => {
       const onLoad = () => {
         // small delay to let main thread settle
         setTimeout(() => {
-          const limit = 16; // cap background preloads
+          const limit = isMobile ? 8 : 16; // cap background preloads by device
           images.slice(0, limit).forEach((img) => {
             const url = img.src;
             if (!url || preloadedSetRef.current.has(url)) return;
@@ -178,7 +194,7 @@ const Featured = () => {
       return () => window.removeEventListener('load', onLoad);
     }
     // If already loaded
-    const limit = 16;
+    const limit = isMobile ? 8 : 16;
     images.slice(0, limit).forEach((img) => {
       const url = img.src;
       if (!url || preloadedSetRef.current.has(url)) return;
@@ -188,7 +204,7 @@ const Featured = () => {
       i.loading = 'eager';
       i.src = url;
     });
-  }, [images, loading, showLoader]);
+  }, [images, loading, showLoader, isMobile]);
 
   // Shutter loader animation (white panel shrinks from top, revealing from bottom)
   useEffect(() => {
@@ -308,7 +324,8 @@ const Featured = () => {
       setTimeout(() => {
         if (rightSideImageRef.current) {
           const imgObj = images[imageIndex - 1];
-          rightSideImageRef.current.src = imgObj.thumb || imgObj.src;
+          // Always use full-size image on the right-side preview
+          rightSideImageRef.current.src = imgObj.src;
           rightSideImageRef.current.alt = imgObj.title;
           rightSideImageRef.current.offsetHeight;
           rightSideImageRef.current.style.opacity = '1';
@@ -554,7 +571,7 @@ const Featured = () => {
                 {images.length > 0 ? (
                   <img
                     ref={rightSideImageRef}
-                    src={images[0].thumb || images[0].src}
+                    src={images[0].src}
                     alt={images[0].title || 'Preview image'}
                     id="rightSideImage"
                     loading="eager"

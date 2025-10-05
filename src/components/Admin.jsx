@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { uploadImagesBatch } from '../lib/uploadImage'
+import { Toaster, toast } from 'sonner'
 import AuthGate from './AuthGate'
 import { supabase } from '../lib/supabaseClient'
 // Removed date formatting imports - using month_year format instead
@@ -382,9 +383,31 @@ function Admin() {
     }
   }
 
+  const isImageFile = (file) => {
+    if (!file) return false
+    if (file.type && file.type.startsWith('image/')) return true
+    const name = (file.name || '').toLowerCase()
+    return /\.(png|jpe?g|webp|gif|bmp|tiff?|svg)$/.test(name)
+  }
+
   const onFeatureUploadBrowse = (e) => {
-    const list = Array.from(e.target.files || []).filter(f => f.type.startsWith('image/'))
-    if (list.length) setFeatureUploadFiles(list)
+    const list = Array.from(e.target.files || []).filter(isImageFile)
+    setFeatureUploadFiles(list)
+    if (list.length) toast.success(`Selected ${list.length} image${list.length > 1 ? 's' : ''}`)
+  }
+
+  const pickImageFiles = async (multiple = true) => {
+    try {
+      if ('showOpenFilePicker' in window) {
+        const handles = await window.showOpenFilePicker({
+          multiple,
+          types: [{ description: 'Images', accept: { 'image/*': ['.png','.jpg','.jpeg','.webp','.gif','.bmp','.tif','.tiff','.svg'] } }]
+        })
+        const files = await Promise.all(handles.map(h => h.getFile()))
+        return files.filter(isImageFile)
+      }
+    } catch {}
+    return null
   }
 
   const onFeatureUpload = async () => {
@@ -406,8 +429,10 @@ function Admin() {
       setFeatureUploadFiles([])
       if (featureUploadInputRef.current) featureUploadInputRef.current.value = ''
       setStatus('Featured upload successful')
+      toast.success('Featured upload successful')
     } catch (err) {
       setStatus(`Upload failed: ${err.message}`)
+      toast.error(err.message)
     }
   }
 
@@ -626,11 +651,13 @@ function Admin() {
     e.preventDefault(); e.stopPropagation(); setDrag(false)
     const list = Array.from(e.dataTransfer.files || []).filter(f => f.type.startsWith('image/'))
     if (list.length) setFiles(prev => [...prev, ...list])
+    if (list.length) toast.success(`Added ${list.length} file${list.length > 1 ? 's' : ''}`)
   }
 
   const onBrowse = (e) => {
     const list = Array.from(e.target.files || [])
     if (list.length) setFiles(prev => [...prev, ...list])
+    if (list.length) toast.success(`Added ${list.length} file${list.length > 1 ? 's' : ''}`)
   }
 
   const removeAt = (idx) => {
@@ -647,9 +674,11 @@ function Admin() {
       const rows = await uploadImagesBatch(files, { isPublic: true }, ({ index, total }) => setProgress({ index, total }))
       setUploaded(rows)
       setStatus('Uploaded successfully')
+      toast.success(`Uploaded ${rows.length} image${rows.length > 1 ? 's' : ''}`)
       setFiles([])
     } catch (err) {
       setStatus(err.message)
+      toast.error(err.message)
     }
   }
 
@@ -658,6 +687,7 @@ function Admin() {
   return (
     <AuthGate>
       <div className={styles.container}>
+        <Toaster richColors position="top-right" />
         <div className={styles.wrapper}>
           <header className={styles.header}>
             <div className={styles.headerContent}>
@@ -717,7 +747,15 @@ function Admin() {
                 <div className={styles.uploadActions}>
                   <button 
                     className={styles.buttonSecondary} 
-                    onClick={() => inputRef.current?.click()}
+                    onClick={async () => { 
+                      if (inputRef.current) { inputRef.current.value = ''; }
+                      const picked = await pickImageFiles(true)
+                      if (picked && picked.length) {
+                        setFiles(prev => [...prev, ...picked])
+                        return
+                      }
+                      inputRef.current?.click()
+                    }}
                     type="button"
                   >
                     <FolderIcon />
@@ -898,7 +936,15 @@ function Admin() {
                     <button
                       type="button"
                       className={styles.buttonSecondary}
-                      onClick={() => featureUploadInputRef.current?.click()}
+                      onClick={async () => {
+                        if (featureUploadInputRef.current) { featureUploadInputRef.current.value = ''; }
+                        const picked = await pickImageFiles(true)
+                        if (picked && picked.length) {
+                          setFeatureUploadFiles(picked)
+                          return
+                        }
+                        featureUploadInputRef.current?.click()
+                      }}
                     >
                       <FolderIcon />
                       <span>Select Images</span>
