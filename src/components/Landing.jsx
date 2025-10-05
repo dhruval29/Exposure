@@ -100,15 +100,15 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     const isMobile = vw <= 768
     const isLargeMobile = vw >= 400 && vh >= 900 // Large mobile devices like Galaxy S24 FE
     
-    // Adjust font size for different mobile device sizes
-    let baseFontSize = Math.min(vw * 0.05, vh * 0.08, 66.7)
+    // Adjust font size for different mobile device sizes - moderately increased
+    let baseFontSize = Math.min(vw * 0.06, vh * 0.09, 80) // Moderately increased from original
     
     if (isLargeMobile) {
       // For larger mobile devices, use a more conservative scaling
-      baseFontSize = Math.min(vw * 0.045, vh * 0.06, 60)
+      baseFontSize = Math.min(vw * 0.055, vh * 0.08, 75) // Moderately increased from original
     }
     
-    const fontSize = isMobile ? baseFontSize * 1.1 : baseFontSize
+    const fontSize = isMobile ? baseFontSize * 1.2 : baseFontSize // Slightly increased from 1.1 to 1.2
     
     // Adjust off-screen distance based on device characteristics
     let offScreenDistance = vw * 0.6
@@ -628,7 +628,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           ref={leftTextRef} 
           style={{ 
             position: 'absolute', 
-            right: `calc(50% + ${getResponsiveValues().isMobile ? '5px' : '10px'})`, 
+            right: `calc(50% + 0.01px + ${getResponsiveValues().isMobile ? '5px' : '15.5px'})`, 
             top: '50%', 
             transform: 'translateY(-50%)', 
             color: 'black', 
@@ -646,7 +646,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           ref={rightTextRef} 
           style={{ 
             position: 'absolute', 
-            left: `calc(50% + ${getResponsiveValues().isMobile ? '5px' : '10px'})`, 
+            left: `calc(50% + 0.01px + ${getResponsiveValues().isMobile ? '2px' : '4.5px'})`, 
             top: '50%', 
             transform: 'translateY(-50%)', 
             color: 'black', 

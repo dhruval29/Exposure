@@ -24,16 +24,33 @@ export const Z_INDEXES = [12, 8, 4, 10, 6, 2, 14, 16, 18, 20]
 // Each has: top %, left %, width % (relative to container width)
 // More images in bottom half, scattered with no initial overlap
 export const POSITIONS = [
-  { top: '-40%', left: '-50%',   widthPct: 28 },    // Top-left, mostly off
-  { top: '-25%', left: '100%', widthPct: 24 },      // Top-right, off right edge
-  { top: '140%', left: '-40%', widthPct: 26 },      // Far bottom-left, off bottom
+  { top: '20%', left: '-10%',   widthPct: 28 },    // Top-left, mostly off
+  { top: '5%', left: '100%', widthPct: 24 },      // Top-right, off right edge
+  { top: '110%', left: '-40%', widthPct: 26 },      // Far bottom-left, off bottom
   { top: '-35%',  left: '85%', widthPct: 22 },      // Top-right, partially off
-  { top: '110%', left: '110%', widthPct: 20 },      // Bottom-right, off right
-  { top: '-60%',  left: '15%', widthPct: 30 },      // Far top-center, mostly off
+  { top: '80%', left: '110%', widthPct: 20 },      // Bottom-right, off right
+  { top: '-40%',  left: '-25%', widthPct: 30 },      // Far top-center, mostly off
   { top: '80%', left: '-60%', widthPct: 28 },       // Bottom-left, mostly off
   { top: '125%', left: '120%', widthPct: 25 },      // Far bottom-right corner
   { top: '90%', left: '25%', widthPct: 18 },        // Bottom-center-left
   { top: '105%', left: '60%', widthPct: 23 },       // Bottom-center-right
+]
+
+// Mobile and below should use the current positions the user adjusted
+export const MOBILE_POSITIONS = POSITIONS
+
+// Desktop positions (original set prior to user adjustments)
+export const DESKTOP_POSITIONS = [
+  { top: '-40%', left: '-50%',   widthPct: 28 },
+  { top: '-25%', left: '100%', widthPct: 24 },
+  { top: '140%', left: '-40%', widthPct: 26 },
+  { top: '-35%',  left: '85%', widthPct: 22 },
+  { top: '110%', left: '110%', widthPct: 20 },
+  { top: '-60%',  left: '15%', widthPct: 30 },
+  { top: '80%', left: '-60%', widthPct: 28 },
+  { top: '125%', left: '120%', widthPct: 25 },
+  { top: '90%', left: '25%', widthPct: 18 },
+  { top: '105%', left: '60%', widthPct: 23 },
 ]
 
 // Initial depth tweak per image to bring a few very close initially
@@ -89,9 +106,9 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         if (isMobile === 'small-mobile') {
           gsap.set(items, { scale: 1.0 })
         } else if (isMobile === 'mobile') {
-          gsap.set(items, { scale: 1.2 })
+          gsap.set(items, { scale: 1.4 })
         } else if (isMobile === 'tablet') {
-          gsap.set(items, { scale: 1.3 })
+          gsap.set(items, { scale: 1.4 })
         }
       }, containerRef)
       return () => ctx.revert()
@@ -139,8 +156,8 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
             y: 0,
             // Responsive scaling based on screen size
             scale: isMobile === 'small-mobile' ? 1.0 : 
-                   isMobile === 'mobile' ? 1.2 : 
-                   isMobile === 'tablet' ? 1.3 : 1
+                   isMobile === 'mobile' ? 1.4 : 
+                   isMobile === 'tablet' ? 1.4 : 1
           },
           { 
             z: zOut, 
@@ -150,8 +167,8 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
             duration,
             // Keep the responsive scale throughout the animation
             scale: isMobile === 'small-mobile' ? 1.0 : 
-                   isMobile === 'mobile' ? 1.2 : 
-                   isMobile === 'tablet' ? 1.3 : 1
+                   isMobile === 'mobile' ? 1.4 : 
+                   isMobile === 'tablet' ? 1.4 : 1
           },
           0
         )
@@ -168,8 +185,8 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         const z = Z_INDEXES[idx % Z_INDEXES.length]
         // Responsive width scaling
         const responsiveWidth = isMobile === 'small-mobile' ? widthPct * 1.0 : 
-                               isMobile === 'mobile' ? widthPct * 1.2 : 
-                               isMobile === 'tablet' ? widthPct * 1.3 : widthPct
+                               isMobile === 'mobile' ? widthPct * 1.4 : 
+                               isMobile === 'tablet' ? widthPct * 1.4 : widthPct
         return (
           <div key={`${src}-${idx}`} className={styles.item} style={{ top, left, width: `${responsiveWidth}%`, zIndex: z }}>
             <img 
@@ -179,8 +196,8 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
               draggable={false} 
               style={{
                 transform: isMobile === 'small-mobile' ? 'scale(1.0)' : 
-                          isMobile === 'mobile' ? 'scale(1.2)' : 
-                          isMobile === 'tablet' ? 'scale(1.3)' : 'scale(1)'
+                          isMobile === 'mobile' ? 'scale(1.4)' : 
+                          isMobile === 'tablet' ? 'scale(1.4)' : 'scale(1)'
               }}
             />
           </div>
