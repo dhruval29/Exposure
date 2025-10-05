@@ -4,18 +4,29 @@
   left: 0;
   width: 100%;
   height: 50px;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
   box-sizing: border-box;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .simpleNav.noBorder {
   border-bottom: none;
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .simpleNav {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .contactButton {
@@ -49,12 +60,11 @@
 
 /* Mobile contact icon - hide on larger screens */
 .mobileContactIcon {
-  display: none;
+  display: none !important;
 }
 
 /* Mobile contact icon styles */
 .mobileContactIcon {
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
@@ -200,12 +210,11 @@
 
 /* Mobile menu icon - hide on larger screens */
 .mobileMenuIcon {
-  display: none;
+  display: none !important;
 }
 
 /* Mobile menu icon styles */
 .mobileMenuIcon {
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;

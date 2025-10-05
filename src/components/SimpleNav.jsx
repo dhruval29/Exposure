@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './SimpleNav.module.css';
 import Menu from './Menu';
 
@@ -7,6 +7,7 @@ const SimpleNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuAnimating, setIsMenuAnimating] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isOnContactPage = location.pathname === '/contact';
 
   const handleMenuToggle = () => {
@@ -109,7 +110,14 @@ const SimpleNav = () => {
         </button>
         {!isOnContactPage && (
           <div className={styles.textContainer}>
-            <div className={styles.titleSvg}>
+            <div 
+              className={styles.titleSvg}
+              onClick={() => navigate('/')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/'); } }}
+              style={{ cursor: 'pointer' }}
+            >
               <svg 
                 width="187" 
                 height="58" 

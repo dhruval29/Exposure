@@ -97,6 +97,9 @@
   justify-content: center;
   width: 24px;
   height: 24px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .contactSvg {
@@ -225,6 +228,30 @@
   outline: none;
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.menuSvg {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* Further suppress tap/selection highlight on descendants */
+.menuText *,
+.mobileMenuIcon,
+.mobileMenuIcon *,
+.titleSvg,
+.titleSvg * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection on animated label */
+.slotText {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .menuText:focus,

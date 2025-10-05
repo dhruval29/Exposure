@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Rectangle18.module.css';
 import Menu from './Menu';
 
@@ -10,6 +10,7 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuAnimating, setIsMenuAnimating] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isOnContactPage = location.pathname === '/contact';
   
   // Use external props if provided, otherwise use internal state
@@ -170,7 +171,14 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
         </button>
         {!isOnContactPage && (
           <div className={styles.textContainer}>
-            <div className={styles.titleSvg}>
+            <div 
+              className={styles.titleSvg}
+              onClick={() => navigate('/')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/'); } }}
+              style={{ cursor: 'pointer' }}
+            >
               <svg 
                 width="187" 
                 height="58" 
