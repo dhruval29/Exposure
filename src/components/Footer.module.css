@@ -1,7 +1,8 @@
 .footer {
   width: 100%;
   position: relative;
-  height: 339px;
+  height: 100%; /* Fill wrapper (wrapper is 339px in Landing) */
+  min-height: 339px;
   overflow: hidden;
   text-align: left;
   font-size: 20px;
@@ -253,8 +254,8 @@
 
 @media (max-width: 600px) {
   .footer {
-    height: auto;
-    min-height: 220px;
+    height: 100%;
+    min-height: 220px; /* keep a floor for very small viewports */
     font-size: 14px;
     padding: 20px 15px;
     display: flex;
@@ -281,7 +282,9 @@
     font-size: clamp(16px, 4vw, 20px);
     margin-bottom: 20px;
     align-items: center;
+    justify-content: center;
     text-align: center;
+    width: 100%;
   }
   
   .exposureExplorers {
@@ -290,7 +293,7 @@
     left: auto;
     font-size: clamp(10px, 3vw, 14px);
     text-align: center;
-    margin: 5px 0;
+    margin: 16px 0 6px; /* move a bit down on mobile */
   }
   
   .designedDeveloped {
@@ -299,7 +302,7 @@
     left: auto;
     font-size: clamp(10px, 3vw, 14px);
     text-align: center;
-    margin: 5px 0;
+    margin: 8px 0; /* add spacing below address */
   }
   
   .exposureexplorersnitgoaaci {
@@ -308,6 +311,6 @@
     left: auto;
     font-size: clamp(10px, 3vw, 14px);
     text-align: center;
-    margin: 5px 0;
+    margin: 8px 0 12px; /* add spacing and move down a bit */
   }
 }

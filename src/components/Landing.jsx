@@ -137,17 +137,69 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
     const responsiveValues = getResponsiveValues()
 
+    // Helpers for dynamic pinning distance on handhelds
+    const isHandheldForPin = responsiveValues.isMobile || responsiveValues.isLargeMobile || window.innerWidth <= 1024
+    const computeExactEnd = () => {
+      const el = containerRef.current
+      const h = el ? (el.offsetHeight || el.clientHeight || window.innerHeight) : window.innerHeight
+      const multiplier = 2.0 // 200% to further delay unpin on handhelds
+      return `+=${Math.round(h * multiplier)}`
+    }
+
+    // On handhelds: create a separate pin-only trigger with a long end so the
+    // section stays pinned longer without slowing the animation timeline.
+    let pinTrigger = null
+    if (isHandheldForPin) {
+      pinTrigger = ScrollTrigger.create({
+        trigger: container,
+        start: 'top top',
+        end: computeExactEnd, // long pin duration
+        pin: true,
+        pinSpacing: true,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        refreshPriority: 1,
+        markers: false,
+        onLeave: () => {
+          if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current)
+          if (navExitTimeoutRef.current) { 
+            clearTimeout(navExitTimeoutRef.current)
+            navExitTimeoutRef.current = null 
+          }
+          setIsExitingNav(false)
+          setShowNav(true)
+        },
+        onEnterBack: () => {
+          if (navTimeoutRef.current) { 
+            clearTimeout(navTimeoutRef.current)
+            navTimeoutRef.current = null 
+          }
+          if (navExitTimeoutRef.current) { 
+            clearTimeout(navExitTimeoutRef.current)
+            navExitTimeoutRef.current = null 
+          }
+          setIsExitingNav(true)
+          navExitTimeoutRef.current = setTimeout(() => {
+            setShowNav(false)
+            setIsExitingNav(false)
+          }, 900)
+        }
+      })
+    }
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        end: responsiveValues.isLargeMobile ? '+=135%' : '+=110%', // Normal scroll distance
-        scrub: responsiveValues.isLargeMobile ? 1.5 : 2, // Smoother scrub for large mobile
-        pin: true,
+        // Animation duration stays original so speed feels the same
+        end: responsiveValues.isLargeMobile ? '+=135%' : '+=110%',
+        scrub: responsiveValues.isLargeMobile ? 1.5 : 2,
+        pin: isHandheldForPin ? false : true, // handhelds use the separate pin trigger
         markers: false,
         anticipatePin: 1,
-        refreshPriority: 1, // Higher priority to ensure this triggers first
-        pinSpacing: true, // Ensure proper spacing calculation
+        refreshPriority: 1,
+        invalidateOnRefresh: true,
+        pinSpacing: true,
         onLeave: () => {
           if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current)
           if (navExitTimeoutRef.current) { 
@@ -388,12 +440,20 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             const currentScroll = window.scrollY
             
             if (currentScroll >= zoomRevealEnd) {
-              // Animate footer slide up
+              // Animate footer slide up and clamp to viewport bottom
+              gsap.set(slide, { position: 'fixed', left: 0, right: 0, bottom: 0 })
               gsap.to(slide, { 
                 yPercent: 0, 
                 duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
                 ease: 'power2.out',
-                force3D: true
+                force3D: true,
+                onUpdate: () => {
+                  const y = Number(gsap.getProperty(slide, 'yPercent')) || 0
+                  if (y < 0) gsap.set(slide, { yPercent: 0 })
+                },
+                onComplete: () => {
+                  gsap.set(slide, { yPercent: 0 })
+                }
               })
               
               // Add blur overlay animation
@@ -422,12 +482,20 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           const currentScroll = window.scrollY
           
           if (currentScroll >= zoomRevealEnd) {
-            // Animate footer slide up
+            // Animate footer slide up and clamp to viewport bottom
+            gsap.set(slide, { position: 'fixed', left: 0, right: 0, bottom: 0 })
             gsap.to(slide, { 
               yPercent: 0, 
               duration: responsiveValues.isLargeMobile ? 1.0 : 0.8, 
               ease: 'power2.out',
-              force3D: true
+              force3D: true,
+              onUpdate: () => {
+                const y = Number(gsap.getProperty(slide, 'yPercent')) || 0
+                if (y < 0) gsap.set(slide, { yPercent: 0 })
+              },
+              onComplete: () => {
+                gsap.set(slide, { yPercent: 0 })
+              }
             })
             
             // Add blur overlay animation
@@ -463,12 +531,15 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       slideArmedRef.current = false
       const responsiveValues = getResponsiveValues()
       
-      // Animate footer slide down
+      // Animate footer slide down and restore absolute positioning
       gsap.to(slide, { 
         yPercent: 100, 
         duration: responsiveValues.isLargeMobile ? 0.7 : 0.6, 
         ease: 'power2.in',
-        force3D: true
+        force3D: true,
+        onComplete: () => {
+          gsap.set(slide, { position: 'absolute', left: 0, right: 0, bottom: 0 })
+        }
       })
       
       // Remove blur overlay animation
@@ -499,7 +570,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   return (
     <div
       ref={containerRef}
-      style={{ position: 'relative', width: '100%', height: '100%', background: '#ede9e4', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ position: 'relative', width: '100%', height: '100%', background: '#ede9e4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}
     >
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
         {/* Fly images behind the zoomed image */}
@@ -907,8 +978,9 @@ const Landing = () => {
       return `calc(100vh + ${SLIDING_HEIGHT} + 62vh)`
     }
     
-    // Mobile: 100vh (hero) + 200vh (blank sliding) + 100vh (zoom reveal) + 200vh (extra scroll for nav transition) + 339px (footer) = 600vh + 339px
-    return `calc(100vh + ${SLIDING_HEIGHT} + 100vh + 200vh + 339px)`
+    // Mobile: 100vh (hero) + 200vh (blank sliding) + 100vh (zoom reveal) + 339px (footer)
+    // No extra spacer so there is no scroll past the footer
+    return `calc(100vh + ${SLIDING_HEIGHT} + 100vh + 339px)`
   }
 
   return (
@@ -1095,20 +1167,7 @@ const Landing = () => {
         <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
       </div>
 
-      {/* Extra scroll spacer for mobile - provides additional scroll space after zoom reveal */}
-      {isMobile && (
-        <div
-          style={{
-            position: 'absolute',
-            top: `calc(100vh + ${SLIDING_HEIGHT} + 100vh)`,
-            left: 0,
-            right: 0,
-            height: '200vh',
-            background: '#ede9e4',
-            zIndex: 997
-          }}
-        />
-      )}
+      {/* No extra spacer on mobile to prevent scrolling past the footer */}
     </div>
   )
 }
