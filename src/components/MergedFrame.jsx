@@ -42,8 +42,8 @@ const MergedFrame = () => {
 	// Image parallax with Intersection Observer
 	useEffect(() => {
 		const imageRefs = [img1Ref, img2Ref, img3Ref, img4Ref, img5Ref]
-		const parallaxSpeeds = [0.06, 0.06, 0.06, 0.03, 0.06]
-		const scaleValues = [1.02, 1.02, 1.02, 1.01, 1.02]
+		const parallaxSpeeds = [0.12, 0.12, 0.12, 0.06, 0.12]
+		const scaleValues = [1.04, 1.04, 1.04, 1.02, 1.04]
 		
 		const imageObservers = imageRefs.map((imgRef, index) => {
 			if (!imgRef.current) return null
@@ -233,6 +233,10 @@ const MergedFrame = () => {
 						{createAnimatedWords("memories a home", 1, 1)}
 					</p>
 				</div>
+				<div className={styles.frame2SubText}>
+					We frame the stories<br />
+					that matter most
+				</div>
 				<div className={styles.frame2Image3Container}>
 					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
 				</div>
@@ -256,6 +260,11 @@ const MergedFrame = () => {
 					<p className={styles.weUseThe}>
 						{createAnimatedWords("everything in between", 2, 2)}
 					</p>
+				</div>
+				<div className={styles.frame3SubText}>
+					We capture the fleeting moments<br />
+					and give them a timeless<br />
+					home
 				</div>
 			</div>
 		</div>

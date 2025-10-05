@@ -9,6 +9,55 @@
 	font-size: 76px;
 	color: #000;
 	font-family: 'PP Editorial New';
+	isolation: isolate; /* Ensure ::before sits beneath content */
+}
+
+/* Animated gradient background layer (matches AuthGate behavior, tuned colors) */
+.mergedFrameParent::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	/* Soft pastel glow clusters + base tone from merged frame */
+	background:
+		radial-gradient(2600px 1600px at 15% 10%, rgba(212, 197, 255, 0.38), transparent 90%), /* #D4C5FF top-left */
+		radial-gradient(2300px 1700px at 85% 15%, rgba(197, 240, 255, 0.35), transparent 88%), /* #C5F0FF top-right */
+		radial-gradient(2200px 1600px at 15% 85%, rgba(255, 212, 184, 0.42), transparent 92%), /* #FFD4B8 bottom-left */
+		radial-gradient(2000px 1500px at 85% 85%, rgba(232, 224, 255, 0.40), transparent 88%), /* #E8E0FF bottom-right */
+		linear-gradient(135deg, #ede9e4 0%, #ede9e4 100%);
+	background-size: 400% 400%, 400% 400%, 400% 400%, 400% 400%, 100% 100%;
+	animation: funkyGradientShift 10s ease-in-out infinite alternate;
+	pointer-events: none;
+}
+
+@keyframes funkyGradientShift {
+	0% {
+		background-position:
+			0% 0%,
+			100% 0%,
+			0% 100%,
+			100% 100%,
+			50% 50%;
+		filter: hue-rotate(0deg) saturate(110%);
+	}
+	50% {
+		background-position:
+			40% 18%,
+			55% 5%,
+			25% 75%,
+			75% 55%,
+			50% 50%;
+		filter: hue-rotate(16deg) saturate(112%);
+	}
+	100% {
+		background-position:
+			95% 95%,
+			5% 95%,
+			95% 5%,
+			5% 5%,
+			50% 50%;
+		filter: hue-rotate(32deg) saturate(115%);
+	}
 }
 
 /* Frame 1 Section - Top 100vh (0vh to 100vh) */
@@ -19,6 +68,7 @@
 	width: 100%;
 	height: 100vh;
 	overflow: visible; /* Ensure scroll detection works properly */
+	z-index: 1; /* Paint above background ::before */
 }
 
 .weUseTheContainer {
@@ -109,6 +159,7 @@
 	height: 100vh;
 	font-size: 48px;
 	overflow: visible; /* Ensure scroll detection works properly */
+	z-index: 1; /* Paint above background ::before */
 }
 
 
@@ -117,6 +168,7 @@
     top: calc(100vh + 52.00% - 100vh); /* Moved down by 2% from 50% to 52% */
     left: 67.05%; /* 1030px / 1536px */
     width: 30%; /* Limit width to control line breaks */
+    font-size: 42px; /* increased headline size for frame 2 */
     letter-spacing: 0.02em;
     line-height: 122.71%;
     transform: none !important; /* Ensure no transform inheritance */
@@ -149,13 +201,14 @@
 	height: 100vh;
 	font-size: 32px;
 	overflow: visible; /* Ensure scroll detection works properly */
+	z-index: 1; /* Paint above background ::before */
 }
 
 
 .frame3Image2Container {
 	position: absolute;
 	top: calc(200vh + 50% - 200vh); /* Moved down from 40% to 50% */
-	left: 25.00%; /* 384px / 1536px */
+	left: 26.50%; /* slight nudge to the right */
 	width: 19.79%; /* 304px / 1536px */
 	height: 45%; /* Increased height to accommodate parallax movement */
 	overflow: hidden; /* Container clips the image */
@@ -188,9 +241,48 @@
 
 .frame3TextContainer {
     position: absolute;
-    top: calc(200vh + 81% - 200vh); /* Moved down by 7% from 40% to 47% */
+	    top: calc(200vh + 46% - 200vh); /* moved down by 15% */
     left: 3%; /* 44px / 1536px */
+    font-size: 36px; /* revert to previous size */
     letter-spacing: 0.02em;
     line-height: 122.71%;
     transform: none !important; /* Ensure no transform inheritance */
+}
+
+/* Subtext box below frame 3 headline */
+.frame3SubText {
+	position: absolute;
+	top: calc(200vh + 63% - 200vh); /* moved down by additional 1% */
+    left: 3%; /* align with main text container */
+	max-width: 38%; /* allow natural wrapping into 2-3 lines */
+	padding: 0; /* remove inner spacing */
+	background: transparent;
+	border: none;
+	border-radius: 8px;
+	color: #1f2937; /* near-black for stronger contrast */
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 400; /* Regular */
+	font-size: 18px; /* increased for readability */
+	line-height: 1.5;
+	letter-spacing: 0.005em;
+	z-index: 1;
+}
+
+/* Subtext box below frame 2 headline */
+.frame2SubText {
+	position: absolute;
+    top: calc(100vh + 77% - 100vh); /* moved down by additional 2% */
+	left: 67.05%; /* align with frame2TextContainer */
+	max-width: 28%; /* slightly narrower to fit within 30% text width */
+	padding: 0; /* remove inner spacing */
+	background: transparent;
+	border: none;
+	border-radius: 8px;
+	color: #1f2937; /* near-black for stronger contrast */
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 400; /* Regular */
+	font-size: 18px;
+	line-height: 1.5;
+	letter-spacing: 0.005em;
+	z-index: 1;
 }
