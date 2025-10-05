@@ -202,12 +202,18 @@ function Admin() {
       // Reuse cached result within the session unless force-checking
       const cached = sessionStorage.getItem('ee_admin_check')
       if (!force && cached) {
-        const parsed = JSON.parse(cached)
-        if (mounted) {
-          setIsAdmin(Boolean(parsed.isAdmin))
-          setChecking(false)
-        }
-        return
+        try {
+          const parsed = JSON.parse(cached)
+          const ttlMs = 5 * 60 * 1000 // 5 minutes
+          const isFresh = typeof parsed.ts === 'number' && (Date.now() - parsed.ts) < ttlMs
+          if (isFresh) {
+            if (mounted) {
+              setIsAdmin(Boolean(parsed.isAdmin))
+              setChecking(false)
+            }
+            return
+          }
+        } catch {}
       }
 
       const { data } = await supabase.auth.getUser()
@@ -235,7 +241,7 @@ function Admin() {
       }
       
       const result = Boolean(isAdminResp)
-      sessionStorage.setItem('ee_admin_check', JSON.stringify({ isAdmin: result }))
+      sessionStorage.setItem('ee_admin_check', JSON.stringify({ isAdmin: result, ts: Date.now() }))
       if (mounted) { setIsAdmin(result); setChecking(false) }
     }
 
@@ -249,7 +255,15 @@ function Admin() {
       checkAdmin(true)
     })
 
-    return () => { mounted = false; sub.subscription.unsubscribe() }
+    // Also re-check when the page regains focus (handles role changes granted server-side)
+    const onFocus = () => {
+      sessionStorage.removeItem('ee_admin_check')
+      setChecking(true)
+      checkAdmin(true)
+    }
+    window.addEventListener('focus', onFocus)
+
+    return () => { mounted = false; sub.subscription.unsubscribe(); window.removeEventListener('focus', onFocus) }
   }, [])
 
   // Load events, available images, and contact messages
@@ -361,6 +375,7 @@ function Admin() {
         .eq('id', img.id)
       if (delErr) throw delErr
       setAvailableImages(prev => prev.filter(x => x.id !== img.id))
+      setUploaded(prev => prev.filter(x => x.id !== img.id))
       setStatus('Image deleted')
     } catch (err) {
       setStatus(`Delete failed: ${err.message}`)
@@ -827,6 +842,14 @@ function Admin() {
                               onClick={() => saveImageMeta(row)}
                             >
                               Save
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.buttonDanger}
+                              onClick={() => deleteImage(row)}
+                            >
+                              <CloseIcon />
+                              <span>Delete</span>
                             </button>
                           </div>
                         </div>

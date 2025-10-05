@@ -34,3 +34,56 @@
 	color: #333;
 	margin-top: 1rem;
 }
+.takeMeHomeButton {
+	font-family: 'PP Editorial New', serif;
+	font-size: 1.5rem;
+	color: #000;
+	letter-spacing: 0.05em;
+	text-transform: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: auto;
+	opacity: 1;
+	transform: translateY(0);
+	transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	position: relative;
+	cursor: pointer;
+	background: none;
+	border: 2px solid #000;
+	padding: 0.8rem 2rem;
+	margin: 2rem 0 0 0;
+	outline: none;
+	box-shadow: none !important;
+	-webkit-tap-highlight-color: transparent;
+}
+.takeMeHomeButton:focus,
+.takeMeHomeButton:active,
+.takeMeHomeButton:hover,
+.takeMeHomeButton:visited,
+.takeMeHomeButton:focus-visible,
+.takeMeHomeButton:focus-within {
+	border: 2px solid #000 !important;
+	outline: none !important;
+	box-shadow: none !important;
+	background: none !important;
+	color: #000 !important;
+}
+.takeMeHomeButton::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: currentColor;
+	transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+.takeMeHomeButton:hover::after {
+	width: 100%;
+	transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.buttonText {
+	transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	display: inline-block;
+}

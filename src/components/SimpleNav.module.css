@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 50px;
+  height: 52px;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 24px;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -69,6 +69,9 @@
   justify-content: center;
   width: 24px;
   height: 24px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .contactSvg {
@@ -149,7 +152,7 @@
   text-transform: none;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   height: 40px;
   opacity: 1;
   transform: translateY(0);
@@ -163,6 +166,9 @@
   outline: none;
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 .menuText:focus,
@@ -220,6 +226,9 @@
   width: 24px;
   height: 24px;
   transition: transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 /* Remove underline for mobile menu icon */
@@ -274,6 +283,17 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Further suppress tap/selection highlight on descendants */
+.menuText *,
+.mobileMenuIcon,
+.mobileMenuIcon *,
+.titleSvg,
+.titleSvg * {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .menuText.menuOpen .slotContainer .slotText:first-child {
@@ -317,14 +337,6 @@
   .titleText {
     font-size: 24px;
   }
-  
-  .menuText {
-    font-size: 20px;
-  }
-  
-  .contactButton {
-    font-size: 20px;
-  }
 }
 
 @media (min-width: 1025px) and (max-width: 1439px) {
@@ -336,14 +348,6 @@
   .titleText {
     font-size: 20px;
   }
-  
-  .menuText {
-    font-size: 20px;
-  }
-  
-  .contactButton {
-    font-size: 20px;
-  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -353,14 +357,6 @@
   }
   
   .titleText {
-    font-size: 18px;
-  }
-  
-  .menuText {
-    font-size: 18px;
-  }
-  
-  .contactButton {
     font-size: 18px;
   }
 }
