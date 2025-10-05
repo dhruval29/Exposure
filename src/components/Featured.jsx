@@ -94,11 +94,24 @@ const Featured = () => {
           .range(start, end);
 
         if (!error && Array.isArray(data)) {
-          const list = data.map((it, idx) => ({
-            src: it.url,
-            thumb: it.thumbnail_url ? it.thumbnail_url : getTransformedUrl(it.url, 400),
-            title: it.title || `Image ${start + idx + 1}`
-          }));
+          const list = data.map((it, idx) => {
+            const originalUrl = it.large_url || it.public_url || it.url;
+            const thumbUrl = it.thumbnail_url || it.small_url || getTransformedUrl(originalUrl, 400);
+            return {
+              src: originalUrl,
+              thumb: thumbUrl,
+              title: it.title || `Image ${start + idx + 1}`,
+              // pass through metadata for modal display
+              camera_make: it.camera_make,
+              camera_model: it.camera_model,
+              lens_model: it.lens_model,
+              focal_length_mm: it.focal_length_mm,
+              aperture_fnumber: it.aperture_fnumber,
+              shutter_speed: it.shutter_speed,
+              iso: it.iso,
+              taken_at: it.taken_at
+            };
+          });
           if (isMounted) {
             setImages((prev) => (pageIndex === 0 ? list : [...prev, ...list]));
             const listForPreview = list.map(({ src, title }) => ({ src, title }));
@@ -147,11 +160,23 @@ const Featured = () => {
           .range(start, end)
           .then(({ data, error }) => {
             if (!error && Array.isArray(data) && data.length > 0) {
-              const list = data.map((it, idx) => ({
-                src: it.url,
-                thumb: it.thumbnail_url ? it.thumbnail_url : getTransformedUrl(it.url, 400),
-                title: it.title || `Image ${start + idx + 1}`
-              }));
+              const list = data.map((it, idx) => {
+                const originalUrl = it.large_url || it.public_url || it.url;
+                const thumbUrl = it.thumbnail_url || it.small_url || getTransformedUrl(originalUrl, 400);
+                return {
+                  src: originalUrl,
+                  thumb: thumbUrl,
+                  title: it.title || `Image ${start + idx + 1}`,
+                  camera_make: it.camera_make,
+                  camera_model: it.camera_model,
+                  lens_model: it.lens_model,
+                  focal_length_mm: it.focal_length_mm,
+                  aperture_fnumber: it.aperture_fnumber,
+                  shutter_speed: it.shutter_speed,
+                  iso: it.iso,
+                  taken_at: it.taken_at
+                };
+              });
               setImages((prev) => [...prev, ...list]);
               const listForPreview = list.map(({ src, title }) => ({ src, title }));
               setPreviewImages((prev) => [...prev, ...listForPreview]);
