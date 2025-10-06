@@ -223,7 +223,7 @@
   /* Specific classes for second event text elements */
   .textBox1Second {
     position: absolute;
-    top: 73%; /* Moved up by 2% */
+    top: 65%; /* Moved up by additional 3% */
     left: 58%; /* Align with left edge of right image container */
     width: 40%; /* Match right image width */
     font-family: 'PP Editorial New', serif;

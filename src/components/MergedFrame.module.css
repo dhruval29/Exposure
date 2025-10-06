@@ -23,17 +23,16 @@
     background: linear-gradient(
         135deg,
         #b7bae5 0%,
-        #b7bae5 30%,
-        #a8aee0 45%,
-        #c5c7e8 55%,
-        #b7bae5 70%,
-        #d3d5eb 85%,
+        #b7bae5 20%,
+        #c5c7e8 40%,
+        #d3d5eb 60%,
+        #e1e3ee 80%,
         #ede9e4 100%
     );
     background-size: 400% 400%;
     opacity: 0.85;
     z-index: 0;
-    animation: luxuriousGradientFlow 12s ease-in-out infinite;
+    animation: luxuriousGradientFlow 8s ease-in-out infinite;
     mask: linear-gradient(
         to bottom,
         rgba(0,0,0,1) 0%,
@@ -65,21 +64,17 @@
 		background-position: 0% 0%;
 		filter: hue-rotate(0deg) saturate(100%) brightness(1);
 	}
-	20% {
-		background-position: 80% 30%;
-		filter: hue-rotate(3deg) saturate(115%) brightness(1.03);
+	25% {
+		background-position: 100% 50%;
+		filter: hue-rotate(5deg) saturate(105%) brightness(1.02);
 	}
-	40% {
-		background-position: 100% 60%;
-		filter: hue-rotate(6deg) saturate(120%) brightness(1.06);
+	50% {
+		background-position: 100% 100%;
+		filter: hue-rotate(8deg) saturate(110%) brightness(1.05);
 	}
-	60% {
-		background-position: 70% 100%;
-		filter: hue-rotate(8deg) saturate(125%) brightness(1.08);
-	}
-	80% {
-		background-position: 30% 80%;
-		filter: hue-rotate(4deg) saturate(115%) brightness(1.04);
+	75% {
+		background-position: 50% 100%;
+		filter: hue-rotate(5deg) saturate(105%) brightness(1.02);
 	}
 	100% {
 		background-position: 0% 0%;

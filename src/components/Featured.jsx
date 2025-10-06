@@ -16,6 +16,77 @@ const Featured = () => {
   const loadingPageRef = useRef(null);
   const modalRef = useRef(null);
 
+  // Helper to align title/metadata relative to the displayed image with a fixed gap
+  const alignModalSideText = React.useCallback(() => {
+    try {
+      if (!modalRef.current) return;
+      const modal = modalRef.current;
+      const image = modal.querySelector('.image-modal-image');
+      const title = modal.querySelector('.image-modal-title');
+      const metaEl = modal.querySelector('.image-metadata-left');
+      if (!image || !title) return;
+
+      const rect = image.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const gapPx = 32;
+
+      const useSidePlacement = viewportWidth >= 1025;
+
+      if (useSidePlacement) {
+        // Attempt to place title to the right of image
+        title.style.position = 'fixed';
+        title.style.top = `${Math.round(viewportHeight / 2)}px`;
+        title.style.left = `${Math.round(rect.right + gapPx)}px`;
+        title.style.transform = 'translateY(-50%)';
+        title.style.marginTop = '0';
+        title.style.textAlign = 'left';
+
+        // If there isn't enough space on the right, place below
+        const titleRect = title.getBoundingClientRect();
+        const insufficientRightSpace = titleRect.right > viewportWidth - 16;
+        const minimalRightSpace = viewportWidth - rect.right; // px space to the right of image
+        if (insufficientRightSpace || minimalRightSpace < 120) {
+          title.style.position = 'static';
+          title.style.transform = 'none';
+          title.style.marginTop = '16px';
+          title.style.textAlign = 'center';
+        }
+
+        if (metaEl) {
+          // Place metadata to the left if room; otherwise stack
+          metaEl.style.position = 'fixed';
+          metaEl.style.top = `${Math.round(viewportHeight / 2)}px`;
+          metaEl.style.transform = 'translateY(-50%)';
+          metaEl.style.textAlign = 'right';
+          const metaWidth = metaEl.getBoundingClientRect().width || 0;
+          const desiredLeft = rect.left - gapPx - metaWidth;
+          if (desiredLeft < 16) {
+            metaEl.style.position = 'static';
+            metaEl.style.transform = 'none';
+            metaEl.style.textAlign = 'center';
+            metaEl.style.marginTop = '8px';
+          } else {
+            metaEl.style.left = `${Math.round(desiredLeft)}px`;
+            metaEl.style.marginTop = '0';
+          }
+        }
+      } else {
+        // Mobile/tablet: stack below the image
+        title.style.position = 'static';
+        title.style.transform = 'none';
+        title.style.marginTop = '12px';
+        title.style.textAlign = 'center';
+        if (metaEl) {
+          metaEl.style.position = 'static';
+          metaEl.style.transform = 'none';
+          metaEl.style.textAlign = 'center';
+          metaEl.style.marginTop = '6px';
+        }
+      }
+    } catch {}
+  }, []);
+
 
   const [images, setImages] = useState(() => {
     const boot = typeof window !== 'undefined' ? window.__BOOTSTRAP_FEATURED__ : null;
@@ -301,8 +372,26 @@ const Featured = () => {
         duration: 0.5, 
         ease: 'power2.out' 
       }, '-=0.2');
+
+      // Align initially and on resize
+      alignModalSideText();
+      const onResize = () => alignModalSideText();
+      window.addEventListener('resize', onResize);
+
+      // Cleanup listener when modal closes
+      return () => {
+        window.removeEventListener('resize', onResize);
+      };
     }
   }, [showModal]);
+
+  // Re-align when the selected image changes while modal is open (e.g., next/prev)
+  useEffect(() => {
+    if (!showModal) return;
+    // Run after React paints the new image src
+    const id = setTimeout(() => alignModalSideText(), 0);
+    return () => clearTimeout(id);
+  }, [showModal, selectedImage, alignModalSideText]);
 
   // Keyboard support for modal
   useEffect(() => {
@@ -629,6 +718,22 @@ const Featured = () => {
               src={selectedImage.src}
               alt={selectedImage.title}
               className="image-modal-image"
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                const { naturalWidth: nw, naturalHeight: nh } = img;
+                img.classList.remove('landscape', 'portrait', 'square');
+                if (nw && nh) {
+                  if (Math.abs(nw - nh) < 2) {
+                    img.classList.add('square');
+                  } else if (nw > nh) {
+                    img.classList.add('landscape');
+                  } else {
+                    img.classList.add('portrait');
+                  }
+                }
+                // Align title/metadata after the image settles
+                requestAnimationFrame(() => alignModalSideText());
+              }}
             />
             {/* Left metadata panel (desktop) */}
             {(() => {

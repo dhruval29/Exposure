@@ -343,6 +343,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   align-items: center;
   justify-content: center;
   min-height: 80vh;
+  /* Equal visual spacing top/bottom; bottom also reserves space for snackbar */
+  --modal-vertical-padding: 80px; /* top visual spacing */
+  --snackbar-space: 70px;        /* reserved space for snackbar */
+  padding-top: var(--modal-vertical-padding);
+  padding-bottom: calc(var(--modal-vertical-padding) + var(--snackbar-space));
 }
 
 .image-modal-image {
@@ -352,6 +357,24 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   border-radius: 8px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+}
+
+/* Orientation-aware caps so images don't occupy the entire page */
+.image-modal-image.landscape {
+  /* For wide images, prioritize width but keep reasonable height */
+  max-width: 85vw;
+  max-height: 60vh;
+}
+
+.image-modal-image.portrait {
+  /* For tall images, prioritize height but constrain width */
+  max-width: 60vw;
+  max-height: 72vh;
+}
+
+.image-modal-image.square {
+  max-width: 70vw;
+  max-height: 70vh;
 }
 
 .image-modal-title {
@@ -365,43 +388,21 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   flex-shrink: 0;
 }
 
-/* Desktop: place title to the right at 25% from the right window border */
+/* Ensure metadata styles are safe by default; JS positions when space allows */
 @media (min-width: 1025px) {
-  .image-modal-title {
-    position: fixed; /* relative to viewport to avoid shifting image layout */
-    top: 50%;
-    right: 25vw; /* 25% from the right edge */
-    transform: translateY(-50%);
-    margin-top: 0; /* override below-image spacing */
-    text-align: left;
-    font-size: 20px;
-    line-height: 1.4;
-    max-width: 28ch; /* readable line length */
-    color: #111;
-    z-index: 10001; /* above modal content */
-    background: transparent;
-  }
   .image-metadata-left {
-    position: fixed;
-    top: 50%;
-    left: 25vw; /* mirror of 25vw from right */
-    transform: translateY(-50%);
-    text-align: right;
     font-size: 14px;
     line-height: 1.3;
     color: #111;
-    z-index: 10001;
     white-space: pre-line;
     opacity: 0.9;
   }
 }
 
-/* Desktop overrides removed to restore original below-image centered title */
-
 /* Navigation Snack Bar */
 .image-modal-navigation {
   position: absolute;
-  bottom: -20px;
+  bottom: 16px; /* place inside the reserved bottom space */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -484,10 +485,22 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     max-width: 95vw;
     max-height: 95vh;
     min-height: 70vh;
+    /* revert extra padding on mobile */
+    padding-bottom: 0;
   }
   
   .image-modal-image {
     max-height: 65vh;
+  }
+
+  .image-modal-image.landscape {
+    max-width: 92vw;
+    max-height: 58vh;
+  }
+  /* revert mobile portrait override; rely on generic .image-modal-image max-height */
+  .image-modal-image.square {
+    max-width: 82vw;
+    max-height: 66vh;
   }
   
   .image-modal-title {
@@ -524,10 +537,22 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     max-width: 98vw;
     max-height: 98vh;
     min-height: 65vh;
+    /* revert extra padding on small mobile */
+    padding-bottom: 0;
   }
   
   .image-modal-image {
     max-height: 60vh;
+  }
+
+  .image-modal-image.landscape {
+    max-width: 96vw;
+    max-height: 55vh;
+  }
+  /* revert small-mobile portrait override */
+  .image-modal-image.square {
+    max-width: 90vw;
+    max-height: 62vh;
   }
   
   .image-modal-title {

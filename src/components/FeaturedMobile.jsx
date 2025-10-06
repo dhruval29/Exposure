@@ -515,6 +515,20 @@ const FeaturedMobile = () => {
               src={selectedImage.src}
               alt={selectedImage.title}
               className="image-modal-image"
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                const { naturalWidth: nw, naturalHeight: nh } = img;
+                img.classList.remove('landscape', 'portrait', 'square');
+                if (nw && nh) {
+                  if (Math.abs(nw - nh) < 2) {
+                    img.classList.add('square');
+                  } else if (nw > nh) {
+                    img.classList.add('landscape');
+                  } else {
+                    img.classList.add('portrait');
+                  }
+                }
+              }}
             />
             {/* Note: metadata panel omitted on mobile to avoid clutter */}
             <div className="image-modal-title">
