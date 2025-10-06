@@ -11,7 +11,7 @@
   width: 100%;
   max-width: 100%;
   position: relative;
-  background: linear-gradient(-45deg, rgba(236, 253, 243, 0.4), rgba(209, 250, 229, 0.4), rgba(167, 243, 208, 0.4), rgba(110, 231, 183, 0.4), rgba(52, 211, 153, 0.4), rgba(16, 185, 129, 0.4));
+  background: #ecfdf3;
   background-size: 100% 100%;
   background-attachment: fixed;
   animation: eventsGradientShift 5s ease-in-out infinite;
@@ -26,7 +26,7 @@
   font-family: Helvetica;
   padding: 220px 20px 0 20px; /* increased top padding to account for navigation bar (62px) + extra spacing */
   box-sizing: border-box;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Let GSAP handle smooth scrolling */
 }
 
 /* Contact page style text animations */
@@ -60,7 +60,7 @@
 @media (prefers-reduced-motion: reduce) {
   .events {
     animation: none !important;
-    background: rgba(236, 253, 243, 0.4) !important;
+    background: #ecfdf3 !important;
   }
 }
 
@@ -68,6 +68,7 @@
 @media (max-width: 1024px) {
   .events {
     overflow-y: auto; /* Changed from hidden to auto to prevent clipping */
+    scroll-behavior: auto; /* Let GSAP handle smooth scrolling */
   }
   
   .eventsList {

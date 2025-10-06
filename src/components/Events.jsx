@@ -3,6 +3,7 @@ import styles from './Events.module.css';
 import FlowingMenu from './FlowingMenu';
 import Frame50 from './Frame50';
 import SimpleNav from './SimpleNav';
+import SmoothScrollWrapper from './SmoothScrollWrapper';
 import { supabase } from '../lib/supabaseClient';
 import '../styles/Gallery.css';
 
@@ -425,7 +426,9 @@ const Events = () => {
         <div className={styles.eventsList} ref={listRef}>
           {eventsData.length > 0 ? (
             <>
-              <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
+              <SmoothScrollWrapper>
+                <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
+              </SmoothScrollWrapper>
               {totalPages >= 1 && showPagination && (
                 <div className={styles.footerBar}>
                   <div className={styles.pagination}>
@@ -457,7 +460,7 @@ const Events = () => {
           )}
         </div>
       )}
-    </div>
+      </div>
     </>
   );
 };

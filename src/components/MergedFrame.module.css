@@ -12,22 +12,79 @@
 	isolation: isolate; /* Ensure ::before sits beneath content */
 }
 
-/* Animated gradient background layer (matches AuthGate behavior, tuned colors) */
+/* Luxurious animated gradient overlay */
 .mergedFrameParent::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	z-index: 0;
-	/* Soft pastel glow clusters + base tone from merged frame */
-	background:
-		radial-gradient(2600px 1600px at 15% 10%, rgba(212, 197, 255, 0.38), transparent 90%), /* #D4C5FF top-left */
-		radial-gradient(2300px 1700px at 85% 15%, rgba(197, 240, 255, 0.35), transparent 88%), /* #C5F0FF top-right */
-		radial-gradient(2200px 1600px at 15% 85%, rgba(255, 212, 184, 0.42), transparent 92%), /* #FFD4B8 bottom-left */
-		radial-gradient(2000px 1500px at 85% 85%, rgba(232, 224, 255, 0.40), transparent 88%), /* #E8E0FF bottom-right */
-		linear-gradient(135deg, #ede9e4 0%, #ede9e4 100%);
-	background-size: 400% 400%, 400% 400%, 400% 400%, 400% 400%, 100% 100%;
-	animation: funkyGradientShift 10s ease-in-out infinite alternate;
-	pointer-events: none;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80%; /* Extended much further for seamless fade */
+    background: linear-gradient(
+        135deg,
+        #b7bae5 0%,
+        #b7bae5 30%,
+        #a8aee0 45%,
+        #c5c7e8 55%,
+        #b7bae5 70%,
+        #d3d5eb 85%,
+        #ede9e4 100%
+    );
+    background-size: 400% 400%;
+    opacity: 0.85;
+    z-index: 0;
+    animation: luxuriousGradientFlow 12s ease-in-out infinite;
+    mask: linear-gradient(
+        to bottom,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 40%,
+        rgba(0,0,0,0.95) 50%,
+        rgba(0,0,0,0.85) 60%,
+        rgba(0,0,0,0.7) 70%,
+        rgba(0,0,0,0.5) 80%,
+        rgba(0,0,0,0.3) 90%,
+        rgba(0,0,0,0.1) 95%,
+        rgba(0,0,0,0) 100%
+    );
+    -webkit-mask: linear-gradient(
+        to bottom,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 40%,
+        rgba(0,0,0,0.95) 50%,
+        rgba(0,0,0,0.85) 60%,
+        rgba(0,0,0,0.7) 70%,
+        rgba(0,0,0,0.5) 80%,
+        rgba(0,0,0,0.3) 90%,
+        rgba(0,0,0,0.1) 95%,
+        rgba(0,0,0,0) 100%
+    );
+}
+
+@keyframes luxuriousGradientFlow {
+	0% {
+		background-position: 0% 0%;
+		filter: hue-rotate(0deg) saturate(100%) brightness(1);
+	}
+	20% {
+		background-position: 80% 30%;
+		filter: hue-rotate(3deg) saturate(115%) brightness(1.03);
+	}
+	40% {
+		background-position: 100% 60%;
+		filter: hue-rotate(6deg) saturate(120%) brightness(1.06);
+	}
+	60% {
+		background-position: 70% 100%;
+		filter: hue-rotate(8deg) saturate(125%) brightness(1.08);
+	}
+	80% {
+		background-position: 30% 80%;
+		filter: hue-rotate(4deg) saturate(115%) brightness(1.04);
+	}
+	100% {
+		background-position: 0% 0%;
+		filter: hue-rotate(0deg) saturate(100%) brightness(1);
+	}
 }
 
 @keyframes funkyGradientShift {
@@ -165,10 +222,10 @@
 
 .frame2TextContainer {
     position: absolute;
-    top: calc(100vh + 52.00% - 100vh); /* Moved down by 2% from 50% to 52% */
+    top: calc(100vh + 53.00% - 100vh); /* moved down by additional 1% */
     left: 67.05%; /* 1030px / 1536px */
     width: 30%; /* Limit width to control line breaks */
-    font-size: 42px; /* increased headline size for frame 2 */
+    font-size: 52px; /* increased headline size for frame 2 */
     letter-spacing: 0.02em;
     line-height: 122.71%;
     transform: none !important; /* Ensure no transform inheritance */
@@ -252,7 +309,7 @@
 /* Subtext box below frame 3 headline */
 .frame3SubText {
 	position: absolute;
-	top: calc(200vh + 63% - 200vh); /* moved down by additional 1% */
+    top: calc(200vh + 65% - 200vh); /* moved down by additional 2% */
     left: 3%; /* align with main text container */
 	max-width: 38%; /* allow natural wrapping into 2-3 lines */
 	padding: 0; /* remove inner spacing */
@@ -266,12 +323,16 @@
 	line-height: 1.5;
 	letter-spacing: 0.005em;
 	z-index: 1;
+	opacity: 0;
+	transform: translateX(16px);
+    transition: transform 1.2s ease-in-out, opacity 0.5s ease-in 1.2s; /* slower drift, fade at end */
+	will-change: opacity, transform;
 }
 
 /* Subtext box below frame 2 headline */
 .frame2SubText {
 	position: absolute;
-    top: calc(100vh + 77% - 100vh); /* moved down by additional 2% */
+    top: calc(100vh + 78% - 100vh); /* moved down by additional 1% */
 	left: 67.05%; /* align with frame2TextContainer */
 	max-width: 28%; /* slightly narrower to fit within 30% text width */
 	padding: 0; /* remove inner spacing */
@@ -285,4 +346,14 @@
 	line-height: 1.5;
 	letter-spacing: 0.005em;
 	z-index: 1;
+	opacity: 0;
+	transform: translateX(16px);
+    transition: transform 1.2s ease-in-out, opacity 0.5s ease-in 1.2s; /* slower drift, fade at end */
+	will-change: opacity, transform;
+}
+
+/* Reveal modifier for subtext boxes */
+.subTextReveal {
+	opacity: 1 !important;
+	transform: translateX(0) !important;
 }

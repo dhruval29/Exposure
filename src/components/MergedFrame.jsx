@@ -18,6 +18,8 @@ const MergedFrame = () => {
 	// Text animation refs - now for individual words
 	const textWordRefs = useRef([])
 	const frame2TextRef = useRef(null)
+	const frame2SubTextRef = useRef(null)
+	const frame3SubTextRef = useRef(null)
 
 	// Add error boundary state
 	const [hasError, setHasError] = useState(false)
@@ -42,8 +44,8 @@ const MergedFrame = () => {
 	// Image parallax with Intersection Observer
 	useEffect(() => {
 		const imageRefs = [img1Ref, img2Ref, img3Ref, img4Ref, img5Ref]
-		const parallaxSpeeds = [0.12, 0.12, 0.12, 0.06, 0.12]
-		const scaleValues = [1.04, 1.04, 1.04, 1.02, 1.04]
+		const parallaxSpeeds = [0.06, 0.06, 0.06, 0.03, 0.06]
+		const scaleValues = [1.02, 1.02, 1.02, 1.01, 1.02]
 		
 		const imageObservers = imageRefs.map((imgRef, index) => {
 			if (!imgRef.current) return null
@@ -153,6 +155,28 @@ const MergedFrame = () => {
 		}
 	}, [])
 
+	// Subtext reveal intersection observer
+	useEffect(() => {
+		const elements = [frame2SubTextRef.current, frame3SubTextRef.current].filter(Boolean)
+		if (elements.length === 0) return
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add(styles.subTextReveal)
+						observer.unobserve(entry.target)
+					}
+				})
+			},
+			{ threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+		)
+
+		elements.forEach((el) => observer.observe(el))
+
+		return () => observer.disconnect()
+	}, [])
+
 
 	// Removed lorem container animation
 
@@ -233,7 +257,7 @@ const MergedFrame = () => {
 						{createAnimatedWords("memories a home", 1, 1)}
 					</p>
 				</div>
-				<div className={styles.frame2SubText}>
+				<div ref={frame2SubTextRef} className={styles.frame2SubText}>
 					We frame the stories<br />
 					that matter most
 				</div>
@@ -261,7 +285,7 @@ const MergedFrame = () => {
 						{createAnimatedWords("everything in between", 2, 2)}
 					</p>
 				</div>
-				<div className={styles.frame3SubText}>
+				<div ref={frame3SubTextRef} className={styles.frame3SubText}>
 					We capture the fleeting moments<br />
 					and give them a timeless<br />
 					home

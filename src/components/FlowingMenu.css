@@ -105,7 +105,7 @@
   right: 0;
   bottom: 0;
   top: 0;
-  background: #393424; /* block color updated per request */
+  background: #729b79; /* block color updated per request */
   transform: translateY(100%);
   /* Match arrow speed (~600ms) with strong end deceleration */
   transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -119,9 +119,7 @@
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.menu__item--clickable:hover {
-  /* Removed transform movement - button stays in place */
-}
+/* No-op hover block removed to satisfy linter */
 
 .menu__item--clickable .menu__item-link:hover {
   color: #ffffff; /* contrast with block */
@@ -140,9 +138,7 @@
 }
 
 /* Guide Animation Styles - Disabled */
-.menu__item--guide {
-  /* Guide functionality removed */
-}
+/* .menu__item--guide intentionally omitted */
 
 .guide-tooltip {
   display: none; /* Hide tooltip */
@@ -427,9 +423,7 @@
     opacity: 0;
   }
   
-  .menu__item--clickable:hover {
-    /* No movement needed */
-  }
+  /* No-op hover block removed on large mobile */
   
   .menu__item--clickable .menu__item-link:hover {
     color: #ffffff;
