@@ -560,13 +560,14 @@ function Admin() {
   // Handle event image file selection
   const handleEventImageSelect = (e) => {
     const file = e.target.files?.[0]
-    if (file && file.type.startsWith('image/')) {
+    if (file && isImageFile(file)) {
       setEventImageFile(file)
       const reader = new FileReader()
       reader.onload = (e) => {
         setEventImagePreview(e.target.result)
       }
       reader.readAsDataURL(file)
+      toast.success('Image selected')
     }
   }
 
@@ -1447,7 +1448,22 @@ function Admin() {
                               <div className={styles.uploadPrompt}>
                                 <button
                                   type="button"
-                                  onClick={() => eventImageInputRef.current?.click()}
+                                  onClick={async () => {
+                                    if (eventImageInputRef.current) { eventImageInputRef.current.value = ''; }
+                                    const picked = await pickImageFiles(false)
+                                    if (picked && picked.length) {
+                                      const file = picked[0]
+                                      setEventImageFile(file)
+                                      const reader = new FileReader()
+                                      reader.onload = (e) => {
+                                        setEventImagePreview(e.target.result)
+                                      }
+                                      reader.readAsDataURL(file)
+                                      toast.success('Image selected')
+                                      return
+                                    }
+                                    eventImageInputRef.current?.click()
+                                  }}
                                   className={styles.uploadButton}
                                 >
                                   <UploadIcon />

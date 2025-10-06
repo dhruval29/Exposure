@@ -120,9 +120,9 @@
   /* Desktop textBox1 positioning - below first image */
   .textBox1 {
     position: absolute;
-    top: 87%; /* Position below the first image, moved up from 90% */
-    left: 8%; /* Align with left image */
-    width: 45%; /* Match left image width */
+    top: 89%; /* Moved down by 2% from 87% */
+    left: 2%; /* Align with left edge of left image container */
+    width: 50%; /* Match left image width */
     font-family: 'PP Editorial New', serif;
     font-size: 40px;
     font-weight: 400;
@@ -171,9 +171,9 @@
   /* Desktop second textBox1 positioning - below second image */
   .textBox1:nth-of-type(2) {
     position: absolute;
-    top: 69%; /* Position below the second image, moved up from 90% */
-    left: 60%; /* Align with right image */
-    width: 38%; /* Match right image width */
+    top: 73%; /* Moved up by 2% */
+    left: 58%; /* Align with left edge of right image container */
+    width: 40%; /* Match right image width */
     font-family: 'PP Editorial New', serif;
     font-size: 40px;
     font-weight: 400;
@@ -222,9 +222,9 @@
   /* Specific classes for second event text elements */
   .textBox1Second {
     position: absolute;
-    top: 69%; /* Position below the right image, moved up from 72% */
-    left: 60%; /* Align with right image */
-    width: 38%; /* Match right image width */
+    top: 73%; /* Moved up by 2% */
+    left: 58%; /* Align with left edge of right image container */
+    width: 40%; /* Match right image width */
     font-family: 'PP Editorial New', serif;
     font-size: 40px;
     font-weight: 400;
@@ -430,10 +430,10 @@
 
 .img2024101415521735Icon {
   position: absolute;
-  top: 5%; /* moved up from 7.5% */
-  left: 60%; /* shifted right to account for larger left image */
-  width: 38%; /* make right image narrower */
-  height: 63%; /* reduced by 5% */
+  top: 7%; /* moved down by 2% from 5% */
+  left: 58%; /* moved left slightly to expand towards left side */
+  width: 40%; /* increased width slightly from 38% */
+  height: 65%; /* increased height slightly from 63% */
   object-fit: cover;
   will-change: transform;
   transform-origin: center center;
@@ -444,9 +444,9 @@
 
 .img2024101415521736Icon {
   position: absolute;
-  top: 5%; /* moved up from 7.5% */
-  left: 8%; /* keep on left side */
-  width: 45%; /* make left image wider */
+  top: 7%; /* moved down by 2% from 5% */
+  left: 2%; /* moved further left to expand towards left side */
+  width: 50%; /* reduced width slightly from right side */
   height: 80%; /* reduced by 5% */
   object-fit: cover;
   will-change: transform;
@@ -469,6 +469,21 @@
   transform: translateY(10px);
   animation: cu-textReveal 600ms ease-out forwards;
   animation-delay: calc(var(--cu-delay-base) + 60ms);
+  padding-bottom: 4px;
+}
+
+.featured::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #666;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 80ms);
 }
 
 .textBox {
@@ -1402,22 +1417,81 @@
   }
 }
 
-/* Lines below titles and descriptions */
+/* Animated lines below titles and descriptions - similar to contact page */
 .textBox1 {
-  border-bottom: 1px solid #666;
+  position: relative;
   padding-bottom: 8px;
 }
+
+.textBox1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #666;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 200ms);
+}
+
 .textBox1Second {
-  border-bottom: 1px solid #666;
+  position: relative;
   padding-bottom: 8px;
 }
+
+.textBox1Second::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #666;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 220ms);
+}
+
 .textBox2 {
-  border-bottom: 1px solid #666;
+  position: relative;
   padding-bottom: 6px;
 }
+
+.textBox2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #666;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 240ms);
+}
+
 .textBox2Second {
-  border-bottom: 1px solid #666;
+  position: relative;
   padding-bottom: 6px;
+}
+
+.textBox2Second::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #666;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cu-lineGrow 800ms ease-out forwards;
+  animation-delay: calc(var(--cu-delay-base) + 260ms);
 }
 
 /* Tablet: match textBox1Second to textBox1 */
