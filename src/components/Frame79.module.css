@@ -493,3 +493,160 @@
 	height: 70.387vh; /* 509.4px converted: (509.4/1086)*150 = 70.387vh */
 	object-fit: cover;
 }
+
+/* Tablet adjustments (≤1024px) */
+@media (max-width: 1024px) {
+  .rectangleParent {
+    height: 520vh;
+  }
+
+  /* Scale images slightly larger in % to keep readability but reduce height */
+  .frameItem,
+  .frameChild,
+  .rectangleIcon,
+  .frameChild3,
+  .frameChild5,
+  .frameChild7,
+  .frameChild11,
+  .frameChild12,
+  .frameChild13 {
+    height: 58vh; /* keep original widths, only reduce height */
+  }
+
+  /* Titles and role font sizes */
+  .photographer,
+  .rectangleParentPhotographer,
+  .photographer2,
+  .cinematographer,
+  .photographer3,
+  .rectangleParentCinematographer,
+  .photographer4,
+  .photographer5,
+  .editor {
+    font-size: 1.8vw; /* reduce roles on tablet */
+  }
+
+  .vicePresident,
+  .headOfPhotography,
+  .headOfVideography,
+  .advisor,
+  .member,
+  .rectangleParentMember,
+  .member2,
+  .member3 {
+    font-size: 1.3vw; /* reduce positions on tablet */
+  }
+
+  /* Reduce member name sizes on tablet */
+  .dhruvalVashi,
+  .jonathanPaul,
+  .ronakBarwar,
+  .adityaMadkikar,
+  .yashodhanBorkar,
+  .piyushSingh,
+  .himeshSolanki,
+  .akilPriyan,
+  .pranavLajeesh {
+    font-size: 2.3vw;
+  }
+
+  /* Social icons */
+  .instagramSvgrepoCom11,
+  .instagramSvgrepoCom16,
+  .rectangleParentInstagramSvgrepoCom16,
+  .instagramSvgrepoCom14,
+  .instagramSvgrepoCom113,
+  .instagramSvgrepoCom162,
+  .instagramSvgrepoCom110,
+  .instagramSvgrepoCom111,
+  .instagramSvgrepoCom112 {
+    width: 2.8vw;
+    height: 2.8vw;
+  }
+}
+
+/* Phone adjustments (≤768px) */
+@media (max-width: 768px) {
+  .rectangleParent {
+    height: 600vh;
+    font-size: 4.2vw; /* Base scale for misc text */
+  }
+
+  /* Stack layout visually by narrowing widths */
+  .frameItem,
+  .frameChild,
+  .rectangleIcon,
+  .frameChild3,
+  .frameChild5,
+  .frameChild7,
+  .frameChild11,
+  .frameChild12,
+  .frameChild13 {
+    height: 48vh; /* keep original widths, only reduce height */
+    border-radius: 3.6vw;
+  }
+
+  /* Headings and roles */
+  .dhruvalVashi,
+  .jonathanPaul,
+  .ronakBarwar,
+  .adityaMadkikar,
+  .yashodhanBorkar,
+  .piyushSingh,
+  .himeshSolanki,
+  .akilPriyan,
+  .pranavLajeesh {
+    font-size: 4.2vw; /* reduce names on phone */
+  }
+
+  .photographer,
+  .rectangleParentPhotographer,
+  .photographer2,
+  .cinematographer,
+  .photographer3,
+  .rectangleParentCinematographer,
+  .photographer4,
+  .photographer5,
+  .editor {
+    font-size: 3.0vw; /* reduce roles on phone */
+  }
+
+  .vicePresident,
+  .headOfPhotography,
+  .headOfVideography,
+  .advisor,
+  .member,
+  .rectangleParentMember,
+  .member2,
+  .member3 {
+    font-size: 2.6vw; /* reduce positions on phone */
+  }
+
+  /* Lines thinner */
+  .frameInner,
+  .lineDiv,
+  .rectangleParentFrameChild,
+  .frameChild2,
+  .frameChild4,
+  .frameChild6,
+  .frameChild8,
+  .frameChild9,
+  .frameChild10 {
+    border-top-width: 0.1vh;
+    width: 32vw;
+  }
+
+  /* Social icons */
+  .instagramSvgrepoCom11,
+  .instagramSvgrepoCom16,
+  .rectangleParentInstagramSvgrepoCom16,
+  .instagramSvgrepoCom14,
+  .instagramSvgrepoCom113,
+  .instagramSvgrepoCom162,
+  .instagramSvgrepoCom110,
+  .instagramSvgrepoCom111,
+  .instagramSvgrepoCom112 {
+    width: 4.6vw;
+    height: 4.6vw;
+  }
+}

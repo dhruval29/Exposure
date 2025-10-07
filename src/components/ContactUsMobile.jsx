@@ -223,7 +223,7 @@ export default function ContactUsMobile() {
             type="button"
             style={{ backgroundColor: '#112a46', borderRadius: 18, padding: '2vh 4vw', width: '100%', maxWidth: '40vw', textAlign: 'center' }}
           >
-            <span style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#fff', lineHeight: 1.5 }}>{submitting ? 'Sending…' : 'Reach Us!'}</span>
+            <span style={{ fontFamily: "'Helvetica Light', 'Helvetica', Arial, sans-serif", fontSize: 18, color: '#fff', lineHeight: 1.5 }}>{submitting ? 'Sending…' : 'Reach Us!'}</span>
           </button>
         </div>
       </div>

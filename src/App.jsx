@@ -9,6 +9,7 @@ const MembersPage = lazy(() => import('./components/MembersPage'))
 const Featured = lazy(() => import('./components/Featured'))
 const FeaturedMobile = lazy(() => import('./components/FeaturedMobile'))
 const TheTeamPage = lazy(() => import('./components/TheTeamPage'))
+const TheTeamMobile = lazy(() => import('./components/the-team-mobile'))
 const OurJourney = lazy(() => import('./components/OurJourney'))
 const Admin = lazy(() => import('./components/Admin'))
 const Fly = lazy(() => import('./components/Fly'))
@@ -63,6 +64,29 @@ function FeaturedRoute() {
   return isMobile ? <FeaturedMobile /> : <Featured />;
 }
 
+function TheTeamRoute() {
+  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches)
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const handler = (e) => setIsMobile(e.matches)
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler)
+    } else {
+      mq.addListener(handler)
+    }
+    return () => {
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', handler)
+      } else {
+        mq.removeListener(handler)
+      }
+    }
+  }, [])
+
+  return isMobile ? <TheTeamMobile /> : <TheTeamPage />
+}
+
 function App() {
   return (
     <Router>
@@ -88,7 +112,7 @@ function InnerApp() {
         <Route path="/gallery" element={<FeaturedRoute />} />
         <Route path="/pictures" element={<FeaturedRoute />} />
         <Route path="/members" element={<MembersPage />} />
-        <Route path="/the-team" element={<TheTeamPage />} />
+        <Route path="/the-team" element={<TheTeamRoute />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/fly" element={<Fly />} />
         <Route path="/events" element={<Events />} />

@@ -76,7 +76,7 @@ const Menu = ({ onClose }) => {
             ref={(el) => wordRefs.current.push(el)} 
             className={styles.animatedWord} 
             data-word-index={4}
-            onClick={() => handleNavigation('/team')}
+            onClick={() => handleNavigation('/the-team')}
           >
             Team
           </button>
@@ -111,7 +111,7 @@ const Menu = ({ onClose }) => {
         </button>
         <button 
           className={styles.mobileMenuItem}
-          onClick={() => handleNavigation('/team')}
+          onClick={() => handleNavigation('/the-team')}
         >
           Team
         </button>

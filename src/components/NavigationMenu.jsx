@@ -194,7 +194,7 @@ const NavigationMenu = ({ isExiting }) => {
         navigate('/events');
         break;
       case 'team':
-        navigate('/team');
+        navigate('/the-team');
         break;
       case 'our-journey':
         navigate('/our-journey');

@@ -1,0 +1,405 @@
+.app {
+	width: 100%;
+	position: relative;
+	background-color: #fdefc9;
+	height: 300vh;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 2.844vh 4.103vw 0;
+	box-sizing: border-box;
+	gap: 3.792vh;
+	text-align: left;
+	font-size: 5.538vw;
+	color: #000;
+	font-family: 'Helvetica Light';
+}
+
+.container {
+	align-self: stretch;
+	height: 10.200vh;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1.897vh;
+	z-index: 0;
+	font-size: 9.231vw;
+	font-family: 'PP Editorial New';
+}
+
+.appContainer {
+	align-self: stretch;
+	position: relative;
+	height: 3.946vh;
+}
+
+.text {
+	position: absolute;
+	top: -0.474vh;
+	left: 0;
+	width: 38.487vw;
+	height: 4.834vh;
+	display: flex;
+	align-items: flex-start;
+}
+
+.meetThe {
+	flex: 1;
+	position: relative;
+	line-height: 3.946vh;
+}
+
+.appText {
+	position: absolute;
+	top: -0.474vh;
+	left: 35.407vw;
+	width: 22.744vw;
+	height: 4.834vh;
+	display: flex;
+	align-items: flex-start;
+}
+
+.container2 {
+	align-self: stretch;
+	height: 4.361vh;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	font-size: 4.103vw;
+	color: #6c6a6a;
+	font-family: Helvetica;
+}
+
+.paragraph {
+	align-self: stretch;
+	height: 2.181vh;
+	display: flex;
+	align-items: flex-start;
+}
+
+.ourDedicatedTeam {
+	flex: 1;
+	position: relative;
+}
+
+.container3 {
+	width: 82.564vw;
+	position: relative;
+	height: 266.400vh;
+	z-index: 1;
+}
+
+.bombSvgrepoCom2Icon {
+	width: 8.205vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 293.644vh;
+	left: 48.718vw;
+	max-height: 100%;
+	z-index: 2;
+}
+
+.teammember {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 21.213vh;
+	left: 6.154vw;
+	height: 46.473vh;
+	z-index: 3;
+}
+
+.paragraph2 {
+	position: absolute;
+	top: 31.563vh;
+	left: 0;
+	width: 39.462vw;
+	height: 2.902vh;
+	display: flex;
+	align-items: flex-start;
+	font-family: 'PP Editorial New';
+}
+
+.container4 {
+	position: absolute;
+	top: 35.301vh;
+	left: 0;
+	background-color: #000;
+	width: 39.462vw;
+	height: 0.095vh;
+}
+
+.paragraph3 {
+	position: absolute;
+	top: 36.607vh;
+	left: 0;
+	width: 39.462vw;
+	height: 2.215vh;
+	display: flex;
+	align-items: flex-start;
+	font-size: 3.590vw;
+}
+
+.paragraph4 {
+	position: absolute;
+	top: 39.666vh;
+	left: 0;
+	width: 39.462vw;
+	height: 1.789vh;
+	display: flex;
+	align-items: flex-start;
+	font-size: 3.231vw;
+	color: #6c6a6a;
+}
+
+.containerIcon {
+	position: absolute;
+	top: 36.574vh;
+	left: 31.385vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+.appContainerIcon {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 6.231vw;
+	width: 39.462vw;
+	height: 29.858vh;
+	object-fit: cover;
+}
+
+.appContainerIconShiftLeft {
+	/* Nudge the image content slightly left without moving the box */
+	object-position: 47% 50%;
+}
+
+.appContainerIconShiftUp {
+	/* Nudge image content slightly upward within its box */
+	object-position: 50% 45%;
+}
+
+.appTeammember {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 27.245vh;
+	left: 56.154vw;
+	height: 46.473vh;
+	z-index: 4;
+}
+
+.containerIcon2 {
+	position: absolute;
+	top: 36.734vh;
+	left: 31.282vw;
+	width: 7.179vw;
+	height: 3.316vh;
+}
+
+.teammember2 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 76.282vh;
+	left: 56.154vw;
+	height: 46.473vh;
+	z-index: 5;
+}
+
+.adityaMadkikar {
+	position: relative;
+}
+
+.containerIcon4 {
+	position: absolute;
+	top: 36.251vh;
+	left: 32.769vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+.teammember3 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 82.940vh;
+	left: 6.154vw;
+	height: 46.473vh;
+	z-index: 6;
+}
+
+.containerIcon6 {
+	position: absolute;
+	top: 36.134vh;
+	left: 33.846vw;
+	width: 7.179vw;
+	height: 3.316vh;
+}
+
+.teammember4 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 130.907vh;
+	left: 6.154vw;
+	height: 49.370vh;
+	z-index: 7;
+}
+
+.paragraph14 {
+	position: absolute;
+	top: 31.563vh;
+	left: 0;
+	width: 39.462vw;
+	height: 5.807vh;
+	font-family: 'PP Editorial New';
+}
+
+.yashodhanBorkar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	width: 27.692vw;
+}
+
+.container8 {
+	position: absolute;
+	top: 38.211vh;
+	left: 0;
+	background-color: #000;
+	width: 39.462vw;
+	height: 0.095vh;
+}
+
+.paragraph15 {
+	position: absolute;
+	top: 39.518vh;
+	left: 0;
+	width: 39.462vw;
+	height: 2.215vh;
+	display: flex;
+	align-items: flex-start;
+	font-size: 3.590vw;
+}
+
+.paragraph16 {
+	position: absolute;
+	top: 42.578vh;
+	left: 0;
+	width: 39.462vw;
+	height: 1.789vh;
+	display: flex;
+	align-items: flex-start;
+	font-size: 3.231vw;
+	color: #6c6a6a;
+}
+
+.container9 {
+	position: absolute;
+	top: 45.638vh;
+	left: 0;
+	width: 8.077vw;
+	height: 3.733vh;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.icon {
+	position: absolute;
+	top: 39.695vh;
+	left: 32.564vw;
+	width: 7.179vw;
+	height: 3.316vh;
+}
+
+.teammember5 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 136.639vh;
+	left: 56.154vw;
+	height: 46.473vh;
+	z-index: 8;
+}
+
+.containerIcon9 {
+	position: absolute;
+	top: 36.273vh;
+	left: 33.000vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+.teammember6 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 186.019vh;
+	left: 56.154vw;
+	height: 46.473vh;
+	z-index: 9;
+}
+
+.containerIcon11 {
+	position: absolute;
+	top: 36.828vh;
+	left: 31.282vw;
+	width: 7.179vw;
+	height: 3.316vh;
+}
+
+.teammember7 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 192.198vh;
+	left: 6.154vw;
+	height: 46.473vh;
+	z-index: 10;
+}
+
+.containerIcon13 {
+	position: absolute;
+	top: 36.295vh;
+	left: 32.308vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+.teammember8 {
+	width: 39.462vw;
+	position: absolute;
+	margin: 0 !important;
+	top: 241.265vh;
+	left: 6.154vw;
+	height: 46.473vh;
+	z-index: 11;
+}
+
+.containerIcon15 {
+	position: absolute;
+	top: 36.667vh;
+	left: 32.769vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+/* debugLabel removed */
+
+.scrollSpacer {
+	position: absolute;
+	top: 300vh; /* begin right after the designed 300vh page */
+	left: 0;
+	width: 1px; /* invisible, minimal width */
+	height: 30vh; /* extra scroll room for late triggers */
+	pointer-events: none;
+	opacity: 0;
+}
+
+/* bgExtension removed; we no longer extend background or height */
+
+
