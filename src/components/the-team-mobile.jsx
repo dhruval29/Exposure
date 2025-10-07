@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import styles from './the-team-mobile.module.css';
+import SimpleNav from './SimpleNav';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -163,7 +164,7 @@ const TheTeamMobile = () => {
 			if (teamEl) {
 				teamEl.style.display = 'inline-block';
 				teamEl.style.position = 'relative';
-				teamEl.style.marginLeft = '0.25em';
+				teamEl.style.marginLeft = '0.05em';
 			}
 			const together = teamEl ? [titleSpan, teamEl] : [titleSpan];
 			gsap.set(together, { opacity: 0, y: 24, letterSpacing: '0.02em', filter: 'blur(2px)', willChange: 'transform' });
@@ -219,7 +220,9 @@ const TheTeamMobile = () => {
 	}, []);
 
 	return (
-		<div ref={containerRef} className={styles.app}>
+		<>
+			<SimpleNav />
+			<div ref={containerRef} className={styles.app}>
 			<div className={styles.container}>
 				<div className={styles.appContainer}>
 					<div className={styles.text}>
@@ -309,7 +312,7 @@ const TheTeamMobile = () => {
 				</div>
 				<div className={styles.container9} />
 				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 07.28.01_5d08ba86.jpg" />
-				<img className={styles.icon} alt="" />
+				<img className={styles.icon} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
 			</div>
 			<div className={styles.teammember5}>
 				<div className={styles.paragraph2}>
@@ -369,6 +372,7 @@ const TheTeamMobile = () => {
 			</div>
 		{/* no spacer; early triggers handle final reveal without extra height */}
 		</div>
+		</>
 	);
 };
 

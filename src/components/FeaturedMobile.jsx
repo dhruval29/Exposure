@@ -6,13 +6,8 @@ import SimpleNav from './SimpleNav';
 
 const FeaturedMobile = () => {
   const [loading, setLoading] = useState(true);
-  const [showLoader, setShowLoader] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const loaderRef = useRef(null);
-  const loaderPanelRef = useRef(null);
-  const loaderTextRef = useRef(null);
-  const loadingPageRef = useRef(null);
   const modalRef = useRef(null);
 
 
@@ -150,7 +145,7 @@ const FeaturedMobile = () => {
   // Preload full-size images (mobile) after initial load to reduce modal latency
   const preloadedSetRef = useRef(new Set());
   useEffect(() => {
-    if (loading || showLoader) return;
+    if (loading) return;
     const limit = 12;
     images.slice(0, limit).forEach((img) => {
       const url = img.src;
@@ -163,27 +158,7 @@ const FeaturedMobile = () => {
     });
   }, [images, loading, showLoader]);
 
-  // Shutter loader animation (white panel shrinks from top, revealing from bottom)
-  useEffect(() => {
-    if (!showLoader) return;
-    const wrapper = loaderRef.current;
-    const panel = loaderPanelRef.current;
-    const text = loaderTextRef.current;
-    if (!wrapper || !panel || !text) return;
-
-    gsap.set(panel, { height: '100vh' });
-    gsap.set(text, { autoAlpha: 1, y: 0 });
-
-    const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
-    tl.to(text, { autoAlpha: 1, duration: 0.2 })
-      .add('reveal')
-      .to(panel, { height: 0, duration: 2.0, ease: 'power4.inOut' }, 'reveal')
-      .to(text, { autoAlpha: 0, duration: 0.6, ease: 'power2.out' }, 'reveal+=0.3')
-      .set(wrapper, { pointerEvents: 'none', display: 'none' })
-      .add(() => setShowLoader(false));
-
-    return () => { tl.kill(); };
-  }, [showLoader]);
+  // Removed page-level shutter loader for this page
 
   // Modal animation with non-uniform fade-in
   useEffect(() => {
@@ -404,39 +379,7 @@ const FeaturedMobile = () => {
           minHeight: '100vh'
       }}
     >
-      {/* Shutter Loader Overlay */}
-      {showLoader && (
-        <div
-          ref={loaderRef}
-          style={{ position: 'fixed', inset: 0, zIndex: 100000, overflow: 'hidden', pointerEvents: 'auto' }}
-        >
-          <div
-            ref={loaderPanelRef}
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100vh', background: '#ede9e4', transformOrigin: 'top center' }}
-          />
-          <div
-            ref={loaderTextRef}
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black', fontSize: 'clamp(24px, 6vw, 64px)', fontFamily: 'Helvetica, Arial, sans-serif', letterSpacing: '0.02em' }}
-          >
-            Featured
-          </div>
-        </div>
-      )}
-      
-      {/* Loading Page */}
-      {!showLoader && loading && (
-        <div className="c-loading-page" ref={loadingPageRef}>
-          <div className="c-loading-page__content">
-            <p className="c-loading-page__text">
-              {'Featured'.split('').map((char, index) => (
-                <span key={index} className="char" style={{ animationDelay: `${index * 100}ms` }}>
-                  {char}
-                </span>
-              ))}
-            </p>
-          </div>
-        </div>
-      )}
+      {/* Removed page-specific preloaders; rely on main landing preloader only */}
 
       
 
