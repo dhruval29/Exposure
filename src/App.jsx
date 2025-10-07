@@ -9,12 +9,14 @@ const MembersPage = lazy(() => import('./components/MembersPage'))
 const Featured = lazy(() => import('./components/Featured'))
 const FeaturedMobile = lazy(() => import('./components/FeaturedMobile'))
 const TeamPage = lazy(() => import('./components/TeamPage'))
+const TheTeamPage = lazy(() => import('./components/TheTeamPage'))
 const OurJourney = lazy(() => import('./components/OurJourney'))
 const Admin = lazy(() => import('./components/Admin'))
 const Fly = lazy(() => import('./components/Fly'))
 const Events = lazy(() => import('./components/Events'))
 const ContactUs = lazy(() => import('./components/ContactUs'))
 const ContactUsMobile = lazy(() => import('./components/ContactUsMobile'))
+const ScrollStackDemo = lazy(() => import('./components/ScrollStackDemo'))
 
 function ContactRoute() {
   const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches);
@@ -88,10 +90,12 @@ function InnerApp() {
         <Route path="/pictures" element={<FeaturedRoute />} />
         <Route path="/members" element={<MembersPage />} />
         <Route path="/team" element={<TeamPage />} />
+        <Route path="/the-team" element={<TheTeamPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/fly" element={<Fly />} />
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<ContactRoute />} />
+        <Route path="/scroll-stack-demo" element={<ScrollStackDemo />} />
       </Routes>
     </div>
   );

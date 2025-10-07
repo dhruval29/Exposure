@@ -10,12 +10,73 @@
   font-family: 'PP Editorial New';
 }
 
+/* Luxurious animated gradient overlay to match desktop merged frame */
+.mobileFrame2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    #b7bae5 0%,
+    #b7bae5 20%,
+    #c5c7e8 40%,
+    #d3d5eb 60%,
+    #e1e3ee 80%,
+    #ede9e4 100%
+  );
+  background-size: 400% 400%;
+  opacity: 0.5; /* Continue from reduced visibility of Frame 1 */
+  z-index: 0;
+  animation: luxuriousGradientFlow 16s ease-in-out infinite;
+  mask: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.5) 0%,
+    rgba(0,0,0,0.35) 50%,
+    rgba(0,0,0,0) 50%,
+    rgba(0,0,0,0) 100%
+  );
+  -webkit-mask: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.5) 0%,
+    rgba(0,0,0,0.35) 50%,
+    rgba(0,0,0,0) 50%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+@keyframes luxuriousGradientFlow {
+  0% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg) saturate(100%) brightness(1);
+  }
+  25% {
+    background-position: 100% 50%;
+    filter: hue-rotate(5deg) saturate(105%) brightness(1.02);
+  }
+  50% {
+    background-position: 100% 100%;
+    filter: hue-rotate(8deg) saturate(110%) brightness(1.05);
+  }
+  75% {
+    background-position: 50% 100%;
+    filter: hue-rotate(5deg) saturate(105%) brightness(1.02);
+  }
+  100% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg) saturate(100%) brightness(1);
+  }
+}
+
 .loremIpsumDolorContainer {
   position: absolute;
   top: 1.54%; /* 13px / 844px */
   left: 6.41%; /* 25px / 390px */
   letter-spacing: 0.02em;
   line-height: 122.71%;
+  font-size: clamp(16px, 4vw, 22px);
   display: inline-block;
   width: 32.05%; /* 125px / 390px */
 }
@@ -31,7 +92,8 @@
   font-size: clamp(8px, 2vw, 12px);
   letter-spacing: 0.02em;
   line-height: 122.71%;
-  color: #d9d9d9;
+  color: #000;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .img202412291336061Icon {

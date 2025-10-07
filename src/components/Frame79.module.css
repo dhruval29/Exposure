@@ -1,0 +1,495 @@
+.rectangleParent {
+  	width: 100%;
+  	position: relative;
+  	background-color: #fdefc9;
+  	height: 450vh; /* 3414px converted: (3414/3414)*450 = 450vh */
+  	overflow: hidden;
+  	text-align: left;
+  	font-size: 2.813vw; /* 43.2px converted: (43.2/1536)*100 = 2.813vw */
+  	color: #000;
+  	font-family: 'Helvetica Light';
+}
+
+.frameChild {
+  	position: absolute;
+  	top: 71.392vh; /* 554px converted: 554px is in Section 1 (0-776px), so (554/776)*100 = 71.392vh */
+  	left: 37.559vw; /* 576.9px converted: (576.9/1536)*100 = 37.559vw */
+  	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+  	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+  	height: 65.644vh; /* 509.4px converted: (509.4/776)*100 = 65.644vh */
+  	object-fit: cover;
+  	object-position: center top; /* Move image content to the top within container */
+}
+
+.meetTheTeamContainer {
+  	position: absolute;
+  	top: 12.758vh; /* 99px converted: 99px is in Section 1 (0-776px), so (99/776)*100 = 12.758vh */
+  	left: 5.339vw; /* 82px converted: (82/1536)*100 = 5.339vw */
+  	font-size: 4.947vw; /* 75.99px converted: (75.99/1536)*100 = 4.947vw */
+  	line-height: 92.48%;
+  	display: inline-block;
+  	width: 31.25vw; /* 480px converted: (480/1536)*100 = 31.25vw */
+  	height: 8.376vh; /* 65px converted: (65/776)*100 = 8.376vh */
+  	font-family: 'PP Editorial New';
+}
+
+.meetTheTeam {
+  	margin: 0;
+}
+
+.team {
+  	font-family: 'PP Editorial New';
+}
+
+.ourDedicatedTeamContainer {
+  	position: absolute;
+  	top: 24.096vh; /* 186.99px converted: 186.99px is in Section 1 (0-776px), so (186.99/776)*100 = 24.096vh */
+  	left: 5.339vw; /* 82px converted: (82/1536)*100 = 5.339vw */
+  	font-size: 1.693vw; /* 26px converted: (26/1536)*100 = 1.693vw */
+  	font-family: Helvetica;
+  	color: #6c6a6a;
+}
+
+.frameItem {
+  	position: absolute;
+  	top: 47.809vh; /* 371px converted: 371px is in Section 1 (0-776px), so (371/776)*100 = 47.809vh */
+  	left: 5.208vw; /* 80px converted: (80/1536)*100 = 5.208vw */
+  	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+  	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+  	height: 65.644vh; /* 509.4px converted: (509.4/776)*100 = 65.644vh */
+  	object-fit: cover;
+  	object-position: 45% center; /* Move image content slightly left within container */
+}
+
+.dhruvalVashi {
+  	position: absolute;
+  	top: 122.258vh; /* 948.8px converted: 948.8px is in Section 2 (776-1552px), so ((948.8-776)/776)*100+100 = 122.258vh */
+  	left: 5.326vw; /* 81.8px converted: (81.8/1536)*100 = 5.326vw */
+  	font-family: 'PP Editorial New';
+}
+
+.frameInner {
+  	position: absolute;
+  	top: 131.746vh; /* 1022.15px converted: 1022.15px is in Section 2 (776-1552px), so ((1022.15-776)/776)*100+100 = 131.746vh */
+  	left: 5.472vw; /* 84.05px converted: (84.05/1536)*100 = 5.472vw */
+  	border-top: 0.116vh solid #000; /* 0.9px converted: (0.9/776)*100 = 0.116vh */
+  	box-sizing: border-box;
+  	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+  	height: 0.116vh; /* 0.9px converted: (0.9/776)*100 = 0.116vh */
+}
+
+.photographer {
+  	position: absolute;
+  	top: 135.257vh; /* 1049.6px converted: 1049.6px is in Section 2 (776-1552px), so ((1049.6-776)/776)*100+100 = 135.257vh */
+  	left: 5.208vw; /* 80px converted: (80/1536)*100 = 5.208vw */
+  	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.vicePresident {
+  	position: absolute;
+  	top: 141.142vh; /* 1095.5px converted: 1095.5px is in Section 2 (776-1552px), so ((1095.5-776)/776)*100+100 = 141.142vh */
+  	left: 5.208vw; /* 80px converted: (80/1536)*100 = 5.208vw */
+  	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+  	color: #6c6a6a;
+}
+
+.instagramSvgrepoCom11 {
+	position: absolute;
+	top: 122.139vh; /* 947.8px converted: 947.8px is in Section 2 (776-1552px), so ((947.8-776)/776)*100+100 = 122.139vh */
+	left: 25.553vw; /* 392.5px converted: (392.5/1536)*100 = 25.553vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.jonathanPaul {
+	position: absolute;
+	top: 145.155vh; /* 1126.4px converted: 1126.4px is in Section 2 (776-1552px), so ((1126.4-776)/776)*100+100 = 145.155vh */
+	left: 37.618vw; /* 577.8px converted: (577.8/1536)*100 = 37.618vw */
+	font-family: 'PP Editorial New';
+}
+
+.lineDiv {
+	position: absolute;
+	top: 154.607vh; /* 1199.75px converted: 1199.75px is in Section 2 (776-1552px), so ((1199.75-776)/776)*100+100 = 154.607vh */
+	left: 37.763vw; /* 580.05px converted: (580.05/1536)*100 = 37.763vw */
+	border-top: 0.116vh solid #000; /* 0.9px converted: (0.9/776)*100 = 0.116vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.116vh; /* 0.9px converted: (0.9/776)*100 = 0.116vh */
+}
+
+.rectangleParentPhotographer {
+	position: absolute;
+	top: 158.144vh; /* 1227.2px converted: 1227.2px is in Section 2 (776-1552px), so ((1227.2-776)/776)*100+100 = 158.144vh */
+	left: 37.5vw; /* 576px converted: (576/1536)*100 = 37.5vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.headOfPhotography {
+	position: absolute;
+	top: 164.059vh; /* 1273.1px converted: 1273.1px is in Section 2 (776-1552px), so ((1273.1-776)/776)*100+100 = 164.059vh */
+	left: 37.5vw; /* 576px converted: (576/1536)*100 = 37.5vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.instagramSvgrepoCom16 {
+	position: absolute;
+	top: 145.155vh; /* 1126.4px converted: 1126.4px is in Section 2 (776-1552px), so ((1126.4-776)/776)*100+100 = 145.155vh */
+	left: 58.436vw; /* 897.5px converted: (897.5/1536)*100 = 58.436vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.rectangleIcon {
+	position: absolute;
+	top: 38.531vh; /* 299px converted: 299px is in Section 1 (0-776px), so (299/776)*100 = 38.531vh */
+	left: 69.904vw; /* 1073.7px converted: (1073.7/1536)*100 = 69.904vw */
+	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+	height: 65.644vh; /* 509.4px converted: (509.4/776)*100 = 65.644vh */
+	object-fit: cover;
+}
+
+.ronakBarwar {
+	position: absolute;
+	top: 112.294vh; /* 871.4px converted: 871.4px is in Section 2 (776-1552px), so ((871.4-776)/776)*100+100 = 112.294vh */
+	left: 69.844vw; /* 1072.8px converted: (1072.8/1536)*100 = 69.844vw */
+	font-family: 'PP Editorial New';
+}
+
+.rectangleParentInstagramSvgrepoCom16 {
+	position: absolute;
+	top: 112.294vh; /* 871.4px converted: 871.4px is in Section 2 (776-1552px), so ((871.4-776)/776)*100+100 = 112.294vh */
+	left: 91.699vw; /* 1408.5px converted: (1408.5/1536)*100 = 91.699vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.rectangleParentFrameChild {
+	position: absolute;
+	top: 121.746vh; /* 944.75px converted: 944.75px is in Section 2 (776-1552px), so ((944.75-776)/776)*100+100 = 121.746vh */
+	left: 70.0vw; /* 1075.05px converted: (1075.05/1536)*100 = 70.0vw */
+	border-top: 0.116vh solid #000; /* 0.9px converted: (0.9/776)*100 = 0.116vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.116vh; /* 0.9px converted: (0.9/776)*100 = 0.116vh */
+}
+
+.photographer2 {
+	position: absolute;
+	top: 125.309vh; /* 972.2px converted: 972.2px is in Section 2 (776-1552px), so ((972.2-776)/776)*100+100 = 125.309vh */
+	left: 69.727vw; /* 1071px converted: (1071/1536)*100 = 69.727vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.president {
+	position: absolute;
+	top: 131.194vh; /* 1018.1px converted: 1018.1px is in Section 2 (776-1552px), so ((1018.1-776)/776)*100+100 = 131.194vh */
+	left: 69.727vw; /* 1071px converted: (1071/1536)*100 = 69.727vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.adityaMadkikar {
+	position: absolute;
+	top: 249.787vh; /* 56.81% of 3414px = 1939.35px, in Section 4 (2328-3414px), so ((1939.35-2328)/1086)*150+300 = 249.787vh */
+	left: 5.36%; /* Keeping left as percentage since it's relative positioning */
+	font-family: 'PP Editorial New';
+}
+
+.frameChild2 {
+	position: absolute;
+	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	width: 24.9%; /* Keeping width as percentage */
+	top: 255.920vh; /* 58.95% of 3414px = 2012.55px, in Section 4 (2328-3414px), so ((2012.55-2328)/1086)*150+300 = 255.920vh */
+	right: 69.65%;
+	bottom: 41.02%;
+	left: 5.45%;
+	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	box-sizing: border-box;
+}
+
+.cinematographer {
+	position: absolute;
+	top: 261.686vh; /* 59.76% of 3414px = 2040.12px, in Section 4 (2328-3414px), so ((2040.12-2328)/1086)*150+300 = 261.686vh */
+	left: 5.24%; /* Keeping left as percentage */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.headOfVideography {
+	position: absolute;
+	top: 268.090vh; /* 61.1% of 3414px = 2086.35px, in Section 4 (2328-3414px), so ((2086.35-2328)/1086)*150+300 = 268.090vh */
+	left: 5.24%; /* Keeping left as percentage */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.frameChild3 {
+	position: absolute;
+	top: 176.152vh; /* 1366.95px converted: 1366.95px is in Section 3 (1552-2328px), so ((1366.95-1552)/776)*100+200 = 176.152vh */
+	left: 5.241vw; /* 80.5px converted: (80.5/1536)*100 = 5.241vw */
+	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+	height: 65.644vh; /* 509.4px converted: (509.4/776)*100 = 65.644vh */
+	object-fit: cover;
+}
+
+.yashodhanBorkar {
+	position: absolute;
+	top: 269.157vh; /* 2089.65px converted: 2089.65px is in Section 4 (2328-3414px), so ((2089.65-2328)/1086)*150+300 = 269.157vh */
+	left: 37.519vw; /* 576.3px converted: (576.3/1536)*100 = 37.519vw */
+	font-family: 'PP Editorial New';
+}
+
+.instagramSvgrepoCom14 {
+	position: absolute;
+	top: 269.157vh; /* 2089.65px converted: 2089.65px is in Section 4 (2328-3414px), so ((2089.65-2328)/1086)*150+300 = 269.157vh */
+	left: 59.375vw; /* 912px converted: (912/1536)*100 = 59.375vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.instagramSvgrepoCom113 {
+	position: absolute;
+	top: 249.787vh; /* 1939.35px converted: 1939.35px is in Section 4 (2328-3414px), so ((1939.35-2328)/1086)*150+300 = 249.787vh */
+	left: 26.804vw; /* 411.7px converted: (411.7/1536)*100 = 26.804vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.frameChild4 {
+	position: absolute;
+	top: 283.333vh; /* 2163px converted: 2163px is in Section 4 (2328-3414px), so ((2163-2328)/1086)*150+300 = 283.333vh */
+	left: 37.548vw; /* 576.75px converted: (576.75/1536)*100 = 37.548vw */
+	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+}
+
+.photographer3 {
+	position: absolute;
+	top: 285.139vh; /* 2190.45px converted: 2190.45px is in Section 4 (2328-3414px), so ((2190.45-2328)/1086)*150+300 = 285.139vh */
+	left: 37.403vw; /* 574.5px converted: (574.5/1536)*100 = 37.403vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.advisor {
+	position: absolute;
+	top: 289.475vh; /* 2236.35px converted: 2236.35px is in Section 4 (2328-3414px), so ((2236.35-2328)/1086)*150+300 = 289.475vh */
+	left: 37.403vw; /* 574.5px converted: (574.5/1536)*100 = 37.403vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.frameChild5 {
+	position: absolute;
+	top: 195.521vh; /* 1517.25px converted: 1517.25px is in Section 3 (1552-2328px), so ((1517.25-1552)/776)*100+200 = 195.521vh */
+	left: 37.578vw; /* 577.2px converted: (577.2/1536)*100 = 37.578vw */
+	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+	height: 65.644vh; /* 509.4px converted: (509.4/776)*100 = 65.644vh */
+	object-fit: cover;
+}
+
+.piyushSingh {
+	position: absolute;
+	top: 228.344vh; /* 1771.95px converted: 1771.95px is in Section 4 (2328-3414px), so ((1771.95-2328)/1086)*150+300 = 228.344vh */
+	left: 70.794vw; /* 1087.4px converted: (1087.4/1536)*100 = 70.794vw */
+	font-family: 'PP Editorial New';
+}
+
+.instagramSvgrepoCom162 {
+	position: absolute;
+	top: 228.344vh; /* 1771.95px converted: 1771.95px is in Section 4 (2328-3414px), so ((1771.95-2328)/1086)*150+300 = 228.344vh */
+	left: 92.651vw; /* 1423.1px converted: (1423.1/1536)*100 = 92.651vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.frameChild6 {
+	position: absolute;
+	top: 238.898vh; /* 1845.3px converted: 1845.3px is in Section 4 (2328-3414px), so ((1845.3-2328)/1086)*150+300 = 238.898vh */
+	left: 70.825vw; /* 1087.85px converted: (1087.85/1536)*100 = 70.825vw */
+	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+}
+
+.rectangleParentCinematographer {
+	position: absolute;
+	top: 245.227vh; /* 1872.75px converted: 1872.75px is in Section 4 (2328-3414px), so ((1872.75-2328)/1086)*150+300 = 245.227vh */
+	left: 70.677vw; /* 1085.6px converted: (1085.6/1536)*100 = 70.677vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.member {
+	position: absolute;
+	top: 251.563vh; /* 1918.65px converted: 1918.65px is in Section 4 (2328-3414px), so ((1918.65-2328)/1086)*150+300 = 251.563vh */
+	left: 70.677vw; /* 1085.6px converted: (1085.6/1536)*100 = 70.677vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.frameChild7 {
+  	position: absolute;
+  	top: 153.074vh; /* 1187.85px converted: 1187.85px is in Section 2 (776-1552px), so ((1187.85-776)/776)*100+100 = 153.074vh */
+  	left: 69.915vw; /* 1073.9px converted: (1073.9/1536)*100 = 69.915vw */
+  	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+  	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+  	height: 64.601vh; /* 501.3px converted: (501.3/776)*100 = 64.601vh */
+  	object-fit: cover;
+  	object-position: center 20%; /* Zoom into the image by cropping from the top */
+}
+
+.himeshSolanki {
+	position: absolute;
+	top: 349.372vh; /* 2684.55px converted: 2684.55px is in Section 4 (2328-3414px), so ((2684.55-2328)/1086)*150+300 = 349.372vh */
+	left: 69.915vw; /* 1073.9px converted: (1073.9/1536)*100 = 69.915vw */
+	font-family: 'PP Editorial New';
+}
+
+.instagramSvgrepoCom110 {
+	position: absolute;
+	top: 348.766vh; /* 2680.95px converted: 2680.95px is in Section 4 (2328-3414px), so ((2680.95-2328)/1086)*150+300 = 348.766vh */
+	left: 91.477vw; /* 1405.1px converted: (1405.1/1536)*100 = 91.477vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.photographer4 {
+	position: absolute;
+	top: 363.156vh; /* 2785.35px converted: 2785.35px is in Section 4 (2328-3414px), so ((2785.35-2328)/1086)*150+300 = 363.156vh */
+	left: 70.091vw; /* 1076.6px converted: (1076.6/1536)*100 = 70.091vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.rectangleParentMember {
+	position: absolute;
+	top: 369.492vh; /* 2831.25px converted: 2831.25px is in Section 4 (2328-3414px), so ((2831.25-2328)/1086)*150+300 = 369.492vh */
+	left: 70.091vw; /* 1076.6px converted: (1076.6/1536)*100 = 70.091vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.akilPriyan {
+	position: absolute;
+	top: 393.244vh; /* 3002.25px converted: 3002.25px is in Section 4 (2328-3414px), so ((3002.25-2328)/1086)*150+300 = 393.244vh */
+	left: 37.688vw; /* 578.9px converted: (578.9/1536)*100 = 37.688vw */
+	font-family: 'PP Editorial New';
+}
+
+.instagramSvgrepoCom111 {
+	position: absolute;
+	top: 393.244vh; /* 3002.25px converted: 3002.25px is in Section 4 (2328-3414px), so ((3002.25-2328)/1086)*150+300 = 393.244vh */
+	left: 59.485vw; /* 913.7px converted: (913.7/1536)*100 = 59.485vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.frameChild8 {
+	position: absolute;
+	top: 403.580vh; /* 3075.6px converted: 3075.6px is in Section 4 (2328-3414px), so ((3075.6-2328)/1086)*150+300 = 403.580vh */
+	left: 37.542vw; /* 576.65px converted: (576.65/1536)*100 = 37.542vw */
+	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+}
+
+.frameChild9 {
+	position: absolute;
+	top: 360.138vh; /* 2762.4px converted: 2762.4px is in Section 4 (2328-3414px), so ((2762.4-2328)/1086)*150+300 = 360.138vh */
+	left: 69.886vw; /* 1073.45px converted: (1073.45/1536)*100 = 69.886vw */
+	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+}
+
+.photographer5 {
+	position: absolute;
+	top: 407.087vh; /* 3103.05px converted: 3103.05px is in Section 4 (2328-3414px), so ((3103.05-2328)/1086)*150+300 = 407.087vh */
+	left: 37.571vw; /* 577.1px converted: (577.1/1536)*100 = 37.571vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.member2 {
+	position: absolute;
+	top: 413.423vh; /* 3148.95px converted: 3148.95px is in Section 4 (2328-3414px), so ((3148.95-2328)/1086)*150+300 = 413.423vh */
+	left: 37.571vw; /* 577.1px converted: (577.1/1536)*100 = 37.571vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.pranavLajeesh {
+	position: absolute;
+	top: 372.424vh; /* 2851.95px converted: 2851.95px is in Section 4 (2328-3414px), so ((2851.95-2328)/1086)*150+300 = 372.424vh */
+	left: 5.358vw; /* 82.3px converted: (82.3/1536)*100 = 5.358vw */
+	font-family: 'PP Editorial New';
+}
+
+.instagramSvgrepoCom112 {
+	position: absolute;
+	top: 372.446vh; /* 2852.85px converted: 2852.85px is in Section 4 (2328-3414px), so ((2852.85-2328)/1086)*150+300 = 372.446vh */
+	left: 27.279vw; /* 419px converted: (419/1536)*100 = 27.279vw */
+	width: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+	height: 3.281vw; /* 50.4px converted: (50.4/1536)*100 = 3.281vw */
+}
+
+.frameChild10 {
+	position: absolute;
+	top: 382.588vh; /* 2926.2px converted: 2926.2px is in Section 4 (2328-3414px), so ((2926.2-2328)/1086)*150+300 = 382.588vh */
+	left: 5.211vw; /* 80.05px converted: (80.05/1536)*100 = 5.211vw */
+	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+	box-sizing: border-box;
+	width: 24.901vw; /* 382.5px converted: (382.5/1536)*100 = 24.901vw */
+	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
+}
+
+.editor {
+	position: absolute;
+	top: 386.277vh; /* 2952.75px converted: 2952.75px is in Section 4 (2328-3414px), so ((2952.75-2328)/1086)*150+300 = 386.277vh */
+	left: 5.241vw; /* 80.5px converted: (80.5/1536)*100 = 5.241vw */
+	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
+}
+
+.member3 {
+	position: absolute;
+	top: 392.613vh; /* 2998.65px converted: 2998.65px is in Section 4 (2328-3414px), so ((2998.65-2328)/1086)*150+300 = 392.613vh */
+	left: 5.241vw; /* 80.5px converted: (80.5/1536)*100 = 5.241vw */
+	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
+	color: #6c6a6a;
+}
+
+.frameChild11 {
+	position: absolute;
+	top: 293.811vh; /* 2279.55px converted: 2279.55px is in Section 4 (2328-3414px), so ((2279.55-2328)/1086)*150+300 = 293.811vh */
+	left: 5.241vw; /* 80.5px converted: (80.5/1536)*100 = 5.241vw */
+	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+	height: 70.387vh; /* 509.4px converted: (509.4/1086)*150 = 70.387vh */
+	object-fit: cover;
+}
+
+.frameChild12 {
+	position: absolute;
+	top: 314.087vh; /* 2429.85px converted: 2429.85px is in Section 4 (2328-3414px), so ((2429.85-2328)/1086)*150+300 = 314.087vh */
+	left: 37.571vw; /* 577.1px converted: (577.1/1536)*100 = 37.571vw */
+	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+	height: 70.387vh; /* 509.4px converted: (509.4/1086)*150 = 70.387vh */
+	object-fit: cover;
+}
+
+.frameChild13 {
+	position: absolute;
+	top: 271.572vh; /* 2106.75px converted: 2106.75px is in Section 4 (2328-3414px), so ((2106.75-2328)/1086)*150+300 = 271.572vh */
+	left: 69.915vw; /* 1073.9px converted: (1073.9/1536)*100 = 69.915vw */
+	border-radius: 1.758vw; /* 27px converted: (27/1536)*100 = 1.758vw */
+	width: 24.844vw; /* 381.6px converted: (381.6/1536)*100 = 24.844vw */
+	height: 70.387vh; /* 509.4px converted: (509.4/1086)*150 = 70.387vh */
+	object-fit: cover;
+}

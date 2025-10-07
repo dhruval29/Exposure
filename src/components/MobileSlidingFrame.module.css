@@ -7,6 +7,76 @@
   overflow: visible;
 }
 
+/* Luxurious animated gradient overlay to match desktop merged frame */
+.mobileSlidingFrameParent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    #b7bae5 0%,
+    #b7bae5 20%,
+    #c5c7e8 40%,
+    #d3d5eb 60%,
+    #e1e3ee 80%,
+    #ede9e4 100%
+  );
+  background-size: 400% 400%;
+  opacity: 0.85;
+  z-index: 0;
+  animation: luxuriousGradientFlow 16s ease-in-out infinite;
+  mask: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 40%,
+    rgba(0,0,0,0.95) 50%,
+    rgba(0,0,0,0.85) 60%,
+    rgba(0,0,0,0.7) 70%,
+    rgba(0,0,0,0.5) 80%,
+    rgba(0,0,0,0.3) 90%,
+    rgba(0,0,0,0.1) 95%,
+    rgba(0,0,0,0) 100%
+  );
+  -webkit-mask: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 40%,
+    rgba(0,0,0,0.95) 50%,
+    rgba(0,0,0,0.85) 60%,
+    rgba(0,0,0,0.7) 70%,
+    rgba(0,0,0,0.5) 80%,
+    rgba(0,0,0,0.3) 90%,
+    rgba(0,0,0,0.1) 95%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+@keyframes luxuriousGradientFlow {
+  0% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg) saturate(100%) brightness(1);
+  }
+  25% {
+    background-position: 100% 50%;
+    filter: hue-rotate(5deg) saturate(105%) brightness(1.02);
+  }
+  50% {
+    background-position: 100% 100%;
+    filter: hue-rotate(8deg) saturate(110%) brightness(1.05);
+  }
+  75% {
+    background-position: 50% 100%;
+    filter: hue-rotate(5deg) saturate(105%) brightness(1.02);
+  }
+  100% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg) saturate(100%) brightness(1);
+  }
+}
+
 /* Frame 1 Section - Top 100vh (0vh to 100vh) */
 .frame1Section {
   position: absolute;

@@ -1,43 +1,29 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Frame66 from './Frame66';
+import React from 'react';
 import './TeamPage.css';
-import '../styles/Gallery.css';
 import SimpleNav from './SimpleNav';
+import FRAME1 from './FRAME1';
+import FRAME2 from './FRAME2';
+import Frame3 from './Frame3';
+import Frame4 from './Frame4';
 
 const TeamPage = () => {
-  const [loading, setLoading] = useState(true);
-  const loadingPageRef = useRef(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
-    const timer = setTimeout(() => isMounted && setLoading(false), 1200);
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <>
       <SimpleNav />
       <div className="team-page">
-      {loading && (
-        <div className="c-loading-page" ref={loadingPageRef}>
-          <div className="c-loading-page__content">
-            <p className="c-loading-page__text">
-              {'Team'.split('').map((char, index) => (
-                <span key={index} className="char" style={{ animationDelay: `${index * 100}ms` }}>
-                  {char}
-                </span>
-              ))}
-            </p>
-          </div>
+        <div className="frame frame-1">
+          <FRAME1 />
         </div>
-      )}
-
-      <Frame66 />
-    </div>
+        <div className="frame frame-2">
+          <FRAME2 />
+        </div>
+        <div className="frame frame-3">
+          <Frame3 />
+        </div>
+        <div className="frame frame-4">
+          <Frame4 />
+        </div>
+      </div>
     </>
   );
 };

@@ -1,0 +1,227 @@
+.frame2 {
+  width: 100%;
+  position: relative;
+  background-color: #fdefc9;
+  height: 100vh; /* 776px converted to 100vh */
+  overflow: hidden;
+  text-align: left;
+  font-size: 3.125vw; /* 48px converted: (48/1536)*100 = 3.125vw */
+  color: #000;
+  font-family: 'Helvetica Light';
+}
+
+.frame2Child {
+  position: absolute;
+  top: -57.86vh; /* -449px converted: (-449/776)*100 = -57.86vh */
+  left: 4.753vw; /* 73px converted: (73/1536)*100 = 4.753vw */
+  border-radius: 1.953vw; /* 30px converted: (30/1536)*100 = 1.953vw */
+  width: 27.604vw; /* 424px converted: (424/1536)*100 = 27.604vw */
+  height: 72.938vh; /* 566px converted: (566/776)*100 = 72.938vh */
+  object-fit: cover;
+  object-position: 45% center; /* Same positioning as frame1Child */
+}
+
+.frame2Item {
+  position: absolute;
+  top: -36.469vh; /* -283px converted: (-283/776)*100 = -36.469vh */
+  left: 36.198vw; /* 556px converted: (556/1536)*100 = 36.198vw */
+  border-radius: 1.953vw; /* 30px converted: (30/1536)*100 = 1.953vw */
+  width: 27.604vw; /* 424px converted: (424/1536)*100 = 27.604vw */
+  height: 72.938vh; /* 566px converted: (566/776)*100 = 72.938vh */
+  object-fit: cover;
+  object-position: center 10%; /* Same positioning as frame1Item */
+}
+
+.frame2Inner {
+  position: absolute;
+  width: 27.6%;
+  top: 71.134vh; /* 552px converted: (552/776)*100 = 71.134vh */
+  right: 67.71%;
+  left: 4.69%;
+  border-radius: 1.953vw; /* 30px converted: (30/1536)*100 = 1.953vw */
+  max-width: 100%;
+  overflow: hidden;
+  height: 72.938vh; /* 566px converted: (566/776)*100 = 72.938vh */
+  object-fit: cover;
+}
+
+.dhruvalVashi {
+  position: absolute;
+  top: 24.098vh; /* 187px converted: (187/776)*100 = 24.098vh */
+  left: 4.883vw; /* 75px converted: (75/1536)*100 = 4.883vw */
+  font-family: 'PP Editorial New';
+}
+
+.lineDiv {
+  position: absolute;
+  top: 34.601vh; /* 268.5px converted: (268.5/776)*100 = 34.601vh */
+  left: 5.044vw; /* 77.5px converted: (77.5/1536)*100 = 5.044vw */
+  border-top: 1px solid #000;
+  box-sizing: border-box;
+  width: 27.669vw; /* 425px converted: (425/1536)*100 = 27.669vw */
+  height: 1px;
+}
+
+.photographer {
+  position: absolute;
+  top: 38.531vh; /* 299px converted: (299/776)*100 = 38.531vh */
+  left: 4.753vw; /* 73px converted: (73/1536)*100 = 4.753vw */
+  font-size: 2.344vw; /* 36px converted: (36/1536)*100 = 2.344vw */
+}
+
+.vicePresident {
+  position: absolute;
+  top: 45.103vh; /* 350px converted: (350/776)*100 = 45.103vh */
+  left: 4.753vw; /* 73px converted: (73/1536)*100 = 4.753vw */
+  font-size: 1.823vw; /* 28px converted: (28/1536)*100 = 1.823vw */
+  color: #6c6a6a;
+}
+
+.instagramSvgrepoCom11 {
+  position: absolute;
+  top: 24.098vh; /* 187px converted: (187/776)*100 = 24.098vh */
+  left: 29.167vw; /* 448px converted: (448/1536)*100 = 29.167vw */
+  width: 3.646vw; /* 56px converted: (56/1536)*100 = 3.646vw */
+  height: 7.216vh; /* 56px converted: (56/776)*100 = 7.216vh */
+}
+
+.ronakBarwar {
+  position: absolute;
+  top: 0vh; /* 0px converted: (0/776)*100 = 0vh */
+  left: 69.141vw; /* 1062px converted: (1062/1536)*100 = 69.141vw */
+  font-family: 'PP Editorial New';
+}
+
+.frame2Child2 {
+  position: absolute;
+  top: 10.505vh; /* 81.5px converted: (81.5/776)*100 = 10.505vh */
+  left: 69.273vw; /* 1064.5px converted: (1064.5/1536)*100 = 69.273vw */
+  border-top: 1px solid #000;
+  box-sizing: border-box;
+  width: 27.669vw; /* 425px converted: (425/1536)*100 = 27.669vw */
+  height: 1px;
+}
+
+.photographer2 {
+  position: absolute;
+  top: 14.433vh; /* 112px converted: (112/776)*100 = 14.433vh */
+  left: 69.010vw; /* 1060px converted: (1060/1536)*100 = 69.010vw */
+  font-size: 2.344vw; /* 36px converted: (36/1536)*100 = 2.344vw */
+}
+
+.rectangleIcon {
+  position: absolute;
+  top: 71.134vh; /* 552px converted: (552/776)*100 = 71.134vh */
+  left: 4.688vw; /* 72px converted: (72/1536)*100 = 4.688vw */
+  border-radius: 1.953vw; /* 30px converted: (30/1536)*100 = 1.953vw */
+  width: 27.604vw; /* 424px converted: (424/1536)*100 = 27.604vw */
+  height: 72.938vh; /* 566px converted: (566/776)*100 = 72.938vh */
+  object-fit: cover;
+}
+
+.president {
+  position: absolute;
+  top: 21.005vh; /* 163px converted: (163/776)*100 = 21.005vh */
+  left: 69.010vw; /* 1060px converted: (1060/1536)*100 = 69.010vw */
+  font-size: 1.823vw; /* 28px converted: (28/1536)*100 = 1.823vw */
+  color: #6c6a6a;
+}
+
+.instagramSvgrepoCom13 {
+  position: absolute;
+  top: 0vh; /* 0px converted: (0/776)*100 = 0vh */
+  left: 93.424vw; /* 1435px converted: (1435/1536)*100 = 93.424vw */
+  width: 3.646vw; /* 56px converted: (56/1536)*100 = 3.646vw */
+  height: 7.216vh; /* 56px converted: (56/776)*100 = 7.216vh */
+}
+
+.jonathanPaul {
+  position: absolute;
+  top: 45.490vh; /* 353px converted: (353/776)*100 = 45.490vh */
+  left: 36.328vw; /* 558px converted: (558/1536)*100 = 36.328vw */
+  font-family: 'PP Editorial New';
+}
+
+.frame2Child3 {
+  position: absolute;
+  top: 56.004vh; /* 434.5px converted: (434.5/776)*100 = 56.004vh */
+  left: 36.489vw; /* 560.5px converted: (560.5/1536)*100 = 36.489vw */
+  border-top: 1px solid #000;
+  box-sizing: border-box;
+  width: 27.669vw; /* 425px converted: (425/1536)*100 = 27.669vw */
+  height: 1px;
+}
+
+.photographer3 {
+  position: absolute;
+  top: 59.923vh; /* 465px converted: (465/776)*100 = 59.923vh */
+  left: 36.198vw; /* 556px converted: (556/1536)*100 = 36.198vw */
+  font-size: 2.344vw; /* 36px converted: (36/1536)*100 = 2.344vw */
+}
+
+.headOfPhotography {
+  position: absolute;
+  top: 66.495vh; /* 516px converted: (516/776)*100 = 66.495vh */
+  left: 36.198vw; /* 556px converted: (556/1536)*100 = 36.198vw */
+  font-size: 1.823vw; /* 28px converted: (28/1536)*100 = 1.823vw */
+  color: #6c6a6a;
+}
+
+.instagramSvgrepoCom12 {
+  position: absolute;
+  top: 45.490vh; /* 353px converted: (353/776)*100 = 45.490vh */
+  left: 60.611vw; /* 931px converted: (931/1536)*100 = 60.611vw */
+  width: 3.646vw; /* 56px converted: (56/1536)*100 = 3.646vw */
+  height: 7.216vh; /* 56px converted: (56/776)*100 = 7.216vh */
+}
+
+.frame2Child4 {
+  position: absolute;
+  top: 92.655vh; /* 719px converted: (719/776)*100 = 92.655vh */
+  left: 36.198vw; /* 556px converted: (556/1536)*100 = 36.198vw */
+  border-radius: 1.953vw; /* 30px converted: (30/1536)*100 = 1.953vw */
+  width: 27.604vw; /* 424px converted: (424/1536)*100 = 27.604vw */
+  height: 72.938vh; /* 566px converted: (566/776)*100 = 72.938vh */
+  object-fit: cover;
+}
+
+.frame2Child5 {
+  position: absolute;
+  top: 46.392vh; /* 360px converted: (360/776)*100 = 46.392vh */
+  left: 67.643vw; /* 1039px converted: (1039/1536)*100 = 67.643vw */
+  border-radius: 1.953vw; /* 30px converted: (30/1536)*100 = 1.953vw */
+  width: 27.604vw; /* 424px converted: (424/1536)*100 = 27.604vw */
+  height: 72.938vh; /* 566px converted: (566/776)*100 = 72.938vh */
+  object-fit: cover;
+  object-position: center 10%; /* Move image content to show top portion */
+}
+
+.dhruvalVashi2 {
+  position: absolute;
+  top: 128.351vh; /* 996px converted: (996/776)*100 = 128.351vh */
+  left: 69.726vw; /* 1071px converted: (1071/1536)*100 = 69.726vw */
+  font-family: 'PP Editorial New';
+}
+
+.instagramSvgrepoCom15 {
+  position: absolute;
+  top: 128.351vh; /* 996px converted: (996/776)*100 = 128.351vh */
+  left: 94.010vw; /* 1444px converted: (1444/1536)*100 = 94.010vw */
+  width: 3.646vw; /* 56px converted: (56/1536)*100 = 3.646vw */
+  height: 7.216vh; /* 56px converted: (56/776)*100 = 7.216vh */
+}
+
+.photographer4 {
+  position: absolute;
+  top: 142.784vh; /* 1108px converted: (1108/776)*100 = 142.784vh */
+  left: 69.597vw; /* 1069px converted: (1069/1536)*100 = 69.597vw */
+  font-size: 2.344vw; /* 36px converted: (36/1536)*100 = 2.344vw */
+}
+
+.vicePresident2 {
+  position: absolute;
+  top: 149.356vh; /* 1159px converted: (1159/776)*100 = 149.356vh */
+  left: 69.597vw; /* 1069px converted: (1069/1536)*100 = 69.597vw */
+  font-size: 1.823vw; /* 28px converted: (28/1536)*100 = 1.823vw */
+  color: #6c6a6a;
+}

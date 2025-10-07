@@ -15,6 +15,7 @@ import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 import IPhone13141 from './IPhone13141'
 import MobileSlidingFrame from './MobileSlidingFrame'
+import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import '../styles/Gallery.css'
@@ -142,7 +143,13 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     const computeExactEnd = () => {
       const el = containerRef.current
       const h = el ? (el.offsetHeight || el.clientHeight || window.innerHeight) : window.innerHeight
-      const multiplier = 2.0 // 200% to further delay unpin on handhelds
+      // Increase pin length further on smaller handhelds (e.g., ~6.1" devices)
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      let multiplier = 2.0 // default for larger handhelds (>= ~6.4")
+      if (vw <= 375 || vh <= 800) {
+        multiplier = 2.6 // extend pin for smaller screens only
+      }
       return `+=${Math.round(h * multiplier)}`
     }
 
@@ -808,7 +815,7 @@ const Landing = () => {
         const viewportHeight = window.innerHeight
       
       const slidingSectionStart = viewportHeight
-      const newSectionStart = viewportHeight + (isMobile ? viewportHeight * 2 : viewportHeight * 3) // New section starts after sliding page
+      const newSectionStart = viewportHeight + (isMobile ? viewportHeight * 2.4 : viewportHeight * 3) // New section starts after sliding page + marquee (mobile)
       
       // Calculate new section height in pixels for accurate positioning
       let newSectionHeightPx
@@ -826,7 +833,7 @@ const Landing = () => {
       // Menu visibility synchronized with navbar disappearance
       // Use the exact same trigger point as navbar (Rectangle18.jsx)
       const marqueeSectionStart = isMobile 
-        ? viewportHeight + (viewportHeight * 2) // Mobile: zoom component starts here
+        ? viewportHeight + (viewportHeight * 2.4) // Mobile: zoom component starts here (after marquee)
         : viewportHeight + (viewportHeight * 3) // Desktop: Frame60 starts here
       const SHOW_BUFFER = 120 // px before threshold to show (for smooth re-appearance)
       const shouldHide = scrollTop >= marqueeSectionStart // Same as navbar - no delay
@@ -978,9 +985,9 @@ const Landing = () => {
       return `calc(100vh + ${SLIDING_HEIGHT} + 62vh)`
     }
     
-    // Mobile: 100vh (hero) + 200vh (blank sliding) + 100vh (zoom reveal) + 339px (footer)
+    // Mobile: 100vh (hero) + 200vh (sliding) + 40vh (marquee) + 100vh (zoom reveal) + 339px (footer)
     // No extra spacer so there is no scroll past the footer
-    return `calc(100vh + ${SLIDING_HEIGHT} + 100vh + 339px)`
+    return `calc(100vh + ${SLIDING_HEIGHT} + 40vh + 100vh + 339px)`
   }
 
   return (
@@ -1150,12 +1157,29 @@ const Landing = () => {
         </div>
       )}
 
+      {/* Mobile Marquee Section - only for mobile, positioned after mobile frame 2 */}
+      {isMobile && (
+        <div
+          style={{
+            position: 'absolute',
+            top: `calc(100vh + ${SLIDING_HEIGHT})`,
+            left: 0,
+            right: 0,
+            height: '40vh',
+            background: '#000000',
+            zIndex: 997
+          }}
+        >
+          <MobileMarquee />
+        </div>
+      )}
+
       {/* ZoomReveal placed after sliding (mobile) or after new section (desktop/tablet) */}
       <div
         style={{
           position: 'absolute',
           top: isMobile 
-            ? `calc(100vh + ${SLIDING_HEIGHT})`
+            ? `calc(100vh + ${SLIDING_HEIGHT} + 40vh)`
             : `calc(100vh + ${SLIDING_HEIGHT} + ${NEW_SECTION_HEIGHT})`,
           left: 0,
           right: 0,

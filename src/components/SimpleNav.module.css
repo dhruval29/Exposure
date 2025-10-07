@@ -163,12 +163,13 @@
   border: none !important;
   padding: 0;
   margin: 0;
-  outline: none;
+  outline: none !important;
   box-shadow: none !important;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-user-select: none;
-  user-select: none;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
   touch-action: manipulation;
+  -webkit-touch-callout: none !important;
 }
 
 .menuText:focus,
@@ -226,9 +227,14 @@
   width: 24px;
   height: 24px;
   transition: transform 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  user-select: none;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  outline: none !important;
+  touch-action: manipulation;
 }
 
 /* Remove underline for mobile menu icon */
@@ -261,6 +267,26 @@
   .menuText[data-menu-open="true"]::after {
     display: none !important;
   }
+  
+  /* Extra mobile-specific blue flash prevention */
+  .menuText,
+  .menuText *,
+  .mobileMenuIcon,
+  .mobileMenuIcon *,
+  .menuSvg,
+  .menuSvg * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+  }
 }
 
 .menuSvg {
@@ -268,6 +294,14 @@
   height: 100%;
   color: currentColor;
   transition: transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  outline: none !important;
+  pointer-events: none;
 }
 
 .menuIconOpen .menuSvg {
