@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import styles from './the-team-mobile.module.css';
@@ -8,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TheTeamMobile = () => {
 	const containerRef = useRef(null);
+  const isRouteReady = useRouteTransitionReady();
 
 	useEffect(() => {
 		const container = containerRef.current;
@@ -222,7 +224,7 @@ const TheTeamMobile = () => {
 	return (
 		<>
 			<SimpleNav />
-			<div ref={containerRef} className={styles.app}>
+			<div ref={containerRef} className={styles.app} style={{ visibility: isRouteReady ? 'visible' : 'hidden' }}>
 			<div className={styles.container}>
 				<div className={styles.appContainer}>
 					<div className={styles.text}>

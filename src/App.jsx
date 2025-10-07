@@ -2,6 +2,8 @@ import React, { Suspense, lazy } from 'react'
 import './App.css'
 import './styles/responsive.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import RouteTransitionLoader from './components/RouteTransitionLoader'
+import MobileChromeHider from './components/MobileChromeHider'
 const Landing = lazy(() => import('./components/Landing'))
 const TextCursorOverlay = lazy(() => import('./components/TextCursorOverlay'))
 const Frame50 = lazy(() => import('./components/Frame50'))
@@ -103,6 +105,8 @@ function InnerApp() {
 
   return (
     <div className="app-wrapper">
+      {location.pathname === '/pictures' && <MobileChromeHider />}
+      <RouteTransitionLoader />
       <TextCursorOverlay />
       {showFrame50 && <Frame50 />}
       <Routes>

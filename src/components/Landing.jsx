@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import Rectangle18 from './Rectangle18'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
@@ -732,11 +733,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 // Reusable hoverable absolute-positioned image with overlay and caption
 
 const Landing = () => {
+  const location = useLocation()
   const wireframeRef = useRef(null)
   const slidingRef = useRef(null)
   const lenisRef = useRef(null)
   const slidingAnimRef = useRef(null)
-  const [showLoader, setShowLoader] = useState(true)
+  const [showLoader, setShowLoader] = useState(() => !(location?.state && location.state.skipLandingIntro))
   const loaderRef = useRef(null)
   const loaderPanelRef = useRef(null)
   const loaderTextRef = useRef(null)
@@ -784,10 +786,10 @@ const Landing = () => {
     gsap.set(text, { autoAlpha: 1, y: 0 })
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } })
-    tl.to(text, { autoAlpha: 1, duration: 0.2 })
+    tl.to(text, { autoAlpha: 1, duration: 0.3 })
       .add('reveal')
-      .to(panel, { height: 0, duration: 2.0, ease: 'power4.inOut' }, 'reveal')
-      .to(text, { autoAlpha: 0, duration: 0.6, ease: 'power2.out' }, 'reveal+=0.3')
+      .to(panel, { height: 0, duration: 2.8, ease: 'power4.inOut' }, 'reveal')
+      .to(text, { autoAlpha: 0, duration: 0.9, ease: 'power2.out' }, 'reveal+=0.35')
       .set(wrapper, { pointerEvents: 'none', display: 'none' })
       .add(() => setShowLoader(false))
 

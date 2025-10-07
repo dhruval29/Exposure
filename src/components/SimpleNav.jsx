@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { startRouteTransition } from './RouteTransitionLoader';
 import styles from './SimpleNav.module.css';
 import Menu from './Menu';
 
@@ -25,7 +26,11 @@ const SimpleNav = () => {
       <div className={`${styles.simpleNav} ${isOnContactPage ? styles.noBorder : ''}`}>
         <button 
           className={styles.contactButton}
-          onClick={() => window.location.href = isOnContactPage ? '/' : '/contact'}
+          onClick={() => {
+            const target = isOnContactPage ? '/' : '/contact'
+            const state = isOnContactPage ? { skipLandingIntro: true } : undefined
+            startRouteTransition(target, state)
+          }}
         >
           {/* Desktop - Text version */}
           <span className={`${styles.contactText} ${styles.desktopContactText}`}>
@@ -112,10 +117,10 @@ const SimpleNav = () => {
           <div className={styles.textContainer}>
             <div 
               className={styles.titleSvg}
-              onClick={() => navigate('/')}
+              onClick={() => startRouteTransition('/')}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/'); } }}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startRouteTransition('/'); } }}
               style={{ cursor: 'pointer' }}
             >
               <svg 

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Menu.module.css';
 import gsap from 'gsap';
+import { startRouteTransition } from './RouteTransitionLoader';
 
 const Menu = ({ onClose }) => {
   const menuRef = useRef(null);
@@ -19,11 +20,11 @@ const Menu = ({ onClose }) => {
         onClose();
       } else {
         // If on any other page, navigate to home and close menu
-        navigate('/');
+        startRouteTransition('/');
         onClose();
       }
     } else {
-      navigate(path);
+      startRouteTransition(path);
       onClose(); // Close menu after navigation
     }
   };

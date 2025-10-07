@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { startRouteTransition } from './RouteTransitionLoader';
 import styles from './Rectangle18.module.css';
 import Menu from './Menu';
 
@@ -85,7 +86,11 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
       <div className={`${styles.rectangleDiv} ${finalIsSlidingUp ? styles.slideUp : ''} ${isOnContactPage ? styles.noBorder : ''}`}>
         <button 
           className={`${styles.contactButton} ${finalShowText ? styles.textBlack : ''}`}
-          onClick={() => window.location.href = isOnContactPage ? '/' : '/contact'}
+          onClick={() => {
+            const target = isOnContactPage ? '/' : '/contact'
+            const state = isOnContactPage ? { skipLandingIntro: true } : undefined
+            startRouteTransition(target, state)
+          }}
           data-menu-open={isMenuOpen}
         >
           {/* Desktop - Text version */}
@@ -173,10 +178,10 @@ const Rectangle18 = ({ isVisible: externalIsVisible, isSlidingUp: externalIsSlid
           <div className={styles.textContainer}>
             <div 
               className={styles.titleSvg}
-              onClick={() => navigate('/')}
+              onClick={() => startRouteTransition('/', { skipLandingIntro: true })}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/'); } }}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startRouteTransition('/', { skipLandingIntro: true }); } }}
               style={{ cursor: 'pointer' }}
             >
               <svg 

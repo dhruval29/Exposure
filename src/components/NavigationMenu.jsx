@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
+import { startRouteTransition } from './RouteTransitionLoader';
 import './NavigationMenu.css';
 
 
@@ -191,16 +192,16 @@ const NavigationMenu = ({ isExiting }) => {
   const handleClick = (itemId) => {
     switch (itemId) {
       case 'gallery':
-        navigate('/events');
+        startRouteTransition('/events');
         break;
       case 'team':
-        navigate('/the-team');
+        startRouteTransition('/the-team');
         break;
       case 'our-journey':
-        navigate('/our-journey');
+        startRouteTransition('/our-journey');
         break;
       case 'latest-releases':
-        navigate('/pictures');
+        startRouteTransition('/pictures');
         break;
       default:
         break;

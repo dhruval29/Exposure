@@ -93,6 +93,23 @@ body {
   cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
 }
 
+/* Use dynamic viewport unit fallback on mobile pages that enable immersive mode */
+.mobile-immersive {
+  /* 100dvh works on modern mobile; fallback to custom var for older Safari */
+  --vh: 1vh; /* will be overwritten by JS to innerHeight*0.01px */
+}
+
+.mobile-immersive .use-100svh,
+.mobile-immersive .use-100dvh {
+  height: 100svh; /* stable small viewport height (Chrome ≥ 108, Safari ≥ 15.4) */
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Optional: prevent pull-to-refresh bounce that can re-expand toolbars */
+.mobile-immersive {
+  overscroll-behavior-y: contain;
+}
+
 /* Disable blue flash globally on all interactive elements */
 *, *::before, *::after {
   -webkit-tap-highlight-color: transparent !important;

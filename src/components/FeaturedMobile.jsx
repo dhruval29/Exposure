@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
 import SimpleNav from './SimpleNav';
+import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 
 const FeaturedMobile = () => {
   const [loading, setLoading] = useState(true);
@@ -80,18 +81,15 @@ const FeaturedMobile = () => {
             setImages((prev) => (pageIndex === 0 ? list : [...prev, ...list]));
             setHasMore(data.length === pageSize);
             setLoading(false);
-            // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
           }
         } else if (isMounted) {
           setHasMore(false);
           setLoading(false);
-          // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
         }
       } catch (err) {
         if (isMounted) {
           setHasMore(false);
           setLoading(false);
-          // Do not force-hide loader; let the shutter animation control dismissal for consistency with Home
         }
       }
     };
@@ -156,9 +154,9 @@ const FeaturedMobile = () => {
       i.loading = 'eager';
       i.src = url;
     });
-  }, [images, loading, showLoader]);
+  }, [images, loading]);
 
-  // Removed page-level shutter loader for this page
+  // Removed component-specific preloader
 
   // Modal animation with non-uniform fade-in
   useEffect(() => {
@@ -369,6 +367,8 @@ const FeaturedMobile = () => {
     }, '-=0.1');
   };
 
+  const isRouteReady = useRouteTransitionReady();
+
   return (
     <>
       <SimpleNav />
@@ -376,10 +376,11 @@ const FeaturedMobile = () => {
         className="gallery-container gallery-mobile"
         style={{
           overflowY: 'auto',
-          minHeight: '100vh'
+          minHeight: '100vh',
+          visibility: isRouteReady ? 'visible' : 'hidden'
       }}
     >
-      {/* Removed page-specific preloaders; rely on main landing preloader only */}
+      {/* Removed component-specific loader and loading page */}
 
       
 
