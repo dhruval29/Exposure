@@ -8,7 +8,6 @@ const Frame50 = lazy(() => import('./components/Frame50'))
 const MembersPage = lazy(() => import('./components/MembersPage'))
 const Featured = lazy(() => import('./components/Featured'))
 const FeaturedMobile = lazy(() => import('./components/FeaturedMobile'))
-const TeamPage = lazy(() => import('./components/TeamPage'))
 const TheTeamPage = lazy(() => import('./components/TheTeamPage'))
 const OurJourney = lazy(() => import('./components/OurJourney'))
 const Admin = lazy(() => import('./components/Admin'))
@@ -89,7 +88,6 @@ function InnerApp() {
         <Route path="/gallery" element={<FeaturedRoute />} />
         <Route path="/pictures" element={<FeaturedRoute />} />
         <Route path="/members" element={<MembersPage />} />
-        <Route path="/team" element={<TeamPage />} />
         <Route path="/the-team" element={<TheTeamPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/fly" element={<Fly />} />

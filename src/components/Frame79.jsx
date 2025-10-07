@@ -1,13 +1,249 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import styles from './Frame79.module.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Frame79 = () => {
-  	return (
-    		<div className={styles.rectangleParent}>
-      			<img className={styles.frameChild} src="/assets/images/members/IMG_9352[1].jpg" alt="" />
+	const containerRef = useRef(null);
+
+	useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+
+		// Collect candidate text elements: divs and paragraphs only
+		const allCandidates = Array.from(container.querySelectorAll('div, p'));
+
+		// Filter out non-textual or decorative elements
+		const textElements = allCandidates.filter((el) => {
+			const tag = el.tagName;
+			if (!(tag === 'DIV' || tag === 'P')) return false;
+			const className = (el.className || '').toString();
+			// Exclude images (handled as <img>) and decorative lines/frames/instagram icons
+			if (
+				className.includes('frameChild') ||
+				className.includes('lineDiv') ||
+				className.includes('frameInner') ||
+				className.includes('instagram') ||
+				className.includes('meetTheTeamContainer') ||
+				className.includes('meetTheTeam')
+			) {
+				return false;
+			}
+			// Avoid animating empty wrappers
+			return (el.textContent || '').trim().length > 0;
+		});
+
+		// Initial state for text
+		textElements.forEach((el) => {
+			gsap.set(el, { opacity: 0, y: 32 });
+		});
+
+		// Animate each text block on scroll like mobile: subtle, slower fade-up tied to scroll
+		const textTriggers = textElements.map((el) => {
+			return gsap.to(el, {
+				opacity: 1,
+				y: 0,
+				ease: 'power2.out',
+				duration: 1.2,
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 90%',
+					end: 'bottom 60%',
+					scrub: 1.2,
+					fastScrollEnd: true,
+					markers: false,
+					once: false
+				}
+			});
+		});
+
+		// Animate line elements (grow from left) similar to /contact
+		const lineSelectors = [
+			`.${styles.lineDiv}`,
+			`.${styles.frameInner}`,
+			`.${styles.rectangleParentFrameChild}`,
+			`.${styles.frameChild2}`,
+			`.${styles.frameChild4}`,
+			`.${styles.frameChild6}`,
+			`.${styles.frameChild8}`,
+			`.${styles.frameChild9}`,
+			`.${styles.frameChild10}`
+		].join(',');
+
+		const lineElements = Array.from(container.querySelectorAll(lineSelectors));
+		lineElements.forEach((el) => {
+			gsap.set(el, { transformOrigin: 'left center', scaleX: 0 });
+		});
+
+		const lineTriggers = lineElements.map((el) =>
+			gsap.to(el, {
+				scaleX: 1,
+				ease: 'power2.out',
+				duration: 0.9,
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 92%',
+					end: 'top 70%',
+					scrub: 1,
+					markers: false
+				}
+			})
+		);
+
+		// Animate instagram svg icons (img elements) with gentle pop-in
+		const instaSelectors = [
+			`.${styles.instagramSvgrepoCom11}`,
+			`.${styles.instagramSvgrepoCom16}`,
+			`.${styles.instagramSvgrepoCom14}`,
+			`.${styles.instagramSvgrepoCom113}`,
+			`.${styles.instagramSvgrepoCom110}`,
+			`.${styles.instagramSvgrepoCom111}`,
+			`.${styles.instagramSvgrepoCom112}`,
+			`.${styles.instagramSvgrepoCom162}`
+		].join(',');
+
+		const instaElements = Array.from(container.querySelectorAll(instaSelectors));
+		instaElements.forEach((el) => {
+			gsap.set(el, { opacity: 0, y: 16, scale: 0.88, transformOrigin: 'center center' });
+		});
+
+		const instaTriggers = instaElements.map((el) => {
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 90%',
+					end: 'top 65%',
+					scrub: 1,
+					markers: false
+				}
+			});
+
+			// Segment 1: fade/raise and pop to 1.06 with slight rotate
+			tl.to(el, { opacity: 1, y: 0, scale: 1.06, rotate: 2, duration: 0.6, ease: 'power2.out' });
+			// Segment 2: settle to scale 1 and rotate 0
+			tl.to(el, { scale: 1, rotate: 0, duration: 0.4, ease: 'power2.out' });
+
+			return tl;
+		});
+
+		// Animate the description lines inside ourDedicatedTeamContainer (appearance-based, staggered fade-up)
+		const aboutContainer = container.querySelector(`.${styles.ourDedicatedTeamContainer}`);
+		let aboutTrigger = null;
+		if (aboutContainer) {
+			const paras = Array.from(aboutContainer.querySelectorAll('p'));
+			paras.forEach((p) => gsap.set(p, { opacity: 0, y: 28 }));
+			aboutTrigger = gsap.to(paras, {
+				opacity: 1,
+				y: 0,
+				duration: 1.4,
+				delay: 0.5,
+				ease: 'power3.out',
+				stagger: 0.16,
+				scrollTrigger: {
+					trigger: aboutContainer,
+					start: 'top 88%',
+					end: 'bottom 70%',
+					once: true,
+					scrub: false,
+					markers: false
+				}
+			});
+		}
+
+		// Animate the title: bind "Team" to the same animation as "Meet the"
+		let titleTrigger = null;
+		const titleSpan = container.querySelector(`.${styles.meetTheTeamContainer} span:not(.${styles.team})`);
+		const teamEl = container.querySelector(`.${styles.meetTheTeamContainer} i.${styles.team}`);
+		let underlineEl = null;
+		if (teamEl) {
+			// Prepare underline under Team
+			teamEl.style.position = 'relative';
+			teamEl.style.display = 'inline-block';
+			underlineEl = document.createElement('span');
+			underlineEl.setAttribute('aria-hidden', 'true');
+			Object.assign(underlineEl.style, {
+				position: 'absolute',
+				left: '0',
+				right: 'auto',
+				bottom: '-4px',
+				height: '2px',
+				background: 'currentColor',
+				opacity: '0.95',
+				zIndex: '1',
+				transformOrigin: 'left center',
+				transform: 'scaleX(0)',
+				width: '100%',
+				pointerEvents: 'none'
+			});
+			// Ensure underline is appended once
+			if (!teamEl.querySelector('span[aria-hidden="true"]')) {
+				teamEl.appendChild(underlineEl);
+			} else {
+				underlineEl = teamEl.querySelector('span[aria-hidden="true"]');
+			}
+		}
+
+		if (titleSpan) {
+			// Ensure both pieces share identical layout characteristics
+			titleSpan.style.display = 'inline-block';
+			titleSpan.style.position = 'relative';
+			// Normalize trailing whitespace so spacing is controlled explicitly
+			titleSpan.textContent = (titleSpan.textContent || '').replace(/\s+$/, '');
+			if (teamEl) {
+				teamEl.style.display = 'inline-block';
+				teamEl.style.position = 'relative';
+				teamEl.style.marginLeft = '0.25em';
+			}
+			const together = teamEl ? [titleSpan, teamEl] : [titleSpan];
+			gsap.set(together, { opacity: 0, y: 24, letterSpacing: '0.02em', filter: 'blur(2px)', willChange: 'transform' });
+			titleTrigger = gsap.timeline({
+				scrollTrigger: {
+					trigger: titleSpan,
+					start: 'top 92%',
+					end: 'top 70%',
+					once: true,
+					scrub: false,
+					markers: false
+				}
+			});
+			// Delay then reveal both
+			titleTrigger.to({}, { duration: 0.4 });
+			titleTrigger.to(together, {
+				y: 0,
+				opacity: 1,
+				letterSpacing: '0em',
+				filter: 'blur(0px)',
+				ease: 'power4.out',
+				duration: 1.2
+			});
+			// Underline after text
+			if (underlineEl) {
+				titleTrigger.to(underlineEl, { scaleX: 1, ease: 'power3.out', duration: 1.5 });
+			}
+		}
+
+		// Removed separate typing animation; Team now animates with title timeline above
+
+		// No animation for the title box per request
+
+		return () => {
+			textTriggers.forEach((anim) => anim && anim.scrollTrigger && anim.scrollTrigger.kill());
+			lineTriggers.forEach((anim) => anim && anim.scrollTrigger && anim.scrollTrigger.kill());
+			instaTriggers.forEach((anim) => anim && anim.scrollTrigger && anim.scrollTrigger.kill());
+			if (aboutTrigger && aboutTrigger.scrollTrigger) aboutTrigger.scrollTrigger.kill();
+			if (titleTrigger && titleTrigger.scrollTrigger) titleTrigger.scrollTrigger.kill();
+		};
+	}, []);
+
+	return (
+			<div ref={containerRef} className={styles.rectangleParent}>
+      			<img className={styles.frameChild} src="/assets/images/members/IMG_9352[1].webp" alt="" />
       			<div className={styles.meetTheTeamContainer}>
         				<p className={styles.meetTheTeam}>
           					<span>{`Meet the `}</span>
-          					<i className={styles.team}>Team</i>
+								<i className={styles.team}>Team</i>
           					<span className={styles.team}>{` `}</span>
         				</p>
       			</div>
@@ -26,13 +262,13 @@ const Frame79 = () => {
       			<div className={styles.rectangleParentPhotographer}>{`Photographer `}</div>
       			<div className={styles.headOfPhotography}>Head of Photography</div>
       			<img className={styles.instagramSvgrepoCom16} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
-      			<img className={styles.rectangleIcon} src="/assets/images/members/IMG_8107[1] (1).jpg" alt="" />
+      			<img className={styles.rectangleIcon} src="/assets/images/members/IMG_8107[1] (1).webp" alt="" />
       			<div className={styles.ronakBarwar}>Ronak Barwar</div>
       			<img className={styles.rectangleParentInstagramSvgrepoCom16} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
       			<div className={styles.rectangleParentFrameChild} />
       			<div className={styles.photographer2}>{`Photographer `}</div>
       			<div className={styles.president}>President</div>
-      			<div className={styles.adityaMadkikar}>Aditya Madkikar</div>
+      			<div className={styles.adityaMadkikar}>Aditya Madkaikar</div>
       			<div className={styles.frameChild2} />
       			<div className={styles.cinematographer}>Cinematographer</div>
       			<div className={styles.headOfVideography}>Head of Videography</div>
@@ -49,7 +285,7 @@ const Frame79 = () => {
       			<div className={styles.frameChild6} />
       			<div className={styles.rectangleParentCinematographer}>Cinematographer</div>
       			<div className={styles.member}>Member</div>
-      			<img className={styles.frameChild7} src="/assets/images/members/ABC_6075.JPG" alt="" />
+      			<img className={styles.frameChild7} src="/assets/images/members/ABC_6075.webp" alt="" />
       			<div className={styles.himeshSolanki}>Himesh Solanki</div>
       			<img className={styles.instagramSvgrepoCom110} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
       			<div className={styles.photographer4}>{`Photographer `}</div>
@@ -67,7 +303,7 @@ const Frame79 = () => {
       			<div className={styles.member3}>Member</div>
       			<img className={styles.frameChild11} src="/assets/images/members/IMG_2554[1].JPG" alt="" />
       			<img className={styles.frameChild12} src="/assets/images/members/WhatsApp Image 2025-09-12 at 13.34.52_4f31c18c.jpg" alt="" />
-      			<img className={styles.frameChild13} src="/assets/images/members/ABC_6513.JPG" alt="" />
+      			<img className={styles.frameChild13} src="/assets/images/members/ABC_6513.webp" alt="" />
     		</div>);
 };
 

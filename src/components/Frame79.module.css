@@ -202,7 +202,7 @@
 	position: absolute;
 	height: 0.124vh; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
 	width: 24.9%; /* Keeping width as percentage */
-	top: 255.920vh; /* 58.95% of 3414px = 2012.55px, in Section 4 (2328-3414px), so ((2012.55-2328)/1086)*150+300 = 255.920vh */
+	top: 261.0vh; /* 58.95% of 3414px = 2012.55px, in Section 4 (2328-3414px), so ((2012.55-2328)/1086)*150+300 = 255.920vh */
 	right: 69.65%;
 	bottom: 41.02%;
 	left: 5.45%;
@@ -212,14 +212,14 @@
 
 .cinematographer {
 	position: absolute;
-	top: 261.686vh; /* 59.76% of 3414px = 2040.12px, in Section 4 (2328-3414px), so ((2040.12-2328)/1086)*150+300 = 261.686vh */
+	top: 264.686vh; /* moved down */
 	left: 5.24%; /* Keeping left as percentage */
 	font-size: 2.109vw; /* 32.4px converted: (32.4/1536)*100 = 2.109vw */
 }
 
 .headOfVideography {
 	position: absolute;
-	top: 268.090vh; /* 61.1% of 3414px = 2086.35px, in Section 4 (2328-3414px), so ((2086.35-2328)/1086)*150+300 = 268.090vh */
+	top: 271.090vh; /* moved down */
 	left: 5.24%; /* Keeping left as percentage */
 	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
 	color: #6c6a6a;
@@ -260,7 +260,7 @@
 
 .frameChild4 {
 	position: absolute;
-	top: 283.333vh; /* 2163px converted: 2163px is in Section 4 (2328-3414px), so ((2163-2328)/1086)*150+300 = 283.333vh */
+	top: 280.0vh; /* Moved slightly down to sit just above the Photographer label */
 	left: 37.548vw; /* 576.75px converted: (576.75/1536)*100 = 37.548vw */
 	border-top: 0.124vh solid #000; /* 0.9px converted: (0.9/1086)*150 = 0.124vh */
 	box-sizing: border-box;
@@ -277,7 +277,7 @@
 
 .advisor {
 	position: absolute;
-	top: 289.475vh; /* 2236.35px converted: 2236.35px is in Section 4 (2328-3414px), so ((2236.35-2328)/1086)*150+300 = 289.475vh */
+	top: 291.475vh; /* Adjusted to match spacing: 285.139 + 6.336 = 291.475vh */
 	left: 37.403vw; /* 574.5px converted: (574.5/1536)*100 = 37.403vw */
 	font-size: 1.641vw; /* 25.2px converted: (25.2/1536)*100 = 1.641vw */
 	color: #6c6a6a;
