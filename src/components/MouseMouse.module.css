@@ -68,7 +68,7 @@
   letter-spacing: -0.02em;
   line-height: 97%;
   color: #000;
-  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   font-size: clamp(32px, 6.67vw, 96px); /* Reverted to original desktop size */
   text-align: left; /* Left align text */
   pointer-events: none;
@@ -104,7 +104,7 @@
   align-items: center;
   text-align: left;
   color: #000;
-  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   font-size: clamp(48px, 15vw, 84px);
   font-weight: 400;
   letter-spacing: -0.02em;

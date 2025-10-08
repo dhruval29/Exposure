@@ -110,18 +110,58 @@ const RouteTransitionLoader = () => {
     if (!el) return
     if (!isAnimatingRef.current) return
 
-    gsap.to(el, {
-      yPercent: -100,
-      duration: COVER_OUT_DURATION,
-      ease: EASE_OUT,
-      onComplete: () => {
-        gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
-        isAnimatingRef.current = false
-        pendingHrefRef.current = null
-        window.__routeTransitionActive = false
-        try { window.dispatchEvent(new CustomEvent('route-transition-complete')) } catch {}
-      }
-    })
+    // For routes that require content readiness, wait for a signal
+    const path = location.pathname
+    const shouldWaitForContent = path === '/pictures' || path === '/contact' || path === '/events'
+
+    const playExit = () => {
+      gsap.to(el, {
+        yPercent: -100,
+        duration: COVER_OUT_DURATION,
+        ease: EASE_OUT,
+        onComplete: () => {
+          gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
+          isAnimatingRef.current = false
+          pendingHrefRef.current = null
+          window.__routeTransitionActive = false
+          try { window.dispatchEvent(new CustomEvent('route-transition-complete')) } catch {}
+        }
+      })
+    }
+
+    if (!shouldWaitForContent) {
+      playExit()
+      return
+    }
+
+    let timeoutId = null
+    const onContentReady = (ev) => {
+      try {
+        const path = ev?.detail?.path || ev?.detail
+        if (path && path !== location.pathname) return
+      } catch {}
+      if (timeoutId) clearTimeout(timeoutId)
+      window.removeEventListener('route-content-ready', onContentReady)
+      playExit()
+    }
+
+    // If already flagged ready, skip waiting
+    if (window.__routeContentReadyForPath === path) {
+      playExit()
+      return
+    }
+
+    window.addEventListener('route-content-ready', onContentReady)
+    // Fallback timeout to avoid hanging in case of slow network
+    timeoutId = setTimeout(() => {
+      window.removeEventListener('route-content-ready', onContentReady)
+      playExit()
+    }, 5000)
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      window.removeEventListener('route-content-ready', onContentReady)
+    }
   }, [location])
 
   return (

@@ -25,7 +25,7 @@ const SimpleNav = () => {
     <>
       <div className={`${styles.simpleNav} ${isOnContactPage ? styles.noBorder : ''}`}>
         <button 
-          className={styles.contactButton}
+          className={`${styles.contactButton} ${isOnContactPage ? styles.hideOnDesktop : ''}`}
           onClick={() => {
             const target = isOnContactPage ? '/' : '/contact'
             const state = isOnContactPage ? { skipLandingIntro: true } : undefined
@@ -117,10 +117,10 @@ const SimpleNav = () => {
           <div className={styles.textContainer}>
             <div 
               className={styles.titleSvg}
-              onClick={() => startRouteTransition('/')}
+              onClick={() => startRouteTransition('/', { skipLandingIntro: true })}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startRouteTransition('/'); } }}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startRouteTransition('/', { skipLandingIntro: true }); } }}
               style={{ cursor: 'pointer' }}
             >
               <svg 

@@ -6,7 +6,7 @@
 	text-align: left;
 	font-size: 16.75px; /* Scaled down from 22.34px (0.75x) */
 	color: #000;
-	font-family: Helvetica;
+	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 	z-index: 1000;
 	overflow: hidden;
 	transition: width 0.35s ease, opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);

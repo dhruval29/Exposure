@@ -144,7 +144,7 @@
   top: calc(129 / 776 * 100%);
   left: calc(926 / 1536 * 100%);
   font-size: 32px;
-  font-family: Helvetica;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   color: #6c6a6a;
   text-align: right;
 }
@@ -165,7 +165,7 @@
   position: absolute;
   bottom: 6px;
   right: 10px;
-  font: 600 16px/1 Helvetica, Arial, sans-serif;
+  font: 600 16px/1 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   color: rgba(0, 0, 0, 0.6);
   background: rgba(255, 255, 255, 0.7);
   padding: 4px 8px;

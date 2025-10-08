@@ -157,7 +157,7 @@
 }
 
 .titleText {
-  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   font-size: 18px; /* Match SimpleNav base */
   font-weight: 400;
   color: #000;
@@ -224,7 +224,7 @@
 }
 
 .menuText {
-  font-family: 'PP Editorial New', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   font-size: clamp(18px, 3vw, 24px);
   font-weight: 200;
   font-style: italic;

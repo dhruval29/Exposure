@@ -35,7 +35,7 @@
 	border-radius: 999px;
 	background: rgba(0,0,0,0.65);
 	color: #fff;
-	font: 600 12px/20px Geist, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+	font: 600 12px/20px 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Geist, system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
 	text-align: center;
 	user-select: none;
 	pointer-events: none;

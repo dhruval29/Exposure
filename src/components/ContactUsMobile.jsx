@@ -21,6 +21,21 @@ export default function ContactUsMobile() {
   const [form, setForm] = React.useState({ name: '', phone: '', email: '', eventAbout: '', eventWhen: '' });
   const [submitting, setSubmitting] = React.useState(false);
   const [submitMsg, setSubmitMsg] = React.useState('');
+  const [isVisibleUnderCover, setIsVisibleUnderCover] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!window.__routeTransitionActive) {
+      setIsVisibleUnderCover(true);
+    }
+    const id = setTimeout(() => {
+      try {
+        window.__routeContentReadyForPath = '/contact';
+        window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/contact' } }));
+      } catch {}
+      setIsVisibleUnderCover(true);
+    }, 0);
+    return () => clearTimeout(id);
+  }, []);
 
   const handleChange = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
@@ -52,7 +67,7 @@ export default function ContactUsMobile() {
   return (
     <>
       <SimpleNav />
-      <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw' }}>
+      <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw', opacity: isVisibleUnderCover ? 1 : 0, transition: 'opacity 300ms ease' }}>
       <div style={{ marginBottom: '7vh' }}>
         <h1 className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '8vh', marginBottom: 16, animationDelay: `${BASE_DELAY_MS}ms` }}>
           Contact
@@ -223,7 +238,7 @@ export default function ContactUsMobile() {
             type="button"
             style={{ backgroundColor: '#112a46', borderRadius: 18, padding: '2vh 4vw', width: '100%', maxWidth: '40vw', textAlign: 'center' }}
           >
-            <span style={{ fontFamily: "'Helvetica Light', 'Helvetica', Arial, sans-serif", fontSize: 18, color: '#fff', lineHeight: 1.5 }}>{submitting ? 'Sending…' : 'Reach Us!'}</span>
+            <span style={{ fontFamily: "'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica Light', 'Helvetica', Arial, sans-serif", fontSize: 18, color: '#fff', lineHeight: 1.5 }}>{submitting ? 'Sending…' : 'Reach Us!'}</span>
           </button>
         </div>
       </div>

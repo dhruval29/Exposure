@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import Rectangle18 from './Rectangle18'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
@@ -21,6 +20,9 @@ import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import '../styles/Gallery.css'
 
+
+// Show landing shutter once per page load (resets on full refresh)
+let hasShownLandingShutterThisPageLoad = false
 
 // Inline ZoomReveal so Landing is self-contained
 const DEFAULT_ZR_CONFIG = {
@@ -732,16 +734,13 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
 // Reusable hoverable absolute-positioned image with overlay and caption
 
-const Landing = () => {
-  const location = useLocation()
+ const Landing = () => {
   const wireframeRef = useRef(null)
   const slidingRef = useRef(null)
   const lenisRef = useRef(null)
-  const slidingAnimRef = useRef(null)
-  const [showLoader, setShowLoader] = useState(() => !(location?.state && location.state.skipLandingIntro))
-  const loaderRef = useRef(null)
-  const loaderPanelRef = useRef(null)
-  const loaderTextRef = useRef(null)
+   const slidingAnimRef = useRef(null)
+  const landingShutterRef = useRef(null)
+  const [showLandingShutter, setShowLandingShutter] = useState(false)
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
@@ -773,28 +772,33 @@ const Landing = () => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Intro shutter loader
+  // Intro shutter loader removed
+  // First-visit-per-page-load landing shutter (slides up off the top)
   useEffect(() => {
-    if (!showLoader) return
-    const wrapper = loaderRef.current
-    const panel = loaderPanelRef.current
-    const text = loaderTextRef.current
-    if (!wrapper || !panel || !text) return
+    if (hasShownLandingShutterThisPageLoad) return
+    hasShownLandingShutterThisPageLoad = true
+    setShowLandingShutter(true)
+  }, [])
 
-    // Prepare positions
-    gsap.set(panel, { height: '100vh' })
-    gsap.set(text, { autoAlpha: 1, y: 0 })
-
-    const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } })
-    tl.to(text, { autoAlpha: 1, duration: 0.3 })
-      .add('reveal')
-      .to(panel, { height: 0, duration: 2.8, ease: 'power4.inOut' }, 'reveal')
-      .to(text, { autoAlpha: 0, duration: 0.9, ease: 'power2.out' }, 'reveal+=0.35')
-      .set(wrapper, { pointerEvents: 'none', display: 'none' })
-      .add(() => setShowLoader(false))
-
-    return () => { tl.kill() }
-  }, [showLoader])
+  useEffect(() => {
+    if (!showLandingShutter) return
+    const el = landingShutterRef.current
+    if (!el) return
+    // Start fully covering immediately to prevent flash
+    gsap.set(el, { yPercent: 0, pointerEvents: 'auto' })
+    // Small delay to ensure element is ready, then animate up
+    requestAnimationFrame(() => {
+      gsap.to(el, {
+        yPercent: -100,
+        duration: 0.9,
+        ease: 'power4.in',
+        onComplete: () => {
+          gsap.set(el, { yPercent: -100, pointerEvents: 'none' })
+          setShowLandingShutter(false)
+        }
+      })
+    })
+  }, [showLandingShutter])
 
   // Smooth scroll + slide-up behavior
   useEffect(() => {
@@ -994,53 +998,22 @@ const Landing = () => {
 
   return (
     <div className="landing" style={{ width: '100%', height: getTotalPageHeight() }}>
-      {/* Shutter Loader Overlay */}
-      {showLoader && (
+      {showLandingShutter && (
         <div
-          ref={loaderRef}
+          ref={landingShutterRef}
           style={{
             position: 'fixed',
-            inset: 0,
-            zIndex: 100000,
-            overflow: 'hidden',
-            pointerEvents: 'auto'
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: '100vh',
+            background: '#fff',
+            zIndex: 999999,
+            transform: 'translateZ(0)',
+            yPercent: 0
           }}
-        >
-          <div
-            ref={loaderPanelRef}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '100vh',
-              background: '#ede9e4',
-              transformOrigin: 'top center'
-            }}
-          />
-          <div
-            ref={loaderTextRef}
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              color: '#000',
-              fontSize: 'clamp(32px, 6.67vw, 96px)',
-              fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
-              letterSpacing: '-0.02em',
-              lineHeight: '97%',
-              textAlign: 'left',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'flex-start'
-            }}
-          >
-            <p style={{ margin: 0 }}>EXPOSURE </p>
-            <p style={{ margin: 0 }}>EXPLORERS</p>
-          </div>
-        </div>
+          aria-hidden="true"
+        />
       )}
       {/* Top Navigation Bar */}
       <Rectangle18 

@@ -7,6 +7,7 @@ import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 
 const FeaturedMobile = () => {
   const [loading, setLoading] = useState(true);
+  const [isVisibleUnderCover, setIsVisibleUnderCover] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const modalRef = useRef(null);
@@ -103,6 +104,22 @@ const FeaturedMobile = () => {
     };
   }, []);
 
+  // Make content visible under the shutter before it exits to avoid flash
+  useEffect(() => {
+    if (!window.__routeTransitionActive) {
+      if (images && images.length > 0) setIsVisibleUnderCover(true);
+    }
+    const onContentReady = (ev) => {
+      try {
+        const path = ev?.detail?.path || ev?.detail;
+        if (path && path !== '/pictures') return;
+      } catch {}
+      setIsVisibleUnderCover(true);
+    };
+    window.addEventListener('route-content-ready', onContentReady);
+    return () => window.removeEventListener('route-content-ready', onContentReady);
+  }, [images]);
+
   useEffect(() => {
     const sentinel = loadMoreRef.current;
     if (!sentinel) return;
@@ -140,18 +157,41 @@ const FeaturedMobile = () => {
     return () => observer.disconnect();
   }, [hasMore, page]);
 
-  // Preload full-size images (mobile) after initial load to reduce modal latency
+  // Preload initial thumbnails, then emit content-ready for /pictures
   const preloadedSetRef = useRef(new Set());
   useEffect(() => {
     if (loading) return;
     const limit = 12;
-    images.slice(0, limit).forEach((img) => {
-      const url = img.src;
-      if (!url || preloadedSetRef.current.has(url)) return;
+    let resolved = 0;
+    const target = Math.min(limit, images.length);
+
+    const maybeSignalReady = () => {
+      if (resolved >= target) {
+        try {
+          window.__routeContentReadyForPath = '/pictures';
+          window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/pictures' } }));
+        } catch {}
+      }
+    };
+
+    images.slice(0, target).forEach((img) => {
+      const url = img.thumb || img.src;
+      if (!url) {
+        resolved += 1;
+        maybeSignalReady();
+        return;
+      }
+      if (preloadedSetRef.current.has(url)) {
+        resolved += 1;
+        maybeSignalReady();
+        return;
+      }
       preloadedSetRef.current.add(url);
       const i = new Image();
       i.decoding = 'async';
       i.loading = 'eager';
+      i.onload = () => { resolved += 1; maybeSignalReady(); };
+      i.onerror = () => { resolved += 1; maybeSignalReady(); };
       i.src = url;
     });
   }, [images, loading]);
@@ -377,7 +417,8 @@ const FeaturedMobile = () => {
         style={{
           overflowY: 'auto',
           minHeight: '100vh',
-          visibility: isRouteReady ? 'visible' : 'hidden'
+          opacity: isVisibleUnderCover || isRouteReady ? 1 : 0,
+          transition: 'opacity 300ms ease'
       }}
     >
       {/* Removed component-specific loader and loading page */}

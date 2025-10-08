@@ -23,6 +23,7 @@ const Events = () => {
   const lastScrollYRef = useRef(0);
   const shouldRestoreScrollRef = useRef(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisibleUnderCover, setIsVisibleUnderCover] = useState(false);
 
   // Parallax removed for featured images
 
@@ -245,10 +246,46 @@ const Events = () => {
           });
           
           setEvents(sortedEvents);
-          
+
           // Select random events for featured section from all uploaded events
           const randomEvents = selectRandomEvents(sortedEvents);
           setFeaturedEvents(randomEvents);
+
+          // Preload above-the-fold cover images to avoid flash, then mark ready
+          const preloadUrls = [];
+          if (randomEvents[0]?.cover_image?.public_url) preloadUrls.push(randomEvents[0].cover_image.public_url);
+          if (randomEvents[1]?.cover_image?.public_url) preloadUrls.push(randomEvents[1].cover_image.public_url);
+          // Also preload the first page of list covers
+          const listFirst = (sortedEvents || []).slice(0, 6).map(ev => ev.cover_image?.public_url).filter(Boolean);
+          preloadUrls.push(...listFirst);
+
+          if (preloadUrls.length > 0) {
+            let loaded = 0;
+            const target = preloadUrls.length;
+            const onDone = () => {
+              try {
+                window.__routeContentReadyForPath = '/events';
+                window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/events' } }));
+              } catch {}
+              setIsVisibleUnderCover(true);
+            };
+            preloadUrls.forEach((url) => {
+              const img = new Image();
+              img.decoding = 'async';
+              img.loading = 'eager';
+              img.onload = img.onerror = () => {
+                loaded += 1;
+                if (loaded >= target) onDone();
+              };
+              img.src = url;
+            });
+          } else {
+            try {
+              window.__routeContentReadyForPath = '/events';
+              window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/events' } }));
+            } catch {}
+            setIsVisibleUnderCover(true);
+          }
         }
       } catch (err) {
         setError('Failed to fetch events');
@@ -338,7 +375,7 @@ const Events = () => {
     <>
       <SimpleNav />
       <Frame50 />
-      <div className={styles.events}>
+      <div className={styles.events} style={{ opacity: isVisibleUnderCover ? 1 : 0, transition: 'opacity 300ms ease' }}>
       
       {/* Featured Events section - moved up */}
       <div className={styles.eventsSection} ref={eventsSectionRef}>

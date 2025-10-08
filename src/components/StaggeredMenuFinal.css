@@ -42,7 +42,7 @@
 .smf-list { list-style: none; margin: 0; padding: 0; }
 .smf-itemWrap { margin: 0; padding: 0; }
 .smf-item { position: relative; display: block; padding: 14px 0; color: #000; text-decoration: none; font: 400 clamp(20px, 4.2vw, 56px)/1.05 'PP Editorial New', serif; letter-spacing: 0; transition: color 0.3s ease; }
-.smf-list[data-numbering] .smf-item::before { content: attr(data-index); position: absolute; left: -36px; top: 50%; transform: translateY(-50%); font: 500 14px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: rgba(0,0,0,var(--smf-num-opacity, 1)); opacity: var(--smf-num-opacity, 1); }
+.smf-list[data-numbering] .smf-item::before { content: attr(data-index); position: absolute; left: -36px; top: 50%; transform: translateY(-50%); font: 500 14px/1 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; color: rgba(0,0,0,var(--smf-num-opacity, 1)); opacity: var(--smf-num-opacity, 1); }
 .smf-itemLabel { display: inline-block; transform-origin: 0 100%; will-change: transform; }
 
 .smf-socials { border-top: 1px solid rgba(0,0,0,.08); padding-top: 18px; }

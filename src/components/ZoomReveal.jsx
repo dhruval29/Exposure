@@ -209,7 +209,7 @@ const ZoomReveal = ({
             transform: 'translateY(-50%)',
             color: 'black',
             fontSize: isMobile ? 'clamp(80px, 10vw, 120px)' : 'clamp(48px, 4vw, 80px)', // Increased mobile size
-            fontFamily: 'Helvetica',
+            fontFamily: "'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
             fontWeight: '400',
             wordWrap: 'break-word',
             zIndex: 60,
@@ -228,7 +228,7 @@ const ZoomReveal = ({
             transform: 'translateY(-50%)',
             color: 'black',
             fontSize: isMobile ? 'clamp(80px, 10vw, 120px)' : 'clamp(48px, 4vw, 80px)', // Increased mobile size
-            fontFamily: 'Helvetica',
+            fontFamily: "'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
             fontWeight: '400',
             wordWrap: 'break-word',
             zIndex: 60,

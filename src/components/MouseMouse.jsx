@@ -365,7 +365,7 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
             alignItems: 'center',
             textAlign: 'left',
             color: '#000',
-            fontFamily: "'PP Editorial New', Helvetica, Arial, sans-serif",
+            fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
             fontSize: 'clamp(48px, 15vw, 84px)',
             fontWeight: '400',
             letterSpacing: '-0.02em',

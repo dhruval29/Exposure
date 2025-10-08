@@ -9,7 +9,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 .gallery-container {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   background: #ede9e4;
   color: #222222;
   overflow-x: hidden;
@@ -52,7 +52,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   align-items: center;
   justify-content: center;
   z-index: 2000;
-  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Match landing shutter timing feel: slower, smoother fade */
+  transition: opacity 2.8s cubic-bezier(0.77, 0, 0.175, 1);
   will-change: opacity;
 }
 
@@ -61,7 +62,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 .c-loading-page__text {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   font-size: clamp(36px, 8vw, 72px);
   font-weight: 400;
   letter-spacing: normal;
@@ -75,7 +76,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: inline-block;
   opacity: 0;
   transform: translateY(20px);
-  animation: charIn 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  /* Slightly slower per-letter to align with longer overlay */
+  animation: charIn 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes charIn {
@@ -485,8 +487,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     max-width: 95vw;
     max-height: 95vh;
     min-height: 70vh;
-    /* revert extra padding on mobile */
-    padding-bottom: 0;
+    /* Equal top/bottom spacing on mobile */
+    --modal-vertical-padding: 40px;
+    --snackbar-space: 0;
+    padding-top: var(--modal-vertical-padding);
+    padding-bottom: var(--modal-vertical-padding);
   }
   
   .image-modal-image {
@@ -511,7 +516,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   .image-modal-navigation {
     width: 240px;
     padding: 4px 10px;
-    bottom: -80px;
+    bottom: 8px;
   }
   
   .nav-button {
@@ -537,8 +542,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     max-width: 98vw;
     max-height: 98vh;
     min-height: 65vh;
-    /* revert extra padding on small mobile */
-    padding-bottom: 0;
+    /* Equal top/bottom spacing on small mobile */
+    --modal-vertical-padding: 32px;
+    --snackbar-space: 0;
+    padding-top: var(--modal-vertical-padding);
+    padding-bottom: var(--modal-vertical-padding);
   }
   
   .image-modal-image {
@@ -563,7 +571,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   .image-modal-navigation {
     width: 220px;
     padding: 3px 8px;
-    bottom: -70px;
+    bottom: 6px;
   }
   
   .nav-button {
@@ -784,7 +792,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   transform: translateX(-50%);
   z-index: 100;
   margin-left: 0;
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
   opacity: 0;
   animation: textFadeIn 700ms cubic-bezier(0.22, 1, 0.36, 1) 400ms forwards;
 }

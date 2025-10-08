@@ -14,7 +14,7 @@
   	text-align: left;
   	font-size: 2.813vw; /* 43.2px converted: (43.2/1536)*100 = 2.813vw */
   	color: #000;
-  	font-family: 'Helvetica Light';
+  	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica Light', Helvetica, Arial, sans-serif;
 }
 
 .frameChild {
@@ -55,7 +55,7 @@
   	top: 24.096vh; /* 186.99px converted: 186.99px is in Section 1 (0-776px), so (186.99/776)*100 = 24.096vh */
   	left: 5.339vw; /* 82px converted: (82/1536)*100 = 5.339vw */
   	font-size: 1.693vw; /* 26px converted: (26/1536)*100 = 1.693vw */
-  	font-family: Helvetica;
+  	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   	color: #6c6a6a;
 }
 

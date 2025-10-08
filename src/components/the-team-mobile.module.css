@@ -19,7 +19,7 @@
 	text-align: left;
 	font-size: 5.538vw;
 	color: #000;
-	font-family: 'Helvetica Light';
+	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica Light', Helvetica, Arial, sans-serif;
 }
 
 .container {
@@ -81,7 +81,7 @@
 	align-items: flex-start;
 	font-size: 4.103vw;
 	color: #6c6a6a;
-	font-family: Helvetica;
+	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
 
 .paragraph {

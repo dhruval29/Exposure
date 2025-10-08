@@ -326,7 +326,7 @@ function Admin() {
     try {
       const { data, error } = await supabase
         .from('images')
-        .select('id, public_url, title, is_featured, featured_order, storage_path, image_type')
+        .select('id, public_url, title, is_featured, featured_order, storage_path')
         .eq('is_public', true)
         .order('featured_order', { ascending: true, nullsFirst: false })
         .order('created_at', { ascending: false });
@@ -337,9 +337,9 @@ function Admin() {
         const images = data || []
         setAvailableImages(images)
         
-        // Separate images by type - exclude event images from featured
-        setFeaturedImages(images.filter(img => img.is_featured && img.image_type !== 'event'))
-        setGalleryImages(images.filter(img => !img.is_featured && img.image_type !== 'event'))
+        // Separate images by type - for now just use is_featured flag
+        setFeaturedImages(images.filter(img => img.is_featured))
+        setGalleryImages(images.filter(img => !img.is_featured))
       }
     } catch (err) {
       console.error('Error loading images:', err)
@@ -350,10 +350,9 @@ function Admin() {
     try {
       const { data, error } = await supabase
         .from('images')
-        .select('id, public_url, title, is_featured, featured_order, storage_path, image_type')
+        .select('id, public_url, title, is_featured, featured_order, storage_path')
         .eq('is_public', true)
         .eq('is_featured', true)
-        .neq('image_type', 'event')
         .order('featured_order', { ascending: true, nullsFirst: false })
         .order('created_at', { ascending: false });
 
@@ -372,10 +371,9 @@ function Admin() {
     try {
       const { data, error } = await supabase
         .from('images')
-        .select('id, public_url, title, is_featured, featured_order, storage_path, image_type')
+        .select('id, public_url, title, is_featured, featured_order, storage_path')
         .eq('is_public', true)
         .eq('is_featured', false)
-        .neq('image_type', 'event')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -489,14 +487,13 @@ function Admin() {
     setStatus('Uploading to featured...')
     try {
       const rows = await uploadImagesBatch(featureUploadFiles, { isPublic: true })
-      // Mark as featured and set image type
+      // Mark as featured
       if (rows && rows.length) {
         const ids = rows.map(r => r.id)
         const { error } = await supabase
           .from('images')
           .update({ 
-            is_featured: true,
-            image_type: 'featured'
+            is_featured: true
           })
           .in('id', ids)
         if (error) throw error
@@ -520,17 +517,7 @@ function Admin() {
     setStatus('Uploading gallery images...')
     try {
       const rows = await uploadImagesBatch(galleryUploadFiles, { isPublic: true })
-      // Mark as gallery images
-      if (rows && rows.length) {
-        const ids = rows.map(r => r.id)
-        const { error } = await supabase
-          .from('images')
-          .update({ 
-            image_type: 'gallery'
-          })
-          .in('id', ids)
-        if (error) throw error
-      }
+      // Gallery images are uploaded as non-featured by default
       // Refresh lists and clear
       await loadAvailableImages()
       await loadGalleryImages()
@@ -688,14 +675,6 @@ function Admin() {
       const uploadedImages = await uploadImagesBatch([eventImageFile], { isPublic: true })
       if (uploadedImages && uploadedImages.length > 0) {
         const uploadedImage = uploadedImages[0]
-        
-        // Mark as event image
-        const { error } = await supabase
-          .from('images')
-          .update({ image_type: 'event' })
-          .eq('id', uploadedImage.id)
-        
-        if (error) throw error
         
         // Add to available images
         setAvailableImages(prev => [uploadedImage, ...prev])

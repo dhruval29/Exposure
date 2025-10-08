@@ -7,6 +7,7 @@ import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 
 const Featured = () => {
   const [loading, setLoading] = useState(true);
+  const [isVisibleUnderCover, setIsVisibleUnderCover] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const rightSideImageRef = useRef(null);
@@ -208,6 +209,24 @@ const Featured = () => {
     };
   }, []);
 
+  // Make content visible under the shutter before it exits to avoid flash
+  useEffect(() => {
+    // If not in a transition, show as soon as we have something to render
+    if (!window.__routeTransitionActive) {
+      if (images && images.length > 0) setIsVisibleUnderCover(true);
+    }
+
+    const onContentReady = (ev) => {
+      try {
+        const path = ev?.detail?.path || ev?.detail;
+        if (path && path !== '/pictures') return;
+      } catch {}
+      setIsVisibleUnderCover(true);
+    };
+    window.addEventListener('route-content-ready', onContentReady);
+    return () => window.removeEventListener('route-content-ready', onContentReady);
+  }, [images]);
+
   useEffect(() => {
     const sentinel = loadMoreRef.current;
     if (!sentinel) return;
@@ -263,34 +282,37 @@ const Featured = () => {
   const preloadedSetRef = useRef(new Set());
   useEffect(() => {
     if (loading) return;
-    if (document.readyState !== 'complete') {
-      const onLoad = () => {
-        // small delay to let main thread settle
-        setTimeout(() => {
-          const limit = isMobile ? 8 : 16; // cap background preloads by device
-          images.slice(0, limit).forEach((img) => {
-            const url = img.src;
-            if (!url || preloadedSetRef.current.has(url)) return;
-            preloadedSetRef.current.add(url);
-            const i = new Image();
-            i.decoding = 'async';
-            i.loading = 'eager';
-            i.src = url;
-          });
-        }, 300);
-      };
-      window.addEventListener('load', onLoad, { once: true });
-      return () => window.removeEventListener('load', onLoad);
-    }
-    // If already loaded
-    const limit = isMobile ? 8 : 16;
-    images.slice(0, limit).forEach((img) => {
-      const url = img.src;
-      if (!url || preloadedSetRef.current.has(url)) return;
+    const limit = isMobile ? 12 : 20; // ensure a good chunk is ready before reveal
+    let resolved = 0;
+    const target = Math.min(limit, images.length);
+
+    const maybeSignalReady = () => {
+      if (resolved >= target) {
+        try {
+          window.__routeContentReadyForPath = '/pictures';
+          window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/pictures' } }));
+        } catch {}
+      }
+    };
+
+    images.slice(0, target).forEach((img) => {
+      const url = img.thumb || img.src;
+      if (!url) {
+        resolved += 1;
+        maybeSignalReady();
+        return;
+      }
+      if (preloadedSetRef.current.has(url)) {
+        resolved += 1;
+        maybeSignalReady();
+        return;
+      }
       preloadedSetRef.current.add(url);
       const i = new Image();
       i.decoding = 'async';
       i.loading = 'eager';
+      i.onload = () => { resolved += 1; maybeSignalReady(); };
+      i.onerror = () => { resolved += 1; maybeSignalReady(); };
       i.src = url;
     });
   }, [images, loading, isMobile]);
@@ -427,6 +449,17 @@ const Featured = () => {
     setShowModal(true);
   };
 
+  const handleRightImageClick = () => {
+    try {
+      if (!rightSideImageRef.current || images.length === 0) return;
+      const currentSrc = rightSideImageRef.current.getAttribute('src');
+      const index = Math.max(0, images.findIndex((it) => it.src === currentSrc));
+      const useIndex = index === -1 ? 0 : index;
+      const image = images[useIndex];
+      handleImageClick(image, useIndex);
+    } catch {}
+  };
+
   const handleCloseModal = () => {
     if (!modalRef.current) {
       setShowModal(false);
@@ -557,7 +590,8 @@ const Featured = () => {
         style={{
           overflowY: 'auto',
           minHeight: '100vh',
-          visibility: isRouteReady ? 'visible' : 'hidden'
+          opacity: isVisibleUnderCover || isRouteReady ? 1 : 0,
+          transition: 'opacity 300ms ease'
       }}
     >
       {/* Removed component-specific loader and loading page */}
@@ -636,6 +670,8 @@ const Featured = () => {
                     loading="eager"
                     decoding="async"
                     fetchpriority="high"
+                    onClick={handleRightImageClick}
+                    style={{ cursor: 'pointer' }}
                   />
                 ) : (
                   <div style={{ opacity: 0.6 }}>No images yet</div>

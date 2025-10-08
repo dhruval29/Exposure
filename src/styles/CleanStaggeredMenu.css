@@ -249,7 +249,7 @@
 .sm-panel-item {
   position: relative;
   color: #000;
-  font-family: 'Helvetica', Arial, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', Arial, sans-serif;
   font-weight: 600;
   font-size: 3.5rem;
   cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;

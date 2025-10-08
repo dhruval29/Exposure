@@ -206,7 +206,7 @@
 }
 
 .menu__date {
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
   color: #666666;

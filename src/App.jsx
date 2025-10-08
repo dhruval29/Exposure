@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import './App.css'
 import './styles/responsive.css'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import RouteTransitionLoader from './components/RouteTransitionLoader'
 import MobileChromeHider from './components/MobileChromeHider'
 const Landing = lazy(() => import('./components/Landing'))
@@ -101,6 +101,7 @@ function App() {
 
 function InnerApp() {
   const location = useLocation();
+  const navigate = useNavigate();
   const showFrame50 = location.pathname === '/';
 
   return (

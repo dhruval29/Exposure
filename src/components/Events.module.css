@@ -23,7 +23,7 @@
   text-align: left;
   font-size: 96px;
   color: #000;
-  font-family: Helvetica;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
   padding: 220px 20px 0 20px; /* increased top padding to account for navigation bar (62px) + extra spacing */
   box-sizing: border-box;
   scroll-behavior: auto; /* Let GSAP handle smooth scrolling */
@@ -121,7 +121,7 @@
   /* Desktop textBox1 positioning - below first image (right side) */
   .textBox1 {
     position: absolute;
-    top: 89%; /* Moved down by 2% from 87% */
+    top: 75%; /* moved slightly up from 89% */
     left: 58%; /* Align with right image (first image is on the right) */
     width: 40%; /* Match right image width */
     font-family: 'PP Editorial New', serif;
@@ -142,7 +142,7 @@
     top: 97%; /* Position further below textBox1 with more spacing */
     left: 8%; /* Align with left image */
     width: 45%; /* Match left image width */
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #666;
@@ -193,7 +193,7 @@
     top: 72%; /* Position below the right image (7.5% + 63% + 1.5% margin) */
     left: 60%; /* Align with right image */
     width: 38%; /* Match right image width */
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #666;
@@ -223,7 +223,7 @@
   /* Specific classes for second event text elements */
   .textBox1Second {
     position: absolute;
-    top: 65%; /* Moved up by additional 3% */
+    top: 80%; /* moved slightly down from 65% */
     left: 2%; /* Align with left image (second image is on the left) */
     width: 50%; /* Match left image width */
     font-family: 'PP Editorial New', serif;
@@ -243,7 +243,7 @@
     top: 77%; /* Position below textBox1Second (72% + 5% margin) */
     left: 60%; /* Align with right image */
     width: 38%; /* Match right image width */
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #666;
@@ -276,7 +276,7 @@
     top: 95%; /* adjusted (was 94%) */
     left: 8%; /* Align with left image */
     width: 45%; /* Match left image width */
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #666;
@@ -293,7 +293,7 @@
     top: 77%; /* adjusted closer to textBox1Second (was 74%) */
     left: 60%; /* Align with right image */
     width: 38%; /* Match right image width */
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #666;
@@ -888,7 +888,7 @@
   }
   
   .textBox2 {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #666;
@@ -1021,7 +1021,7 @@
   }
   
   .textBox2 {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #666;
@@ -1154,7 +1154,7 @@
   }
   
   .textBox2 {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 12px;
     font-weight: 400;
     color: #666;
@@ -1287,7 +1287,7 @@
   }
   
   .textBox2 {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', 'Helvetica', sans-serif;
     font-size: 11px;
     font-weight: 400;
     color: #666;
@@ -1504,6 +1504,7 @@
 .textBox1Second {
   position: relative;
   padding-bottom: 8px;
+  z-index: 3; /* keep title and its underline above images */
 }
 
 .textBox1Second::after {
@@ -1512,8 +1513,8 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 1px;
-  background-color: #666;
+  height: 2px;
+  background-color: #000;
   transform-origin: left center;
   transform: scaleX(0);
   animation: cu-lineGrow 800ms ease-out forwards;

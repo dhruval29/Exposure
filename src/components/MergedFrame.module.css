@@ -312,7 +312,7 @@
 	border: none;
 	border-radius: 8px;
 	color: #1f2937; /* near-black for stronger contrast */
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 	font-weight: 400; /* Regular */
 	font-size: 18px; /* increased for readability */
 	line-height: 1.5;
@@ -335,7 +335,7 @@
 	border: none;
 	border-radius: 8px;
 	color: #1f2937; /* near-black for stronger contrast */
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 	font-weight: 400; /* Regular */
 	font-size: 18px;
 	line-height: 1.5;

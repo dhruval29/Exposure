@@ -367,7 +367,7 @@ const NavigationMenu = ({ isExiting }) => {
                            isMobile === 'mobile' ? '34px' : 
                            isMobile === 'tablet' ? '40px' : 
                            'clamp(44px, 4.2vw, 80px)', // Mobile: increased sizes, Desktop: responsive font - increased
-                 fontFamily: 'Helvetica, sans-serif',
+                 fontFamily: "'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, sans-serif",
                  fontWeight: '400',
                  letterSpacing: isMobile === 'small-mobile' ? '0.3px' : 
                                 isMobile === 'mobile' ? '0.4px' : 
