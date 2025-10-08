@@ -113,9 +113,13 @@ function Admin() {
   // Events management state
   const [events, setEvents] = useState([])
   const [availableImages, setAvailableImages] = useState([])
+  const [featuredImages, setFeaturedImages] = useState([])
+  const [galleryImages, setGalleryImages] = useState([])
   const [autoFeature, setAutoFeature] = useState(true)
   const [featureUploadFiles, setFeatureUploadFiles] = useState([])
+  const [galleryUploadFiles, setGalleryUploadFiles] = useState([])
   const featureUploadInputRef = useRef(null)
+  const galleryUploadInputRef = useRef(null)
   const [showEventForm, setShowEventForm] = useState(false)
   const [editingEvent, setEditingEvent] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -168,6 +172,7 @@ function Admin() {
   const [openSection, setOpenSection] = useState({
     media: true,
     featured: true,
+    galleryImages: false,
     contacts: false,
     events: false,
   })
@@ -272,6 +277,8 @@ function Admin() {
     if (isAdmin) {
       loadEvents()
       loadAvailableImages()
+      loadFeaturedImages()
+      loadGalleryImages()
       loadContactMessages()
     }
   }, [isAdmin])
@@ -319,7 +326,7 @@ function Admin() {
     try {
       const { data, error } = await supabase
         .from('images')
-        .select('id, public_url, title, is_featured, featured_order, storage_path')
+        .select('id, public_url, title, is_featured, featured_order, storage_path, image_type')
         .eq('is_public', true)
         .order('featured_order', { ascending: true, nullsFirst: false })
         .order('created_at', { ascending: false });
@@ -327,10 +334,57 @@ function Admin() {
       if (error) {
         console.error('Error loading images:', error)
       } else {
-        setAvailableImages(data || [])
+        const images = data || []
+        setAvailableImages(images)
+        
+        // Separate images by type - exclude event images from featured
+        setFeaturedImages(images.filter(img => img.is_featured && img.image_type !== 'event'))
+        setGalleryImages(images.filter(img => !img.is_featured && img.image_type !== 'event'))
       }
     } catch (err) {
       console.error('Error loading images:', err)
+    }
+  }
+
+  const loadFeaturedImages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('images')
+        .select('id, public_url, title, is_featured, featured_order, storage_path, image_type')
+        .eq('is_public', true)
+        .eq('is_featured', true)
+        .neq('image_type', 'event')
+        .order('featured_order', { ascending: true, nullsFirst: false })
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading featured images:', error)
+      } else {
+        setFeaturedImages(data || [])
+      }
+    } catch (err) {
+      console.error('Error loading featured images:', err)
+    }
+  }
+
+
+  const loadGalleryImages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('images')
+        .select('id, public_url, title, is_featured, featured_order, storage_path, image_type')
+        .eq('is_public', true)
+        .eq('is_featured', false)
+        .neq('image_type', 'event')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading gallery images:', error)
+      } else {
+        setGalleryImages(data || [])
+      }
+    } catch (err) {
+      console.error('Error loading gallery images:', err)
     }
   }
 
@@ -342,6 +396,16 @@ function Admin() {
         .eq('id', imageId)
       if (error) throw error
       setAvailableImages(prev => prev.map(img => img.id === imageId ? { ...img, is_featured: !current } : img))
+      setFeaturedImages(prev => {
+        if (!current) {
+          // Adding to featured
+          const img = availableImages.find(i => i.id === imageId)
+          return img ? [...prev, { ...img, is_featured: true }] : prev
+        } else {
+          // Removing from featured
+          return prev.filter(img => img.id !== imageId)
+        }
+      })
     } catch (err) {
       setStatus(`Failed to update featured: ${err.message}`)
     }
@@ -356,6 +420,7 @@ function Admin() {
         .eq('id', imageId)
       if (error) throw error
       setAvailableImages(prev => prev.map(img => img.id === imageId ? { ...img, featured_order: parsed } : img))
+      setFeaturedImages(prev => prev.map(img => img.id === imageId ? { ...img, featured_order: parsed } : img))
     } catch (err) {
       setStatus(`Failed to update order: ${err.message}`)
     }
@@ -376,6 +441,8 @@ function Admin() {
         .eq('id', img.id)
       if (delErr) throw delErr
       setAvailableImages(prev => prev.filter(x => x.id !== img.id))
+      setFeaturedImages(prev => prev.filter(x => x.id !== img.id))
+      setGalleryImages(prev => prev.filter(x => x.id !== img.id))
       setUploaded(prev => prev.filter(x => x.id !== img.id))
       setStatus('Image deleted')
     } catch (err) {
@@ -393,6 +460,13 @@ function Admin() {
   const onFeatureUploadBrowse = (e) => {
     const list = Array.from(e.target.files || []).filter(isImageFile)
     setFeatureUploadFiles(list)
+    if (list.length) toast.success(`Selected ${list.length} image${list.length > 1 ? 's' : ''}`)
+  }
+
+
+  const onGalleryUploadBrowse = (e) => {
+    const list = Array.from(e.target.files || []).filter(isImageFile)
+    setGalleryUploadFiles(list)
     if (list.length) toast.success(`Selected ${list.length} image${list.length > 1 ? 's' : ''}`)
   }
 
@@ -415,21 +489,55 @@ function Admin() {
     setStatus('Uploading to featured...')
     try {
       const rows = await uploadImagesBatch(featureUploadFiles, { isPublic: true })
-      // Optionally mark featured
-      if (autoFeature && rows && rows.length) {
+      // Mark as featured and set image type
+      if (rows && rows.length) {
         const ids = rows.map(r => r.id)
         const { error } = await supabase
           .from('images')
-          .update({ is_featured: true })
+          .update({ 
+            is_featured: true,
+            image_type: 'featured'
+          })
           .in('id', ids)
         if (error) throw error
       }
-      // Refresh list and clear
+      // Refresh lists and clear
       await loadAvailableImages()
+      await loadFeaturedImages()
       setFeatureUploadFiles([])
       if (featureUploadInputRef.current) featureUploadInputRef.current.value = ''
       setStatus('Featured upload successful')
       toast.success('Featured upload successful')
+    } catch (err) {
+      setStatus(`Upload failed: ${err.message}`)
+      toast.error(err.message)
+    }
+  }
+
+
+  const onGalleryUpload = async () => {
+    if (!galleryUploadFiles.length) return
+    setStatus('Uploading gallery images...')
+    try {
+      const rows = await uploadImagesBatch(galleryUploadFiles, { isPublic: true })
+      // Mark as gallery images
+      if (rows && rows.length) {
+        const ids = rows.map(r => r.id)
+        const { error } = await supabase
+          .from('images')
+          .update({ 
+            image_type: 'gallery'
+          })
+          .in('id', ids)
+        if (error) throw error
+      }
+      // Refresh lists and clear
+      await loadAvailableImages()
+      await loadGalleryImages()
+      setGalleryUploadFiles([])
+      if (galleryUploadInputRef.current) galleryUploadInputRef.current.value = ''
+      setStatus('Gallery upload successful')
+      toast.success('Gallery upload successful')
     } catch (err) {
       setStatus(`Upload failed: ${err.message}`)
       toast.error(err.message)
@@ -580,6 +688,15 @@ function Admin() {
       const uploadedImages = await uploadImagesBatch([eventImageFile], { isPublic: true })
       if (uploadedImages && uploadedImages.length > 0) {
         const uploadedImage = uploadedImages[0]
+        
+        // Mark as event image
+        const { error } = await supabase
+          .from('images')
+          .update({ image_type: 'event' })
+          .eq('id', uploadedImage.id)
+        
+        if (error) throw error
+        
         // Add to available images
         setAvailableImages(prev => [uploadedImage, ...prev])
         // Select the newly uploaded image
@@ -898,14 +1015,14 @@ function Admin() {
                 </section>
               )}
 
-              {/* Featured Pictures (Accordion) */}
+              {/* Featured Images (Accordion) */}
               <div className={styles.accordionHeader} onClick={() => toggleSection('featured')}>
                 <h2 className={styles.accordionTitle}>
                   <ImageIcon />
-                  <span>Featured Pictures</span>
+                  <span>Featured Images</span>
                 </h2>
                 <div className={styles.accordionActions}>
-                  <span className={styles.count}>{availableImages.length}</span>
+                  <span className={styles.count}>{featuredImages.length}</span>
                   <button type="button" className={styles.plusButton}>{openSection.featured ? '−' : '+'}</button>
                 </div>
               </div>
@@ -915,7 +1032,7 @@ function Admin() {
                     <div className={styles.sectionActions}>
                       <button 
                         className={styles.buttonSecondary}
-                        onClick={loadAvailableImages}
+                        onClick={loadFeaturedImages}
                         type="button"
                       >
                         <SearchIcon />
@@ -971,9 +1088,9 @@ function Admin() {
                   </div>
                 </div>
 
-                {availableImages.length ? (
+                {featuredImages.length ? (
                   <div className={styles.imageGrid}>
-                    {availableImages.map((img) => (
+                    {featuredImages.map((img) => (
                       <div key={img.id} className={styles.imageCard}>
                         <div className={styles.imageWrapper}>
                           <img src={img.public_url} alt={img.title || 'image'} />
@@ -1050,6 +1167,128 @@ function Admin() {
                     <p>No images found. Upload images first.</p>
                   </div>
                 )}
+                  </section>
+                </div>
+              </div>
+
+              {/* Gallery Images (Accordion) */}
+              <div className={styles.accordionHeader} onClick={() => toggleSection('galleryImages')}>
+                <h2 className={styles.accordionTitle}>
+                  <ImageIcon />
+                  <span>Gallery Images</span>
+                </h2>
+                <div className={styles.accordionActions}>
+                  <span className={styles.count}>{galleryImages.length}</span>
+                  <button type="button" className={styles.plusButton}>{openSection.galleryImages ? '−' : '+'}</button>
+                </div>
+              </div>
+              <div className={`${styles.accordionPanel} ${openSection.galleryImages ? styles.accordionPanelOpen : ''}`}>
+                <div className={styles.accordionInner}>
+                  <section className={styles.section}>
+                    <div className={styles.sectionActions}>
+                      <button 
+                        className={styles.buttonSecondary}
+                        onClick={loadGalleryImages}
+                        type="button"
+                      >
+                        <SearchIcon />
+                        <span>Refresh</span>
+                      </button>
+                    </div>
+
+                    {/* Upload gallery images */}
+                    <div className={styles.uploadSection} style={{ marginBottom: 12 }}>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                        <input
+                          ref={galleryUploadInputRef}
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={onGalleryUploadBrowse}
+                          className={styles.hiddenInput}
+                        />
+                        <button
+                          type="button"
+                          className={styles.buttonSecondary}
+                          onClick={async () => {
+                            if (galleryUploadInputRef.current) { galleryUploadInputRef.current.value = ''; }
+                            const picked = await pickImageFiles(true)
+                            if (picked && picked.length) {
+                              setGalleryUploadFiles(picked)
+                              return
+                            }
+                            galleryUploadInputRef.current?.click()
+                          }}
+                        >
+                          <FolderIcon />
+                          <span>Select Images</span>
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.buttonPrimary}
+                          disabled={!galleryUploadFiles.length}
+                          onClick={onGalleryUpload}
+                        >
+                          <UploadIcon />
+                          <span>Upload {galleryUploadFiles.length ? `(${galleryUploadFiles.length})` : ''}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {galleryImages.length ? (
+                      <div className={styles.imageGrid}>
+                        {galleryImages.map((img) => (
+                          <div key={img.id} className={styles.imageCard}>
+                            <div className={styles.imageWrapper}>
+                              <img src={img.public_url} alt={img.title || 'image'} />
+                            </div>
+                            <div className={styles.imageInfo}>
+                              <span className={styles.imageName}>{img.title || 'Untitled'}</span>
+                            </div>
+                            <div className={styles.formInlineRow}>
+                              <button 
+                                type="button" 
+                                className={styles.buttonDanger}
+                                onClick={() => deleteImage(img)}
+                              >
+                                <CloseIcon />
+                                <span>Delete</span>
+                              </button>
+                            </div>
+                            <div className={styles.formInlineColumn} style={{ gap: 6, marginTop: 8 }}>
+                              <input
+                                type="text"
+                                placeholder="Title"
+                                value={(editedMeta[img.id]?.title) ?? img.title ?? ''}
+                                onChange={(e) => setMetaField(img.id, 'title', e.target.value)}
+                                className={styles.metaInput}
+                              />
+                              <textarea
+                                rows="2"
+                                placeholder="Short description"
+                                value={(editedMeta[img.id]?.description) ?? img.description ?? ''}
+                                onChange={(e) => setMetaField(img.id, 'description', e.target.value)}
+                                className={styles.metaTextarea}
+                              />
+                              <div style={{ display: 'flex', gap: 8 }}>
+                                <button
+                                  type="button"
+                                  className={styles.buttonPrimary}
+                                  onClick={() => saveImageMeta(img)}
+                                >
+                                  Save
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={styles.emptyState}>
+                        <ImageIcon />
+                        <p>No gallery images found. Upload images first.</p>
+                      </div>
+                    )}
                   </section>
                 </div>
               </div>

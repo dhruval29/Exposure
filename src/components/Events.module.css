@@ -118,12 +118,12 @@
     font-size: 16px;
   }
   
-  /* Desktop textBox1 positioning - below first image */
+  /* Desktop textBox1 positioning - below first image (right side) */
   .textBox1 {
     position: absolute;
     top: 89%; /* Moved down by 2% from 87% */
-    left: 2%; /* Align with left edge of left image container */
-    width: 50%; /* Match left image width */
+    left: 58%; /* Align with right image (first image is on the right) */
+    width: 40%; /* Match right image width */
     font-family: 'PP Editorial New', serif;
     font-size: 40px;
     font-weight: 400;
@@ -173,8 +173,8 @@
   .textBox1:nth-of-type(2) {
     position: absolute;
     top: 73%; /* Moved up by 2% */
-    left: 58%; /* Align with left edge of right image container */
-    width: 40%; /* Match right image width */
+    left: 2%; /* Align with left image (second image is on the left) */
+    width: 50%; /* Match left image width */
     font-family: 'PP Editorial New', serif;
     font-size: 40px;
     font-weight: 400;
@@ -224,8 +224,8 @@
   .textBox1Second {
     position: absolute;
     top: 65%; /* Moved up by additional 3% */
-    left: 58%; /* Align with left edge of right image container */
-    width: 40%; /* Match right image width */
+    left: 2%; /* Align with left image (second image is on the left) */
+    width: 50%; /* Match left image width */
     font-family: 'PP Editorial New', serif;
     font-size: 40px;
     font-weight: 400;
@@ -608,9 +608,13 @@
     font-size: 12px;
     min-width: 40px;
     height: 32px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
   
   .pageNumber {
@@ -619,9 +623,13 @@
     font-size: 12px;
     min-width: 32px;
     height: 32px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
 }
 
@@ -640,6 +648,13 @@
     font-size: 11px;
     min-width: 36px;
     height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
   
   .pageNumber {
@@ -648,6 +663,13 @@
     font-size: 11px;
     min-width: 28px;
     height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
   
   /* Hide some page numbers on very small screens */
@@ -676,6 +698,13 @@
     font-size: 10px;
     min-width: 32px;
     height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
   
   .pageNumber {
@@ -683,6 +712,13 @@
     font-size: 10px;
     min-width: 26px;
     height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
 }
 
@@ -706,6 +742,16 @@
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(6px);
   cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 32px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .pageButton:disabled {
@@ -715,7 +761,24 @@
 
 .pageNumbers { display: flex; gap: 6px; }
 
-.pageNumber { padding: 5px 7px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); background: rgba(255,255,255,0.9); cursor: pointer; line-height: 1; }
+.pageNumber { 
+  padding: 5px 7px; 
+  border-radius: 6px; 
+  border: 1px solid rgba(0,0,0,0.2); 
+  background: rgba(255,255,255,0.9); 
+  cursor: pointer; 
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
 
 .activePage { background: #000; color: #fff; }
 

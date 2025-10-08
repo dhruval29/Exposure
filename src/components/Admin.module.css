@@ -918,11 +918,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 80px;
+  flex-shrink: 0;
 }
 
 .buttonDanger:hover {
   background: #b91c1c;
   transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
 }
 
 .emptyState {
@@ -942,10 +945,11 @@
 .formInlineRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--spacing-sm);
   padding: 10px var(--spacing-sm);
   border-top: 1px solid var(--color-neutral-200);
+  flex-wrap: wrap;
 }
 
 .toggleLabel {
@@ -1283,6 +1287,23 @@
   
   .buttonDanger,
   .buttonSecondary {
+    justify-content: center;
+  }
+  
+  .formInlineRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-xs);
+  }
+  
+  .formInlineRow .toggleLabel,
+  .formInlineRow .orderLabel {
+    justify-content: space-between;
+  }
+  
+  .buttonDanger {
+    margin-top: var(--spacing-xs);
+    width: 100%;
     justify-content: center;
   }
   

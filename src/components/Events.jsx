@@ -137,6 +137,8 @@ const Events = () => {
         const searchBarRect = searchBar.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
         const searchBarCrossed40Percent = searchBarRect.top <= (viewportHeight * 0.4);
+        
+        // Only show pagination if user has scrolled past the featured section
         setShowPagination(searchBarCrossed40Percent);
       }
     };
@@ -147,6 +149,7 @@ const Events = () => {
     
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
 
   // Fetch events from Supabase
   useEffect(() => {
@@ -308,19 +311,12 @@ const Events = () => {
   const startIndex = (currentPage - 1) * pageSize;
   const pagedEvents = eventsData.slice(startIndex, startIndex + pageSize);
 
+
   const goToPage = (page) => {
     const clamped = Math.min(Math.max(page, 1), totalPages);
     
-    // On mobile, scroll to events list instead of top
-    if (window.innerWidth <= 768) {
-      const eventsList = document.querySelector(`.${styles.eventsList}`);
-      if (eventsList) {
-        eventsList.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    } else {
-      // Desktop behavior - scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    // No automatic scrolling - let user stay at current scroll position
+    // This prevents the page from jumping to top or events list when changing pages
     
     const el = listRef.current;
     if (el) {
@@ -429,7 +425,7 @@ const Events = () => {
               <SmoothScrollWrapper>
                 <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
               </SmoothScrollWrapper>
-              {totalPages >= 1 && showPagination && (
+              {totalPages > 1 && showPagination && (
                 <div className={styles.footerBar}>
                   <div className={styles.pagination}>
                     <button className={styles.pageButton} onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
