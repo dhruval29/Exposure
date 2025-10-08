@@ -1060,7 +1060,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             pointerEvents: 'none'
           }}
         >
-          <source src="/videos/1093650-hd_1920_1080_30fps.mp4" type="video/mp4" />
+          <source src={isMobile ? "/videos/vashi smol.mp4" : "/videos/SAAVYAS AFTERMOVIE.mp4"} type="video/mp4" />
         </video>
         {/* Fallback background color in case video fails to load */}
         <div style={{

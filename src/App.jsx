@@ -108,7 +108,11 @@ function InnerApp() {
 
   return (
     <div className="app-wrapper">
-      {location.pathname === '/pictures' && <MobileChromeHider />}
+      {(location.pathname === '/pictures' || 
+        location.pathname === '/' || 
+        location.pathname === '/events' || 
+        location.pathname === '/contact' || 
+        location.pathname === '/the-team') && <MobileChromeHider />}
       <RouteTransitionLoader />
       <TextCursorOverlay />
       {showFrame50 && <Frame50 />}
