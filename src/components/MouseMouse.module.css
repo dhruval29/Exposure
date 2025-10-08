@@ -45,6 +45,9 @@
   color: #000;
   font-size: 18px;
   z-index: 10;
+  background: #F2EAE0;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .textHotzone {

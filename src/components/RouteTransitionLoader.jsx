@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 
@@ -8,22 +8,48 @@ import { gsap } from 'gsap'
 // 3) After the new route renders, the screen exits by sliding UP (off the top).
 const RouteTransitionLoader = () => {
   const overlayRef = useRef(null)
+  const textRef = useRef(null)
   const isAnimatingRef = useRef(false)
   const pendingHrefRef = useRef(null)
   const pendingStateRef = useRef(undefined)
+  const [destinationText, setDestinationText] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
+
+  // Map route paths to display names
+  const getPageName = (path) => {
+    const pageNames = {
+      '/': 'Home',
+      '/our-journey': 'Our Journey',
+      '/effects': 'Effects',
+      '/gallery': 'Gallery',
+      '/pictures': 'Pictures',
+      '/members': 'Members',
+      '/the-team': 'The Team',
+      '/admin': 'Admin',
+      '/fly': 'Fly',
+      '/events': 'Events',
+      '/contact': 'Contact',
+      '/scroll-stack-demo': 'Scroll Stack Demo'
+    }
+    return pageNames[path] || 'Loading...'
+  }
 
   // Ensure overlay starts off-screen and non-interactive
   useEffect(() => {
     const el = overlayRef.current
+    const textEl = textRef.current
     if (!el) return
     gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
+    if (textEl) {
+      gsap.set(textEl, { opacity: 0, y: 20 })
+    }
   }, [])
 
   // Tuning
   const COVER_IN_DURATION = 1.1 // slower cover-in
   const COVER_OUT_DURATION = 0.9 // slower exit
+  const MIN_TEXT_DISPLAY_DURATION = 1.5 // minimum time text stays visible
   const EASE_IN = 'power4.inOut' // accelerate then decelerate while covering
   const EASE_OUT = 'power4.in' // accelerate off the top
 
@@ -59,13 +85,36 @@ const RouteTransitionLoader = () => {
       window.__routeTransitionActive = true
       try { window.dispatchEvent(new CustomEvent('route-transition-start')) } catch {}
       gsap.set(el, { pointerEvents: 'auto' })
+      
+      // Set destination text
+      setDestinationText(getPageName(href))
+      
       gsap.to(el, {
         yPercent: 0,
         duration: COVER_IN_DURATION,
         ease: EASE_IN,
         onComplete: () => {
+          // Animate text in during settling stage
+          const textEl = textRef.current
+          if (textEl) {
+            gsap.to(textEl, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: 'power2.out',
+              delay: 0.2
+            })
+          }
+          
           // Navigate once fully covered
           navigate(pendingHrefRef.current, { state: pendingStateRef.current })
+          
+          // Set minimum display duration
+          setTimeout(() => {
+            if (isAnimatingRef.current) {
+              window.__minTextDurationComplete = true
+            }
+          }, MIN_TEXT_DISPLAY_DURATION * 1000)
         }
       })
     }
@@ -93,11 +142,36 @@ const RouteTransitionLoader = () => {
       window.__routeTransitionActive = true
       try { window.dispatchEvent(new CustomEvent('route-transition-start')) } catch {}
       gsap.set(el, { pointerEvents: 'auto' })
+      
+      // Set destination text
+      setDestinationText(getPageName(href))
+      
       gsap.to(el, {
         yPercent: 0,
         duration: COVER_IN_DURATION,
         ease: EASE_IN,
-        onComplete: () => navigate(href, { state: navState })
+        onComplete: () => {
+          // Animate text in during settling stage
+          const textEl = textRef.current
+          if (textEl) {
+            gsap.to(textEl, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: 'power2.out',
+              delay: 0.2
+            })
+          }
+          
+          navigate(href, { state: navState })
+          
+          // Set minimum display duration
+          setTimeout(() => {
+            if (isAnimatingRef.current) {
+              window.__minTextDurationComplete = true
+            }
+          }, MIN_TEXT_DISPLAY_DURATION * 1000)
+        }
       })
     }
     window.addEventListener('route-transition', onRequest)
@@ -115,18 +189,47 @@ const RouteTransitionLoader = () => {
     const shouldWaitForContent = path === '/pictures' || path === '/contact' || path === '/events'
 
     const playExit = () => {
-      gsap.to(el, {
-        yPercent: -100,
-        duration: COVER_OUT_DURATION,
-        ease: EASE_OUT,
-        onComplete: () => {
-          gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
-          isAnimatingRef.current = false
-          pendingHrefRef.current = null
-          window.__routeTransitionActive = false
-          try { window.dispatchEvent(new CustomEvent('route-transition-complete')) } catch {}
+      const textEl = textRef.current
+      
+      // Check if minimum duration has passed
+      const checkMinDuration = () => {
+        if (!window.__minTextDurationComplete) {
+          setTimeout(checkMinDuration, 100)
+          return
         }
-      })
+        
+        // Fade out text first
+        if (textEl) {
+          gsap.to(textEl, {
+            opacity: 0,
+            y: -20,
+            duration: 0.3,
+            ease: 'power2.in'
+          })
+        }
+        
+        // Then slide overlay up
+        gsap.to(el, {
+          yPercent: -100,
+          duration: COVER_OUT_DURATION,
+          ease: EASE_OUT,
+          delay: 0.2,
+          onComplete: () => {
+            gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
+            if (textEl) {
+              gsap.set(textEl, { opacity: 0, y: 20 })
+            }
+            setDestinationText('')
+            isAnimatingRef.current = false
+            pendingHrefRef.current = null
+            window.__routeTransitionActive = false
+            window.__minTextDurationComplete = false
+            try { window.dispatchEvent(new CustomEvent('route-transition-complete')) } catch {}
+          }
+        })
+      }
+      
+      checkMinDuration()
     }
 
     if (!shouldWaitForContent) {
@@ -173,12 +276,32 @@ const RouteTransitionLoader = () => {
         right: 0,
         bottom: 0,
         height: '100vh',
-        background: '#000',
+        background: '#F2EAE0',
         zIndex: 99999,
-        transform: 'translateZ(0)'
+        transform: 'translateZ(0)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
       aria-hidden="true"
-    />
+    >
+      <div
+        ref={textRef}
+        style={{
+          color: '#333',
+          fontSize: 'clamp(48px, 8vw, 96px)',
+          fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
+          fontWeight: 100,
+          fontStyle: 'italic',
+          letterSpacing: '-0.02em',
+          textAlign: 'center',
+          opacity: 0,
+          transform: 'translateY(20px)'
+        }}
+      >
+        {destinationText}
+      </div>
+    </div>
   )
 }
 

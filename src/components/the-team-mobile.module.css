@@ -181,7 +181,7 @@
 	left: 0;
 	border-radius: 6.231vw;
 	width: 39.462vw;
-	height: 29.858vh;
+	height: 28.800vh; /* slightly reduced to maintain clear gap above text */
 	object-fit: cover;
 }
 
@@ -192,7 +192,7 @@
 
 .appContainerIconShiftUp {
 	/* Nudge image content slightly upward within its box */
-	object-position: 50% 45%;
+	object-position: 50% 8%;
 }
 
 .appTeammember {

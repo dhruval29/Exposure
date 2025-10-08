@@ -104,7 +104,7 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         }
         // Apply responsive scaling to all items in controlled mode
         if (isMobile === 'small-mobile') {
-          gsap.set(items, { scale: 1.0 })
+          gsap.set(items, { scale: 1.4 })
         } else if (isMobile === 'mobile') {
           gsap.set(items, { scale: 1.4 })
         } else if (isMobile === 'tablet') {
@@ -155,7 +155,7 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
             x: 0, 
             y: 0,
             // Responsive scaling based on screen size
-            scale: isMobile === 'small-mobile' ? 1.0 : 
+            scale: isMobile === 'small-mobile' ? 1.4 : 
                    isMobile === 'mobile' ? 1.4 : 
                    isMobile === 'tablet' ? 1.4 : 1
           },
@@ -166,7 +166,7 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
             force3D: true, 
             duration,
             // Keep the responsive scale throughout the animation
-            scale: isMobile === 'small-mobile' ? 1.0 : 
+            scale: isMobile === 'small-mobile' ? 1.4 : 
                    isMobile === 'mobile' ? 1.4 : 
                    isMobile === 'tablet' ? 1.4 : 1
           },
@@ -184,7 +184,7 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
         const { top, left, widthPct } = POSITIONS[idx % POSITIONS.length]
         const z = Z_INDEXES[idx % Z_INDEXES.length]
         // Responsive width scaling
-        const responsiveWidth = isMobile === 'small-mobile' ? widthPct * 1.0 : 
+        const responsiveWidth = isMobile === 'small-mobile' ? widthPct * 1.4 : 
                                isMobile === 'mobile' ? widthPct * 1.4 : 
                                isMobile === 'tablet' ? widthPct * 1.4 : widthPct
         return (
@@ -195,7 +195,7 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
               className={styles.img} 
               draggable={false} 
               style={{
-                transform: isMobile === 'small-mobile' ? 'scale(1.0)' : 
+                transform: isMobile === 'small-mobile' ? 'scale(1.4)' : 
                           isMobile === 'mobile' ? 'scale(1.4)' : 
                           isMobile === 'tablet' ? 'scale(1.4)' : 'scale(1)'
               }}
