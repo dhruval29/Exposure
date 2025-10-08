@@ -183,11 +183,12 @@ const NavigationMenu = ({ isExiting }) => {
           ease: "power2.out"
         },
         0 // Start at the same time as text animation
-      );
+      )
     } catch (error) {
       // Silent error handling
     }
   };
+
 
   const handleClick = (itemId) => {
     switch (itemId) {
@@ -428,6 +429,7 @@ const NavigationMenu = ({ isExiting }) => {
         </div>
       ))}
       </div>
+
     </>
   );
 };

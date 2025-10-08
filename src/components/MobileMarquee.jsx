@@ -9,9 +9,9 @@ const MobileMarquee = () => {
     const measure = () => {
       if (!containerRef.current) return;
       const h = containerRef.current.clientHeight;
-      // Mobile-specific font sizing - reduced for 40vh height
-      const scaleFactor = 0.6; // Reduced for mobile 40vh height
-      const minFont = 24;
+      // Mobile-specific font sizing - further reduced for 40vh height
+      const scaleFactor = 0.45; // Further reduced for mobile 40vh height
+      const minFont = 18;
       const computedFont = Math.max(minFont, Math.floor(h * scaleFactor));
       setFontSizePx(computedFont);
     };
@@ -115,7 +115,7 @@ const MobileMarquee = () => {
         <div style={{ display: 'inline-flex' }}>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -125,7 +125,7 @@ const MobileMarquee = () => {
           }}>{line}</span>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -135,7 +135,7 @@ const MobileMarquee = () => {
           }}>{line}</span>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -145,7 +145,7 @@ const MobileMarquee = () => {
           }}>{line}</span>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -157,7 +157,7 @@ const MobileMarquee = () => {
         <div style={{ display: 'inline-flex' }} aria-hidden="true">
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -167,7 +167,7 @@ const MobileMarquee = () => {
           }}>{line}</span>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -177,7 +177,7 @@ const MobileMarquee = () => {
           }}>{line}</span>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 
@@ -187,7 +187,7 @@ const MobileMarquee = () => {
           }}>{line}</span>
           <span style={{ 
             fontFamily: "'PP Editorial New', serif", 
-            fontWeight: 400, 
+            fontWeight: 200, 
             fontStyle: 'italic', 
             letterSpacing: '0.02em', 
             color: '#ffffff', 

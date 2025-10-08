@@ -4,6 +4,8 @@ import './styles/responsive.css'
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import RouteTransitionLoader from './components/RouteTransitionLoader'
 import MobileChromeHider from './components/MobileChromeHider'
+// Import tutorial test helper for development
+import './utils/tutorialTestHelper'
 const Landing = lazy(() => import('./components/Landing'))
 const TextCursorOverlay = lazy(() => import('./components/TextCursorOverlay'))
 const Frame50 = lazy(() => import('./components/Frame50'))

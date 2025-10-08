@@ -254,6 +254,10 @@
   .mobileMenuItem:nth-child(5) {
     animation-delay: calc(var(--cu-delay-base) + 750ms);
   }
+
+  .mobileMenuItem:nth-child(6) {
+    animation-delay: calc(var(--cu-delay-base) + 900ms);
+  }
   
   .mobileMenuItem:focus,
   .mobileMenuItem:active,

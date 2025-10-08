@@ -4,6 +4,8 @@ import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
 import SimpleNav from './SimpleNav';
 import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
+import { shouldShowPicturesTutorial, markPicturesTutorialSeen } from '../utils/tutorialManager';
+import PicturesTutorial from './PicturesTutorial';
 
 const FeaturedMobile = () => {
   const [loading, setLoading] = useState(true);
@@ -11,6 +13,15 @@ const FeaturedMobile = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const modalRef = useRef(null);
+  
+  // Tutorial state
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialTarget, setTutorialTarget] = useState(null);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [isSwiping, setIsSwiping] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState(null);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
 
 
   const [images, setImages] = useState(() => {
@@ -103,6 +114,16 @@ const FeaturedMobile = () => {
       clearTimeout(timer);
     };
   }, []);
+
+  // Tutorial logic
+  useEffect(() => {
+    if (!loading && images.length > 0 && shouldShowPicturesTutorial()) {
+      // Wait for images to render, then start tutorial
+      setTimeout(() => {
+        startTutorial();
+      }, 1500);
+    }
+  }, [loading, images.length]);
 
   // Make content visible under the shutter before it exits to avoid flash
   useEffect(() => {
@@ -282,7 +303,30 @@ const FeaturedMobile = () => {
     };
   }, [showModal, selectedImage]);
 
+  // Tutorial functions
+  const startTutorial = () => {
+    // Find the first image in the grid
+    const firstImage = document.querySelector('.p-home-grid-mode__item');
+    if (firstImage) {
+      setTutorialTarget(firstImage);
+      setShowTutorial(true);
+    }
+  };
+
+  const handleTutorialComplete = () => {
+    setShowTutorial(false);
+    setTutorialTarget(null);
+    markPicturesTutorialSeen();
+  };
+
+  const handleTutorialInteraction = () => {
+    if (showTutorial) {
+      handleTutorialComplete();
+    }
+  };
+
   const handleImageClick = (image, index) => {
+    handleTutorialInteraction();
     setSelectedImage({ ...image, index });
     setShowModal(true);
   };
@@ -407,6 +451,64 @@ const FeaturedMobile = () => {
     }, '-=0.1');
   };
 
+  // Swipe gesture handlers
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsSwiping(false);
+    setSwipeDirection(null);
+    // Hide swipe hint after first interaction
+    if (showSwipeHint) {
+      setShowSwipeHint(false);
+    }
+  };
+
+  const onTouchMove = (e) => {
+    if (!touchStart) return;
+    
+    const currentTouch = e.targetTouches[0].clientX;
+    setTouchEnd(currentTouch);
+    
+    const distance = touchStart - currentTouch;
+    const absDistance = Math.abs(distance);
+    
+    if (absDistance > 10) {
+      setIsSwiping(true);
+      if (distance > 0) {
+        setSwipeDirection('left');
+      } else {
+        setSwipeDirection('right');
+      }
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setIsSwiping(false);
+      setSwipeDirection(null);
+      return;
+    }
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && selectedImage && selectedImage.index < images.length - 1) {
+      // Swipe left - go to next image
+      handleNextImage();
+    }
+    if (isRightSwipe && selectedImage && selectedImage.index > 0) {
+      // Swipe right - go to previous image
+      handlePreviousImage();
+    }
+    
+    // Reset swipe state
+    setIsSwiping(false);
+    setSwipeDirection(null);
+  };
+
   const isRouteReady = useRouteTransitionReady();
 
   return (
@@ -495,7 +597,12 @@ const FeaturedMobile = () => {
           className="image-modal-overlay"
           onClick={handleModalClick}
         >
-          <div className="image-modal-content">
+          <div 
+            className={`image-modal-content ${isSwiping ? 'swiping' : ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <img
               src={selectedImage.src}
               alt={selectedImage.title}
@@ -519,6 +626,17 @@ const FeaturedMobile = () => {
             <div className="image-modal-title">
               {selectedImage.title}
             </div>
+            
+            {/* Swipe indicators */}
+            {showSwipeHint && (
+              <div className="swipe-indicators">
+                <div className="swipe-hint">
+                  <span className="swipe-arrow">←</span>
+                  <span className="swipe-text">Swipe to navigate</span>
+                  <span className="swipe-arrow">→</span>
+                </div>
+              </div>
+            )}
             
             {/* Navigation Snack Bar */}
             <div className="image-modal-navigation">
@@ -566,6 +684,14 @@ const FeaturedMobile = () => {
           </div>
         </div>
       )}
+
+      {/* Pictures Tutorial - Show for first-time users */}
+      <PicturesTutorial
+        targetElement={tutorialTarget}
+        isVisible={showTutorial}
+        onAnimationComplete={handleTutorialComplete}
+        tooltipText="Click for enhanced view"
+      />
     </div>
     </>
   );

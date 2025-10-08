@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Menu.module.css';
 import gsap from 'gsap';
 import { startRouteTransition } from './RouteTransitionLoader';
+import { shouldShowTutorial, markMenuTutorialSeen } from '../utils/tutorialManager';
+import TutorialCursor from './TutorialCursor';
 
 const Menu = ({ onClose }) => {
   const menuRef = useRef(null);
@@ -11,6 +13,11 @@ const Menu = ({ onClose }) => {
   const wordRefs = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Tutorial state
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialTarget, setTutorialTarget] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleNavigation = (path) => {
     if (path === 'home') {
@@ -29,10 +36,52 @@ const Menu = ({ onClose }) => {
     }
   };
 
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     // CSS animations will handle the text reveal - no GSAP needed
     // The text elements start with opacity: 0 and animate in with cu-textReveal
-  }, []);
+    
+    // Start tutorial after menu appears (for desktop only)
+    if (!isMobile && shouldShowTutorial()) {
+      setTimeout(() => {
+        startTutorial();
+      }, 1000); // Wait for CSS animations to complete
+    }
+  }, [isMobile]);
+
+  // Tutorial functions
+  const startTutorial = () => {
+    // Target the first menu button (Home)
+    const firstButton = wordRefs.current[0];
+    if (firstButton) {
+      setTutorialTarget(firstButton);
+      setShowTutorial(true);
+    }
+  };
+
+  const handleTutorialComplete = () => {
+    setShowTutorial(false);
+    setTutorialTarget(null);
+    markMenuTutorialSeen();
+  };
+
+  const handleTutorialInteraction = () => {
+    if (showTutorial) {
+      handleTutorialComplete();
+    }
+  };
 
   return (
     <div ref={menuRef} className={styles.menu}>
@@ -43,7 +92,11 @@ const Menu = ({ onClose }) => {
             ref={(el) => wordRefs.current.push(el)} 
             className={styles.animatedWord} 
             data-word-index={0}
-            onClick={() => handleNavigation('home')}
+            onClick={() => {
+              handleTutorialInteraction();
+              handleNavigation('home');
+            }}
+            onMouseEnter={handleTutorialInteraction}
           >
             Home, 
           </button>
@@ -51,7 +104,11 @@ const Menu = ({ onClose }) => {
             ref={(el) => wordRefs.current.push(el)} 
             className={styles.animatedWord} 
             data-word-index={1}
-            onClick={() => handleNavigation('/our-journey')}
+            onClick={() => {
+              handleTutorialInteraction();
+              handleNavigation('/our-journey');
+            }}
+            onMouseEnter={handleTutorialInteraction}
           >
             Our Journey, 
           </button>
@@ -61,7 +118,11 @@ const Menu = ({ onClose }) => {
             ref={(el) => wordRefs.current.push(el)} 
             className={styles.animatedWord} 
             data-word-index={2}
-            onClick={() => handleNavigation('/pictures')}
+            onClick={() => {
+              handleTutorialInteraction();
+              handleNavigation('/pictures');
+            }}
+            onMouseEnter={handleTutorialInteraction}
           >
             Featured, 
           </button>
@@ -69,7 +130,11 @@ const Menu = ({ onClose }) => {
             ref={(el) => wordRefs.current.push(el)} 
             className={styles.animatedWord} 
             data-word-index={3}
-            onClick={() => handleNavigation('/events')}
+            onClick={() => {
+              handleTutorialInteraction();
+              handleNavigation('/events');
+            }}
+            onMouseEnter={handleTutorialInteraction}
           >
             Events, 
           </button>
@@ -77,7 +142,11 @@ const Menu = ({ onClose }) => {
             ref={(el) => wordRefs.current.push(el)} 
             className={styles.animatedWord} 
             data-word-index={4}
-            onClick={() => handleNavigation('/the-team')}
+            onClick={() => {
+              handleTutorialInteraction();
+              handleNavigation('/the-team');
+            }}
+            onMouseEnter={handleTutorialInteraction}
           >
             Team
           </button>
@@ -116,7 +185,23 @@ const Menu = ({ onClose }) => {
         >
           Team
         </button>
+        <button 
+          className={styles.mobileMenuItem}
+          onClick={() => handleNavigation('/contact')}
+        >
+          Contact
+        </button>
       </div>
+
+      {/* Tutorial Cursor - Only show on desktop for first-time users */}
+      {!isMobile && (
+        <TutorialCursor
+          targetElement={tutorialTarget}
+          isVisible={showTutorial}
+          onAnimationComplete={handleTutorialComplete}
+          tooltipText="Click to navigate"
+        />
+      )}
     </div>
   );
 };

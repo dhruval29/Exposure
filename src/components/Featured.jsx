@@ -4,6 +4,8 @@ import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
 import SimpleNav from './SimpleNav';
 import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
+import { shouldShowPicturesTutorial, markPicturesTutorialSeen } from '../utils/tutorialManager';
+import PicturesTutorial from './PicturesTutorial';
 
 const Featured = () => {
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,10 @@ const Featured = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const rightSideImageRef = useRef(null);
   const modalRef = useRef(null);
+  
+  // Tutorial state
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialTarget, setTutorialTarget] = useState(null);
 
   // Helper to align title/metadata relative to the displayed image with a fixed gap
   const alignModalSideText = React.useCallback(() => {
@@ -113,6 +119,16 @@ const Featured = () => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Tutorial logic
+  useEffect(() => {
+    if (!loading && images.length > 0 && shouldShowPicturesTutorial()) {
+      // Wait for images to render, then start tutorial
+      setTimeout(() => {
+        startTutorial();
+      }, 1500);
+    }
+  }, [loading, images.length]);
 
   const getTransformedUrl = (url, width, quality = 70, format = 'webp') => {
     try {
@@ -426,6 +442,28 @@ const Featured = () => {
     };
   }, [showModal, selectedImage]);
 
+  // Tutorial functions
+  const startTutorial = () => {
+    // Find the first image in the grid
+    const firstImage = document.querySelector('.p-home-grid-mode__item');
+    if (firstImage) {
+      setTutorialTarget(firstImage);
+      setShowTutorial(true);
+    }
+  };
+
+  const handleTutorialComplete = () => {
+    setShowTutorial(false);
+    setTutorialTarget(null);
+    markPicturesTutorialSeen();
+  };
+
+  const handleTutorialInteraction = () => {
+    if (showTutorial) {
+      handleTutorialComplete();
+    }
+  };
+
   const handleImageHover = (imageIndex) => {
     if (rightSideImageRef.current && imageIndex >= 1 && imageIndex <= images.length) {
       rightSideImageRef.current.style.opacity = '0';
@@ -445,6 +483,7 @@ const Featured = () => {
   };
 
   const handleImageClick = (image, index) => {
+    handleTutorialInteraction();
     setSelectedImage({ ...image, index });
     setShowModal(true);
   };
@@ -622,7 +661,10 @@ const Featured = () => {
                     key={index}
                     className="p-home-grid-mode__item" 
                     data-image-index={index + 1}
-                    onMouseEnter={() => handleImageHover(index + 1)}
+                    onMouseEnter={() => {
+                      handleTutorialInteraction();
+                      handleImageHover(index + 1);
+                    }}
                     onClick={() => handleImageClick(image, index)}
                     style={{ cursor: 'pointer' }}
                   >
@@ -785,6 +827,14 @@ const Featured = () => {
           </div>
         </div>
       )}
+
+      {/* Pictures Tutorial - Show for first-time users */}
+      <PicturesTutorial
+        targetElement={tutorialTarget}
+        isVisible={showTutorial}
+        onAnimationComplete={handleTutorialComplete}
+        tooltipText="Click for enhanced view"
+      />
     </div>
     </>
   );
