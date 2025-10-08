@@ -282,7 +282,7 @@
 
 .container8 {
 	position: absolute;
-	top: 38.211vh;
+	top: 35.301vh;
 	left: 0;
 	background-color: #000;
 	width: 39.462vw;
@@ -291,7 +291,7 @@
 
 .paragraph15 {
 	position: absolute;
-	top: 39.518vh;
+	top: 36.607vh;
 	left: 0;
 	width: 39.462vw;
 	height: 2.215vh;
@@ -302,7 +302,7 @@
 
 .paragraph16 {
 	position: absolute;
-	top: 42.578vh;
+	top: 39.666vh;
 	left: 0;
 	width: 39.462vw;
 	height: 1.789vh;
@@ -397,6 +397,87 @@
 
 .containerIcon15 {
 	position: absolute;
+	top: 36.667vh;
+	left: 32.769vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+/* Temporary number overlay styles */
+.tempNumber {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: bold;
+	z-index: 10;
+	pointer-events: none;
+}
+
+/* Instagram button styles */
+.instagramButton {
+	position: absolute;
+	top: 36.574vh;
+	left: 31.385vw;
+	width: 8.077vw;
+	height: 3.733vh;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	transition: transform 0.2s ease, opacity 0.2s ease;
+	z-index: 5;
+}
+
+.instagramButton:hover {
+	transform: scale(1.1);
+	opacity: 0.8;
+}
+
+.instagramButton img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+/* Specific positioning for each Instagram button */
+.instagramButton5 {
+	top: 36.574vh;
+	left: 32.564vw;
+	width: 7.179vw;
+	height: 3.316vh;
+}
+
+.instagramButton6 {
+	top: 36.273vh;
+	left: 33.000vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+.instagramButton7 {
+	top: 36.828vh;
+	left: 31.282vw;
+	width: 7.179vw;
+	height: 3.316vh;
+}
+
+.instagramButton8 {
+	top: 36.295vh;
+	left: 32.308vw;
+	width: 8.077vw;
+	height: 3.733vh;
+}
+
+.instagramButton9 {
 	top: 36.667vh;
 	left: 32.769vw;
 	width: 8.077vw;

@@ -275,29 +275,39 @@ const Frame79 = () => {
       			<img className={styles.frameChild3} src="/assets/images/members/WhatsApp Image 2025-09-12 at 10.52.59_3d59ecb0.jpg" alt="" />
       			<div className={styles.yashodhanBorkar}>Yashodhan Borkar</div>
       			<img className={styles.instagramSvgrepoCom14} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
-      			<img className={styles.instagramSvgrepoCom113} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<a href="https://www.instagram.com/yasho_pb?igsh=MTNmdjB2Y3YxaTZrcA==" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton5}`}>
+				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="Instagram" />
+			</a>
       			<div className={styles.frameChild4} />
       			<div className={styles.photographer3}>{`Photographer `}</div>
       			<div className={styles.advisor}>Advisor</div>
       			<img className={styles.frameChild5} src="/assets/images/members/WhatsApp Image 2025-09-12 at 07.28.01_5d08ba86.jpg" alt="" />
       			<div className={styles.piyushSingh}>Piyush Singh</div>
-      			<img className={styles.instagramSvgrepoCom162} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<a href="https://www.linkedin.com/in/editwithpiyush" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton6}`}>
+				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="LinkedIn" />
+			</a>
       			<div className={styles.frameChild6} />
       			<div className={styles.rectangleParentCinematographer}>Cinematographer</div>
       			<div className={styles.member}>Member</div>
       			<img className={styles.frameChild7} src="/assets/images/members/ABC_6075.webp" alt="" />
       			<div className={styles.himeshSolanki}>Himesh Solanki</div>
-      			<img className={styles.instagramSvgrepoCom110} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<a href="https://www.linkedin.com/in/himesh-solanki-a03088323?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton9}`}>
+				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="LinkedIn" />
+			</a>
       			<div className={styles.photographer4}>{`Photographer `}</div>
       			<div className={styles.rectangleParentMember}>Member</div>
       			<div className={styles.akilPriyan}>Akil Priyan</div>
-      			<img className={styles.instagramSvgrepoCom111} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<a href="https://www.instagram.com/aki1_pr1yan_?igsh=MW1mMWZtZWVzZXN6ag==" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton7}`}>
+				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="Instagram" />
+			</a>
       			<div className={styles.frameChild8} />
       			<div className={styles.frameChild9} />
       			<div className={styles.photographer5}>{`Photographer `}</div>
       			<div className={styles.member2}>Member</div>
       			<div className={styles.pranavLajeesh}>Pranav Lajeesh</div>
-      			<img className={styles.instagramSvgrepoCom112} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<a href="https://www.instagram.com/_pranav.l?igsh=MTVtazV2Y2Y2eGJjOQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton8}`}>
+				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="Instagram" />
+			</a>
       			<div className={styles.frameChild10} />
       			<div className={styles.editor}>Editor</div>
       			<div className={styles.member3}>Member</div>

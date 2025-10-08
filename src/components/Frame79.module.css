@@ -659,3 +659,61 @@
     height: 4.6vw;
   }
 }
+
+/* Instagram button styles for desktop */
+.instagramButton {
+  position: absolute;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 5;
+}
+
+.instagramButton:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.instagramButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Specific positioning for each Instagram button - inheriting from existing classes */
+.instagramButton5 {
+  top: 249.787vh;
+  left: 26.804vw;
+  width: 3.281vw;
+  height: 3.281vw;
+}
+
+.instagramButton6 {
+  top: 228.344vh;
+  left: 92.651vw;
+  width: 3.281vw;
+  height: 3.281vw;
+}
+
+.instagramButton7 {
+  top: 348.766vh;
+  left: 91.477vw;
+  width: 3.281vw;
+  height: 3.281vw;
+}
+
+.instagramButton8 {
+  top: 372.446vh;
+  left: 27.279vw;
+  width: 3.281vw;
+  height: 3.281vw;
+}
+
+.instagramButton9 {
+  top: 393.244vh;
+  left: 59.485vw;
+  width: 3.281vw;
+  height: 3.281vw;
+}

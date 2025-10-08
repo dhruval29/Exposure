@@ -257,7 +257,10 @@ const TheTeamMobile = () => {
 					<div className={styles.ourDedicatedTeam}>Vice President</div>
 				</div>
 				<img className={styles.containerIcon} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftLeft}`} alt="" src="/assets/images/members/IMG_20241227_204306.jpg" />
+				<div style={{ position: 'relative' }}>
+					<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftLeft}`} alt="" src="/assets/images/members/IMG_20241227_204306.jpg" />
+					<div className={styles.tempNumber}>1</div>
+				</div>
 			</div>
 			<div className={styles.appTeammember}>
 				<div className={styles.paragraph2}>
@@ -271,7 +274,10 @@ const TheTeamMobile = () => {
 					<div className={styles.ourDedicatedTeam}>President</div>
 				</div>
 				<img className={styles.containerIcon2} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_8107[1] (1).webp" />
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_8107[1] (1).webp" />
+					<div className={styles.tempNumber}>2</div>
+				</div>
 			</div>
 			<div className={styles.teammember2}>
 				<div className={styles.paragraph2}>
@@ -285,7 +291,10 @@ const TheTeamMobile = () => {
 					<div className={styles.ourDedicatedTeam}>Head of Videography</div>
 				</div>
 				<img className={styles.containerIcon4} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 10.52.59_3d59ecb0.jpg" />
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 10.52.59_3d59ecb0.jpg" />
+					<div className={styles.tempNumber}>3</div>
+				</div>
 			</div>
 			<div className={styles.teammember3}>
 				<div className={styles.paragraph2}>
@@ -299,11 +308,14 @@ const TheTeamMobile = () => {
 					<div className={styles.ourDedicatedTeam}>Head of Photography</div>
 				</div>
 				<img className={styles.containerIcon6} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftUp}`} alt="" src="/assets/images/members/IMG_9352[1].webp" />
+				<div style={{ position: 'relative' }}>
+					<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftUp}`} alt="" src="/assets/images/members/IMG_9352[1].webp" />
+					<div className={styles.tempNumber}>4</div>
+				</div>
 			</div>
 			<div className={styles.teammember4}>
 				<div className={styles.paragraph14}>
-					<div className={styles.yashodhanBorkar}>Yashodhan Borkar</div>
+					<div className={styles.yashodhanBorkar}>Yash Borkar</div>
 				</div>
 				<div className={styles.container8} />
 				<div className={styles.paragraph15}>
@@ -313,8 +325,13 @@ const TheTeamMobile = () => {
 					<div className={styles.ourDedicatedTeam}>Advisor</div>
 				</div>
 				<div className={styles.container9} />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 07.28.01_5d08ba86.jpg" />
-				<img className={styles.icon} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 07.28.01_5d08ba86.jpg" />
+					<div className={styles.tempNumber}>5</div>
+				</div>
+				<a href="https://www.instagram.com/yasho_pb?igsh=MTNmdjB2Y3YxaTZrcA==" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton5}`}>
+					<img alt="Instagram" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				</a>
 			</div>
 			<div className={styles.teammember5}>
 				<div className={styles.paragraph2}>
@@ -327,8 +344,13 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Member</div>
 				</div>
-				<img className={styles.containerIcon9} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6075.webp" />
+				<a href="https://www.linkedin.com/in/editwithpiyush" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton6}`}>
+					<img alt="LinkedIn" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				</a>
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6075.webp" />
+					<div className={styles.tempNumber}>6</div>
+				</div>
 			</div>
 			<div className={styles.teammember6}>
 				<div className={styles.paragraph2}>
@@ -341,8 +363,13 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Member</div>
 				</div>
-				<img className={styles.containerIcon11} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 13.34.52_4f31c18c.jpg" />
+				<a href="https://www.instagram.com/aki1_pr1yan_?igsh=MW1mMWZtZWVzZXN6ag==" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton7}`}>
+					<img alt="Instagram" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				</a>
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 13.34.52_4f31c18c.jpg" />
+					<div className={styles.tempNumber}>7</div>
+				</div>
 			</div>
 			<div className={styles.teammember7}>
 				<div className={styles.paragraph2}>
@@ -355,8 +382,13 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Member</div>
 				</div>
-				<img className={styles.containerIcon13} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_2554[1].JPG" />
+				<a href="https://www.instagram.com/_pranav.l?igsh=MTVtazV2Y2Y2eGJjOQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton8}`}>
+					<img alt="Instagram" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				</a>
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_2554[1].JPG" />
+					<div className={styles.tempNumber}>8</div>
+				</div>
 			</div>
 			<div className={styles.teammember8}>
 				<div className={styles.paragraph2}>
@@ -369,8 +401,13 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Member</div>
 				</div>
-				<img className={styles.containerIcon15} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6513.webp" />
+				<a href="https://www.linkedin.com/in/himesh-solanki-a03088323?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton9}`}>
+					<img alt="LinkedIn" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				</a>
+				<div style={{ position: 'relative' }}>
+					<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6513.webp" />
+					<div className={styles.tempNumber}>9</div>
+				</div>
 			</div>
 		{/* no spacer; early triggers handle final reveal without extra height */}
 		</div>
