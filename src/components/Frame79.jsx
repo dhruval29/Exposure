@@ -239,7 +239,7 @@ const Frame79 = () => {
 
 	return (
 			<div ref={containerRef} className={styles.rectangleParent}>
-      			<img className={styles.frameChild} src="/assets/images/members/IMG_9352[1].webp" alt="" />
+      			<img className={styles.frameChild} src="/assets/images/members/IMG_93521[1].webp" alt="" />
       			<div className={styles.meetTheTeamContainer}>
         				<p className={styles.meetTheTeam}>
           					<span>{`Meet the `}</span>
@@ -311,7 +311,7 @@ const Frame79 = () => {
       			<div className={styles.frameChild10} />
       			<div className={styles.editor}>Editor</div>
       			<div className={styles.member3}>Member</div>
-      			<img className={styles.frameChild11} src="/assets/images/members/IMG_2554[1].JPG" alt="" />
+      			<img className={styles.frameChild11} src="/assets/images/members/IMG_25541[1].JPG" alt="" />
       			<img className={styles.frameChild12} src="/assets/images/members/WhatsApp Image 2025-09-12 at 13.34.52_4f31c18c.jpg" alt="" />
       			<img className={styles.frameChild13} src="/assets/images/members/ABC_6513.webp" alt="" />
     		</div>);

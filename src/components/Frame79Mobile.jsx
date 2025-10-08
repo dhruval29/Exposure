@@ -13,7 +13,7 @@ const members = [
     name: 'Jonathan Paul',
     role: 'Photographer',
     position: 'Head of Photography',
-    image: '/assets/images/members/IMG_9352[1].webp',
+    image: '/assets/images/members/IMG_93521[1].webp',
     instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
   },
   {
@@ -48,7 +48,7 @@ const members = [
     name: 'Himesh Solanki',
     role: 'Photographer',
     position: 'Member',
-    image: '/assets/images/members/IMG_2554[1].JPG',
+    image: '/assets/images/members/IMG_25541[1].JPG',
     instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
   },
   {
