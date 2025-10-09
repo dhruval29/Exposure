@@ -13,7 +13,6 @@ import Footer from './Footer'
 import HoverImage from './HoverImage'
 import { responsiveImagePositions } from '../utils/positionConverter'
 import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
-import IPhone13141 from './IPhone13141'
 import MobileSlidingFrame from './MobileSlidingFrame'
 import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
@@ -30,6 +29,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
   const rotationRef = useRef({ intervalId: null, startedAt: 0, index: 0, finished: false })
   const subtitleRef = useRef(null)
   const subtitleInnerRef = useRef(null)
+  const underlineRef = useRef(null)
 
   useEffect(() => {
     const video = videoRef.current
@@ -105,10 +105,23 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
         setRotatingWord('Life')
         // Ease into the final word for a gentle settle effect
         const el = subtitleInnerRef.current
+        const underline = underlineRef.current
         if (el) {
           gsap.fromTo(el,
             { opacity: 0.75, scale: 0.985 },
             { opacity: 1, scale: 1, duration: 0.7, ease: 'power2.out' }
+          )
+        }
+        // Animate underline after "Life" settles
+        if (underline && el) {
+          // Set underline width to match the text width with slight reduction
+          const textWidth = el.offsetWidth
+          const reducedWidth = textWidth * 0.7 // 30% shorter
+          gsap.set(underline, { width: reducedWidth + 'px' })
+          
+          gsap.fromTo(underline,
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.3 }
           )
         }
         clearInterval(intervalId)
@@ -200,6 +213,24 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
         >
           {rotatingWord}
         </span>
+        {/* Animated underline that appears after "Life" settles */}
+        <div
+          ref={underlineRef}
+          style={{
+            position: 'absolute',
+            bottom: '-8px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 'auto',
+            height: '2px',
+            background: 'white',
+            transformOrigin: '50% 50%',
+            scaleX: 0,
+            opacity: 0,
+            boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+            display: rotatingWord === 'Life' ? 'block' : 'none'
+          }}
+        />
       </div>
       {/* Fallback background color in case video fails to load */}
       <div style={{

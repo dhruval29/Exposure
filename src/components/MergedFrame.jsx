@@ -17,6 +17,7 @@ const MergedFrame = () => {
 
 	// Text animation refs - now for individual words
 	const textWordRefs = useRef([])
+	const frame1SubTextRef = useRef(null)
 	const frame2TextRef = useRef(null)
 	const frame2SubTextRef = useRef(null)
 	const frame3SubTextRef = useRef(null)
@@ -157,7 +158,7 @@ const MergedFrame = () => {
 
 	// Subtext reveal intersection observer
 	useEffect(() => {
-		const elements = [frame2SubTextRef.current, frame3SubTextRef.current].filter(Boolean)
+		const elements = [frame1SubTextRef.current, frame2SubTextRef.current, frame3SubTextRef.current].filter(Boolean)
 		if (elements.length === 0) return
 
 		const observer = new IntersectionObserver(
@@ -185,11 +186,15 @@ const MergedFrame = () => {
 		return (
 			<div className={styles.mergedFrameParent}>
 				<div className={styles.frame1Section}>
-					<div className={styles.weUseTheContainer}>
-						<p className={styles.weUseThe}>We use the power of storytelling to</p>
-						<p className={styles.weUseThe}>fire the imagination, stir the soul,</p>
-						<p className={styles.weUseThe}>and ultimately inspire people.</p>
-					</div>
+				<div className={styles.weUseTheContainer}>
+					<p className={styles.weUseThe}>Hola, explorer. Stories worth chasing.</p>
+					<p className={styles.weUseThe}>Places worth losing yourself in.</p>
+					<p className={styles.weUseThe}>Moments that rewrite what you thought</p>
+					<p className={styles.weUseThe}>you knew.</p>
+				</div>
+				<div className={styles.frame1SubText}>
+					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
+				</div>
 					<div className={styles.frame1Image1Container}>
 						<img className={styles.frame1Image1} src="/assets/images/Sliding Page/1.webp" alt="Storytelling image" />
 					</div>
@@ -230,14 +235,20 @@ const MergedFrame = () => {
 			<div ref={frame1Ref} className={styles.frame1Section}>
 				<div className={styles.weUseTheContainer}>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("We use the power of storytelling to", 0, 0)}
+						{createAnimatedWords("Hola, explorer. Stories worth chasing.", 0, 0)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("fire the imagination, stir the soul,", 0, 1)}
+						{createAnimatedWords("Places worth losing yourself in.", 0, 1)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("and ultimately inspire people.", 0, 2)}
+						{createAnimatedWords("Moments that rewrite what you thought", 0, 2)}
 					</p>
+					<p className={styles.weUseThe}>
+						{createAnimatedWords("you knew.", 0, 3)}
+					</p>
+				</div>
+				<div ref={frame1SubTextRef} className={styles.frame1SubText}>
+					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
 				</div>
 				<div className={styles.frame1Image1Container}>
 					<img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/1.webp" alt="Storytelling image" />
