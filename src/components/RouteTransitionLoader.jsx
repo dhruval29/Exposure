@@ -295,8 +295,12 @@ const RouteTransitionLoader = () => {
           fontStyle: 'italic',
           letterSpacing: '-0.02em',
           textAlign: 'center',
-          opacity: 0,
-          transform: 'translateY(20px)'
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '100%',
+          opacity: 0
         }}
       >
         {destinationText}

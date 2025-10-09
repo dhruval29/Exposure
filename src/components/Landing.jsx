@@ -21,8 +21,112 @@ import MergedFrame from './MergedFrame'
 import '../styles/Gallery.css'
 
 
-// Show landing shutter once per page load (resets on full refresh)
-let hasShownLandingShutterThisPageLoad = false
+// Landing shutter preloader removed
+
+// VideoBackground component to handle continuous video playback
+const VideoBackground = ({ wireframeRef, isMobile }) => {
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // Function to ensure video is playing
+    const ensurePlaying = async () => {
+      try {
+        if (video.paused) {
+          await video.play()
+        }
+      } catch (error) {
+        console.log('Video play failed:', error)
+      }
+    }
+
+    // Handle visibility change - ensure video keeps playing when tab becomes hidden
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Tab is hidden, but keep video playing
+        ensurePlaying()
+      } else {
+        // Tab is visible again, ensure video is still playing
+        ensurePlaying()
+      }
+    }
+
+    // Handle page focus/blur
+    const handleFocus = () => ensurePlaying()
+    const handleBlur = () => ensurePlaying()
+
+    // Add event listeners
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('focus', handleFocus)
+    window.addEventListener('blur', handleBlur)
+
+    // Initial play attempt
+    ensurePlaying()
+
+    // Set up interval to periodically ensure video is playing (every 5 seconds)
+    const playInterval = setInterval(ensurePlaying, 5000)
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('focus', handleFocus)
+      window.removeEventListener('blur', handleBlur)
+      clearInterval(playInterval)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={wireframeRef}
+      style={{
+        width: '100%',
+        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        background: '#0066ff',
+        overflow: 'hidden',
+        perspective: '900px',
+        transformStyle: 'preserve-3d',
+        zIndex: 0
+      }}
+    >
+      {/* Video background */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }}
+      >
+        <source src={isMobile ? "/videos/vashi smol.mp4" : "/videos/SAAVYAS AFTERMOVIE.mp4"} type="video/mp4" />
+      </video>
+      {/* Fallback background color in case video fails to load */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: '#0066ff',
+        zIndex: 0
+      }} />
+    </div>
+  )
+}
 
 // Inline ZoomReveal so Landing is self-contained
 const DEFAULT_ZR_CONFIG = {
@@ -739,14 +843,16 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const slidingRef = useRef(null)
   const lenisRef = useRef(null)
    const slidingAnimRef = useRef(null)
-  const landingShutterRef = useRef(null)
-  const [showLandingShutter, setShowLandingShutter] = useState(false)
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const navVisibilityRef = useRef('visible')
   const [showNavTitle, setShowNavTitle] = useState(false)
+  // Initial landing overlay matching RouteTransitionLoader style
+  const [showInitialOverlay, setShowInitialOverlay] = useState(true)
+  const initialOverlayRef = useRef(null)
+  const initialTextRef = useRef(null)
   // Mouse effect removed - page left blank as requested
 
   // Enhanced mobile/tablet detection for different device sizes
@@ -772,33 +878,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Intro shutter loader removed
-  // First-visit-per-page-load landing shutter (slides up off the top)
-  useEffect(() => {
-    if (hasShownLandingShutterThisPageLoad) return
-    hasShownLandingShutterThisPageLoad = true
-    setShowLandingShutter(true)
-  }, [])
-
-  useEffect(() => {
-    if (!showLandingShutter) return
-    const el = landingShutterRef.current
-    if (!el) return
-    // Start fully covering immediately to prevent flash
-    gsap.set(el, { yPercent: 0, pointerEvents: 'auto' })
-    // Small delay to ensure element is ready, then animate up
-    requestAnimationFrame(() => {
-      gsap.to(el, {
-        yPercent: -100,
-        duration: 0.9,
-        ease: 'power4.in',
-        onComplete: () => {
-          gsap.set(el, { yPercent: -100, pointerEvents: 'none' })
-          setShowLandingShutter(false)
-        }
-      })
-    })
-  }, [showLandingShutter])
+  // Landing shutter preloader removed
 
   // Smooth scroll + slide-up behavior
   useEffect(() => {
@@ -893,35 +973,11 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
     // Loading screen functionality removed
 
-    // Slide the overlay up to reveal Section 2 (placeholder for now)
+    // Start with internal preloader settled: show sliding section immediately without pull-up
     if (wireframeRef.current && slidingRef.current) {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wireframeRef.current,
-          start: 'top top',
-          end: '+=30%', // Slightly more scroll distance to reduce flashing
-          scrub: (window.innerWidth >= 400 && window.innerHeight >= 900) ? 1.5 : 2, // Match ZoomReveal feel
-          pin: false, // Don't pin the video section - keep it fixed
-          markers: false,
-          refreshPriority: 0, // Lower priority than zoom reveal
-          onUpdate: () => {
-            // Hysteresis thresholds to prevent rapid toggling around 0
-            const y = Number(gsap.getProperty(slidingRef.current, 'yPercent')) || 0
-          },
-          onLeave: () => {},
-          onEnterBack: () => {}
-        }
-      })
-      gsap.set(slidingRef.current, { yPercent: 100, willChange: 'transform', force3D: true, transform: 'translate3d(0,0,0)' })
-      // Phase 1: slide page from bottom to full screen with deceleration as it approaches the top
-      tl.to(slidingRef.current, { 
-        yPercent: 0, 
-        ease: 'none',
-        duration: 1, 
-        force3D: true 
-      })
-      // Sliding page left blank per request
-      slidingAnimRef.current = tl
+      gsap.set(slidingRef.current, { yPercent: 0, willChange: 'transform', force3D: true, transform: 'translate3d(0,0,0)' })
+      // Keep reference null since no intro animation is created
+      slidingAnimRef.current = null
     }
 
     // Remove text animation and references – placeholder reserved for future
@@ -947,6 +1003,40 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       if (scrollTimeout) clearTimeout(scrollTimeout)
     }
   }, [])
+
+  // Initial full-screen overlay styled like RouteTransitionLoader
+  useEffect(() => {
+    if (!showInitialOverlay) return
+    const el = initialOverlayRef.current
+    const textEl = initialTextRef.current
+    if (!el) return
+    // Start fully visible (covered), match RouteTransitionLoader text entrance
+    gsap.set(el, { yPercent: 0, pointerEvents: 'auto' })
+    if (textEl) {
+      gsap.set(textEl, { opacity: 0, y: 20 })
+      gsap.to(textEl, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.2 })
+    }
+    const MIN_TEXT_DISPLAY_DURATION = 1.5
+    const COVER_OUT_DURATION = 0.9
+    const EASE_OUT = 'power4.in'
+    const timeoutId = setTimeout(() => {
+      if (textEl) {
+        gsap.to(textEl, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' })
+      }
+      gsap.to(el, {
+        yPercent: -100,
+        duration: COVER_OUT_DURATION,
+        ease: EASE_OUT,
+        delay: 0.2,
+        onComplete: () => {
+          gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
+          if (textEl) gsap.set(textEl, { opacity: 0, y: 20 })
+          setShowInitialOverlay(false)
+        }
+      })
+    }, MIN_TEXT_DISPLAY_DURATION * 1000)
+    return () => clearTimeout(timeoutId)
+  }, [showInitialOverlay])
 
   // Sliding height: desktop 300vh, mobile/tablet 200vh
   const getSlidingHeight = () => {
@@ -998,22 +1088,45 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
   return (
     <div className="landing" style={{ width: '100%', height: getTotalPageHeight() }}>
-      {showLandingShutter && (
+      {showInitialOverlay && (
         <div
-          ref={landingShutterRef}
+          ref={initialOverlayRef}
           style={{
             position: 'fixed',
             left: 0,
             right: 0,
             bottom: 0,
             height: '100vh',
-            background: '#fff',
-            zIndex: 999999,
+            background: '#F2EAE0',
+            zIndex: 100000,
             transform: 'translateZ(0)',
-            yPercent: 0
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           aria-hidden="true"
-        />
+        >
+          <div
+            ref={initialTextRef}
+            style={{
+              color: '#333',
+              fontSize: 'clamp(48px, 8vw, 96px)',
+              fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
+              fontWeight: 100,
+              fontStyle: 'italic',
+              letterSpacing: '-0.02em',
+              textAlign: 'center',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '100%',
+              opacity: 1
+            }}
+          >
+            Home
+          </div>
+        </div>
       )}
       {/* Top Navigation Bar */}
       <Rectangle18 
@@ -1027,52 +1140,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
       {/* All loading screens removed */}
       {/* First landing page section with video background - fixed at 100vh */}
-      <div
-        ref={wireframeRef}
-        style={{
-          width: '100%',
-          height: '100vh',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          background: '#0066ff',
-          overflow: 'hidden',
-          perspective: '900px',
-          transformStyle: 'preserve-3d',
-          zIndex: 0
-        }}
-      >
-        {/* Video background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 1,
-            pointerEvents: 'none'
-          }}
-        >
-          <source src={isMobile ? "/videos/vashi smol.mp4" : "/videos/SAAVYAS AFTERMOVIE.mp4"} type="video/mp4" />
-        </video>
-        {/* Fallback background color in case video fails to load */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: '#0066ff',
-          zIndex: 0
-        }} />
-      </div>
+      <VideoBackground wireframeRef={wireframeRef} isMobile={isMobile} />
 
       {/* Sliding page content - positioned after 100vh */}
       <div
