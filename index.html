@@ -25,6 +25,8 @@
     </style>
   </head>
   <body>
+    <!-- Boot cover to guarantee initial paint matches loader color -->
+    <div id="boot-cover" style="position:fixed;inset:0;background:#F2EAE0;z-index:2147483647"></div>
     <div id="root"></div>
     <!-- Early bootstrap to discover and preload the first featured image -->
     <script type="module" src="/src/bootstrap/featuredBoot.js" defer></script>

@@ -12,6 +12,14 @@ const mount = () => {
       <App />
     </StrictMode>,
   )
+  // Remove boot cover ASAP after mount
+  const cover = document.getElementById('boot-cover')
+  if (cover) {
+    // Use rAF to avoid layout jank and ensure React committed
+    requestAnimationFrame(() => {
+      cover.parentNode && cover.parentNode.removeChild(cover)
+    })
+  }
 }
 
 if ('requestIdleCallback' in window) {
