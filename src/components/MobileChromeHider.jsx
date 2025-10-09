@@ -13,15 +13,9 @@ export default function MobileChromeHider() {
 
     const originalOverflow = document.documentElement.style.overflow
     const originalBodyOverflow = document.body.style.overflow
-    const originalBodyClassList = document.body.className
 
-    // Check if we're on the landing page (which has complex scroll handling)
-    const isLandingPage = window.location.pathname === '/'
-    
-    // Add an immersive class for CSS hooks, but handle landing page differently
-    if (!isLandingPage) {
-      document.body.classList.add('mobile-immersive')
-    }
+    // Add an immersive class for CSS hooks
+    document.body.classList.add('mobile-immersive')
 
     // Update theme-color to blend with page background (helps some browsers hide UI)
     const desiredTheme = '#ffffff'
@@ -45,27 +39,17 @@ export default function MobileChromeHider() {
     const nudgeScroll = () => {
       // Avoid fighting app-level scroll locks; only nudge when scrollable
       if (document.scrollingElement && document.scrollingElement.scrollHeight > window.innerHeight) {
-        // On landing page, be more gentle to not interfere with complex scroll handling
-        if (isLandingPage) {
-          // Use a smaller, gentler nudge for landing page
-          window.scrollTo({ top: 0.5, behavior: 'auto' })
-        } else {
-          window.scrollTo(0, 1)
-        }
+        window.scrollTo(0, 1)
       }
     }
 
     // Ensure no accidental overscroll hidden prevents collapsing UI
-    // Don't override overflow on landing page to preserve complex scroll handling
-    if (!isLandingPage) {
-      document.documentElement.style.overflow = 'auto'
-      document.body.style.overflow = 'auto'
-    }
+    document.documentElement.style.overflow = 'auto'
+    document.body.style.overflow = 'auto'
 
     // Apply on mount and after a short delay
     nudgeScroll()
-    // Reduce nudge frequency on landing page to avoid interfering with scroll handling
-    const mountTimer = setTimeout(nudgeScroll, isLandingPage ? 500 : 250)
+    const mountTimer = setTimeout(nudgeScroll, 250)
 
     // Keep viewport stable across orientation/resize
     const onResize = () => {
@@ -85,14 +69,9 @@ export default function MobileChromeHider() {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('orientationchange', onResize)
       window.removeEventListener('touchend', onTouchEnd)
-      
-      // Only restore overflow styles if we modified them (not on landing page)
-      if (!isLandingPage) {
-        document.documentElement.style.overflow = originalOverflow
-        document.body.style.overflow = originalBodyOverflow
-        document.body.classList.remove('mobile-immersive')
-      }
-      
+      document.documentElement.style.overflow = originalOverflow
+      document.body.style.overflow = originalBodyOverflow
+      document.body.classList.remove('mobile-immersive')
       if (themeMeta && typeof prevTheme === 'string') {
         themeMeta.setAttribute('content', prevTheme)
       }
