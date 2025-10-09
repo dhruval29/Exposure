@@ -74,9 +74,9 @@ const MOBILEFRAME2 = () => {
         <p className={styles.loremIpsumDolor}>{`frame, shaping how we see`}</p>
         <p className={styles.loremIpsumDolor}>{`the world.`}</p>
       </div>
-      <img className={styles.img202412291336061Icon} src="/assets/images/Sliding Page/Mobile Frame/3.webp" alt="" />
-      <img className={styles.img2024122515315822Icon} src="/assets/images/Sliding Page/Mobile Frame/4.webp" alt="" />
-      <img className={styles.img202501140936073Icon} src="/assets/images/Sliding Page/Mobile Frame/5.webp" alt="" />
+      <img className={styles.img202412291336061Icon} src="/assets/images/Sliding Page/Mobile Frame/Untitled design.jpg" alt="" />
+      <img className={styles.img2024122515315822Icon} src="/assets/images/Sliding Page/Mobile Frame/DSC_8925 (1).JPG" alt="" />
+      <img className={styles.img202501140936073Icon} src="/assets/images/Sliding Page/Mobile Frame/Untitled (Your Story) (4).jpg" alt="" />
       <div className={styles.loremIpsumDolor2} ref={text3Ref}>We craft cinematic experiences rooted in truth—designed to spark curiosity, deepen connection, and move people to action.</div>
     </div>
   );

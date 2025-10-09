@@ -4,43 +4,28 @@ import styles from './MOBILEFRAME1.module.css';
 
 const MOBILEFRAME1 = () => {
   const containerRef = useRef(null);
-  const line1Ref = useRef(null);
-  const line2Ref = useRef(null);
-  const line3Ref = useRef(null);
+  const textBlockRef = useRef(null);
 
   useEffect(() => {
-    // Set initial state
-    gsap.set([line1Ref.current, line2Ref.current, line3Ref.current], {
-      opacity: 0,
-      y: 20
-    });
+    // Set initial state for the whole text block (match Frame 2 style)
+    if (textBlockRef.current) {
+      gsap.set(textBlockRef.current, { opacity: 0, y: 20 });
+    }
 
-    // Intersection Observer for text animation - matching desktop pattern
+    // Intersection Observer for text animation - match Frame 2 timing/ease
     const textObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Staggered fade-in animation with same timing as desktop
-            const tl = gsap.timeline();
-            
-            tl.to(line1Ref.current, {
-              opacity: 1,
-              y: 0,
-              duration: 1.2,
-              ease: "power2.out"
-            })
-            .to(line2Ref.current, {
-              opacity: 1,
-              y: 0,
-              duration: 1.2,
-              ease: "power2.out"
-            }, "-=0.8")
-            .to(line3Ref.current, {
-              opacity: 1,
-              y: 0,
-              duration: 1.2,
-              ease: "power2.out"
-            }, "-=0.8");
+            // Single-block fade-in to mirror Frame 2's container-level animation
+            if (textBlockRef.current) {
+              gsap.to(textBlockRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power2.out'
+              });
+            }
 
             // Stop observing after animation starts
             textObserver.unobserve(entry.target);
@@ -65,13 +50,13 @@ const MOBILEFRAME1 = () => {
 
   return (
     <div className={styles.mobileFrame1} ref={containerRef}>
-      <div className={styles.weUseTheContainer}>
-        <p className={styles.weUseThe} ref={line1Ref}>We use the power of storytelling to</p>
-        <p className={styles.weUseThe} ref={line2Ref}>{`fire the imagination, stir the soul, `}</p>
-        <p className={styles.weUseThe} ref={line3Ref}>and ultimately inspire people.</p>
+      <div className={styles.weUseTheContainer} ref={textBlockRef}>
+        <p className={styles.weUseThe}>We use the power of storytelling to</p>
+        <p className={styles.weUseThe}>{`fire the imagination, stir the soul, `}</p>
+        <p className={styles.weUseThe}>and ultimately inspire people.</p>
       </div>
-      <img className={styles.img202501051356542Icon} src="/assets/images/Sliding Page/Mobile Frame/1.webp" alt="" />
-      <img className={styles.img202411290448467Icon} src="/assets/images/Sliding Page/Mobile Frame/2.webp" alt="" />
+      <img className={styles.img202501051356542Icon} src="/assets/images/Sliding Page/Mobile Frame/1.jpg" alt="" />
+      <img className={styles.img202411290448467Icon} src="/assets/images/Sliding Page/Mobile Frame/IMG_28041.JPG" alt="" />
     </div>
   );
 };

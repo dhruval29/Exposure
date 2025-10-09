@@ -24,8 +24,12 @@ import '../styles/Gallery.css'
 // Landing shutter preloader removed
 
 // VideoBackground component to handle continuous video playback
-const VideoBackground = ({ wireframeRef, isMobile }) => {
+const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
   const videoRef = useRef(null)
+  const [rotatingWord, setRotatingWord] = useState('')
+  const rotationRef = useRef({ intervalId: null, startedAt: 0, index: 0, finished: false })
+  const subtitleRef = useRef(null)
+  const subtitleInnerRef = useRef(null)
 
   useEffect(() => {
     const video = videoRef.current
@@ -77,6 +81,51 @@ const VideoBackground = ({ wireframeRef, isMobile }) => {
     }
   }, [])
 
+  // Fast-rotating subtitle that settles on "Life", starts after shutter reveal
+  useEffect(() => {
+    if (!startSubtitle) return
+    const words = [
+      'photos', 'videos', 'images', 'moments', 'frames',
+      'stills', 'stories', 'portraits', 'reels', 'films',
+      'memories', 'snapshots', 'captures', 'highlights'
+    ]
+    rotationRef.current.startedAt = Date.now()
+    rotationRef.current.index = 0
+    rotationRef.current.finished = false
+    setRotatingWord(words[0])
+
+    const tickMs = 120 // fast changes
+    const maxDurationMs = 1600 // after this, settle on "Life"
+
+    const intervalId = setInterval(() => {
+      if (rotationRef.current.finished) return
+      const elapsed = Date.now() - rotationRef.current.startedAt
+      if (elapsed >= maxDurationMs) {
+        rotationRef.current.finished = true
+        setRotatingWord('Life')
+        // Ease into the final word for a gentle settle effect
+        const el = subtitleInnerRef.current
+        if (el) {
+          gsap.fromTo(el,
+            { opacity: 0.75, scale: 0.985 },
+            { opacity: 1, scale: 1, duration: 0.7, ease: 'power2.out' }
+          )
+        }
+        clearInterval(intervalId)
+        return
+      }
+      rotationRef.current.index = (rotationRef.current.index + 1) % words.length
+      setRotatingWord(words[rotationRef.current.index])
+    }, tickMs)
+    rotationRef.current.intervalId = intervalId
+
+    return () => {
+      if (rotationRef.current.intervalId) {
+        clearInterval(rotationRef.current.intervalId)
+      }
+    }
+  }, [startSubtitle])
+
   return (
     <div
       ref={wireframeRef}
@@ -114,6 +163,44 @@ const VideoBackground = ({ wireframeRef, isMobile }) => {
       >
         <source src={isMobile ? "/videos/vashi smol.mp4" : "/videos/SAAVYAS AFTERMOVIE.mp4"} type="video/mp4" />
       </video>
+      {/* Main title removed per request; keep only rotating subtitle */}
+      {/* Fast-rotating subtitle that settles on Life */}
+      <div
+        ref={subtitleRef}
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: 0,
+          right: 0,
+          transform: 'translateY(-50%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2,
+          color: 'white',
+          fontSize: 'clamp(28px, 14vw, 148px)',
+          fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
+          fontWeight: 100,
+          fontStyle: 'italic',
+          letterSpacing: '-0.02em',
+          textAlign: 'center',
+          maxWidth: '100vw',
+          lineHeight: 1.05,
+          textShadow: '0 2px 12px rgba(0,0,0,0.4)',
+          pointerEvents: 'none',
+          userSelect: 'none',
+          whiteSpace: 'nowrap',
+          willChange: 'opacity, transform'
+        }}
+        aria-hidden="true"
+      >
+        <span
+          ref={subtitleInnerRef}
+          style={{ display: 'inline-block', transformOrigin: '50% 50%' }}
+        >
+          {rotatingWord}
+        </span>
+      </div>
       {/* Fallback background color in case video fails to load */}
       <div style={{
         position: 'absolute',
@@ -1140,7 +1227,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
       {/* All loading screens removed */}
       {/* First landing page section with video background - fixed at 100vh */}
-      <VideoBackground wireframeRef={wireframeRef} isMobile={isMobile} />
+      <VideoBackground wireframeRef={wireframeRef} isMobile={isMobile} startSubtitle={!showInitialOverlay} />
 
       {/* Sliding page content - positioned after 100vh */}
       <div
