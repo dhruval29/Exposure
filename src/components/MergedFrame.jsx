@@ -240,10 +240,10 @@ const MergedFrame = () => {
 					</p>
 				</div>
 				<div className={styles.frame1Image1Container}>
-					<img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Mobile Frame/IMG_28041.JPG" alt="Storytelling image" />
+					<img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/1.webp" alt="Storytelling image" />
 				</div>
 				<div className={styles.frame1Image2Container}>
-					<img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/Mobile Frame/1.jpg" alt="Inspiration image" />
+					<img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/2.webp" alt="Inspiration image" />
 				</div>
 			</div>
 
@@ -262,7 +262,7 @@ const MergedFrame = () => {
 					that matter most
 				</div>
 				<div className={styles.frame2Image3Container}>
-					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/Mobile Frame/DSC_8925 (1).JPG" alt="Creative process" />
+					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
 				</div>
 			</div>
 

@@ -4,6 +4,7 @@ import './styles/responsive.css'
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import RouteTransitionLoader from './components/RouteTransitionLoader'
 import MobileChromeHider from './components/MobileChromeHider'
+import { Analytics } from "@vercel/analytics/react"
 // Import tutorial test helper for development
 import './utils/tutorialTestHelper'
 const Landing = lazy(() => import('./components/Landing'))
@@ -97,6 +98,7 @@ function App() {
       <Suspense fallback={null}>
         <InnerApp />
       </Suspense>
+      <Analytics />
     </Router>
   );
 }
