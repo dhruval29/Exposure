@@ -66,17 +66,18 @@ const MOBILEFRAME2 = () => {
   return (
     <div className={styles.mobileFrame2} ref={containerRef}>
       <div className={styles.loremIpsumDolorContainer} ref={text1Ref}>
-        <p className={styles.loremIpsumDolor}>{`Lorem ipsum dolor sit amet `}</p>
-        <p className={styles.loremIpsumDolor}>{`consectetur. `}</p>
+        <p className={styles.loremIpsumDolor}>{`Through bold images and honest voices, `}</p>
+        <p className={styles.loremIpsumDolor}>{`we bring moments to life.`}</p>
       </div>
       <div className={styles.mobileFrame2LoremIpsumDolorContainer} ref={text2Ref}>
-        <p className={styles.loremIpsumDolor}>Lorem ipsum dolor sit</p>
-        <p className={styles.loremIpsumDolor}>{` amet consectetur. `}</p>
+        <p className={styles.loremIpsumDolor}>Ideas that travel beyond the</p>
+        <p className={styles.loremIpsumDolor}>{`frame, shaping how we see`}</p>
+        <p className={styles.loremIpsumDolor}>{`the world.`}</p>
       </div>
       <img className={styles.img202412291336061Icon} src="/assets/images/Sliding Page/Mobile Frame/3.webp" alt="" />
       <img className={styles.img2024122515315822Icon} src="/assets/images/Sliding Page/Mobile Frame/4.webp" alt="" />
       <img className={styles.img202501140936073Icon} src="/assets/images/Sliding Page/Mobile Frame/5.webp" alt="" />
-      <div className={styles.loremIpsumDolor2} ref={text3Ref}>Lorem ipsum dolor sit amet consectetur. Et nam sapien arcu sed eget sit. Convallis amet tortor in ornare turpis ut dui aliquet. Ornare nulla vitae iaculis sed.</div>
+      <div className={styles.loremIpsumDolor2} ref={text3Ref}>We craft cinematic experiences rooted in truth—designed to spark curiosity, deepen connection, and move people to action.</div>
     </div>
   );
 };

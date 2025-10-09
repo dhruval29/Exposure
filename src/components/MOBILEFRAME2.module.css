@@ -76,7 +76,7 @@
   left: 6.41%; /* 25px / 390px */
   letter-spacing: 0.02em;
   line-height: 122.71%;
-  font-size: clamp(16px, 4vw, 22px);
+  font-size: clamp(18px, 4.6vw, 26px);
   display: inline-block;
   width: 32.05%; /* 125px / 390px */
 }
@@ -87,7 +87,7 @@
 
 .mobileFrame2LoremIpsumDolorContainer {
   position: absolute;
-  top: 9.95%; /* 84px / 844px */
+  top: 15.5%; /* moved further down to maintain visual rhythm with larger title */
   left: 6.41%; /* 25px / 390px */
   font-size: clamp(8px, 2vw, 12px);
   letter-spacing: 0.02em;
@@ -128,7 +128,7 @@
   position: absolute;
   top: 70.26%; /* 593px / 844px */
   left: 66.41%; /* 259px / 390px */
-  font-size: clamp(10px, 2.5vw, 14px);
+  font-size: clamp(14px, 3.8vw, 20px);
   letter-spacing: 0.02em;
   line-height: 122.71%;
   display: inline-block;
