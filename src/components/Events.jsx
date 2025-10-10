@@ -6,6 +6,10 @@ import SimpleNav from './SimpleNav';
 import SmoothScrollWrapper from './SmoothScrollWrapper';
 import { supabase } from '../lib/supabaseClient';
 import '../styles/Gallery.css';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Events = () => {
 
@@ -24,6 +28,7 @@ const Events = () => {
   const shouldRestoreScrollRef = useRef(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isVisibleUnderCover, setIsVisibleUnderCover] = useState(false);
+  const pageHeadingRef = useRef(null);
 
   // Parallax removed for featured images
 
@@ -74,6 +79,115 @@ const Events = () => {
     updateIsMobile();
     window.addEventListener('resize', updateIsMobile);
     return () => window.removeEventListener('resize', updateIsMobile);
+  }, []);
+
+  // Animate page heading similar to "Meet the Team"
+  useEffect(() => {
+    const container = pageHeadingRef.current;
+    if (!container) return;
+
+    const titleSpan = container.querySelector(`.${styles.pageHeadingContainer} span:not(.${styles.eventsWord})`);
+    const eventsEl = container.querySelector(`.${styles.pageHeadingContainer} i.${styles.eventsWord}`);
+    let underlineEl = null;
+
+    if (eventsEl) {
+      // Prepare underline under Events
+      eventsEl.style.position = 'relative';
+      eventsEl.style.display = 'inline-block';
+      underlineEl = document.createElement('span');
+      underlineEl.setAttribute('aria-hidden', 'true');
+      Object.assign(underlineEl.style, {
+        position: 'absolute',
+        left: '0',
+        right: 'auto',
+        bottom: '-4px',
+        height: '2px',
+        background: 'currentColor',
+        opacity: '0.95',
+        zIndex: '1',
+        transformOrigin: 'left center',
+        transform: 'scaleX(0)',
+        width: '100%',
+        pointerEvents: 'none'
+      });
+      // Ensure underline is appended once
+      if (!eventsEl.querySelector('span[aria-hidden="true"]')) {
+        eventsEl.appendChild(underlineEl);
+      } else {
+        underlineEl = eventsEl.querySelector('span[aria-hidden="true"]');
+      }
+    }
+
+    if (titleSpan) {
+      // Ensure both pieces share identical layout characteristics
+      titleSpan.style.display = 'inline-block';
+      titleSpan.style.position = 'relative';
+      // Normalize trailing whitespace so spacing is controlled explicitly
+      titleSpan.textContent = (titleSpan.textContent || '').replace(/\s+$/, '');
+      if (eventsEl) {
+        eventsEl.style.display = 'inline-block';
+        eventsEl.style.position = 'relative';
+        eventsEl.style.marginLeft = '0.25em';
+      }
+      const together = eventsEl ? [titleSpan, eventsEl] : [titleSpan];
+      gsap.set(together, { opacity: 0, y: 24, letterSpacing: '0.02em', filter: 'blur(2px)', willChange: 'transform' });
+      const titleTrigger = gsap.timeline({
+        scrollTrigger: {
+          trigger: titleSpan,
+          start: 'top 92%',
+          end: 'top 70%',
+          once: true,
+          scrub: false,
+          markers: false
+        }
+      });
+      // Delay then reveal both
+      titleTrigger.to({}, { duration: 0.4 });
+      titleTrigger.to(together, {
+        y: 0,
+        opacity: 1,
+        letterSpacing: '0em',
+        filter: 'blur(0px)',
+        ease: 'power4.out',
+        duration: 1.2
+      });
+      // Underline after text
+      if (underlineEl) {
+        titleTrigger.to(underlineEl, { scaleX: 1, ease: 'power3.out', duration: 1.5 });
+      }
+    }
+
+    // Animate description text
+    const descContainer = container.querySelector(`.${styles.pageDescriptionContainer}`);
+    if (descContainer) {
+      const paras = Array.from(descContainer.querySelectorAll('p'));
+      paras.forEach((p) => gsap.set(p, { opacity: 0, y: 28 }));
+      gsap.to(paras, {
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        delay: 0.5,
+        ease: 'power3.out',
+        stagger: 0.16,
+        scrollTrigger: {
+          trigger: descContainer,
+          start: 'top 88%',
+          end: 'bottom 70%',
+          once: true,
+          scrub: false,
+          markers: false
+        }
+      });
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.vars.trigger === container || 
+            container.contains(trigger.vars.trigger)) {
+          trigger.kill();
+        }
+      });
+    };
   }, []);
 
 
@@ -375,8 +489,21 @@ const Events = () => {
     <>
       <SimpleNav />
       <Frame50 />
-      <div className={styles.events} style={{ opacity: isVisibleUnderCover ? 1 : 0, transition: 'opacity 300ms ease' }}>
+      <div className={styles.events} style={{ opacity: isVisibleUnderCover ? 1 : 0, transition: 'opacity 300ms ease' }} ref={pageHeadingRef}>
       
+      {/* Page Heading - "Re-live the Events" */}
+      <div className={styles.pageHeadingContainer}>
+        <p className={styles.pageHeading}>
+          <span>{`Re-live the `}</span>
+          <i className={styles.eventsWord}>Events</i>
+          <span className={styles.eventsWord}>{` `}</span>
+        </p>
+      </div>
+      <div className={styles.pageDescriptionContainer}>
+        <p className={styles.pageHeading}>Explore our captured moments and</p>
+        <p className={styles.pageHeading}>memorable experiences</p>
+      </div>
+
       {/* Featured Events section - moved up */}
       <div className={styles.eventsSection} ref={eventsSectionRef}>
         <div className={styles.img2024101415521735Parent}>
@@ -413,10 +540,7 @@ const Events = () => {
         </div>
       </div>
       
-      {/* Events title aligned with search container */}
-      <div className={styles.eventsTitleContainer}>
-        <h1 className={styles.eventsTitle}>Events</h1>
-      </div>
+      {/* Events title removed per request */}
       
       <div className={styles.searchContainer}>
         <img 

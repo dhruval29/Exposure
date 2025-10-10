@@ -5,6 +5,14 @@
   font-style: normal;
 }
 
+@font-face {
+	font-family: 'PPEditorialUltralightItalic';
+	src: url('/fonts/PPEditorialNew-UltralightItalic-BF644b214ff1e9b.otf') format('opentype');
+	font-weight: 200;
+	font-style: italic;
+	font-display: swap;
+}
+
 .events {
   --menu-item-height: 160px; /* keep in sync with FlowingMenu.css - consistent across all sizes */
   --cu-delay-base: 500ms; /* same as contact page */
@@ -80,6 +88,69 @@
 /* remove extra overlay to match menu */
 .events::before { display: none; }
 
+/* Page Title - "Re-live the Events" */
+.pageHeadingContainer {
+  position: absolute;
+  top: 12.758vh; /* Same as meetTheTeamContainer: 99px is in Section 1 (0-776px), so (99/776)*100 = 12.758vh */
+  left: 5.339vw; /* Same as meetTheTeamContainer: 82px converted: (82/1536)*100 = 5.339vw */
+  font-size: 4.947vw; /* Same as meetTheTeamContainer: 75.99px converted: (75.99/1536)*100 = 4.947vw */
+  line-height: 92.48%;
+  display: inline-block;
+  width: auto; /* Changed to auto to accommodate full text on one line */
+  min-width: 50vw; /* Ensure enough space for the full text */
+  height: 8.376vh; /* Same as meetTheTeamContainer: 65px converted: (65/776)*100 = 8.376vh */
+  font-family: 'PP Editorial New';
+  z-index: 10;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.pageHeading {
+  margin: 0;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.eventsWord {
+	font-family: 'PPEditorialUltralightItalic', 'PP Editorial New', serif;
+	font-style: italic;
+	font-weight: 200;
+}
+
+/* Description text under heading */
+.pageDescriptionContainer {
+  position: absolute;
+  top: 24.096vh; /* Same as ourDedicatedTeamContainer: 186.99px is in Section 1 (0-776px), so (186.99/776)*100 = 24.096vh */
+  left: 5.339vw; /* Same as ourDedicatedTeamContainer: 82px converted: (82/1536)*100 = 5.339vw */
+  font-size: 1.693vw; /* Same as ourDedicatedTeamContainer: 26px converted: (26/1536)*100 = 1.693vw */
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  color: #6c6a6a;
+  z-index: 10;
+}
+
+/* Mobile responsive styles for page heading - matching Frame79Mobile approach */
+@media (max-width: 768px) {
+  .pageHeadingContainer {
+    top: 8vh; /* Adjusted position */
+    font-size: 32px; /* Fixed size like Frame79Mobile */
+    line-height: 1; /* Match Frame79Mobile title */
+  }
+  
+  .pageDescriptionContainer {
+    top: calc(8vh + 40px); /* 32px title height + 8px gap, matching Frame79Mobile subtitle spacing */
+    font-size: 14px; /* Fixed size like Frame79Mobile */
+  }
+}
+
+/* Larger mobile screens */
+@media (min-width: 480px) and (max-width: 768px) {
+  .pageHeadingContainer {
+    font-size: 36px; /* Match Frame79Mobile breakpoint */
+  }
+  
+  .pageDescriptionContainer {
+    top: calc(8vh + 44px); /* 36px title height + 8px gap for larger mobile screens */
+  }
+}
+
 /* Navigation Brand Text - Visible on all screen sizes */
 .mobileNavBrand {
   position: fixed;
@@ -121,11 +192,11 @@
   /* Desktop textBox1 positioning - below first image (right side) */
   .textBox1 {
     position: absolute;
-    top: 75%; /* moved slightly up from 89% */
+    top: 62.5%; /* moved up 5% - reduced from 70% */
     left: 58%; /* Align with right image (first image is on the right) */
-    width: 40%; /* Match right image width */
+    width: 32%; /* Match scaled right image width */
     font-family: 'PP Editorial New', serif;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 400;
     color: #000;
     text-align: left;
@@ -174,9 +245,9 @@
     position: absolute;
     top: 73%; /* Moved up by 2% */
     left: 2%; /* Align with left image (second image is on the left) */
-    width: 50%; /* Match left image width */
+    width: 40%; /* Match scaled left image width */
     font-family: 'PP Editorial New', serif;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 400;
     color: #000;
     text-align: left;
@@ -223,11 +294,11 @@
   /* Specific classes for second event text elements */
   .textBox1Second {
     position: absolute;
-    top: 80%; /* moved down by 5% from 72% */
-    left: 2%; /* Align with left image (second image is on the left) */
-    width: 50%; /* Match left image width */
+    top: 63%; /* moved up 5% - reduced from 75% */
+    left: 4%; /* moved 5% to the right - changed from 2% to 7% */
+    width: 40%; /* Match scaled left image width */
     font-family: 'PP Editorial New', serif;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 400;
     color: #000;
     text-align: left;
@@ -386,8 +457,8 @@
 
 .searchContainer {
   position: absolute;
-  top: calc(100vh + 60px) !important; /* viewport-based with extra spacing below title */
-  left: 1.56%; /* 30px / 1920px = 1.56% for desktop */
+  top: 114vh !important; /* viewport-based - converted from calc(100vh + 60px) */
+  left: 4.5%; /* percentage-based positioning */
   border-radius: 47.78px;
   background-color: #d9d9d9;
   width: 20%;
@@ -406,14 +477,22 @@
 
 /* 50vh section between search and events list */
 .eventsSection {
-  height: 80vh;
+  height: 70vh;
   width: 100%;
-  margin: -150px 0 20px 0; /* moved up by reducing top margin */
+  margin: 20px 0 20px 0; /* moved section down - reduced from 40px to 20px to move up */
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   background: transparent;
+}
+
+@media (min-width: 1025px) {
+  .eventsSection {
+    margin: 0 0 20px 0; /* remove margin-based offset on desktop */
+    position: relative; /* move via position rather than padding/margin */
+    top: 60px; /* shift the section down literally - reduced from 120px to move up */
+  }
 }
 
 /* Frame69 content styles - converted to percentages for responsiveness */
@@ -433,8 +512,8 @@
   position: absolute;
   top: 7%; /* moved down by 2% from 5% */
   left: 58%; /* moved left slightly to expand towards left side */
-  width: 40%; /* increased width slightly from 38% */
-  height: 65%; /* increased height slightly from 63% */
+  width: 32%; /* scaled down from 40% to reduce desktop size */
+  height: 52%; /* scaled down from 65% to reduce desktop size */
   object-fit: cover;
   will-change: transform;
   transform-origin: center center;
@@ -446,9 +525,9 @@
 .img2024101415521736Icon {
   position: absolute;
   top: 7%; /* moved down by 2% from 5% */
-  left: 2%; /* moved further left to expand towards left side */
-  width: 50%; /* reduced width slightly from right side */
-  height: 80%; /* reduced by 5% */
+  left: 4%; /* moved 5% to the right - changed from 2% to 7% */
+  width: 40%; /* scaled down from 50% to reduce desktop size */
+  height: 64%; /* scaled down from 80% to reduce desktop size */
   object-fit: cover;
   will-change: transform;
   transform-origin: center center;
@@ -844,9 +923,11 @@
   /* Featured section tablet improvements */
   .eventsSection {
     height: auto;
-    margin: 40px 0 200px 0; /* Moved container up even more by reducing top margin */
+    margin: 20px 0 200px 0;
     display: flex;
     flex-direction: column;
+    position: relative;
+    top: 12.5vh; /* Moved up by 1vh */
   }
   
   .img2024101415521735Parent {
@@ -877,7 +958,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 2px 0 0px 0;
+    margin: -8px 0 0px 0; /* reduced spacing - changed from 2px to -8px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -977,9 +1058,11 @@
   /* Featured section mobile improvements */
   .eventsSection {
     height: auto;
-    margin: 30px 0 160px 0; /* Moved container up even more by reducing top margin */
+    margin: 15px 0 160px 0;
     display: flex;
     flex-direction: column;
+    position: relative;
+    top: 15.5vh; /* Moved up by 1vh */
   }
   
   .img2024101415521735Parent {
@@ -1010,7 +1093,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 2px 0 0px 0;
+    margin: -10px 0 0px 0; /* reduced spacing - changed from 2px to -10px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1110,9 +1193,11 @@
   /* Featured section mobile portrait improvements */
   .eventsSection {
     height: auto;
-    margin: 20px 0 120px 0; /* Moved container up even more by reducing top margin */
+    margin: 10px 0 120px 0;
     display: flex;
     flex-direction: column;
+    position: relative;
+    top: 12.5vh; /* Moved up by 1vh */
   }
   
   .img2024101415521735Parent {
@@ -1143,7 +1228,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 1px 0 0px 0;
+    margin: -8px 0 0px 0; /* reduced spacing - changed from 1px to -8px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1243,9 +1328,11 @@
   /* Featured section small mobile improvements */
   .eventsSection {
     height: auto;
-    margin: 10px 0 100px 0; /* Moved container up even more by reducing top margin */
+    margin: 5px 0 100px 0;
     display: flex;
     flex-direction: column;
+    position: relative;
+    top: 11.5vh; /* Moved up by 1vh */
   }
   
   .img2024101415521735Parent {
@@ -1276,7 +1363,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 1px 0 0px 0;
+    margin: -6px 0 0px 0; /* reduced spacing - changed from 1px to -6px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1341,8 +1428,8 @@
   .searchContainer {
     width: 50%;
     height: 60px;
-    top: calc(100vh + 80px); /* align with events title on large screens with spacing */
-    right: 1.04%; /* 20px / 1920px = 1.04% for large screens */
+    top: 110vh; /* viewport-based - converted from calc(100vh + 80px) */
+    right: 1.04%; /* percentage-based positioning for large screens */
   }
   
   .searchInput {
@@ -1570,7 +1657,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 2px 0 0px 0;
+    margin: -8px 0 0px 0; /* reduced spacing - changed from 2px to -8px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1587,7 +1674,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 2px 0 0px 0;
+    margin: -10px 0 0px 0; /* reduced spacing - changed from 2px to -10px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1604,7 +1691,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 1px 0 0px 0;
+    margin: -8px 0 0px 0; /* reduced spacing - changed from 1px to -8px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1621,7 +1708,7 @@
     font-weight: 400;
     color: #000;
     text-align: left;
-    margin: 1px 0 0px 0;
+    margin: -6px 0 0px 0; /* reduced spacing - changed from 1px to -6px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
