@@ -58,8 +58,7 @@ export default defineConfig({
       'react-router-dom',
       'framer-motion',
       'gsap'
-    ],
-    exclude: ['@studio-freight/lenis']
+    ]
   },
   // Server optimizations
   server: {
