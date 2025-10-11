@@ -70,7 +70,7 @@ const Frame36 = () => {
     return () => ctx.revert()
   }, [])
   const handleInstagramClick = () => {
-    window.open('https://instagram.com/exposureexplorers', '_blank', 'noopener,noreferrer')
+    window.open('https://www.instagram.com/exposure.explorers.nitg/', '_blank', 'noopener,noreferrer')
   }
 
   const handleYouTubeClick = () => {

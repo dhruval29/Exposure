@@ -96,6 +96,32 @@
   z-index: 3;
 }
 
+/* Samsung S20 FE and similar tall screens (1080x2400) */
+@media screen and (min-width: 1080px) and (min-height: 2400px) {
+  .weUseTheContainer {
+    top: 12%; /* Increased from 9% for better spacing on tall screens */
+    font-size: clamp(20px, 4.2vw, 28px); /* Slightly larger for tall screens */
+  }
+  
+  .mobileFrame1SubText {
+    top: 28%; /* Increased spacing to prevent overlap */
+    font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
+    line-height: 130%; /* Increased line height for better spacing */
+  }
+}
+
+/* Additional media query for devices with similar aspect ratios (20:9) */
+@media screen and (aspect-ratio: 20/9) {
+  .weUseTheContainer {
+    top: 11%;
+  }
+  
+  .mobileFrame1SubText {
+    top: 26%;
+    line-height: 125%;
+  }
+}
+
 .img202501051356542Icon {
   position: absolute;
   top: 4%; /* 151px / 844px */

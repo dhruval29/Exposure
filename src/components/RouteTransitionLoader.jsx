@@ -295,12 +295,12 @@ const RouteTransitionLoader = () => {
           fontStyle: 'italic',
           letterSpacing: '-0.02em',
           textAlign: 'center',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '100%',
-          opacity: 0
+          opacity: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%'
         }}
       >
         {destinationText}

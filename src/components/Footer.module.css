@@ -19,6 +19,7 @@
   object-fit: cover;
   z-index: 1;
   pointer-events: none;
+  display: none;
 }
 
 .fallbackBackground {
@@ -27,9 +28,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  z-index: 0;
-  opacity: 0;
+  background: #000000;
+  z-index: 1;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
@@ -46,9 +47,10 @@
   height: 100%;
 }
 
+/* DESKTOP STYLES - Current layout changes apply here */
 .fromGoaWithContainer {
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 3%;
   transform: translateY(-50%);
   font-size: clamp(36px, 6vw, 90px);
@@ -66,16 +68,17 @@
 
 .socialsParent {
   position: absolute;
-  top: 50%;
+  top: 35%;
   transform: translateY(-50%);
   right: 5%;
   width: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(12px, 2vh, 20px);
+  gap: 3vh;
+  font-weight: 200;
   font-size: clamp(20px, 2vw, 32px);
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New ', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
 
 .socials {
@@ -83,7 +86,8 @@
   position: relative;
   font-size: clamp(18px, 1.6vw, 24px);
   line-height: 100.58%;
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PPEditorialNew-UltralightItalic';
+  font-weight: 200,
 }
 
 .instagram,
@@ -95,7 +99,9 @@
   color: #fff;
   text-decoration: none;
   display: inline-block;
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New';
+  font-weight: 200;
+  font-style: italic;
 }
 
 .instagram:link,
@@ -139,35 +145,71 @@
   width: 100%;
 }
 
+/* DESKTOP BOTTOM ELEMENTS - Current layout changes */
 .exposureExplorers {
   position: absolute;
-  bottom: clamp(50px, 12vh, 80px);
-  left: clamp(15px, 2vw, 30px);
+  top: 85%;
+  left: 3%;
   line-height: 100.58%;
   font-size: clamp(11px, 1.2vw, 20px);
 }
 
 .designedDeveloped {
   position: absolute;
-  bottom: clamp(50px, 12vh, 80px);
-  right: clamp(15px, 2vw, 30px);
+  top: 85%;
+  left: 80%;
   line-height: 100.58%;
   font-size: clamp(11px, 1.2vw, 20px);
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New';
+  font-style: italic;
+  font-weight: 200;
   display: block;
 }
 
 .exposureexplorersnitgoaaci {
   position: absolute;
-  bottom: clamp(50px, 12vh, 80px);
-  left: 50%;
+  top: 85%;
+  left: 95%;
   transform: translateX(-50%);
   line-height: 100.58%;
   font-size: clamp(11px, 1.2vw, 20px);
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New';
+  font-weight: 200;
+  font-style: italic;
 }
 
-/* Responsive breakpoints - simplified since we use clamp() and viewport units */
+.clickableEmail {
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.clickableEmail::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: currentColor;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+}
+
+.clickableEmail:hover::after,
+.clickableEmail:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.clickableEmail:hover,
+.clickableEmail:focus-visible {
+  color: #ccc;
+}
+
+/* RESPONSIVE BREAKPOINTS - Restore proper mobile layout */
+
+/* Large tablets and small desktops */
 @media (max-width: 1024px) {
   .fromGoaWithContainer {
     left: 2%;
@@ -180,13 +222,16 @@
   }
 }
 
+/* Mobile and small tablets - RESTORE PREVIOUS MOBILE LAYOUT */
 @media (max-width: 768px) {
   .footer {
     min-height: clamp(180px, 28vh, 250px);
     padding: clamp(8px, 2vw, 15px);
   }
   
+  /* Reset desktop positioning and restore mobile layout */
   .fromGoaWithContainer {
+    position: absolute;
     top: 3%;
     left: 3%;
     transform: none;
@@ -195,30 +240,39 @@
   }
   
   .socialsParent {
-    top: 3%;
+    position: absolute;
+    top: 5%;
     right: 3%;
     transform: none;
     align-items: flex-end;
     text-align: right;
     font-size: clamp(16px, 4.5vw, 24px);
-    gap: clamp(6px, 1.5vw, 10px);
+    gap: clamp(12px, 3vw, 20px);
   }
   
+  /* Restore mobile bottom positioning */
   .exposureExplorers {
-    bottom: clamp(50px, 12vw, 70px);
+    position: absolute;
+    bottom: clamp(25px, 6vw, 40px);
     left: 3%;
+    top: auto;
     font-size: clamp(10px, 3vw, 14px);
   }
   
   .designedDeveloped {
-    bottom: clamp(50px, 12vw, 70px);
+    position: absolute;
+    bottom: clamp(25px, 6vw, 40px);
     right: 3%;
+    top: auto;
+    left: auto;
     font-size: clamp(10px, 3vw, 14px);
   }
   
   .exposureexplorersnitgoaaci {
-    bottom: clamp(25px, 6vw, 40px);
+    position: absolute;
+    bottom: clamp(50px, 12vw, 70px);
     left: 3%;
+    top: auto;
     transform: none;
     font-size: clamp(10px, 3vw, 14px);
   }

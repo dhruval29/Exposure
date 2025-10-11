@@ -253,7 +253,7 @@ export default function ContactUsMobile() {
           </a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '3vw', textAlign: 'center' }}>
-          <a className="cu-mobile-text" href="https://www.instagram.com/exposure.explorers_nitg/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 760}ms`, textDecoration: 'none' }}>Instagram</a>
+          <a className="cu-mobile-text" href="https://www.instagram.com/exposure.explorers.nitg/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 760}ms`, textDecoration: 'none' }}>Instagram</a>
           <a className="cu-mobile-text" href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 820}ms`, textDecoration: 'none' }}>Linkedin</a>
           <a className="cu-mobile-text" href="https://www.youtube.com/@Exposure-Explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 880}ms`, textDecoration: 'none' }}>Youtube</a>
         </div>

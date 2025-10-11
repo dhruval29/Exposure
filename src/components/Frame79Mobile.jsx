@@ -38,17 +38,17 @@ const members = [
     instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
   },
   {
+    name: 'Himesh Solanki',
+    role: 'Photographer',
+    position: 'Member',
+    image: '/assets/images/members/ABC_6513.webp',
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+  },
+  {
     name: 'Piyush Singh',
     role: 'Cinematographer',
     position: 'Member',
     image: '/assets/images/members/ABC_6075.webp',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
-  },
-  {
-    name: 'Himesh Solanki',
-    role: 'Photographer',
-    position: 'Member',
-    image: '/assets/images/members/IMG_25541[1].JPG',
     instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
   },
   {

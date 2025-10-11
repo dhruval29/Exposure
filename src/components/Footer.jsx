@@ -4,6 +4,7 @@ import styles from './Footer.module.css';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [videoError, setVideoError] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -41,6 +42,31 @@ const Footer = () => {
     }
   }, []);
 
+  const copyEmailToClipboard = async () => {
+    const email = 'exposure.explorers@nitgoa.ac.in';
+    try {
+      await navigator.clipboard.writeText(email);
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy email: ', err);
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = email;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setEmailCopied(true);
+        setTimeout(() => setEmailCopied(false), 2000);
+      } catch (fallbackErr) {
+        console.error('Fallback copy failed: ', fallbackErr);
+      }
+      document.body.removeChild(textArea);
+    }
+  };
+
   return (
     <footer id="site-footer" className={styles.footer}>
       {/* Video Background */}
@@ -75,7 +101,7 @@ const Footer = () => {
         <nav className={styles.socialsParent} aria-label="Social media links">
           <a
             className={styles.instagram}
-            href="https://www.instagram.com/exposure.explorers_nitg/"
+            href="https://www.instagram.com/exposure.explorers.nitg/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Visit our Instagram"
@@ -102,7 +128,22 @@ const Footer = () => {
           </a>
         </nav>
         <address className={styles.exposureExplorers}>© {currentYear} | Exposure Explorers</address>
-        <div className={styles.exposureexplorersnitgoaaci}>exposure.explorers@nitgoa.ac.in</div>
+        <div 
+          className={`${styles.exposureexplorersnitgoaaci} ${styles.clickableEmail}`}
+          onClick={copyEmailToClipboard}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              copyEmailToClipboard();
+            }
+          }}
+          aria-label={`Copy email to clipboard. ${emailCopied ? 'Email copied!' : 'Click to copy exposure.explorers@nitgoa.ac.in'}`}
+          title={emailCopied ? 'Email copied!' : 'Click to copy email'}
+        >
+          {emailCopied ? 'Email copied!' : 'exposure.explorers@nitgoa.ac.in'}
+        </div>
         <div className={styles.designedDeveloped}>Designed & Developed by @dhr</div>
       </div>
     </footer>

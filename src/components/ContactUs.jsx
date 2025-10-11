@@ -183,7 +183,7 @@ const ContactUs = () => {
 								exposure.explorers@nitgoa.ac.in
 							</a>
 						</div>
-						<a className={styles.instagram} href="https://www.instagram.com/exposure.explorers_nitg/" target="_blank" rel="noopener noreferrer">Instagram</a>
+						<a className={styles.instagram} href="https://www.instagram.com/exposure.explorers.nitg/" target="_blank" rel="noopener noreferrer">Instagram</a>
 						<a className={styles.linkedin} href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer">{`Linkedin `}</a>
 						<a className={styles.youtube} href="https://www.youtube.com/@Exposure-Explorers" target="_blank" rel="noopener noreferrer">Youtube</a>
 				</div>

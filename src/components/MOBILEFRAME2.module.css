@@ -96,6 +96,43 @@
   font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
 
+/* Samsung S20 FE and similar tall screens (1080x2400) */
+@media screen and (min-width: 1080px) and (min-height: 2400px) {
+  .loremIpsumDolorContainer {
+    top: 3%; /* Increased from 1.54% for better spacing on tall screens */
+    font-size: clamp(20px, 4.2vw, 28px); /* Slightly larger for tall screens */
+  }
+  
+  .mobileFrame2LoremIpsumDolorContainer {
+    top: 18%; /* Increased spacing to prevent overlap */
+    font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
+    line-height: 130%; /* Increased line height for better spacing */
+  }
+  
+  .loremIpsumDolor2 {
+    top: 72%; /* Adjusted for tall screens */
+    font-size: clamp(16px, 3.5vw, 22px); /* Slightly larger for tall screens */
+    line-height: 130%; /* Increased line height for better spacing */
+  }
+}
+
+/* Additional media query for devices with similar aspect ratios (20:9) */
+@media screen and (aspect-ratio: 20/9) {
+  .loremIpsumDolorContainer {
+    top: 2.5%;
+  }
+  
+  .mobileFrame2LoremIpsumDolorContainer {
+    top: 17%;
+    line-height: 125%;
+  }
+  
+  .loremIpsumDolor2 {
+    top: 71%;
+    line-height: 125%;
+  }
+}
+
 .img202412291336061Icon {
   position: absolute;
   top: -10.66%; /* -90px / 844px - extends upward into Frame 1 */

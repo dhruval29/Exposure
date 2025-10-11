@@ -320,19 +320,19 @@ const TheTeamMobile = () => {
 			</div>
 			<div className={styles.teammember5}>
 				<div className={styles.paragraph2}>
-					<div className={styles.ourDedicatedTeam}>Piyush Singh</div>
+					<div className={styles.ourDedicatedTeam}>Himesh Solanki</div>
 				</div>
 				<div className={styles.container4} />
 				<div className={styles.paragraph3}>
-					<div className={styles.ourDedicatedTeam}>Cinematographer</div>
+					<div className={styles.ourDedicatedTeam}>Photographer</div>
 				</div>
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Member</div>
 				</div>
-			<a href="https://www.linkedin.com/in/editwithpiyush" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton6}`}>
+			<a href="https://www.linkedin.com/in/himesh-solanki-a03088323?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton6}`}>
 				<img alt="LinkedIn" src="/assets/icons/brand-linkedin-fill (1).svg" />
 			</a>
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6075.webp" />
+				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6513.webp" />
 			</div>
 			<div className={styles.teammember6}>
 				<div className={styles.paragraph2}>
@@ -368,19 +368,19 @@ const TheTeamMobile = () => {
 			</div>
 			<div className={styles.teammember8}>
 				<div className={styles.paragraph2}>
-					<div className={styles.ourDedicatedTeam}>Himesh Solanki</div>
+					<div className={styles.ourDedicatedTeam}>Piyush Singh</div>
 				</div>
 				<div className={styles.container4} />
 				<div className={styles.paragraph3}>
-					<div className={styles.ourDedicatedTeam}>Photographer</div>
+					<div className={styles.ourDedicatedTeam}>Cinematographer</div>
 				</div>
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Member</div>
 				</div>
-			<a href="https://www.linkedin.com/in/himesh-solanki-a03088323?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton9}`}>
+			<a href="https://www.linkedin.com/in/editwithpiyush" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton9}`}>
 				<img alt="LinkedIn" src="/assets/icons/brand-linkedin-fill (1).svg" />
 			</a>
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6513.webp" />
+				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/ABC_6075.webp" />
 			</div>
 		{/* no spacer; early triggers handle final reveal without extra height */}
 		</div>
