@@ -24,16 +24,16 @@ export const Z_INDEXES = [12, 8, 4, 10, 6, 2, 14, 16, 18, 20]
 // Each has: top %, left %, width % (relative to container width)
 // More images in bottom half, scattered with no initial overlap
 export const POSITIONS = [
-  { top: '20%', left: '-10%',   widthPct: 28 },    // Top-left, mostly off
-  { top: '5%', left: '100%', widthPct: 24 },      // Top-right, off right edge
+  { top: '05%', left: '-40%',   widthPct: 28 },    // Top-left, mostly off
+  { top: '-10%', left: '100%', widthPct: 24 },      // Top-right, off right edge
   { top: '110%', left: '-40%', widthPct: 26 },      // Far bottom-left, off bottom
   { top: '-35%',  left: '85%', widthPct: 22 },      // Top-right, partially off
   { top: '80%', left: '110%', widthPct: 20 },      // Bottom-right, off right
   { top: '-40%',  left: '-25%', widthPct: 30 },      // Far top-center, mostly off
-  { top: '80%', left: '-60%', widthPct: 28 },       // Bottom-left, mostly off
-  { top: '125%', left: '120%', widthPct: 25 },      // Far bottom-right corner
+  { top: '110%', left: '-30%', widthPct: 28 },       // Bottom-left, mostly off
+  { top: '105%', left: '120%', widthPct: 25 },      // Far bottom-right corner
   { top: '90%', left: '25%', widthPct: 18 },        // Bottom-center-left
-  { top: '105%', left: '60%', widthPct: 23 },       // Bottom-center-right
+  { top: '105%', left: '10%', widthPct: 23 },       // Bottom-center-right
 ]
 
 // Mobile and below should use the current positions the user adjusted
@@ -48,7 +48,7 @@ export const DESKTOP_POSITIONS = [
   { top: '110%', left: '110%', widthPct: 20 },
   { top: '-60%',  left: '15%', widthPct: 30 },
   { top: '80%', left: '-60%', widthPct: 28 },
-  { top: '125%', left: '120%', widthPct: 25 },
+  { top: '105%', left: '120%', widthPct: 25 },
   { top: '90%', left: '25%', widthPct: 18 },
   { top: '105%', left: '60%', widthPct: 23 },
 ]
@@ -56,13 +56,13 @@ export const DESKTOP_POSITIONS = [
 // Initial depth tweak per image to bring a few very close initially
 // Positive numbers make start closer (less negative Z)
 export const START_Z_OFFSETS = [
-  800,
+  150,
   1200, // make image 2 start even closer
-  800,
-  800,
+  1000,
+  1200,
   1200, // make image 5 start even closer
-  800,
-  1000, // image 7
+  1000,
+  1800, // image 7
   1100, // image 8
   900,  // image 9
   1300, // image 10

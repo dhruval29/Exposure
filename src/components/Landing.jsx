@@ -19,6 +19,9 @@ import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import '../styles/Gallery.css'
 
+// Footer height constants (responsive vh units)
+const FOOTER_HEIGHT_DESKTOP = '44vh'
+const FOOTER_HEIGHT_MOBILE = '25vh'
 
 // Landing shutter preloader removed
 
@@ -944,7 +947,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           bottom: 0,
           left: 0,
           right: 0,
-          height: '339px',
+          height: isMobile ? FOOTER_HEIGHT_MOBILE : FOOTER_HEIGHT_DESKTOP,
           zIndex: 3000
         }}
       >
@@ -1199,9 +1202,9 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       return `calc(100vh + ${SLIDING_HEIGHT} + 62vh)`
     }
     
-    // Mobile: 100vh (hero) + 200vh (sliding) + 40vh (marquee) + 100vh (zoom reveal) + 339px (footer)
+    // Mobile: 100vh (hero) + 200vh (sliding) + 40vh (marquee) + 100vh (zoom reveal) + footer height
     // No extra spacer so there is no scroll past the footer
-    return `calc(100vh + ${SLIDING_HEIGHT} + 40vh + 100vh + 339px)`
+    return `calc(100vh + ${SLIDING_HEIGHT} + 40vh + 100vh + ${FOOTER_HEIGHT_MOBILE})`
   }
 
   return (
@@ -1229,8 +1232,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             style={{
               color: '#333',
               fontSize: 'clamp(48px, 8vw, 96px)',
-              fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
-              fontWeight: 100,
+              fontFamily: "'PP Editorial New'",
+              fontWeight: 200,
               fontStyle: 'italic',
               letterSpacing: '-0.02em',
               textAlign: 'center',

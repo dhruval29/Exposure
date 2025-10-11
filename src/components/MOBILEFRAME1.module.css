@@ -71,10 +71,12 @@
 
 .weUseTheContainer {
   position: absolute;
-  top: 4.03%; /* 34px / 844px */
-  left: 4.87%; /* 19px / 390px */
+  top: 9.00%; /* 34px / 844px */
+  left: 63.18%; /* 19px / 390px */
   letter-spacing: 0.02em;
   line-height: 122.71%;
+  font-size: clamp(18px, 4.6vw, 26px);
+  text-align: left;
   z-index: 3; /* Higher than spanning image */
 }
 
@@ -82,12 +84,24 @@
   margin: 0;
 }
 
+.mobileFrame1SubText {
+  position: absolute;
+  top: 23%; /* positioned below main text (9% + ~19% for 5 lines) */
+  left: 63.18%; /* align with main text */
+  font-size: clamp(8px, 2vw, 12px);
+  letter-spacing: 0.02em;
+  line-height: 122.71%;
+  color: #000;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  z-index: 3;
+}
+
 .img202501051356542Icon {
   position: absolute;
-  top: 17.89%; /* 151px / 844px */
-  left: 4.87%; /* 19px / 390px */
-  width: 65.38%; /* 255px / 390px */
-  height: 34.60%; /* 292px / 844px */
+  top: 4%; /* 151px / 844px */
+  left:4.25%; /* 19px / 390px */
+  width: 55.2%; /* 255px / 390px */
+  height:47.4%; /* 292px / 844px */
   object-fit: cover;
   z-index: 3; /* Higher than spanning image */
 }

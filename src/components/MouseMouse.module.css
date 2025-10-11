@@ -43,6 +43,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: #000;
+  font-family: 'PP Editorial New';
+  font-weight: 200;
+  font-style: italic;
   font-size: 18px;
   z-index: 10;
   background: #F2EAE0;
@@ -71,7 +74,9 @@
   letter-spacing: -0.02em;
   line-height: 97%;
   color: #000;
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New';
+  font-weight: 200;
+  font-style: italic;
   font-size: clamp(32px, 6.67vw, 96px); /* Reverted to original desktop size */
   text-align: left; /* Left align text */
   pointer-events: none;
@@ -107,9 +112,10 @@
   align-items: center;
   text-align: left;
   color: #000;
-  font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  font-family: 'PP Editorial New';
+  font-weight: 200;
+  font-style: italic;
   font-size: clamp(48px, 15vw, 84px);
-  font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 97%;
   text-transform: uppercase;

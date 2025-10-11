@@ -365,9 +365,10 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
             alignItems: 'center',
             textAlign: 'left',
             color: '#000',
-            fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
+            fontFamily: "'PP Editorial New'",
             fontSize: 'clamp(48px, 15vw, 84px)',
-            fontWeight: '400',
+            fontWeight: 200,
+            fontStyle: 'italic',
             letterSpacing: '-0.02em',
             lineHeight: '97%',
             textTransform: 'uppercase',
@@ -458,7 +459,11 @@ const MouseMouse = ({ visible = true, zIndex = 3000 }) => {
         onMouseLeave={handleTextLeave}
       />
       {!isLoaded && (
-        <div className={styles.loadingOverlay}>
+        <div className={styles.loadingOverlay} style={{
+          fontFamily: "'PP Editorial New'",
+          fontWeight: 200,
+          fontStyle: 'italic'
+        }}>
           Loading...
         </div>
       )}

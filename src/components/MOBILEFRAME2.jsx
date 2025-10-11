@@ -48,14 +48,14 @@ const MOBILEFRAME2 = () => {
         })
       },
       { 
-        threshold: 0.2, // Trigger when 20% visible (same as desktop)
-        rootMargin: '0px 0px -150px 0px' // Trigger 150px before fully visible (same as desktop)
+        threshold: 0.5, // Trigger when 50% visible - triggers much later
+        rootMargin: '0px' // No extension - waits until text is in viewport
       }
     );
 
-    // Observe the container
-    if (containerRef.current) {
-      textObserver.observe(containerRef.current);
+    // Observe the first text element to trigger when text comes into view
+    if (text1Ref.current) {
+      textObserver.observe(text1Ref.current);
     }
 
     return () => {

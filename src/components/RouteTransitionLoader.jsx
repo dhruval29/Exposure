@@ -290,8 +290,8 @@ const RouteTransitionLoader = () => {
         style={{
           color: '#333',
           fontSize: 'clamp(48px, 8vw, 96px)',
-          fontFamily: "'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif",
-          fontWeight: 100,
+          fontFamily: "'PP Editorial New'",
+          fontWeight: 200,
           fontStyle: 'italic',
           letterSpacing: '-0.02em',
           textAlign: 'center',

@@ -5,8 +5,8 @@ import NavigationMenu from './NavigationMenu';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EXTRA_SCROLL_PAD = 1.2; // Extra scroll distance after zoom before nav shows (desktop/tablet)
-const MOBILE_EXTRA_SCROLL_PAD = 0.1; // Nearly instant nav on mobile after zoom
+const EXTRA_SCROLL_PAD = 0.3; // Extra scroll distance after zoom before nav shows (desktop/tablet)
+const MOBILE_EXTRA_SCROLL_PAD = 0.05; // Nearly instant nav on mobile after zoom
 
 const ZoomReveal = ({
   imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp',

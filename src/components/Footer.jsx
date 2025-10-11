@@ -56,7 +56,7 @@ const Footer = () => {
         onError={() => setVideoError(true)}
         onLoadedData={() => setVideoError(false)}
       >
-        <source src="/65562-515098354_small.mp4" type="video/mp4" />
+        <source src="/videos/24216-340670744_tiny.mp4" type="video/mp4" />
         {/* Fallback message for browsers that don't support video */}
         Your browser does not support the video tag.
       </video>
@@ -73,7 +73,6 @@ const Footer = () => {
           </p>
         </div>
         <nav className={styles.socialsParent} aria-label="Social media links">
-          <div className={styles.socials}>Socials</div>
           <a
             className={styles.instagram}
             href="https://www.instagram.com/exposure.explorers_nitg/"
@@ -103,8 +102,8 @@ const Footer = () => {
           </a>
         </nav>
         <address className={styles.exposureExplorers}>© {currentYear} | Exposure Explorers</address>
-        <div className={styles.designedDeveloped}>Designed & Developed by @DHR</div>
         <div className={styles.exposureexplorersnitgoaaci}>exposure.explorers@nitgoa.ac.in</div>
+        <div className={styles.designedDeveloped}>Designed & Developed by @dhr</div>
       </div>
     </footer>
   );

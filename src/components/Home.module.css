@@ -22,7 +22,10 @@
 	color: #fff;
 	padding: 8px 12px;
 	border-radius: 6px;
+	font-family: 'PP Editorial New';
 	font-size: 12px;
+	font-weight: 200;
+	font-style: italic;
 	z-index: 9999;
 }
 

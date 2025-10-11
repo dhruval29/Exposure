@@ -1,11 +1,11 @@
 .footer {
   width: 100%;
   position: relative;
-  height: 100%; /* Fill wrapper (wrapper is 339px in Landing) */
-  min-height: 339px;
+  height: 100%; /* Fill wrapper */
+  min-height: clamp(200px, 44vh, 400px);
   overflow: hidden;
   text-align: left;
-  font-size: 20px;
+  font-size: clamp(14px, 1.4vw, 20px);
   color: #fff;
   font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
@@ -48,36 +48,40 @@
 
 .fromGoaWithContainer {
   position: absolute;
-  top: calc(50% - 138.5px);
-  left: calc(50% - 738px);
-  font-size: 72px;
+  top: 50%;
+  left: 3%;
+  transform: translateY(-50%);
+  font-size: clamp(36px, 6vw, 90px);
   line-height: 105%;
   display: inline-block;
-  width: 373px;
-  height: 164px;
+  width: clamp(200px, 30vw, 450px);
+  height: auto;
 }
 
 .fromGoa {
   margin: 0;
+  line-height: 1.1;
+  display: block;
 }
 
 .socialsParent {
   position: absolute;
-  top: 54px;
-  left: 1335px;
-  width: 143px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5%;
+  width: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-  font-size: 32px;
+  gap: clamp(12px, 2vh, 20px);
+  font-size: clamp(20px, 2vw, 32px);
   font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
 
 .socials {
   align-self: stretch;
   position: relative;
-  font-size: 24px;
+  font-size: clamp(18px, 1.6vw, 24px);
   line-height: 100.58%;
   font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
@@ -137,180 +141,85 @@
 
 .exposureExplorers {
   position: absolute;
-  top: 303px;
-  left: 30px;
+  bottom: clamp(50px, 12vh, 80px);
+  left: clamp(15px, 2vw, 30px);
   line-height: 100.58%;
-  font-size: clamp(12px, 2vw, 20px); /* Responsive font size */
+  font-size: clamp(11px, 1.2vw, 20px);
 }
 
 .designedDeveloped {
   position: absolute;
-  top: 303px;
-  left: 1177px;
+  bottom: clamp(50px, 12vh, 80px);
+  right: clamp(15px, 2vw, 30px);
   line-height: 100.58%;
+  font-size: clamp(11px, 1.2vw, 20px);
   font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  display: block;
 }
 
 .exposureexplorersnitgoaaci {
   position: absolute;
-  top: 303px;
-  left: 660px;
+  bottom: clamp(50px, 12vh, 80px);
+  left: 50%;
+  transform: translateX(-50%);
   line-height: 100.58%;
+  font-size: clamp(11px, 1.2vw, 20px);
   font-family: 'PP Editorial New', 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 1400px) {
+/* Responsive breakpoints - simplified since we use clamp() and viewport units */
+@media (max-width: 1024px) {
   .fromGoaWithContainer {
-    left: 50px;
+    left: 2%;
+    width: clamp(180px, 35vw, 300px);
   }
   
   .socialsParent {
-    left: 1100px;
-  }
-  
-  .designedDeveloped {
-    left: 900px;
-  }
-  
-  .exposureexplorersnitgoaaci {
-    left: 500px;
+    right: 3%;
+    gap: clamp(10px, 1.8vh, 18px);
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
   .footer {
-    height: 280px;
-    font-size: 18px;
+    min-height: clamp(180px, 28vh, 250px);
+    padding: clamp(8px, 2vw, 15px);
   }
   
   .fromGoaWithContainer {
-    font-size: 56px;
-    left: 30px;
-    top: calc(50% - 120px);
-    width: 300px;
-    height: 140px;
+    top: 3%;
+    left: 3%;
+    transform: none;
+    font-size: clamp(28px, 8vw, 48px);
+    width: 60%;
   }
   
   .socialsParent {
-    left: 800px;
-    font-size: 28px;
+    top: 3%;
+    right: 3%;
+    transform: none;
+    align-items: flex-end;
+    text-align: right;
+    font-size: clamp(16px, 4.5vw, 24px);
+    gap: clamp(6px, 1.5vw, 10px);
   }
   
   .exposureExplorers {
-    top: 250px;
-    left: 30px;
+    bottom: clamp(50px, 12vw, 70px);
+    left: 3%;
+    font-size: clamp(10px, 3vw, 14px);
   }
   
   .designedDeveloped {
-    top: 250px;
-    left: 600px;
+    bottom: clamp(50px, 12vw, 70px);
+    right: 3%;
+    font-size: clamp(10px, 3vw, 14px);
   }
   
   .exposureexplorersnitgoaaci {
-    top: 250px;
-    left: 350px;
-  }
-}
-
-@media (max-width: 900px) {
-  .footer {
-    height: 250px;
-    font-size: 16px;
-  }
-  
-  .fromGoaWithContainer {
-    font-size: 48px;
-    left: 20px;
-    top: 20px;
-    width: 280px;
-    height: 120px;
-  }
-  
-  .socialsParent {
-    left: 400px;
-    top: 40px;
-    font-size: 24px;
-  }
-  
-  .exposureExplorers {
-    top: 200px;
-    left: 20px;
-    font-size: 14px;
-  }
-  
-  .designedDeveloped {
-    top: 220px;
-    left: 20px;
-    font-size: 14px;
-  }
-  
-  .exposureexplorersnitgoaaci {
-    top: 180px;
-    left: 20px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 600px) {
-  .footer {
-    height: 100%;
-    min-height: 220px; /* keep a floor for very small viewports */
-    font-size: 14px;
-    padding: 20px 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .fromGoaWithContainer {
-    position: relative;
-    font-size: clamp(24px, 8vw, 36px);
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .socialsParent {
-    position: relative;
-    left: auto;
-    top: auto;
-    font-size: clamp(16px, 4vw, 20px);
-    margin-bottom: 20px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .exposureExplorers {
-    position: relative;
-    top: auto;
-    left: auto;
+    bottom: clamp(25px, 6vw, 40px);
+    left: 3%;
+    transform: none;
     font-size: clamp(10px, 3vw, 14px);
-    text-align: center;
-    margin: 16px 0 6px; /* move a bit down on mobile */
-  }
-  
-  .designedDeveloped {
-    position: relative;
-    top: auto;
-    left: auto;
-    font-size: clamp(10px, 3vw, 14px);
-    text-align: center;
-    margin: 8px 0; /* add spacing below address */
-  }
-  
-  .exposureexplorersnitgoaaci {
-    position: relative;
-    top: auto;
-    left: auto;
-    font-size: clamp(10px, 3vw, 14px);
-    text-align: center;
-    margin: 8px 0 12px; /* add spacing and move down a bit */
   }
 }
