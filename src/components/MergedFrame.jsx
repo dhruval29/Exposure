@@ -121,12 +121,12 @@ const MergedFrame = () => {
 						const wordIndex = parseInt(entry.target.dataset.wordIndex)
 						
 						if (!isNaN(frameIndex) && !isNaN(lineIndex) && !isNaN(wordIndex)) {
-							// Calculate cumulative delay: line offset + word offset (balanced timing)
-							const lineOffset = lineIndex * 450 // Increased from 300ms to 450ms for better pacing
-							const wordOffset = wordIndex * 45 // Increased from 30ms to 45ms for better word timing
+							// Calculate cumulative delay: line offset + word offset (quicker timing)
+							const lineOffset = lineIndex * 250 // Reduced for faster line-by-line animation
+							const wordOffset = wordIndex * 25 // Reduced for faster word-by-word animation
 							
 							// Make Frame 3 (frameIndex 2) appear earlier by reducing its delay
-							const frameDelay = frameIndex === 2 ? -600 : 0 // Frame 3 starts 600ms earlier (very early)
+							const frameDelay = frameIndex === 2 ? -400 : 0 // Frame 3 starts 400ms earlier
 							const totalDelay = Math.max(0, lineOffset + wordOffset + frameDelay)
 							
                             setTimeout(() => {

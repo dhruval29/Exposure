@@ -5,19 +5,21 @@ const Frame60 = () => {
   const trackRef = useRef(null);
   const [fontSizePx, setFontSizePx] = useState(64);
   const [offsetY, setOffsetY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const measure = () => {
       if (!containerRef.current) return;
       const h = containerRef.current.clientHeight;
       // Responsive font sizing: larger on mobile to avoid excess whitespace
-      const isMobile = window.innerWidth <= 768;
-      const scaleFactor = isMobile ? 0.82 : 0.6;
-      const minFont = isMobile ? 32 : 24;
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      const scaleFactor = mobile ? 0.82 : 0.6;
+      const minFont = mobile ? 32 : 24;
       const computedFont = Math.max(minFont, Math.floor(h * scaleFactor));
       setFontSizePx(computedFont);
       // Nudge text down a bit relative to its size (more on mobile)
-      const verticalNudge = Math.round(computedFont * (isMobile ? 0.10 : 0.05));
+      const verticalNudge = Math.round(computedFont * (mobile ? 0.10 : 0.05));
       setOffsetY(verticalNudge);
     };
     measure();
@@ -88,9 +90,17 @@ const Frame60 = () => {
   }, [fontSizePx, offsetY]);
 
   const line = ' capture live create ';
+  
+  // Frosted glass effect for desktop
+  const backgroundStyle = isMobile 
+    ? '#000000' 
+    : 'rgba(0, 0, 0, 0.3)';
+  const backdropFilter = isMobile 
+    ? 'none' 
+    : 'blur(20px) saturate(180%)';
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', background: '#000000', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', background: backgroundStyle, backdropFilter: backdropFilter, WebkitBackdropFilter: backdropFilter, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', padding: `${Math.max(8, Math.round(fontSizePx * 0.18))}px 0` }}>
       <div
         ref={trackRef}
         style={{

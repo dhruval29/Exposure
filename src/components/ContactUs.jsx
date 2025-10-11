@@ -120,7 +120,7 @@ const ContactUs = () => {
 	return (
 		<>
 			<SimpleNav />
-            <div id="contact" className={styles.contactUs} style={{ opacity: isVisibleUnderCover || isRouteReady ? 1 : 0, transition: 'opacity 300ms ease' }}>
+            <div id="contact" className={`${styles.contactUs} ${isRouteReady ? styles.animationsReady : ''}`} style={{ opacity: isVisibleUnderCover || isRouteReady ? 1 : 0, transition: 'opacity 300ms ease' }}>
 			{/* Removed component-specific loader */}
 				<i className={styles.contact}>Contact</i>
 				<div className={styles.wantHelpCoveringContainer}>

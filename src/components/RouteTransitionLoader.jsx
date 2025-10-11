@@ -188,7 +188,7 @@ const RouteTransitionLoader = () => {
 
     // For routes that require content readiness, wait for a signal
     const path = location.pathname
-    const shouldWaitForContent = path === '/pictures' || path === '/contact' || path === '/events'
+    const shouldWaitForContent = path === '/pictures' || path === '/events'
 
     const playExit = () => {
       const textEl = textRef.current

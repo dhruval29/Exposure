@@ -92,17 +92,19 @@ const Frame79 = () => {
 			})
 		);
 
-		// Animate instagram svg icons (img elements) with gentle pop-in
-		const instaSelectors = [
-			`.${styles.instagramSvgrepoCom11}`,
-			`.${styles.instagramSvgrepoCom16}`,
-			`.${styles.instagramSvgrepoCom14}`,
-			`.${styles.instagramSvgrepoCom113}`,
-			`.${styles.instagramSvgrepoCom110}`,
-			`.${styles.instagramSvgrepoCom111}`,
-			`.${styles.instagramSvgrepoCom112}`,
-			`.${styles.instagramSvgrepoCom162}`
-		].join(',');
+	// Animate instagram svg icons (img elements) and buttons with gentle pop-in
+	const instaSelectors = [
+		`.${styles.instagramSvgrepoCom11}`,
+		`.${styles.instagramSvgrepoCom16}`,
+		`.${styles.instagramSvgrepoCom14}`,
+		`.${styles.instagramSvgrepoCom113}`,
+		`.${styles.instagramSvgrepoCom110}`,
+		`.${styles.instagramSvgrepoCom111}`,
+		`.${styles.instagramSvgrepoCom112}`,
+		`.${styles.instagramSvgrepoCom162}`,
+		`.${styles.instagramButton}`,
+		`.${styles.instagramButton2}`
+	].join(',');
 
 		const instaElements = Array.from(container.querySelectorAll(instaSelectors));
 		instaElements.forEach((el) => {
@@ -264,7 +266,9 @@ const Frame79 = () => {
       			<img className={styles.instagramSvgrepoCom16} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
       			<img className={styles.rectangleIcon} src="/assets/images/members/IMG_8107[1] (1).webp" alt="" />
       			<div className={styles.ronakBarwar}>Ronak Barwar</div>
-      			<img className={styles.rectangleParentInstagramSvgrepoCom16} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<a href="https://pin.it/2UVHJTQhA" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton2}`}>
+				<img src="/assets/icons/icons8-pinterest.svg" alt="Pinterest" />
+			</a>
       			<div className={styles.rectangleParentFrameChild} />
       			<div className={styles.photographer2}>{`Photographer `}</div>
       			<div className={styles.president}>President</div>

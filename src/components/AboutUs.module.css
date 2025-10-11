@@ -60,9 +60,21 @@
   height: 26.93vh; /* 209px at 776px = 26.93vh */
 }
 
+/* Base styles - elements hidden until animation classes are applied */
+.about,
+.exposureExplorers,
+.nitgOrignal11,
+.exposureExplorers2 {
+  opacity: 0;
+}
+
+.animatedUnderline {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
 /* Animation classes for text reveal */
 .animatedText {
-  opacity: 0;
   animation: textReveal 600ms ease-out forwards;
 }
 
@@ -73,7 +85,6 @@
 }
 
 .animatedImage {
-  opacity: 0;
   animation: imageReveal 800ms ease-out forwards;
 }
 

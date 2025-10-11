@@ -370,12 +370,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     const computeExactEnd = () => {
       const el = containerRef.current
       const h = el ? (el.offsetHeight || el.clientHeight || window.innerHeight) : window.innerHeight
-      // Increase pin length further on smaller handhelds (e.g., ~6.1" devices)
+      // Reduced pin length for mobile to match other section proportions
       const vw = window.innerWidth
       const vh = window.innerHeight
-      let multiplier = 2.0 // default for larger handhelds (>= ~6.4")
+      let multiplier = 1.2 // reduced from 2.0 for larger handhelds (>= ~6.4")
       if (vw <= 375 || vh <= 800) {
-        multiplier = 2.6 // extend pin for smaller screens only
+        multiplier = 1.5 // reduced from 2.6 for smaller screens
       }
       return `+=${Math.round(h * multiplier)}`
     }
@@ -425,8 +425,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        // Animation duration stays original so speed feels the same
-        end: responsiveValues.isLargeMobile ? '+=135%' : '+=110%',
+        // Reduced animation duration to match shorter scroll distance
+        end: responsiveValues.isLargeMobile ? '+=80%' : '+=65%',
         scrub: responsiveValues.isLargeMobile ? 1.5 : 2,
         pin: isHandheldForPin ? false : true, // handhelds use the separate pin trigger
         markers: false,
@@ -1278,7 +1278,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             left: 0,
             right: 0,
             height: NEW_SECTION_HEIGHT,
-            background: '#ede9e4',
+            background: 'transparent',
             zIndex: 998,
             display: 'flex',
             flexDirection: 'column',
@@ -1290,19 +1290,9 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             overflow: 'hidden'
           }}
         >
-          {/* Animated gradient overlay, similar to sliding page */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to bottom, #ede9e4 0%, #ede9e4 60%, rgba(237, 233, 228, 0.8) 80%, rgba(237, 233, 228, 0.4) 90%, rgba(237, 233, 228, 0.1) 95%, transparent 100%)',
-              zIndex: 0,
-              pointerEvents: 'none',
-              opacity: 0.7
-            }}
-          />
+          {/* Transparent gradient overlay removed to show video background */}
           
-          {/* Content wrapper above gradient */}
+          {/* Content wrapper */}
           <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Frame60 />
           </div>

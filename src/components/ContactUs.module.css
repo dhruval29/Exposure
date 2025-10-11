@@ -42,6 +42,9 @@
 	left: 6.04%; /* 87 / 1440 */
 	font-size: 128px;
 	opacity: 0;
+}
+
+.animationsReady .contact {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 80ms);
 }
@@ -51,6 +54,9 @@
 	left: 64.50%; /* moved slightly left for better balance */
 	font-size: 36px;
 	opacity: 0;
+}
+
+.animationsReady .wantHelpCoveringContainer {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 160ms);
 }
@@ -67,6 +73,9 @@
 	height: 1px;
 	transform-origin: left center;
 	transform: scaleX(0);
+}
+
+.animationsReady .contactUsChild {
 	animation: cu-lineGrow 800ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 120ms);
 }
@@ -75,6 +84,9 @@
 	top: 40.72%; /* 316 / 776 */
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
+}
+
+.animationsReady .yourNameOr {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 220ms);
 }
@@ -83,6 +95,9 @@
 	top: 63.40%; /* 492 / 776 */
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
+}
+
+.animationsReady .whatsTheEvent {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 420ms);
 }
@@ -96,6 +111,9 @@
 	height: 1px;
 	transform-origin: left center;
 	transform: scaleX(0);
+}
+
+.animationsReady .contactUsItem {
 	animation: cu-lineGrow 800ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 440ms);
 }
@@ -104,6 +122,9 @@
 	top: 70.36%; /* 546 / 776 */
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
+}
+
+.animationsReady .whensTheEvent {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 520ms);
 }
@@ -117,6 +138,9 @@
 	height: 1px;
 	transform-origin: left center;
 	transform: scaleX(0);
+}
+
+.animationsReady .contactUsInner {
 	animation: cu-lineGrow 800ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 540ms);
 }
@@ -130,6 +154,9 @@
 	height: 1px;
 	transform-origin: left center;
 	transform: scaleX(0);
+}
+
+.animationsReady .lineDiv {
 	animation: cu-lineGrow 800ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 260ms);
 }
@@ -143,6 +170,9 @@
 	height: 1px;
 	transform-origin: left center;
 	transform: scaleX(0);
+}
+
+.animationsReady .contactUsContactUsChild {
 	animation: cu-lineGrow 800ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 340ms);
 }
@@ -156,6 +186,9 @@
 	height: 1px;
 	transform-origin: left center;
 	transform: scaleX(0);
+}
+
+.animationsReady .contactUsChild2 {
 	animation: cu-lineGrow 800ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 380ms);
 }
@@ -164,6 +197,9 @@
 	top: 48.71%; /* 378 / 776 */
 	left: 44.44%; /* 640 / 1440 */
 	opacity: 0;
+}
+
+.animationsReady .pointOfContact {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 300ms);
 }
@@ -172,6 +208,9 @@
 	top: 55.41%; /* match baseline with other labels */
 	left: 44.44%; /* align with left column labels */
 	opacity: 0;
+}
+
+.animationsReady .email {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 360ms);
 }
@@ -250,6 +289,9 @@
 	pointer-events: auto;
 	padding: 0; /* override inputBase padding so vertical alignment matches label */
 	opacity: 0;
+}
+
+.animationsReady .inputEventWhen {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 560ms);
 }
@@ -287,6 +329,9 @@
 	justify-content: center;
 	padding: 10px;
 	opacity: 0;
+}
+
+.animationsReady .exposureexplorersnitgoaaciWrapper {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 700ms);
 }
@@ -324,14 +369,16 @@
 	top: 25.49%; /* 13 / 51 of frameParent height */
 	left: 42.78%; /* 596 / 1393 of frameParent width */
 	opacity: 0;
-	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: calc(var(--cu-delay-base) + 760ms);
 	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
-	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
 	color: #000 !important;
 	text-decoration: none;
+}
+
+.animationsReady .instagram {
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: calc(var(--cu-delay-base) + 760ms);
 }
 .instagram:link, .instagram:visited, .instagram:hover, .instagram:active { color: #000 !important; text-decoration: none; }
 .linkedin {
@@ -339,14 +386,16 @@
 	top: 25.49%; /* 13 / 51 */
 	left: 69.03%; /* 961 / 1393 */
 	opacity: 0;
-	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: calc(var(--cu-delay-base) + 820ms);
 	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
-	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
 	color: #000 !important;
 	text-decoration: none;
+}
+
+.animationsReady .linkedin {
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: calc(var(--cu-delay-base) + 820ms);
 }
 .linkedin:link, .linkedin:visited, .linkedin:hover, .linkedin:active { color: #000 !important; text-decoration: none; }
 .youtube {
@@ -354,14 +403,16 @@
 	top: 25.49%; /* 13 / 51 */
 	left: 94.25%; /* 1313 / 1393 */
 	opacity: 0;
-	animation: cu-textReveal 600ms ease-out forwards;
-	animation-delay: calc(var(--cu-delay-base) + 880ms);
 	cursor: url('/assets/icons/cursor%20final.png') 16 16, pointer;
-	position: absolute;
 	transition: transform 220ms ease, letter-spacing 220ms ease, color 220ms ease;
 	will-change: transform;
 	color: #000 !important;
 	text-decoration: none;
+}
+
+.animationsReady .youtube {
+	animation: cu-textReveal 600ms ease-out forwards;
+	animation-delay: calc(var(--cu-delay-base) + 880ms);
 }
 .youtube:link, .youtube:visited, .youtube:hover, .youtube:active { color: #000 !important; text-decoration: none; }
 
@@ -373,6 +424,9 @@
 	width: 12%;
 	height: 40px;
 	opacity: 0;
+}
+
+.animationsReady .reachUsWrapper {
 	animation: cu-textReveal 600ms ease-out forwards;
 	animation-delay: calc(var(--cu-delay-base) + 600ms);
 }

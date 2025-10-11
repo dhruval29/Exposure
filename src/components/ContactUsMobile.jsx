@@ -6,13 +6,13 @@ import SimpleNav from './SimpleNav';
 
 const BASE_DELAY_MS = 500;
 
-function LabelWithLine({ label, delayMs = 0 }) {
+function LabelWithLine({ label, delayMs = 0, animationsReady }) {
   return (
     <div style={{ width: '100%', position: 'relative' }}>
-      <label className="cu-mobile-text" style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: 'transparent', marginBottom: '1.5vw', animationDelay: `${BASE_DELAY_MS + delayMs}ms` }}>
+      <label className={animationsReady ? "cu-mobile-text" : ""} style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: 'transparent', marginBottom: '1.5vw', animationDelay: animationsReady ? `${BASE_DELAY_MS + delayMs}ms` : '0ms' }}>
         {label}
       </label>
-      <div className="cu-mobile-line" style={{ borderBottom: '1px solid #000', width: '100%', height: 1, animationDelay: `${BASE_DELAY_MS + delayMs}ms` }} />
+      <div className={animationsReady ? "cu-mobile-line" : ""} style={{ borderBottom: '1px solid #000', width: '100%', height: 1, animationDelay: animationsReady ? `${BASE_DELAY_MS + delayMs}ms` : '0ms' }} />
     </div>
   );
 }
@@ -21,20 +21,25 @@ export default function ContactUsMobile() {
   const [form, setForm] = React.useState({ name: '', phone: '', email: '', eventAbout: '', eventWhen: '' });
   const [submitting, setSubmitting] = React.useState(false);
   const [submitMsg, setSubmitMsg] = React.useState('');
-  const [isVisibleUnderCover, setIsVisibleUnderCover] = React.useState(false);
+  const [animationsReady, setAnimationsReady] = React.useState(false);
 
   React.useEffect(() => {
-    if (!window.__routeTransitionActive) {
-      setIsVisibleUnderCover(true);
+    // Listen for the route transition to complete before starting animations
+    const handleTransitionComplete = () => {
+      setAnimationsReady(true);
+    };
+
+    // Check if we're in a transition or if we loaded directly
+    if (window.__routeTransitionActive) {
+      window.addEventListener('route-transition-complete', handleTransitionComplete);
+    } else {
+      // Direct navigation (no transition), start animations immediately
+      setAnimationsReady(true);
     }
-    const id = setTimeout(() => {
-      try {
-        window.__routeContentReadyForPath = '/contact';
-        window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/contact' } }));
-      } catch {}
-      setIsVisibleUnderCover(true);
-    }, 0);
-    return () => clearTimeout(id);
+
+    return () => {
+      window.removeEventListener('route-transition-complete', handleTransitionComplete);
+    };
   }, []);
 
   const handleChange = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -67,25 +72,25 @@ export default function ContactUsMobile() {
   return (
     <>
       <SimpleNav />
-      <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw', opacity: isVisibleUnderCover ? 1 : 0, transition: 'opacity 300ms ease' }}>
+      <div className="contact-mobile-gradient" style={{ minHeight: '100vh', padding: '3px 6vw' }}>
       <div style={{ marginBottom: '7vh' }}>
-        <h1 className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '8vh', marginBottom: 16, animationDelay: `${BASE_DELAY_MS}ms` }}>
+        <h1 className={animationsReady ? "cu-mobile-text" : ""} style={{ fontFamily: "'PP Editorial New', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 64, color: '#000', lineHeight: 1, marginTop: '8vh', marginBottom: 16, animationDelay: animationsReady ? `${BASE_DELAY_MS}ms` : '0ms' }}>
           Contact
         </h1>
-        <div className="cu-mobile-line" style={{ width: '100%', height: 1, backgroundColor: '#000', marginBottom: '6vh' }} />
+        <div className={animationsReady ? "cu-mobile-line" : ""} style={{ width: '100%', height: 1, backgroundColor: '#000', marginBottom: '6vh' }} />
         <div style={{ textAlign: 'center' }}>
-          <p className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 24, color: '#000', lineHeight: 1.5, marginBottom: 4, animationDelay: `${BASE_DELAY_MS + 120}ms` }}>
+          <p className={animationsReady ? "cu-mobile-text" : ""} style={{ fontFamily: "'PP Editorial New', serif", fontSize: 24, color: '#000', lineHeight: 1.5, marginBottom: 4, animationDelay: animationsReady ? `${BASE_DELAY_MS + 120}ms` : '0ms' }}>
             Want help covering a event ?
           </p>
-          <p className="cu-mobile-text" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 24, color: '#000', lineHeight: 1.5, animationDelay: `${BASE_DELAY_MS + 200}ms` }}>
+          <p className={animationsReady ? "cu-mobile-text" : ""} style={{ fontFamily: "'PP Editorial New', serif", fontSize: 24, color: '#000', lineHeight: 1.5, animationDelay: animationsReady ? `${BASE_DELAY_MS + 200}ms` : '0ms' }}>
             Reach out using the form below!
           </p>
         </div>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', rowGap: '6vw', marginBottom: '10vh' }}>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 240}ms`, position: 'relative' }}>
-          <LabelWithLine delayMs={240} label={"Your Name (or your Club's)"} />
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 240}ms` : '0ms', position: 'relative' }}>
+          <LabelWithLine delayMs={240} label={"Your Name (or your Club's)"} animationsReady={animationsReady} />
           <input
             type="text"
             value={form.name}
@@ -119,8 +124,8 @@ export default function ContactUsMobile() {
             }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 320}ms`, position: 'relative' }}>
-          <LabelWithLine delayMs={320} label="Phone" />
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 320}ms` : '0ms', position: 'relative' }}>
+          <LabelWithLine delayMs={320} label="Phone" animationsReady={animationsReady} />
           <input
             type="tel"
             value={form.phone}
@@ -154,8 +159,8 @@ export default function ContactUsMobile() {
             }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 380}ms`, position: 'relative' }}>
-          <LabelWithLine delayMs={380} label="Email" />
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 380}ms` : '0ms', position: 'relative' }}>
+          <LabelWithLine delayMs={380} label="Email" animationsReady={animationsReady} />
           <input
             type="email"
             value={form.email}
@@ -189,8 +194,8 @@ export default function ContactUsMobile() {
             }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 440}ms`, position: 'relative' }}>
-          <LabelWithLine delayMs={440} label={"What's the event about?"} />
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 440}ms` : '0ms', position: 'relative' }}>
+          <LabelWithLine delayMs={440} label={"What's the event about?"} animationsReady={animationsReady} />
           <input
             type="text"
             value={form.eventAbout}
@@ -223,8 +228,8 @@ export default function ContactUsMobile() {
             }}
           />
         </div>
-        <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 500}ms` }}>
-          <label className="cu-mobile-text" style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: '#000', marginBottom: '1.5vw' }}>When's the Event?</label>
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 500}ms` : '0ms' }}>
+          <label className={animationsReady ? "cu-mobile-text" : ""} style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: '#000', marginBottom: '1.5vw' }}>When's the Event?</label>
           <div style={{ padding: '0.3vh 0' }}>
             <Calendar24
               value={form.eventWhen ? new Date(form.eventWhen) : undefined}
@@ -233,7 +238,7 @@ export default function ContactUsMobile() {
           </div>
         </div>
 
-        <div className="cu-mobile-text" style={{ display: 'flex', justifyContent: 'center', paddingTop: '2vh', animationDelay: `${BASE_DELAY_MS + 560}ms` }}>
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ display: 'flex', justifyContent: 'center', paddingTop: '2vh', animationDelay: animationsReady ? `${BASE_DELAY_MS + 560}ms` : '0ms' }}>
           <button onClick={handleSubmit} disabled={submitting}
             type="button"
             style={{ backgroundColor: '#112a46', borderRadius: 18, padding: '2vh 4vw', width: '100%', maxWidth: '40vw', textAlign: 'center' }}
@@ -244,7 +249,7 @@ export default function ContactUsMobile() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', rowGap: '4vw' }}>
-        <div className="cu-mobile-text" style={{ textAlign: 'center', animationDelay: `${BASE_DELAY_MS + 700}ms` }}>
+        <div className={animationsReady ? "cu-mobile-text" : ""} style={{ textAlign: 'center', animationDelay: animationsReady ? `${BASE_DELAY_MS + 700}ms` : '0ms' }}>
           <a
             href="mailto:exposure.explorers@nitgoa.ac.in"
             style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', textDecoration: 'underline', cursor: 'pointer' }}
@@ -253,12 +258,12 @@ export default function ContactUsMobile() {
           </a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '3vw', textAlign: 'center' }}>
-          <a className="cu-mobile-text" href="https://www.instagram.com/exposure.explorers.nitg/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 760}ms`, textDecoration: 'none' }}>Instagram</a>
-          <a className="cu-mobile-text" href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 820}ms`, textDecoration: 'none' }}>Linkedin</a>
-          <a className="cu-mobile-text" href="https://www.youtube.com/@Exposure-Explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: `${BASE_DELAY_MS + 880}ms`, textDecoration: 'none' }}>Youtube</a>
+          <a className={animationsReady ? "cu-mobile-text" : ""} href="https://www.instagram.com/exposure.explorers.nitg/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: animationsReady ? `${BASE_DELAY_MS + 760}ms` : '0ms', textDecoration: 'none' }}>Instagram</a>
+          <a className={animationsReady ? "cu-mobile-text" : ""} href="https://www.linkedin.com/company/exposure-explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: animationsReady ? `${BASE_DELAY_MS + 820}ms` : '0ms', textDecoration: 'none' }}>Linkedin</a>
+          <a className={animationsReady ? "cu-mobile-text" : ""} href="https://www.youtube.com/@Exposure-Explorers" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'PP Editorial New', serif", fontSize: 18, color: '#000', animationDelay: animationsReady ? `${BASE_DELAY_MS + 880}ms` : '0ms', textDecoration: 'none' }}>Youtube</a>
         </div>
         {submitMsg && (
-          <div className="cu-mobile-text" style={{ animationDelay: `${BASE_DELAY_MS + 700}ms`, fontFamily: "'PP Editorial New', serif", fontSize: 16, color: '#000' }}>
+          <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 700}ms` : '0ms', fontFamily: "'PP Editorial New', serif", fontSize: 16, color: '#000' }}>
             {submitMsg}
           </div>
         )}

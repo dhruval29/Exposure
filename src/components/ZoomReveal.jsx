@@ -87,13 +87,30 @@ const ZoomReveal = ({
     // Update tracker every 100ms during animation
     const trackerInterval = setInterval(updateTracker, 100);
 
+    // Store ScrollTrigger instance to kill it later
+    let scrollTriggerInstance = null;
+    let animationComplete = false;
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: container,
         start: 'top center',
         end: '+=120%',
         scrub: 1,
-        markers: false
+        markers: false,
+        onUpdate: (self) => {
+          // Once we reach the end, prevent reversing
+          if (self.progress === 1 && !animationComplete) {
+            animationComplete = true;
+            // Kill the ScrollTrigger to prevent reverse animation
+            if (scrollTriggerInstance) {
+              scrollTriggerInstance.kill();
+            }
+          }
+        },
+        onCreate: function() {
+          scrollTriggerInstance = this;
+        }
       }
     });
 
@@ -138,14 +155,22 @@ const ZoomReveal = ({
     .add(() => {
       // Show nav immediately (scroll-controlled elsewhere if needed)
       setShowNav(true);
+      // Ensure ScrollTrigger is killed when nav shows
+      if (scrollTriggerInstance && !animationComplete) {
+        animationComplete = true;
+        scrollTriggerInstance.kill();
+      }
     });
 
     return () => {
       tl.kill();
+      if (scrollTriggerInstance) {
+        scrollTriggerInstance.kill();
+      }
       ScrollTrigger.getAll().forEach(t => t.kill());
       clearInterval(trackerInterval); // Clear interval on cleanup
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div

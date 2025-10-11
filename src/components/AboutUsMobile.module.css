@@ -87,9 +87,24 @@
 }
 
 
+/* Base styles - elements hidden until animation classes are applied */
+.about,
+.exposureExplorers,
+.isTheOfficial,
+.dedicatedToCapturing,
+.ourMembersCollaborate,
+.nitgOrignal12,
+.exposureExplorers3 {
+  opacity: 0;
+}
+
+.animatedUnderline {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
 /* Animation classes for text reveal - copied from desktop version */
 .animatedText {
-  opacity: 0;
   animation: textReveal 600ms ease-out forwards;
 }
 
@@ -100,7 +115,6 @@
 }
 
 .animatedImage {
-  opacity: 0;
   animation: imageReveal 800ms ease-out forwards;
 }
 

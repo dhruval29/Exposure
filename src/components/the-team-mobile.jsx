@@ -77,17 +77,19 @@ const TheTeamMobile = () => {
 			})
 		);
 
-		// Instagram icon pop-in
-		const instaSelectors = [
-			`.${styles.containerIcon}`,
-			`.${styles.containerIcon2}`,
-			`.${styles.containerIcon4}`,
-			`.${styles.containerIcon6}`,
-			`.${styles.containerIcon9}`,
-			`.${styles.containerIcon11}`,
-			`.${styles.containerIcon13}`,
-			`.${styles.containerIcon15}`
-		].join(',');
+	// Instagram icon pop-in (including buttons)
+	const instaSelectors = [
+		`.${styles.containerIcon}`,
+		`.${styles.containerIcon2}`,
+		`.${styles.containerIcon4}`,
+		`.${styles.containerIcon6}`,
+		`.${styles.containerIcon9}`,
+		`.${styles.containerIcon11}`,
+		`.${styles.containerIcon13}`,
+		`.${styles.containerIcon15}`,
+		`.${styles.instagramButton}`,
+		`.${styles.instagramButton2}`
+	].join(',');
 		const instaElements = Array.from(container.querySelectorAll(instaSelectors));
 		instaElements.forEach((el) => gsap.set(el, { opacity: 0, y: 16, scale: 0.88, transformOrigin: 'center center' }));
 		const instaTriggers = instaElements.map((el) => {
@@ -259,20 +261,22 @@ const TheTeamMobile = () => {
 				<img className={styles.containerIcon} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
 				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftLeft}`} alt="" src="/assets/images/members/IMG_20241227_204306.jpg" />
 			</div>
-			<div className={styles.appTeammember}>
-				<div className={styles.paragraph2}>
-					<div className={styles.ourDedicatedTeam}>Ronak Barwar</div>
-				</div>
-				<div className={styles.container4} />
-				<div className={styles.paragraph3}>
-					<div className={styles.ourDedicatedTeam}>Photographer</div>
-				</div>
-				<div className={styles.paragraph4}>
-					<div className={styles.ourDedicatedTeam}>President</div>
-				</div>
-				<img className={styles.containerIcon2} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_8107[1] (1).webp" />
+		<div className={styles.appTeammember}>
+			<div className={styles.paragraph2}>
+				<div className={styles.ourDedicatedTeam}>Ronak Barwar</div>
 			</div>
+			<div className={styles.container4} />
+			<div className={styles.paragraph3}>
+				<div className={styles.ourDedicatedTeam}>Photographer</div>
+			</div>
+			<div className={styles.paragraph4}>
+				<div className={styles.ourDedicatedTeam}>President</div>
+			</div>
+			<a href="https://pin.it/2UVHJTQhA" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton2}`}>
+				<img alt="Pinterest" src="/assets/icons/icons8-pinterest.svg" />
+			</a>
+			<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_8107[1] (1).webp" />
+		</div>
 			<div className={styles.teammember2}>
 				<div className={styles.paragraph2}>
 					<div className={styles.adityaMadkikar}>Aditya Madkikar</div>

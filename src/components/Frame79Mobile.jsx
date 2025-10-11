@@ -7,63 +7,72 @@ const members = [
     role: 'Photographer',
     position: 'Vice President',
     image: '/assets/images/members/IMG_20241227_204306.jpg',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Jonathan Paul',
     role: 'Photographer',
     position: 'Head of Photography',
     image: '/assets/images/members/IMG_93521[1].webp',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Ronak Barwar',
     role: 'Photographer',
     position: 'President',
     image: '/assets/images/members/IMG_8107[1] (1).webp',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/icons8-pinterest.svg',
+    link: 'https://pin.it/2UVHJTQhA'
   },
   {
     name: 'Aditya Madkaikar',
     role: 'Cinematographer',
     position: 'Head of Videography',
     image: '/assets/images/members/WhatsApp Image 2025-09-12 at 10.52.59_3d59ecb0.jpg',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Yashodhan Borkar',
     role: 'Photographer',
     position: 'Advisor',
     image: '/assets/images/members/WhatsApp Image 2025-09-12 at 07.28.01_5d08ba86.jpg',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Himesh Solanki',
     role: 'Photographer',
     position: 'Member',
     image: '/assets/images/members/ABC_6513.webp',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Piyush Singh',
     role: 'Cinematographer',
     position: 'Member',
     image: '/assets/images/members/ABC_6075.webp',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Akil Priyan',
     role: 'Photographer',
     position: 'Member',
     image: '/assets/images/members/WhatsApp Image 2025-09-12 at 13.34.52_4f31c18c.jpg',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   },
   {
     name: 'Pranav Lajeesh',
     role: 'Editor',
     position: 'Member',
     image: '/assets/images/members/ABC_6513.webp',
-    instagram: '/assets/icons/instagram-svgrepo-com (1).svg'
+    instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
+    link: null
   }
 ];
 
@@ -84,7 +93,13 @@ const Frame79Mobile = () => {
             <div className={styles.meta}>
               <div className={styles.nameRow}>
                 <h3 className={styles.name}>{m.name}</h3>
-                <img className={styles.ig} src={m.instagram} alt="instagram" />
+                {m.link ? (
+                  <a href={m.link} target="_blank" rel="noopener noreferrer" className={styles.igLink}>
+                    <img className={styles.ig} src={m.instagram} alt="social" />
+                  </a>
+                ) : (
+                  <img className={styles.ig} src={m.instagram} alt="social" />
+                )}
               </div>
               <div className={styles.role}>{m.role}</div>
               <div className={styles.position}>{m.position}</div>
