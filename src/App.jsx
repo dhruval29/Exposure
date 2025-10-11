@@ -7,21 +7,26 @@ import MobileChromeHider from './components/MobileChromeHider'
 import { Analytics } from "@vercel/analytics/react"
 // Import tutorial test helper for development
 import './utils/tutorialTestHelper'
+// Optimized lazy loading with error boundaries and loading states
 const Landing = lazy(() => import('./components/Landing'))
 const TextCursorOverlay = lazy(() => import('./components/TextCursorOverlay'))
 const Frame50 = lazy(() => import('./components/Frame50'))
-const MembersPage = lazy(() => import('./components/MembersPage'))
+
+// Gallery components with higher priority
 const Featured = lazy(() => import('./components/Featured'))
 const FeaturedMobile = lazy(() => import('./components/FeaturedMobile'))
+
+// Team components
 const TheTeamPage = lazy(() => import('./components/TheTeamPage'))
 const TheTeamMobile = lazy(() => import('./components/the-team-mobile'))
+
+// Other pages with lower priority
 const OurJourney = lazy(() => import('./components/OurJourney'))
 const Admin = lazy(() => import('./components/Admin'))
 const Fly = lazy(() => import('./components/Fly'))
 const Events = lazy(() => import('./components/Events'))
 const ContactUs = lazy(() => import('./components/ContactUs'))
 const ContactUsMobile = lazy(() => import('./components/ContactUsMobile'))
-const ScrollStackDemo = lazy(() => import('./components/ScrollStackDemo'))
 
 function ContactRoute() {
   const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches);
@@ -120,13 +125,11 @@ function InnerApp() {
         <Route path="/effects" element={<div style={{ width: '100%', height: '100vh', background: '#0b74ff' }} />} />
         <Route path="/gallery" element={<FeaturedRoute />} />
         <Route path="/pictures" element={<FeaturedRoute />} />
-        <Route path="/members" element={<MembersPage />} />
         <Route path="/the-team" element={<TheTeamRoute />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/fly" element={<Fly />} />
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<ContactRoute />} />
-        <Route path="/scroll-stack-demo" element={<ScrollStackDemo />} />
       </Routes>
     </div>
   );

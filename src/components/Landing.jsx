@@ -6,7 +6,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
 
-import Lenis from '@studio-freight/lenis'
 import NavigationMenu from './NavigationMenu'
 import StorytellingHero from './StorytellingHero'
 import Footer from './Footer'
@@ -962,7 +961,6 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
  const Landing = () => {
   const wireframeRef = useRef(null)
   const slidingRef = useRef(null)
-  const lenisRef = useRef(null)
    const slidingAnimRef = useRef(null)
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
@@ -1082,15 +1080,6 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     // Initialize on mount
     handleScroll()
 
-    // Temporarily disable Lenis (native scroll)
-    const ENABLE_LENIS = false
-    if (ENABLE_LENIS) {
-      const lenis = new Lenis({ smoothWheel: true, smoothTouch: true, lerp: 0.25, wheelMultiplier: 1.2 })
-      lenisRef.current = lenis
-      const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf) }
-      requestAnimationFrame(raf)
-      lenis.on('scroll', ScrollTrigger.update)
-    }
 
     // Loading screen functionality removed
 
@@ -1117,7 +1106,6 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     refreshScrollTriggers()
 
     return () => {
-      if (lenisRef.current) lenisRef.current.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleScroll)

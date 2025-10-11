@@ -4,6 +4,8 @@ import './index.css'
 import './lib/scroll.ts'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
+// Initialize performance monitoring
+import { initPerformanceMonitoring } from './utils/performanceMonitor.js'
 
 // Hydrate root after main thread settles for a tick
 const mount = () => {
@@ -12,6 +14,10 @@ const mount = () => {
       <App />
     </StrictMode>,
   )
+  
+  // Initialize performance monitoring
+  initPerformanceMonitoring()
+  
   // Remove boot cover ASAP after mount
   const cover = document.getElementById('boot-cover')
   if (cover) {

@@ -24,13 +24,11 @@ const RouteTransitionLoader = () => {
       '/effects': 'Effects',
       '/gallery': 'Gallery',
       '/pictures': 'Pictures',
-      '/members': 'Members',
       '/the-team': 'The Team',
       '/admin': 'Admin',
       '/fly': 'Fly',
       '/events': 'Events',
       '/contact': 'Contact',
-      '/scroll-stack-demo': 'Scroll Stack Demo'
     }
     return pageNames[path] || 'Loading...'
   }
@@ -182,6 +180,10 @@ const RouteTransitionLoader = () => {
   useEffect(() => {
     const el = overlayRef.current
     if (!el) return
+    
+    // Always scroll to top on route change, regardless of whether we're animating
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    
     if (!isAnimatingRef.current) return
 
     // For routes that require content readiness, wait for a signal
@@ -224,6 +226,10 @@ const RouteTransitionLoader = () => {
             pendingHrefRef.current = null
             window.__routeTransitionActive = false
             window.__minTextDurationComplete = false
+            
+            // Scroll to top when route transition completes
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+            
             try { window.dispatchEvent(new CustomEvent('route-transition-complete')) } catch {}
           }
         })

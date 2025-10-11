@@ -104,7 +104,7 @@
   }
   
   .mobileFrame2LoremIpsumDolorContainer {
-    top: 18%; /* Increased spacing to prevent overlap */
+    top: 20%; /* Further increased spacing to prevent overlap with single word line */
     font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
     line-height: 130%; /* Increased line height for better spacing */
   }
@@ -123,13 +123,21 @@
   }
   
   .mobileFrame2LoremIpsumDolorContainer {
-    top: 17%;
+    top: 19%; /* Increased to match the main Samsung S20 FE fix */
     line-height: 125%;
   }
   
   .loremIpsumDolor2 {
     top: 71%;
     line-height: 125%;
+  }
+}
+
+/* Additional fix for devices with very tall screens where text overlap occurs */
+@media screen and (min-height: 2000px) {
+  .mobileFrame2LoremIpsumDolorContainer {
+    top: 22%; /* Extra spacing for very tall screens */
+    margin-top: 2vh; /* Additional margin to ensure clear separation */
   }
 }
 
