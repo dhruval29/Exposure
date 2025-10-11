@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: 'PP Editorial New';
-  src: url('/fonts/PPEditorialNew-Ultralight.woff2') format('woff2');
+  src: url('/fonts/PPEditorialNew-Ultralight-BF644b21500d0c0.woff2') format('woff2');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -24,7 +24,7 @@
 /* Preload critical fonts */
 @font-face {
   font-family: 'PP Editorial New';
-  src: url('/fonts/PPEditorialNew-UltralightItalic.woff2') format('woff2');
+  src: url('/fonts/PPEditorialNew-UltralightItalic-BF644b214ff1e9b.woff2') format('woff2');
   font-weight: 200;
   font-style: italic;
   font-display: swap;
