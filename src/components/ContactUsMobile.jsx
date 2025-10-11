@@ -21,26 +21,7 @@ export default function ContactUsMobile() {
   const [form, setForm] = React.useState({ name: '', phone: '', email: '', eventAbout: '', eventWhen: '' });
   const [submitting, setSubmitting] = React.useState(false);
   const [submitMsg, setSubmitMsg] = React.useState('');
-  const [animationsReady, setAnimationsReady] = React.useState(false);
-
-  React.useEffect(() => {
-    // Listen for the route transition to complete before starting animations
-    const handleTransitionComplete = () => {
-      setAnimationsReady(true);
-    };
-
-    // Check if we're in a transition or if we loaded directly
-    if (window.__routeTransitionActive) {
-      window.addEventListener('route-transition-complete', handleTransitionComplete);
-    } else {
-      // Direct navigation (no transition), start animations immediately
-      setAnimationsReady(true);
-    }
-
-    return () => {
-      window.removeEventListener('route-transition-complete', handleTransitionComplete);
-    };
-  }, []);
+  const animationsReady = true; // Always start animations immediately
 
   const handleChange = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
 

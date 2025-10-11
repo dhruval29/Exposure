@@ -9,8 +9,7 @@ import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 
 
 const ContactUs = () => {
-  const isRouteReady = useRouteTransitionReady();
-  const [isVisibleUnderCover, setIsVisibleUnderCover] = React.useState(false);
+  const isRouteReady = true; // Always show content immediately
 	const [form, setForm] = React.useState({
 		name: '',
 		phone: '',
@@ -21,7 +20,6 @@ const ContactUs = () => {
 
 		const [submitting, setSubmitting] = React.useState(false);
 	const [submitMsg, setSubmitMsg] = React.useState('');
-	// Removed component-specific preloader
 
 		const handleEmailCopy = async (e) => {
 			e && e.preventDefault();
@@ -34,22 +32,6 @@ const ContactUs = () => {
 				setTimeout(() => setSubmitMsg(''), 2000);
 			}
 		};
-
-  // Make content visible under the shutter before it exits to avoid flash
-  useEffect(() => {
-    if (!window.__routeTransitionActive) {
-      setIsVisibleUnderCover(true);
-    }
-    // For contact, content is mostly static; emit ready on next tick
-    const id = setTimeout(() => {
-      try {
-        window.__routeContentReadyForPath = '/contact';
-        window.dispatchEvent(new CustomEvent('route-content-ready', { detail: { path: '/contact' } }));
-      } catch {}
-      setIsVisibleUnderCover(true);
-    }, 0);
-    return () => clearTimeout(id);
-  }, []);
 
 	const handleChange = (field) => (e) => {
 		const value = e.target.value;
@@ -120,7 +102,7 @@ const ContactUs = () => {
 	return (
 		<>
 			<SimpleNav />
-            <div id="contact" className={`${styles.contactUs} ${isRouteReady ? styles.animationsReady : ''}`} style={{ opacity: isVisibleUnderCover || isRouteReady ? 1 : 0, transition: 'opacity 300ms ease' }}>
+            <div id="contact" className={`${styles.contactUs} ${styles.animationsReady}`}>
 			{/* Removed component-specific loader */}
 				<i className={styles.contact}>Contact</i>
 				<div className={styles.wantHelpCoveringContainer}>

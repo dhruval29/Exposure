@@ -54,6 +54,11 @@
 .logoSvg {
   height: 30px;
   width: auto;
+  color: #fff;
+  transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.logoSvg.textBlack {
   color: #000;
 }
 

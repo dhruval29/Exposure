@@ -1320,7 +1320,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             left: 0,
             right: 0,
             height: '40vh',
-            background: '#000000',
+            background: 'transparent',
             zIndex: 997
           }}
         >

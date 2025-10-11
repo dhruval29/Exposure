@@ -100,11 +100,13 @@ const MobileMarquee = React.memo(() => {
     willChange: 'transform'
   }), [fontSizePx]);
 
-  // Memoize the container style
+  // Memoize the container style with frosted glass effect
   const containerStyle = useMemo(() => ({ 
     width: '100%', 
     height: '100%', 
-    background: '#000000', 
+    background: 'rgba(0, 0, 0, 0.3)', 
+    backdropFilter: 'blur(20px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
     overflow: 'hidden', 
     position: 'relative', 
     display: 'flex', 
