@@ -19,7 +19,7 @@ const NavigationMenu = ({ isExiting }) => {
   const ENABLE_HOVER_BG = false;
 
   const menuItems = [
-    { id: 'our-journey', label: 'Our Journey', image: '/assets/mobile/images/navigation/7.webp' },
+    { id: 'about-us', label: 'About Us', image: '/assets/mobile/images/navigation/7.webp' },
     { id: 'gallery', label: 'Events', image: '/assets/mobile/images/navigation/8.webp' },
     { id: 'team', label: 'Team', image: '/assets/mobile/images/navigation/11.webp' },
     { id: 'latest-releases', label: 'Featured', image: '/assets/mobile/images/navigation/12.webp' }

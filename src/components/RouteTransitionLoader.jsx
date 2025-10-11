@@ -20,7 +20,7 @@ const RouteTransitionLoader = () => {
   const getPageName = (path) => {
     const pageNames = {
       '/': 'Home',
-      '/our-journey': 'Our Journey',
+      '/about-us': 'About Us',
       '/effects': 'Effects',
       '/gallery': 'Gallery',
       '/pictures': 'Pictures',

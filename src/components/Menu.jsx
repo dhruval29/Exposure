@@ -106,11 +106,11 @@ const Menu = ({ onClose }) => {
             data-word-index={1}
             onClick={() => {
               handleTutorialInteraction();
-              handleNavigation('/our-journey');
+              handleNavigation('/about-us');
             }}
             onMouseEnter={handleTutorialInteraction}
           >
-            Our Journey, 
+            About Us, 
           </button>
         </p>
         <p className={styles.homeOurJourney}>
@@ -163,9 +163,9 @@ const Menu = ({ onClose }) => {
         </button>
         <button 
           className={styles.mobileMenuItem}
-          onClick={() => handleNavigation('/our-journey')}
+          onClick={() => handleNavigation('/about-us')}
         >
-          Our Journey
+          About Us
         </button>
         <button 
           className={styles.mobileMenuItem}
