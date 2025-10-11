@@ -257,7 +257,7 @@ const DEFAULT_ZR_CONFIG = {
   textDuration: 2.5,
   textLead: 0, // seconds text starts before image (negative to start after)
   navDelayMs: 500,
-  postZoomScrollPad: 0.15,
+  postZoomScrollPad: 0.15, // Desktop default (mobile overridden inline)
   ease: 'power2.inOut',
   markers: false,
   pin: true,
@@ -370,12 +370,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     const computeExactEnd = () => {
       const el = containerRef.current
       const h = el ? (el.offsetHeight || el.clientHeight || window.innerHeight) : window.innerHeight
-      // Reduced pin length for mobile to match other section proportions
+      // Increased slightly to 75vh-100vh range for smoother zoom feel
       const vw = window.innerWidth
       const vh = window.innerHeight
-      let multiplier = 1.2 // reduced from 2.0 for larger handhelds (>= ~6.4")
+      let multiplier = 0.75 // 75vh for larger handhelds (>= ~6.4")
       if (vw <= 375 || vh <= 800) {
-        multiplier = 1.5 // reduced from 2.6 for smaller screens
+        multiplier = 1.0 // 100vh for smaller screens
       }
       return `+=${Math.round(h * multiplier)}`
     }
@@ -425,9 +425,11 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        // Reduced animation duration to match shorter scroll distance
-        end: responsiveValues.isLargeMobile ? '+=80%' : '+=65%',
-        scrub: responsiveValues.isLargeMobile ? 1.5 : 2,
+        // Mobile: matched to Fly.jsx feel (50-60%), Desktop: original values
+        end: isHandheldForPin 
+          ? (responsiveValues.isLargeMobile ? '+=60%' : '+=50%')
+          : '+=110%', // Desktop keeps original value
+        scrub: isHandheldForPin ? 2.5 : 2, // Mobile: matched to Fly.jsx, Desktop: original
         pin: isHandheldForPin ? false : true, // handhelds use the separate pin trigger
         markers: false,
         anticipatePin: 1,
@@ -526,7 +528,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       overwrite: 'auto'
     })
 
-    // 1. Image scaling animation (Zoom segment) - optimized for mobile
+    // 1. Image scaling animation (Zoom segment)
     tl.to(img, {
       width: '100%',
       height: '100%',
@@ -540,29 +542,39 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       overwrite: 'auto',
       force3D: true, // Hardware acceleration
       zIndex: 1000,
-      duration: responsiveValues.isLargeMobile ? 1.2 : 1, // Slightly longer for large mobile
-      // Gentle initial deceleration
-      ease: 'sine.inOut'
+      // Mobile: slower to match Fly.jsx feel, Desktop: original duration
+      duration: isHandheldForPin 
+        ? (responsiveValues.isLargeMobile ? 0.95 : 0.85)
+        : 2.5, // Desktop keeps original
+      // Mobile: power1.inOut for Fly.jsx feel, Desktop: original ease
+      ease: isHandheldForPin ? 'power1.inOut' : 'sine.inOut'
     }, zoomStart)
 
-    // 2. Text movement animation (synchronized with image scaling) - optimized for mobile
+    // 2. Text movement animation (synchronized with image scaling)
     tl.to(left, {
       x: -responsiveValues.offScreenDistance,
-      duration: responsiveValues.isLargeMobile ? 1.2 : 1,
-      // Gentle initial deceleration
-      ease: 'sine.inOut',
+      // Mobile: slower to match Fly.jsx feel, Desktop: original duration
+      duration: isHandheldForPin 
+        ? (responsiveValues.isLargeMobile ? 0.95 : 0.85)
+        : 2.5, // Desktop keeps original
+      // Mobile: power1.inOut for Fly.jsx feel, Desktop: original ease
+      ease: isHandheldForPin ? 'power1.inOut' : 'sine.inOut',
       force3D: true // Hardware acceleration
     }, zoomStart)
     .to(right, {
       x: responsiveValues.offScreenDistance,
-      duration: responsiveValues.isLargeMobile ? 1.2 : 1,
-      // Gentle initial deceleration
-      ease: 'sine.inOut',
+      // Mobile: slower to match Fly.jsx feel, Desktop: original duration
+      duration: isHandheldForPin 
+        ? (responsiveValues.isLargeMobile ? 0.95 : 0.85)
+        : 2.5, // Desktop keeps original
+      // Mobile: power1.inOut for Fly.jsx feel, Desktop: original ease
+      ease: isHandheldForPin ? 'power1.inOut' : 'sine.inOut',
       force3D: true // Hardware acceleration
     }, zoomStart)
 
     // Add extra scroll-only padding after zoom completes (no visual change)
-    .to({}, { duration: config.postZoomScrollPad })
+    // Mobile: reduced padding for faster transition, Desktop: original padding
+    .to({}, { duration: isHandheldForPin ? 0.05 : config.postZoomScrollPad })
 
     return () => {
       if (tl) tl.kill()
