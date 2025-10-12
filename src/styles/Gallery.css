@@ -605,7 +605,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   .image-modal-navigation {
     width: 240px;
     padding: 4px 10px;
-    bottom: 8px;
+    bottom: 0px;
   }
   
   .nav-button {
@@ -667,7 +667,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   .image-modal-navigation {
     width: 220px;
     padding: 3px 8px;
-    bottom: 6px;
+    bottom: -20px;
   }
   
   .nav-button {

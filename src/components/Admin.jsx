@@ -417,8 +417,10 @@ function Admin() {
         .update({ featured_order: parsed })
         .eq('id', imageId)
       if (error) throw error
-      setAvailableImages(prev => prev.map(img => img.id === imageId ? { ...img, featured_order: parsed } : img))
-      setFeaturedImages(prev => prev.map(img => img.id === imageId ? { ...img, featured_order: parsed } : img))
+      // Reload to get proper sorting
+      await loadFeaturedImages()
+      await loadAvailableImages()
+      setStatus('Order updated successfully')
     } catch (err) {
       setStatus(`Failed to update order: ${err.message}`)
     }
@@ -1092,15 +1094,27 @@ function Admin() {
                             <input
                               type="number"
                               min="0"
+                              step="1"
                               inputMode="numeric"
                               className={styles.orderInput}
                               value={img.featured_order ?? ''}
                               placeholder="—"
                               onChange={(e) => {
-                                const val = e.target.value === '' ? '' : Number(e.target.value)
-                                setAvailableImages(prev => prev.map(x => x.id === img.id ? { ...x, featured_order: val === '' ? null : val } : x))
+                                const val = e.target.value
+                                // Allow typing - update local state immediately
+                                setFeaturedImages(prev => prev.map(x => 
+                                  x.id === img.id ? { ...x, featured_order: val === '' ? null : Number(val) } : x
+                                ))
                               }}
-                              onBlur={(e) => updateFeaturedOrder(img.id, e.target.value === '' ? null : Number(e.target.value))}
+                              onBlur={(e) => {
+                                const val = e.target.value
+                                updateFeaturedOrder(img.id, val === '' ? null : Number(val))
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.target.blur()
+                                }
+                              }}
                             />
                           </label>
                           <button 
