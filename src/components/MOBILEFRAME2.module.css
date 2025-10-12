@@ -96,53 +96,6 @@
   font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
 }
 
-/* Samsung S20 FE and similar tall screens (1080x2400) */
-@media screen and (min-width: 1080px) and (min-height: 2400px) {
-  .loremIpsumDolorContainer {
-    top: 2.5%; /* Adjusted for better spacing on tall screens */
-    font-size: clamp(19px, 4.3vw, 26px); /* Optimized for tall screens */
-  }
-  
-  .mobileFrame2LoremIpsumDolorContainer {
-    top: 22%; /* Further increased spacing to prevent overlap */
-    font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
-    line-height: 130%; /* Increased line height for better spacing */
-  }
-  
-  .loremIpsumDolor2 {
-    top: 72%; /* Adjusted for tall screens */
-    font-size: clamp(16px, 3.5vw, 22px); /* Slightly larger for tall screens */
-    line-height: 130%; /* Increased line height for better spacing */
-  }
-}
-
-/* Target devices with 20:9 and similar tall aspect ratios (2.0 to 2.4) */
-/* This covers: 20:9 (2.22), 19.5:9 (2.17), 21:9 (2.33) */
-@media screen and (min-aspect-ratio: 9/20) and (max-aspect-ratio: 12/5) {
-  .loremIpsumDolorContainer {
-    top: 2%;
-    font-size: clamp(17px, 4.3vw, 24px); /* Slightly adjusted for better fit */
-  }
-  
-  .mobileFrame2LoremIpsumDolorContainer {
-    top: 21%; /* Further increased to prevent overlap with 2-line main text */
-    line-height: 130%; /* Better spacing */
-    font-size: clamp(9px, 2.1vw, 13px); /* Slightly adjusted */
-  }
-  
-  .loremIpsumDolor2 {
-    top: 71%;
-    line-height: 130%; /* Improved readability */
-  }
-}
-
-/* Additional fix for devices with very tall screens where text overlap occurs */
-@media screen and (min-height: 2000px) {
-  .mobileFrame2LoremIpsumDolorContainer {
-    top: 22%; /* Extra spacing for very tall screens */
-    margin-top: 2vh; /* Additional margin to ensure clear separation */
-  }
-}
 
 .img202412291336061Icon {
   position: absolute;

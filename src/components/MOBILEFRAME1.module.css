@@ -86,7 +86,7 @@
 
 .mobileFrame1SubText {
   position: absolute;
-  top: 23%; /* positioned below main text (9% + ~19% for 5 lines) */
+  top: 20%; /* positioned below main text (9% + ~19% for 5 lines) */
   left: 63.18%; /* align with main text */
   font-size: clamp(8px, 2vw, 12px);
   letter-spacing: 0.02em;
@@ -96,34 +96,6 @@
   z-index: 3;
 }
 
-/* Samsung S20 FE and similar tall screens (1080x2400) */
-@media screen and (min-width: 1080px) and (min-height: 2400px) {
-  .weUseTheContainer {
-    top: 10%; /* Adjusted for better spacing on tall screens */
-    font-size: clamp(19px, 4.3vw, 26px); /* Optimized for tall screens */
-  }
-  
-  .mobileFrame1SubText {
-    top: 32%; /* Increased spacing to prevent overlap with 5-line main text */
-    font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
-    line-height: 130%; /* Increased line height for better spacing */
-  }
-}
-
-/* Target devices with 20:9 and similar tall aspect ratios (2.0 to 2.4) */
-/* This covers: 20:9 (2.22), 19.5:9 (2.17), 21:9 (2.33) */
-@media screen and (min-aspect-ratio: 9/20) and (max-aspect-ratio: 12/5) {
-  .weUseTheContainer {
-    top: 8%;
-    font-size: clamp(17px, 4.3vw, 24px); /* Slightly smaller to fit better */
-  }
-  
-  .mobileFrame1SubText {
-    top: 27%; /* Moved 1% up from 30% for better positioning */
-    line-height: 130%; /* Increased for better readability */
-    font-size: clamp(9px, 2.1vw, 13px); /* Slightly adjusted */
-  }
-}
 
 .img202501051356542Icon {
   position: absolute;
