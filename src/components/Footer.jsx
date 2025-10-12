@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Footer.module.css';
+import OceanWaves from './OceanWaves';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -69,6 +70,9 @@ const Footer = () => {
 
   return (
     <footer id="site-footer" className={styles.footer}>
+      {/* Ocean Waves Background */}
+      <OceanWaves />
+      
       {/* Video Background */}
       <video
         ref={videoRef}

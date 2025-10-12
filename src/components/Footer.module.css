@@ -17,7 +17,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
   display: none;
 }
@@ -28,8 +28,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000000;
-  z-index: 1;
+  background: linear-gradient(180deg, #0a1929 0%, #1e3a5f 50%, #2d5aa0 100%);
+  z-index: 2;
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -40,9 +40,14 @@
   z-index: 2;
 }
 
+/* Always show the fallback background since video is hidden */
+.fallbackBackground {
+  opacity: 1 !important;
+}
+
 .footerContent {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   height: 100%;
 }

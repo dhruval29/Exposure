@@ -195,12 +195,12 @@ const MergedFrame = () => {
 				<div className={styles.frame1SubText}>
 					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
 				</div>
-					<div className={styles.frame1Image1Container}>
-						<img className={styles.frame1Image1} src="/assets/images/Sliding Page/1.webp" alt="Storytelling image" />
-					</div>
-					<div className={styles.frame1Image2Container}>
-						<img className={styles.frame1Image2} src="/assets/images/Sliding Page/2.webp" alt="Inspiration image" />
-					</div>
+                    <div className={styles.frame1Image1Container}>
+                        <img className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998.webp" alt="Storytelling image" />
+                    </div>
+                    <div className={styles.frame1Image2Container}>
+                        <img className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).webp" alt="Inspiration image" />
+                    </div>
 				</div>
 				<div className={styles.frame2Section}>
 					<div className={styles.frame2TextContainer}>
@@ -208,17 +208,17 @@ const MergedFrame = () => {
 						<p className={styles.weUseThe}>{` storytelling to fire `}</p>
 						<p className={styles.weUseThe}>{` the imagination, `}</p>
 					</div>
-					<div className={styles.frame2Image3Container}>
-						<img className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
-					</div>
+                    <div className={styles.frame2Image3Container}>
+                        <img className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1).jpg" alt="Creative process" />
+                    </div>
 				</div>
 				<div className={styles.frame3Section}>
 					<div className={styles.frame3Image2Container}>
 						<img className={styles.frame3Image2} src="/assets/images/Sliding Page/7.webp" alt="Creative inspiration" />
 					</div>
-					<div className={styles.frame3Image3Container}>
-						<img className={styles.frame3Image3} src="/assets/images/Sliding Page/8.webp" alt="Imagination spark" />
-					</div>
+                    <div className={styles.frame3Image3Container}>
+                        <img className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).webp" alt="Imagination spark" />
+                    </div>
 					<div className={styles.frame3TextContainer}>
 						<p className={styles.weUseThe}>We use the power of</p>
 						<p className={styles.weUseThe}>{` storytelling to fire `}</p>
@@ -250,12 +250,12 @@ const MergedFrame = () => {
 				<div ref={frame1SubTextRef} className={styles.frame1SubText}>
 					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
 				</div>
-				<div className={styles.frame1Image1Container}>
-					<img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/1.webp" alt="Storytelling image" />
-				</div>
-				<div className={styles.frame1Image2Container}>
-					<img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/2.webp" alt="Inspiration image" />
-				</div>
+                <div className={styles.frame1Image1Container}>
+                    <img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998.webp" alt="Storytelling image" />
+                </div>
+                <div className={styles.frame1Image2Container}>
+                    <img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).webp" alt="Inspiration image" />
+                </div>
 			</div>
 
 			{/* Frame 2 Content - Middle Section (100vh to 200vh) */}
@@ -272,9 +272,9 @@ const MergedFrame = () => {
 					We frame the stories<br />
 					that matter most
 				</div>
-				<div className={styles.frame2Image3Container}>
-					<img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/5.webp" alt="Creative process" />
-				</div>
+                <div className={styles.frame2Image3Container}>
+                    <img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1).jpg" alt="Creative process" />
+                </div>
 			</div>
 
 			{/* Frame 3 Content - Bottom Section (200vh to 300vh) */}
@@ -282,9 +282,9 @@ const MergedFrame = () => {
 				<div className={styles.frame3Image2Container}>
 					<img ref={img4Ref} className={styles.frame3Image2} src="/assets/images/Sliding Page/7.webp" alt="Creative inspiration" />
 				</div>
-				<div className={styles.frame3Image3Container}>
-					<img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/8.webp" alt="Imagination spark" />
-				</div>
+                <div className={styles.frame3Image3Container}>
+                    <img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).webp" alt="Imagination spark" />
+                </div>
 				<div className={styles.frame3TextContainer}>
 					<p className={styles.weUseThe}>
 						{createAnimatedWords("We frame the love,", 2, 0)}
