@@ -81,14 +81,14 @@ const TheTeamMobile = () => {
 	const instaSelectors = [
 		`.${styles.containerIcon}`,
 		`.${styles.containerIcon2}`,
-		`.${styles.containerIcon4}`,
 		`.${styles.containerIcon6}`,
 		`.${styles.containerIcon9}`,
 		`.${styles.containerIcon11}`,
 		`.${styles.containerIcon13}`,
 		`.${styles.containerIcon15}`,
 		`.${styles.instagramButton}`,
-		`.${styles.instagramButton2}`
+		`.${styles.instagramButton2}`,
+		`.${styles.instagramButton4}`
 	].join(',');
 		const instaElements = Array.from(container.querySelectorAll(instaSelectors));
 		instaElements.forEach((el) => gsap.set(el, { opacity: 0, y: 16, scale: 0.88, transformOrigin: 'center center' }));
@@ -258,7 +258,7 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Vice President</div>
 				</div>
-				<img className={styles.containerIcon} alt="" src="/assets/icons/smile-svgrepo-com.svg" />
+				<img className={styles.containerIcon} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
 				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftLeft}`} alt="" src="/assets/images/members/IMG_20241227_204306.jpg" />
 			</div>
 		<div className={styles.appTeammember}>
@@ -288,7 +288,9 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Head of Videography</div>
 				</div>
-				<img className={styles.containerIcon4} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				<a href="https://www.instagram.com/adimadkaikar_" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton4}`}>
+					<img alt="Instagram" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				</a>
 				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/WhatsApp Image 2025-09-12 at 10.52.59_3d59ecb0.jpg" />
 			</div>
 			<div className={styles.teammember3}>
