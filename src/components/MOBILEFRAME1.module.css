@@ -110,28 +110,18 @@
   }
 }
 
-/* Additional media query for devices with similar aspect ratios (20:9) */
-@media screen and (aspect-ratio: 20/9) {
+/* Target devices with 20:9 and similar tall aspect ratios (2.0 to 2.4) */
+/* This covers: 20:9 (2.22), 19.5:9 (2.17), 21:9 (2.33) */
+@media screen and (min-aspect-ratio: 9/20) and (max-aspect-ratio: 12/5) {
   .weUseTheContainer {
     top: 8%;
     font-size: clamp(17px, 4.3vw, 24px); /* Slightly smaller to fit better */
   }
   
   .mobileFrame1SubText {
-    top: 29%; /* Moved 1% up from 30% for better positioning */
+    top: 27%; /* Moved 1% up from 30% for better positioning */
     line-height: 130%; /* Increased for better readability */
     font-size: clamp(9px, 2.1vw, 13px); /* Slightly adjusted */
-  }
-}
-
-/* Catch-all for devices with tall aspect ratios (>2:1) */
-@media screen and (min-aspect-ratio: 9/19) {
-  .weUseTheContainer {
-    top: max(8%, 60px); /* Use pixel minimum for very small screens */
-  }
-  
-  .mobileFrame1SubText {
-    top: max(29%, 240px); /* Ensure minimum pixel distance */
   }
 }
 

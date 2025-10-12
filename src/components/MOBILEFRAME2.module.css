@@ -116,8 +116,9 @@
   }
 }
 
-/* Additional media query for devices with similar aspect ratios (20:9) */
-@media screen and (aspect-ratio: 20/9) {
+/* Target devices with 20:9 and similar tall aspect ratios (2.0 to 2.4) */
+/* This covers: 20:9 (2.22), 19.5:9 (2.17), 21:9 (2.33) */
+@media screen and (min-aspect-ratio: 9/20) and (max-aspect-ratio: 12/5) {
   .loremIpsumDolorContainer {
     top: 2%;
     font-size: clamp(17px, 4.3vw, 24px); /* Slightly adjusted for better fit */
@@ -132,17 +133,6 @@
   .loremIpsumDolor2 {
     top: 71%;
     line-height: 130%; /* Improved readability */
-  }
-}
-
-/* Catch-all for devices with tall aspect ratios (>2:1) */
-@media screen and (min-aspect-ratio: 9/19) {
-  .loremIpsumDolorContainer {
-    top: max(1.5%, 30px); /* Use pixel minimum for very small screens */
-  }
-  
-  .mobileFrame2LoremIpsumDolorContainer {
-    top: max(20%, 170px); /* Ensure minimum pixel distance */
   }
 }
 
