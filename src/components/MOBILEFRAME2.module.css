@@ -99,12 +99,12 @@
 /* Samsung S20 FE and similar tall screens (1080x2400) */
 @media screen and (min-width: 1080px) and (min-height: 2400px) {
   .loremIpsumDolorContainer {
-    top: 3%; /* Increased from 1.54% for better spacing on tall screens */
-    font-size: clamp(20px, 4.2vw, 28px); /* Slightly larger for tall screens */
+    top: 2.5%; /* Adjusted for better spacing on tall screens */
+    font-size: clamp(19px, 4.3vw, 26px); /* Optimized for tall screens */
   }
   
   .mobileFrame2LoremIpsumDolorContainer {
-    top: 20%; /* Further increased spacing to prevent overlap with single word line */
+    top: 22%; /* Further increased spacing to prevent overlap */
     font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
     line-height: 130%; /* Increased line height for better spacing */
   }
@@ -119,17 +119,30 @@
 /* Additional media query for devices with similar aspect ratios (20:9) */
 @media screen and (aspect-ratio: 20/9) {
   .loremIpsumDolorContainer {
-    top: 2.5%;
+    top: 2%;
+    font-size: clamp(17px, 4.3vw, 24px); /* Slightly adjusted for better fit */
   }
   
   .mobileFrame2LoremIpsumDolorContainer {
-    top: 19%; /* Increased to match the main Samsung S20 FE fix */
-    line-height: 125%;
+    top: 21%; /* Further increased to prevent overlap with 2-line main text */
+    line-height: 130%; /* Better spacing */
+    font-size: clamp(9px, 2.1vw, 13px); /* Slightly adjusted */
   }
   
   .loremIpsumDolor2 {
     top: 71%;
-    line-height: 125%;
+    line-height: 130%; /* Improved readability */
+  }
+}
+
+/* Catch-all for devices with tall aspect ratios (>2:1) */
+@media screen and (min-aspect-ratio: 9/19) {
+  .loremIpsumDolorContainer {
+    top: max(1.5%, 30px); /* Use pixel minimum for very small screens */
+  }
+  
+  .mobileFrame2LoremIpsumDolorContainer {
+    top: max(20%, 170px); /* Ensure minimum pixel distance */
   }
 }
 

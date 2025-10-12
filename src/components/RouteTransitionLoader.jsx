@@ -9,6 +9,7 @@ import { gsap } from 'gsap'
 const RouteTransitionLoader = () => {
   const overlayRef = useRef(null)
   const textRef = useRef(null)
+  const underlineRef = useRef(null)
   const isAnimatingRef = useRef(false)
   const pendingHrefRef = useRef(null)
   const pendingStateRef = useRef(undefined)
@@ -37,10 +38,14 @@ const RouteTransitionLoader = () => {
   useEffect(() => {
     const el = overlayRef.current
     const textEl = textRef.current
+    const underlineEl = underlineRef.current
     if (!el) return
     gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
     if (textEl) {
       gsap.set(textEl, { opacity: 0, y: 20 })
+    }
+    if (underlineEl) {
+      gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
     }
   }, [])
 
@@ -94,6 +99,7 @@ const RouteTransitionLoader = () => {
         onComplete: () => {
           // Animate text in during settling stage
           const textEl = textRef.current
+          const underlineEl = underlineRef.current
           if (textEl) {
             gsap.to(textEl, {
               opacity: 1,
@@ -101,6 +107,15 @@ const RouteTransitionLoader = () => {
               duration: 0.6,
               ease: 'power2.out',
               delay: 0.2
+            })
+          }
+          if (underlineEl) {
+            gsap.to(underlineEl, {
+              scaleX: 1,
+              opacity: 1,
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: 0.5
             })
           }
           
@@ -151,6 +166,7 @@ const RouteTransitionLoader = () => {
         onComplete: () => {
           // Animate text in during settling stage
           const textEl = textRef.current
+          const underlineEl = underlineRef.current
           if (textEl) {
             gsap.to(textEl, {
               opacity: 1,
@@ -158,6 +174,15 @@ const RouteTransitionLoader = () => {
               duration: 0.6,
               ease: 'power2.out',
               delay: 0.2
+            })
+          }
+          if (underlineEl) {
+            gsap.to(underlineEl, {
+              scaleX: 1,
+              opacity: 1,
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: 0.5
             })
           }
           
@@ -192,6 +217,7 @@ const RouteTransitionLoader = () => {
 
     const playExit = () => {
       const textEl = textRef.current
+      const underlineEl = underlineRef.current
       
       // Check if minimum duration has passed
       const checkMinDuration = () => {
@@ -200,11 +226,19 @@ const RouteTransitionLoader = () => {
           return
         }
         
-        // Fade out text first
+        // Fade out text and underline first
         if (textEl) {
           gsap.to(textEl, {
             opacity: 0,
             y: -20,
+            duration: 0.3,
+            ease: 'power2.in'
+          })
+        }
+        if (underlineEl) {
+          gsap.to(underlineEl, {
+            opacity: 0,
+            scaleX: 0,
             duration: 0.3,
             ease: 'power2.in'
           })
@@ -220,6 +254,9 @@ const RouteTransitionLoader = () => {
             gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
             if (textEl) {
               gsap.set(textEl, { opacity: 0, y: 20 })
+            }
+            if (underlineEl) {
+              gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
             }
             setDestinationText('')
             isAnimatingRef.current = false
@@ -292,24 +329,40 @@ const RouteTransitionLoader = () => {
       aria-hidden="true"
     >
       <div
-        ref={textRef}
         style={{
-          color: '#333',
-          fontSize: 'clamp(48px, 8vw, 96px)',
-          fontFamily: "'PP Editorial New'",
-          fontWeight: 200,
-          fontStyle: 'italic',
-          letterSpacing: '-0.02em',
-          textAlign: 'center',
-          opacity: 0,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '100%',
-          width: '100%'
+          gap: '20px'
         }}
       >
-        {destinationText}
+        <div
+          ref={textRef}
+          style={{
+            color: '#333',
+            fontSize: 'clamp(48px, 8vw, 96px)',
+            fontFamily: "'PP Editorial New'",
+            fontWeight: 200,
+            fontStyle: 'italic',
+            letterSpacing: '-0.02em',
+            textAlign: 'center',
+            opacity: 0
+          }}
+        >
+          {destinationText}
+        </div>
+        <div
+          ref={underlineRef}
+          style={{
+            width: '80%',
+            maxWidth: '400px',
+            height: '2px',
+            backgroundColor: '#333',
+            transformOrigin: 'left center',
+            opacity: 0
+          }}
+        />
       </div>
     </div>
   )

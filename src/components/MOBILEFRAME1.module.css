@@ -99,12 +99,12 @@
 /* Samsung S20 FE and similar tall screens (1080x2400) */
 @media screen and (min-width: 1080px) and (min-height: 2400px) {
   .weUseTheContainer {
-    top: 12%; /* Increased from 9% for better spacing on tall screens */
-    font-size: clamp(20px, 4.2vw, 28px); /* Slightly larger for tall screens */
+    top: 10%; /* Adjusted for better spacing on tall screens */
+    font-size: clamp(19px, 4.3vw, 26px); /* Optimized for tall screens */
   }
   
   .mobileFrame1SubText {
-    top: 28%; /* Increased spacing to prevent overlap */
+    top: 32%; /* Increased spacing to prevent overlap with 5-line main text */
     font-size: clamp(10px, 2.2vw, 14px); /* Slightly larger for better readability */
     line-height: 130%; /* Increased line height for better spacing */
   }
@@ -113,12 +113,25 @@
 /* Additional media query for devices with similar aspect ratios (20:9) */
 @media screen and (aspect-ratio: 20/9) {
   .weUseTheContainer {
-    top: 11%;
+    top: 8%;
+    font-size: clamp(17px, 4.3vw, 24px); /* Slightly smaller to fit better */
   }
   
   .mobileFrame1SubText {
-    top: 26%;
-    line-height: 125%;
+    top: 30%; /* Increased from 26% to prevent overlap with 5-line main text */
+    line-height: 130%; /* Increased for better readability */
+    font-size: clamp(9px, 2.1vw, 13px); /* Slightly adjusted */
+  }
+}
+
+/* Catch-all for devices with tall aspect ratios (>2:1) */
+@media screen and (min-aspect-ratio: 9/19) {
+  .weUseTheContainer {
+    top: max(8%, 60px); /* Use pixel minimum for very small screens */
+  }
+  
+  .mobileFrame1SubText {
+    top: max(29%, 240px); /* Ensure minimum pixel distance */
   }
 }
 

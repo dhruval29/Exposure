@@ -984,6 +984,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const [showInitialOverlay, setShowInitialOverlay] = useState(true)
   const initialOverlayRef = useRef(null)
   const initialTextRef = useRef(null)
+  const initialUnderlineRef = useRef(null)
   // Mouse effect removed - page left blank as requested
 
   // Enhanced mobile/tablet detection for different device sizes
@@ -1130,6 +1131,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     if (!showInitialOverlay) return
     const el = initialOverlayRef.current
     const textEl = initialTextRef.current
+    const underlineEl = initialUnderlineRef.current
     if (!el) return
     // Start fully visible (covered), match RouteTransitionLoader text entrance
     gsap.set(el, { yPercent: 0, pointerEvents: 'auto' })
@@ -1137,12 +1139,19 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       gsap.set(textEl, { opacity: 0, y: 20 })
       gsap.to(textEl, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.2 })
     }
+    if (underlineEl) {
+      gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
+      gsap.to(underlineEl, { scaleX: 1, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.5 })
+    }
     const MIN_TEXT_DISPLAY_DURATION = 1.5
     const COVER_OUT_DURATION = 0.9
     const EASE_OUT = 'power4.in'
     const timeoutId = setTimeout(() => {
       if (textEl) {
         gsap.to(textEl, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' })
+      }
+      if (underlineEl) {
+        gsap.to(underlineEl, { opacity: 0, scaleX: 0, duration: 0.3, ease: 'power2.in' })
       }
       gsap.to(el, {
         yPercent: -100,
@@ -1152,6 +1161,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
         onComplete: () => {
           gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
           if (textEl) gsap.set(textEl, { opacity: 0, y: 20 })
+          if (underlineEl) gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
           setShowInitialOverlay(false)
         }
       })
@@ -1228,24 +1238,45 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           aria-hidden="true"
         >
           <div
-            ref={initialTextRef}
             style={{
-              color: '#333',
-              fontSize: 'clamp(48px, 8vw, 96px)',
-              fontFamily: "'PP Editorial New'",
-              fontWeight: 200,
-              fontStyle: 'italic',
-              letterSpacing: '-0.02em',
-              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '20px',
               position: 'absolute',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '100%',
-              opacity: 1
+              width: '100%'
             }}
           >
-            Home
+            <div
+              ref={initialTextRef}
+              style={{
+                color: '#333',
+                fontSize: 'clamp(48px, 8vw, 96px)',
+                fontFamily: "'PP Editorial New'",
+                fontWeight: 200,
+                fontStyle: 'italic',
+                letterSpacing: '-0.02em',
+                textAlign: 'center',
+                opacity: 1
+              }}
+            >
+              Home
+            </div>
+            <div
+              ref={initialUnderlineRef}
+              style={{
+                width: '80%',
+                maxWidth: '400px',
+                height: '2px',
+                backgroundColor: '#333',
+                transformOrigin: 'left center',
+                opacity: 0
+              }}
+            />
           </div>
         </div>
       )}
