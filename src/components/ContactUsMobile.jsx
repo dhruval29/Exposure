@@ -210,7 +210,7 @@ export default function ContactUsMobile() {
           />
         </div>
         <div className={animationsReady ? "cu-mobile-text" : ""} style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 500}ms` : '0ms' }}>
-          <label className={animationsReady ? "cu-mobile-text" : ""} style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: '#000', marginBottom: '1.5vw' }}>When's the Event?</label>
+          <label className={animationsReady ? "cu-mobile-text" : ""} style={{ display: 'block', fontFamily: "'PP Editorial New', serif", fontSize: 20, color: 'transparent', marginBottom: '1.5vw' }}>When's the Event?</label>
           <div style={{ padding: '0.3vh 0' }}>
             <Calendar24
               value={form.eventWhen ? new Date(form.eventWhen) : undefined}

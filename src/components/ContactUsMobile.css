@@ -28,8 +28,8 @@ h1, p, label, a, div {
 }
 
 @keyframes cu-lineGrow {
-  0% { transform: scaleX(0); }
-  100% { transform: scaleX(1); }
+  0% { opacity: 0; transform: scaleX(0); }
+  100% { opacity: 1; transform: scaleX(1); }
 }
 
 @keyframes contactGradientShift {
