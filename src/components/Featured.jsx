@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../styles/Gallery.css';
 import { supabase } from '../lib/supabaseClient';
 import SimpleNav from './SimpleNav';
 import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 import { shouldShowPicturesTutorial, markPicturesTutorialSeen } from '../utils/tutorialManager';
 import PicturesTutorial from './PicturesTutorial';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Featured = () => {
   const [loading, setLoading] = useState(true);
@@ -620,11 +623,36 @@ const Featured = () => {
   };
 
   const isRouteReady = useRouteTransitionReady();
+  const galleryContainerRef = useRef(null);
+
+  // Smooth scroll effect similar to Fly.jsx and ZoomReveal.jsx
+  useEffect(() => {
+    const container = galleryContainerRef.current;
+    if (!container) return;
+
+    // Create smooth scroll effect with GSAP ScrollTrigger
+    const scrollCtx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: container,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1, // Match ZoomReveal.jsx for buttery smooth scrolling
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        refreshPriority: -1,
+      });
+    }, container);
+
+    return () => {
+      scrollCtx.revert();
+    };
+  }, [isMobile]);
 
   return (
     <>
       <SimpleNav />
       <div
+        ref={galleryContainerRef}
         className="gallery-container"
         style={{
           overflowY: 'auto',
@@ -654,6 +682,17 @@ const Featured = () => {
                 overflow: 'visible'
               }}
             >
+              {/* Title Section */}
+              <div className="pictures-title-container">
+                <p className="pictures-title">
+                  <span>Explore our <i className="pictures-title-italic">Gallery</i></span>
+                </p>
+              </div>
+              <div className="pictures-subtitle-container">
+                <p className="pictures-subtitle">A curated collection of moments,</p>
+                <p className="pictures-subtitle">captured through our lens.</p>
+              </div>
+              
               {/* Grid Contents */}
               <div className="p-home-grid-mode__contents">
                 {images.map((image, index) => (

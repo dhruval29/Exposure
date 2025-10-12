@@ -22,7 +22,7 @@
 
 .about {
   position: absolute;
-  top: 5.16vh; /* 44px at 852px = 5.16vh */
+  top: 4.8vh; /* 27px at 852px = 3.16vh - moved up */
   left: 15.27vw; /* 60px at 393px = 15.27vw */
   font-size: 5.09vw; /* 20px at 393px = 5.09vw */
   font-family: Helvetica;

@@ -531,18 +531,30 @@ const FeaturedMobile = () => {
       <main
         className="main"
         style={{
-          minHeight: '100vh'
+          minHeight: '100vh', // Move the entire container up
         }}
       >
         <div className="p-home">
           <section className="p-home-grid-mode p-home-grid-mode-mobile">
+            {/* Title Section */}
+            <div className="pictures-title-container">
+              <p className="pictures-title">
+                <span>Explore our <i className="pictures-title-italic">Gallery</i></span>
+              </p>
+            </div>
+            <div className="pictures-subtitle-container">
+              <p className="pictures-subtitle">A curated collection of moments,</p>
+              <p className="pictures-subtitle">captured through our lens</p>
+            </div>
+            
             {/* Mobile Grid Container */}
             <div
               className="p-home-left-section p-home-left-section-mobile"
               style={{
                 height: 'auto',
                 overflow: 'visible',
-                width: '100%'
+                width: '100%',
+                marginTop: '-15vh' // Move the gray container up to reduce gap
               }}
             >
               {/* Grid Contents */}

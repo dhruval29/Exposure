@@ -681,6 +681,26 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   justify-content: center;
   height: 100%;
   align-items: center;
+  transform: translateY(30%); /* Desktop: Move the grid down by 30% */
+}
+
+/* Mobile responsive grid positioning */
+@media (max-width: 1024px) {
+  .p-home-grid-mode__contents {
+    transform: translateY(9%); /* Tablet: Less spacing */
+  }
+}
+
+@media (max-width: 768px) {
+  .p-home-grid-mode__contents {
+    transform: translateY(9%); /* Mobile: Even less spacing */
+  }
+}
+
+@media (max-width: 480px) {
+  .p-home-grid-mode__contents {
+    transform: translateY(9%); /* Small mobile: Minimal spacing */
+  }
 }
 
 .p-home-grid-mode__item {
@@ -787,11 +807,188 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 60px 0 0 0; /* Add top padding only to left section */
   height: 100vh;
   overflow: hidden;
   position: relative;
   background: #e5e7eb;
+}
+
+/* Pictures Title Section */
+.pictures-title-container {
+  position: absolute;
+  top: 12vh;
+  left: 4vw;
+  font-size: 3.5vw;
+  line-height: 92.48%;
+  display: inline-block;
+  width: auto;
+  min-width: 50vw;
+  height: 8.376vh;
+  font-family: 'PP Editorial New', serif;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: titleFadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+  white-space: nowrap;
+}
+
+.pictures-title {
+  margin: 0;
+  color: #000;
+  white-space: nowrap;
+}
+
+.pictures-title-italic {
+  font-family: 'PP Editorial New', serif;
+  font-style: italic;
+  font-weight: 200;
+  position: relative;
+  display: inline-block;
+}
+
+.pictures-title-italic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: -4px;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.95;
+  z-index: 1;
+  transform-origin: left center;
+  width: 100%;
+  pointer-events: none;
+  animation: underlineGrow 1.5s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+  transform: scaleX(0);
+}
+
+@keyframes underlineGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.pictures-subtitle-container {
+  position: absolute;
+  top: 20vh;
+  left: 4vw;
+  font-size: 1.2vw;
+  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', Helvetica, Arial, sans-serif;
+  color: #6c6a6a;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: subtitleFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+}
+
+.pictures-subtitle {
+  margin: 0;
+}
+
+@keyframes titleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes subtitleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsive styles for title and subtitle - matching the-team-mobile */
+@media (max-width: 1024px) {
+  .pictures-title-container {
+    position: relative; /* Relative so it scrolls with content */
+    top: 0;
+    left: 0;
+    margin-left: 4.103vw;
+    margin-top: calc(2.844vh + 5.0vh); /* Match the-team-mobile padding */
+    font-size: 9.231vw; /* Match the-team-mobile title size */
+    line-height: 3.946vh;
+    height: auto;
+    min-width: auto;
+    width: auto;
+    z-index: 10;
+  }
+  
+  .pictures-subtitle-container {
+    position: relative; /* Relative so it scrolls with content */
+    top: 0;
+    left: 0;
+    margin-left: 4.103vw;
+    margin-top: 1.897vh; /* Gap between title and subtitle */
+    font-size: 4.103vw; /* Match the-team-mobile subtitle size */
+    line-height: 2.181vh;
+    color: #6c6a6a;
+    z-index: 10;
+  }
+  
+  /* Adjust grid to start below the text boxes */
+  .p-home-grid-mode {
+    margin-top: 0; /* No extra margin needed with relative positioning */
+  }
+}
+
+@media (max-width: 768px) {
+  .pictures-title-container {
+    position: relative;
+    margin-left: 4.103vw;
+    margin-top: calc(2.844vh + 5.0vh);
+    font-size: 9.231vw;
+    line-height: 3.946vh;
+    z-index: 10;
+  }
+  
+  .pictures-subtitle-container {
+    position: relative;
+    margin-left: 4.103vw;
+    margin-top: 1.897vh;
+    font-size: 4.103vw;
+    line-height: 2.181vh;
+    z-index: 10;
+  }
+  
+  .p-home-grid-mode {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .pictures-title-container {
+    position: relative;
+    margin-left: 4.103vw;
+    margin-top: calc(2.844vh + 5.0vh);
+    font-size: 9.231vw;
+    line-height: 3.946vh;
+    z-index: 10;
+  }
+  
+  .pictures-subtitle-container {
+    position: relative;
+    margin-left: 4.103vw;
+    margin-top: 1.897vh;
+    font-size: 4.103vw;
+    line-height: 2.181vh;
+    z-index: 10;
+  }
+  
+  .p-home-grid-mode {
+    margin-top: 0;
+  }
 }
 
 /* Right Side Component */

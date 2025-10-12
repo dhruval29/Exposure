@@ -258,7 +258,7 @@ const Frame79 = () => {
       			<div className={styles.frameInner} />
       			<div className={styles.photographer}>{`Photographer `}</div>
       			<div className={styles.vicePresident}>Vice President</div>
-      			<img className={styles.instagramSvgrepoCom11} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<img className={styles.instagramSvgrepoCom11} src="/assets/icons/smile-svgrepo-com.svg" alt="" />
       			<div className={styles.jonathanPaul}>Jonathan Paul</div>
       			<div className={styles.lineDiv} />
       			<div className={styles.rectangleParentPhotographer}>{`Photographer `}</div>
@@ -276,11 +276,13 @@ const Frame79 = () => {
       			<div className={styles.frameChild2} />
       			<div className={styles.cinematographer}>Cinematographer</div>
       			<div className={styles.headOfVideography}>Head of Videography</div>
+      			<a href="https://www.instagram.com/adimadkaikar_" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton5}`}>
+				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="Instagram" />
+			</a>
       			<img className={styles.frameChild3} src="/assets/images/members/WhatsApp Image 2025-09-12 at 10.52.59_3d59ecb0.jpg" alt="" />
       			<div className={styles.yashodhanBorkar}>Yashodhan Borkar</div>
-      			<img className={styles.instagramSvgrepoCom14} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
       			<a href="https://www.instagram.com/yasho_pb?igsh=MTNmdjB2Y3YxaTZrcA==" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton5}`}>
-				<img src="/assets/icons/instagram-svgrepo-com (1).svg" alt="Instagram" />
+				<img className={styles.instagramSvgrepoCom14} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
 			</a>
       			<div className={styles.frameChild4} />
       			<div className={styles.photographer3}>{`Photographer `}</div>
