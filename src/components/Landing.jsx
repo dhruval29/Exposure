@@ -370,12 +370,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     const computeExactEnd = () => {
       const el = containerRef.current
       const h = el ? (el.offsetHeight || el.clientHeight || window.innerHeight) : window.innerHeight
-      // Increased slightly to 75vh-100vh range for smoother zoom feel
+      // Increased to 110vh-130vh range for much smoother, slower scale-up transition
       const vw = window.innerWidth
       const vh = window.innerHeight
-      let multiplier = 0.75 // 75vh for larger handhelds (>= ~6.4")
+      let multiplier = 1.1 // 110vh for larger handhelds (>= ~6.4")
       if (vw <= 375 || vh <= 800) {
-        multiplier = 1.0 // 100vh for smaller screens
+        multiplier = 1.3 // 130vh for smaller screens
       }
       return `+=${Math.round(h * multiplier)}`
     }
@@ -425,9 +425,9 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       scrollTrigger: {
         trigger: container,
         start: 'top top',
-        // Mobile: matched to Fly.jsx feel (50-60%), Desktop: original values
+        // Mobile: increased to 80-90% for slower scale-up, Desktop: original values
         end: isHandheldForPin 
-          ? (responsiveValues.isLargeMobile ? '+=60%' : '+=50%')
+          ? (responsiveValues.isLargeMobile ? '+=90%' : '+=80%')
           : '+=110%', // Desktop keeps original value
         scrub: isHandheldForPin ? 2.5 : 2, // Mobile: matched to Fly.jsx, Desktop: original
         pin: isHandheldForPin ? false : true, // handhelds use the separate pin trigger
@@ -542,32 +542,32 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       overwrite: 'auto',
       force3D: true, // Hardware acceleration
       zIndex: 1000,
-      // Mobile: slower to match Fly.jsx feel, Desktop: original duration
+      // Mobile: much slower duration for smooth scale-up, Desktop: original duration
       duration: isHandheldForPin 
-        ? (responsiveValues.isLargeMobile ? 0.95 : 0.85)
+        ? (responsiveValues.isLargeMobile ? 1.4 : 1.2)
         : 2.5, // Desktop keeps original
-      // Mobile: power1.inOut for Fly.jsx feel, Desktop: original ease
+      // Mobile: power1.inOut for smooth feel, Desktop: original ease
       ease: isHandheldForPin ? 'power1.inOut' : 'sine.inOut'
     }, zoomStart)
 
     // 2. Text movement animation (synchronized with image scaling)
     tl.to(left, {
       x: -responsiveValues.offScreenDistance,
-      // Mobile: slower to match Fly.jsx feel, Desktop: original duration
+      // Mobile: much slower duration for smooth scale-up, Desktop: original duration
       duration: isHandheldForPin 
-        ? (responsiveValues.isLargeMobile ? 0.95 : 0.85)
+        ? (responsiveValues.isLargeMobile ? 1.4 : 1.2)
         : 2.5, // Desktop keeps original
-      // Mobile: power1.inOut for Fly.jsx feel, Desktop: original ease
+      // Mobile: power1.inOut for smooth feel, Desktop: original ease
       ease: isHandheldForPin ? 'power1.inOut' : 'sine.inOut',
       force3D: true // Hardware acceleration
     }, zoomStart)
     .to(right, {
       x: responsiveValues.offScreenDistance,
-      // Mobile: slower to match Fly.jsx feel, Desktop: original duration
+      // Mobile: much slower duration for smooth scale-up, Desktop: original duration
       duration: isHandheldForPin 
-        ? (responsiveValues.isLargeMobile ? 0.95 : 0.85)
+        ? (responsiveValues.isLargeMobile ? 1.4 : 1.2)
         : 2.5, // Desktop keeps original
-      // Mobile: power1.inOut for Fly.jsx feel, Desktop: original ease
+      // Mobile: power1.inOut for smooth feel, Desktop: original ease
       ease: isHandheldForPin ? 'power1.inOut' : 'sine.inOut',
       force3D: true // Hardware acceleration
     }, zoomStart)
