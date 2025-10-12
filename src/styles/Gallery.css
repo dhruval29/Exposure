@@ -390,6 +390,19 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   flex-shrink: 0;
 }
 
+.image-modal-description {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  flex-shrink: 0;
+  padding: 0 20px;
+}
+
 /* Ensure metadata styles are safe by default; JS positions when space allows */
 @media (min-width: 1025px) {
   .image-metadata-left {
@@ -398,6 +411,14 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     color: #111;
     white-space: pre-line;
     opacity: 0.9;
+    padding: 0; /* Ensure no extra padding affects spacing */
+    margin: 0; /* Ensure no extra margin affects spacing */
+  }
+  
+  /* When positioned on the side, ensure title has consistent spacing */
+  .image-modal-title[style*="position: fixed"] {
+    padding: 0;
+    margin: 0;
   }
 }
 
@@ -573,6 +594,13 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 16px;
     margin-top: 15px;
   }
+
+  .image-modal-description {
+    font-size: 13px;
+    margin-top: 6px;
+    padding: 0 15px;
+    max-width: 90vw;
+  }
   
   .image-modal-navigation {
     width: 240px;
@@ -628,6 +656,13 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 14px;
     margin-top: 10px;
   }
+
+  .image-modal-description {
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 0 10px;
+    max-width: 95vw;
+  }
   
   .image-modal-navigation {
     width: 220px;
@@ -681,25 +716,25 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   justify-content: center;
   height: 100%;
   align-items: center;
-  transform: translateY(30%); /* Desktop: Move the grid down by 30% */
+  transform: translateY(36%); /* Desktop: Move the grid down by 30% */
 }
 
 /* Mobile responsive grid positioning */
 @media (max-width: 1024px) {
   .p-home-grid-mode__contents {
-    transform: translateY(9%); /* Tablet: Less spacing */
+    transform: translateY(13%); /* Tablet: Less spacing */
   }
 }
 
 @media (max-width: 768px) {
   .p-home-grid-mode__contents {
-    transform: translateY(9%); /* Mobile: Even less spacing */
+    transform: translateY(13%); /* Mobile: Even less spacing */
   }
 }
 
 @media (max-width: 480px) {
   .p-home-grid-mode__contents {
-    transform: translateY(9%); /* Small mobile: Minimal spacing */
+    transform: translateY(13%); /* Small mobile: Minimal spacing */
   }
 }
 

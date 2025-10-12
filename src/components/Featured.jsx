@@ -188,6 +188,7 @@ const Featured = () => {
               src: originalUrl,
               thumb: thumbUrl,
               title: it.title || `Image ${start + idx + 1}`,
+              description: it.description || it.short_description || '',
               // pass through metadata for modal display
               camera_make: it.camera_make,
               camera_model: it.camera_model,
@@ -269,6 +270,7 @@ const Featured = () => {
                   src: originalUrl,
                   thumb: thumbUrl,
                   title: it.title || `Image ${start + idx + 1}`,
+                  description: it.description || it.short_description || '',
                   camera_make: it.camera_make,
                   camera_model: it.camera_model,
                   lens_model: it.lens_model,
@@ -346,12 +348,14 @@ const Featured = () => {
       const modal = modalRef.current;
       const image = modal.querySelector('.image-modal-image');
       const title = modal.querySelector('.image-modal-title');
+      const description = modal.querySelector('.image-modal-description');
       const navigation = modal.querySelector('.image-modal-navigation');
       
       // Reset initial states
       gsap.set(modal, { opacity: 0 });
       gsap.set(image, { opacity: 0, scale: 0.9, y: 20 });
       gsap.set(title, { opacity: 0, y: 20 });
+      if (description) gsap.set(description, { opacity: 0, y: 20 });
       gsap.set(navigation, { opacity: 0, y: 20, scale: 0.9 });
       
       // Create non-uniform timeline
@@ -377,9 +381,20 @@ const Featured = () => {
         y: 0, 
         duration: 0.4, 
         ease: 'power2.out' 
-      }, '-=0.3')
+      }, '-=0.3');
+      
+      // Description slides up if it exists
+      if (description) {
+        tl.to(description, { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.4, 
+          ease: 'power2.out' 
+        }, '-=0.3');
+      }
+      
       // Navigation bar slides up and scales in
-      .to(navigation, { 
+      tl.to(navigation, { 
         opacity: 1, 
         y: 0, 
         scale: 1, 
@@ -512,6 +527,7 @@ const Featured = () => {
     const modal = modalRef.current;
     const image = modal.querySelector('.image-modal-image');
     const title = modal.querySelector('.image-modal-title');
+    const description = modal.querySelector('.image-modal-description');
     const navigation = modal.querySelector('.image-modal-navigation');
     
     if (!image || !title || !navigation) {
@@ -535,8 +551,19 @@ const Featured = () => {
       scale: 0.9, 
       duration: 0.3, 
       ease: 'power2.in' 
-    })
-    .to(title, { 
+    });
+    
+    // Fade out description if it exists
+    if (description) {
+      tl.to(description, { 
+        opacity: 0, 
+        y: 20, 
+        duration: 0.2, 
+        ease: 'power2.in' 
+      }, '-=0.1');
+    }
+    
+    tl.to(title, { 
       opacity: 0, 
       y: 20, 
       duration: 0.2, 
@@ -585,6 +612,7 @@ const Featured = () => {
     
     const image = modalRef.current.querySelector('.image-modal-image');
     const title = modalRef.current.querySelector('.image-modal-title');
+    const description = modalRef.current.querySelector('.image-modal-description');
     
     if (!image || !title) return;
     
@@ -593,7 +621,7 @@ const Featured = () => {
       onComplete: callback
     });
     
-    // Fade out current image and title
+    // Fade out current image, title, and description
     tl.to(image, { 
       opacity: 0, 
       duration: 0.2, 
@@ -603,13 +631,22 @@ const Featured = () => {
       opacity: 0, 
       duration: 0.15, 
       ease: 'power2.in' 
-    }, '-=0.1')
+    }, '-=0.1');
+    
+    if (description) {
+      tl.to(description, { 
+        opacity: 0, 
+        duration: 0.15, 
+        ease: 'power2.in' 
+      }, '-=0.1');
+    }
+    
     // Update image source immediately after fade out
-    .add(() => {
+    tl.add(() => {
       // The callback will update the image source
       callback();
     })
-    // Fade in new image and title
+    // Fade in new image, title, and description
     .to(image, { 
       opacity: 1, 
       duration: 0.3, 
@@ -620,6 +657,18 @@ const Featured = () => {
       duration: 0.2, 
       ease: 'power2.in' 
     }, '-=0.1');
+    
+    // Fade in new description if it exists (need to check after React update)
+    setTimeout(() => {
+      const newDescription = modalRef.current?.querySelector('.image-modal-description');
+      if (newDescription) {
+        gsap.to(newDescription, { 
+          opacity: 1, 
+          duration: 0.2, 
+          ease: 'power2.in' 
+        });
+      }
+    }, 300);
   };
 
   const isRouteReady = useRouteTransitionReady();
@@ -819,6 +868,11 @@ const Featured = () => {
             <div className="image-modal-title">
               {selectedImage.title}
             </div>
+            {selectedImage.description && (
+              <div className="image-modal-description">
+                {selectedImage.description}
+              </div>
+            )}
             
             {/* Navigation Snack Bar */}
             <div className="image-modal-navigation">
