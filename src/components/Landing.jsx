@@ -1269,8 +1269,9 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
             <div
               ref={initialUnderlineRef}
               style={{
-                width: '80%',
-                maxWidth: '400px',
+                width: isMobile ? 'auto' : '80%',
+                minWidth: isMobile ? '150px' : 'auto',
+                maxWidth: isMobile ? '200px' : '400px',
                 height: '2px',
                 backgroundColor: '#333',
                 transformOrigin: 'left center',
