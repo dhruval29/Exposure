@@ -21,7 +21,21 @@ export default function ContactUsMobile() {
   const [form, setForm] = React.useState({ name: '', phone: '', email: '', eventAbout: '', eventWhen: '' });
   const [submitting, setSubmitting] = React.useState(false);
   const [submitMsg, setSubmitMsg] = React.useState('');
-  const animationsReady = true; // Always start animations immediately
+  const [animationsReady, setAnimationsReady] = React.useState(() => {
+    if (!window.__routeTransitionActive) return true;
+    return !!window.__routeTransitionHalfExit;
+  });
+
+  React.useEffect(() => {
+    if (animationsReady) return;
+    const onHalf = () => setAnimationsReady(true);
+    window.addEventListener('route-transition-half-exit', onHalf);
+    const fallback = setTimeout(() => setAnimationsReady(true), 3000);
+    return () => {
+      window.removeEventListener('route-transition-half-exit', onHalf);
+      clearTimeout(fallback);
+    };
+  }, [animationsReady]);
 
   const handleChange = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
 

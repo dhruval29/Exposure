@@ -86,6 +86,7 @@ const RouteTransitionLoader = () => {
 
       // Mark active and notify
       window.__routeTransitionActive = true
+      window.__routeTransitionHalfExit = false
       try { window.dispatchEvent(new CustomEvent('route-transition-start')) } catch {}
       gsap.set(el, { pointerEvents: 'auto' })
       
@@ -153,6 +154,7 @@ const RouteTransitionLoader = () => {
       }
       // Mark active and notify
       window.__routeTransitionActive = true
+      window.__routeTransitionHalfExit = false
       try { window.dispatchEvent(new CustomEvent('route-transition-start')) } catch {}
       gsap.set(el, { pointerEvents: 'auto' })
       
@@ -245,11 +247,23 @@ const RouteTransitionLoader = () => {
         }
         
         // Then slide overlay up
+        let halfExitEventFired = false
         gsap.to(el, {
           yPercent: -100,
           duration: COVER_OUT_DURATION,
           ease: EASE_OUT,
           delay: 0.2,
+          onUpdate: () => {
+            // Fire a one-time event when the overlay has lifted ~50%
+            if (!halfExitEventFired) {
+              const y = gsap.getProperty(el, 'yPercent')
+            if (typeof y === 'number' && y <= -50) {
+                halfExitEventFired = true
+              window.__routeTransitionHalfExit = true
+                try { window.dispatchEvent(new CustomEvent('route-transition-half-exit')) } catch {}
+              }
+            }
+          },
           onComplete: () => {
             gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
             if (textEl) {
@@ -263,6 +277,7 @@ const RouteTransitionLoader = () => {
             pendingHrefRef.current = null
             window.__routeTransitionActive = false
             window.__minTextDurationComplete = false
+            window.__routeTransitionHalfExit = false
             
             // Scroll to top when route transition completes
             window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })

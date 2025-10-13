@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { startRouteTransition } from './RouteTransitionLoader';
 import styles from './SimpleNav.module.css';
@@ -7,9 +7,16 @@ import Menu from './Menu';
 const SimpleNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuAnimating, setIsMenuAnimating] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isOnContactPage = location.pathname === '/contact';
+  
+  const lastScrollY = useRef(0);
+  const hideTimeoutRef = useRef(null);
+  const hoverHideTimeoutRef = useRef(null);
+  const hasInitialHideHappened = useRef(false);
 
   const handleMenuToggle = () => {
     if (!isMenuOpen) {
@@ -21,9 +28,118 @@ const SimpleNav = () => {
     }
   };
 
+  // Initial auto-hide after 6 seconds
+  useEffect(() => {
+    if (!hasInitialHideHappened.current) {
+      hideTimeoutRef.current = setTimeout(() => {
+        setIsNavVisible(false);
+        hasInitialHideHappened.current = true;
+      }, 6000);
+
+      return () => {
+        if (hideTimeoutRef.current) {
+          clearTimeout(hideTimeoutRef.current);
+        }
+      };
+    }
+  }, []);
+
+  // Handle scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // If at the very top, always show
+      if (currentScrollY < 10) {
+        setIsNavVisible(true);
+        // Clear hover hide timeout when at top
+        if (hoverHideTimeoutRef.current) {
+          clearTimeout(hoverHideTimeoutRef.current);
+          hoverHideTimeoutRef.current = null;
+        }
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      // Don't auto-hide/show until initial hide has happened
+      if (!hasInitialHideHappened.current) {
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      // Scrolling down - hide
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        if (!isHovering) {
+          setIsNavVisible(false);
+        }
+      }
+      // Scrolling up - show
+      else if (currentScrollY < lastScrollY.current) {
+        setIsNavVisible(true);
+        // Clear hover hide timeout when scrolling up to prevent auto-hide
+        if (hoverHideTimeoutRef.current) {
+          clearTimeout(hoverHideTimeoutRef.current);
+          hoverHideTimeoutRef.current = null;
+        }
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isHovering]);
+
+  // Handle hover near top of page
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // If mouse is in top 100px, show navbar
+      if (e.clientY < 100) {
+        if (!isHovering) {
+          setIsHovering(true);
+          setIsNavVisible(true);
+          
+          // Clear any existing hover hide timeout when mouse enters
+          if (hoverHideTimeoutRef.current) {
+            clearTimeout(hoverHideTimeoutRef.current);
+            hoverHideTimeoutRef.current = null;
+          }
+        }
+      } else {
+        if (isHovering) {
+          setIsHovering(false);
+          
+          // Start a 6-second timer to hide navbar when mouse leaves hover area
+          if (hoverHideTimeoutRef.current) {
+            clearTimeout(hoverHideTimeoutRef.current);
+          }
+          
+          hoverHideTimeoutRef.current = setTimeout(() => {
+            // Only hide if still not hovering and not at top of page
+            if (window.scrollY > 10) {
+              setIsNavVisible(false);
+            }
+          }, 6000);
+        }
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (hoverHideTimeoutRef.current) {
+        clearTimeout(hoverHideTimeoutRef.current);
+      }
+    };
+  }, [isHovering]);
+
   return (
     <>
-      <div className={`${styles.simpleNav} ${isOnContactPage ? styles.noBorder : ''}`}>
+      <div className={`${styles.simpleNav} ${isOnContactPage ? styles.noBorder : ''} ${!isNavVisible ? styles.hidden : ''}`}>
         <button 
           className={`${styles.contactButton} ${isOnContactPage ? styles.hideOnDesktop : ''}`}
           onClick={() => {

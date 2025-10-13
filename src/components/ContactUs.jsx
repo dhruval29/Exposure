@@ -9,7 +9,23 @@ import useRouteTransitionReady from '../hooks/useRouteTransitionReady';
 
 
 const ContactUs = () => {
-  const isRouteReady = true; // Always show content immediately
+  const [animationsReady, setAnimationsReady] = React.useState(() => {
+    // If no transition is active or already halfway lifted, allow animations immediately
+    if (!window.__routeTransitionActive) return true;
+    return !!window.__routeTransitionHalfExit;
+  });
+
+  React.useEffect(() => {
+    if (animationsReady) return;
+    const onHalf = () => setAnimationsReady(true);
+    window.addEventListener('route-transition-half-exit', onHalf);
+    // Safety: if loader isn't active for some reason, enable after a short delay
+    const fallback = setTimeout(() => setAnimationsReady(true), 3000);
+    return () => {
+      window.removeEventListener('route-transition-half-exit', onHalf);
+      clearTimeout(fallback);
+    };
+  }, [animationsReady]);
 	const [form, setForm] = React.useState({
 		name: '',
 		phone: '',
@@ -102,7 +118,7 @@ const ContactUs = () => {
 	return (
 		<>
 			<SimpleNav />
-            <div id="contact" className={`${styles.contactUs} ${styles.animationsReady}`}>
+            <div id="contact" className={`${styles.contactUs} ${animationsReady ? styles.animationsReady : ''}`}>
 			{/* Removed component-specific loader */}
 				<i className={styles.contact}>Contact</i>
 				<div className={styles.wantHelpCoveringContainer}>

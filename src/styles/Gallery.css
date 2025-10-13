@@ -40,6 +40,15 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   z-index: -1;
 }
 
+/* Desktop-only: Dynamic height for background */
+@media (min-width: 1025px) {
+  .gallery-container::before {
+    position: absolute;
+    height: 100%;
+    min-height: 100vh;
+  }
+}
+
 /* Loading Page */
 .c-loading-page {
   position: fixed;
@@ -692,6 +701,13 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   z-index: 1;
 }
 
+/* Desktop-only: Dynamic height for main */
+@media (min-width: 1025px) {
+  .main {
+    height: auto;
+  }
+}
+
 /* Grid Mode */
 .p-home-grid-mode {
   display: flex;
@@ -701,6 +717,14 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   max-width: none;
   margin: 0;
   padding: 0;
+}
+
+/* Desktop-only: Dynamic height for grid mode */
+@media (min-width: 1025px) {
+  .p-home-grid-mode {
+    min-height: 100vh;
+    height: auto;
+  }
 }
 
 .p-home-grid-mode__contents {
@@ -716,7 +740,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   justify-content: center;
   height: 100%;
   align-items: center;
-  transform: translateY(36%); /* Desktop: Move the grid down by 30% */
+  transform: translateY(36%); /* Desktop: Move the grid down */
+}
+
+/* Desktop-only: Use padding instead of transform for dynamic height */
+@media (min-width: 1025px) {
+  .p-home-grid-mode__contents {
+    padding-top: 36vh;
+    padding-bottom: 60px;
+    transform: none;
+    align-self: flex-start;
+    align-items: start;
+    height: auto;
+    min-height: 100vh;
+  }
 }
 
 /* Mobile responsive grid positioning */
@@ -846,6 +883,16 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   overflow: hidden;
   position: relative;
   background: #e5e7eb;
+}
+
+/* Desktop-only: Dynamic height for left section */
+@media (min-width: 1025px) {
+  .p-home-left-section {
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+    padding-bottom: 80px;
+  }
 }
 
 /* Pictures Title Section */
