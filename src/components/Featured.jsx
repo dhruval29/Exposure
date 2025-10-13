@@ -29,6 +29,7 @@ const Featured = () => {
       const modal = modalRef.current;
       const image = modal.querySelector('.image-modal-image');
       const title = modal.querySelector('.image-modal-title');
+      const description = modal.querySelector('.image-modal-description');
       const metaEl = modal.querySelector('.image-metadata-left');
       if (!image || !title) return;
 
@@ -38,21 +39,30 @@ const Featured = () => {
       const gapPx = 32;
 
       const useSidePlacement = viewportWidth >= 1025;
+      const hasDescription = description && description.textContent && description.textContent.trim() !== '';
 
       if (useSidePlacement) {
-        // Attempt to place title to the right of image
-        title.style.position = 'fixed';
-        title.style.top = `${Math.round(viewportHeight / 2)}px`;
-        title.style.left = `${Math.round(rect.right + gapPx)}px`;
-        title.style.transform = 'translateY(-50%)';
-        title.style.marginTop = '0';
-        title.style.textAlign = 'left';
+        // If there's no description, always place title to the right of image on desktop
+        if (!hasDescription) {
+          title.style.position = 'fixed';
+          title.style.top = `${Math.round(viewportHeight / 2)}px`;
+          title.style.left = `${Math.round(rect.right + gapPx)}px`;
+          title.style.transform = 'translateY(-50%)';
+          title.style.marginTop = '0';
+          title.style.textAlign = 'left';
 
-        // If there isn't enough space on the right, place below
-        const titleRect = title.getBoundingClientRect();
-        const insufficientRightSpace = titleRect.right > viewportWidth - 16;
-        const minimalRightSpace = viewportWidth - rect.right; // px space to the right of image
-        if (insufficientRightSpace || minimalRightSpace < 120) {
+          // If there isn't enough space on the right, place below
+          const titleRect = title.getBoundingClientRect();
+          const insufficientRightSpace = titleRect.right > viewportWidth - 16;
+          const minimalRightSpace = viewportWidth - rect.right; // px space to the right of image
+          if (insufficientRightSpace || minimalRightSpace < 120) {
+            title.style.position = 'static';
+            title.style.transform = 'none';
+            title.style.marginTop = '16px';
+            title.style.textAlign = 'center';
+          }
+        } else {
+          // If there's a description, use the original logic (stack below image)
           title.style.position = 'static';
           title.style.transform = 'none';
           title.style.marginTop = '16px';
