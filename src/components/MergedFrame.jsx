@@ -269,8 +269,11 @@ const MergedFrame = () => {
 					</p>
 				</div>
 				<div ref={frame2SubTextRef} className={styles.frame2SubText}>
-					We frame the stories<br />
-					that matter most
+					We frame the stories that matter most—
+					quiet glances, loud celebrations,<br />
+					and everything in between. These are the
+					moments you’ll want to revisit,
+					remember, and relive.
 				</div>
                 <div className={styles.frame2Image3Container}>
                     <img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1).jpg" alt="Creative process" />

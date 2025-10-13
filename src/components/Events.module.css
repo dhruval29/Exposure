@@ -510,10 +510,10 @@
 
 .img2024101415521735Icon {
   position: absolute;
-  top: 7%; /* moved down by 2% from 5% */
-  left: 58%; /* moved left slightly to expand towards left side */
-  width: 32%; /* scaled down from 40% to reduce desktop size */
-  height: 52%; /* scaled down from 65% to reduce desktop size */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   will-change: transform;
   transform-origin: center center;
@@ -524,10 +524,10 @@
 
 .img2024101415521736Icon {
   position: absolute;
-  top: 7%; /* moved down by 2% from 5% */
-  left: 4%; /* moved 5% to the right - changed from 2% to 7% */
-  width: 40%; /* scaled down from 50% to reduce desktop size */
-  height: 64%; /* scaled down from 80% to reduce desktop size */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   will-change: transform;
   transform-origin: center center;
@@ -1083,6 +1083,18 @@
     border-radius: 8px;
   }
   
+  /* Ensure images work with relative containers on mobile */
+  .featuredImageContainer .img2024101415521735Icon,
+  .featuredImageContainer .img2024101415521736Icon,
+  .featuredImageContainer1 .img2024101415521735Icon,
+  .featuredImageContainer2 .img2024101415521736Icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 35vh !important;
+  }
+  
   .img2024101415521736Icon {
     display: block; /* Show both images on mobile */
   }
@@ -1218,6 +1230,18 @@
     border-radius: 6px;
   }
   
+  /* Ensure images work with relative containers on mobile portrait */
+  .featuredImageContainer .img2024101415521735Icon,
+  .featuredImageContainer .img2024101415521736Icon,
+  .featuredImageContainer1 .img2024101415521735Icon,
+  .featuredImageContainer2 .img2024101415521736Icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 30vh !important;
+  }
+  
   .img2024101415521736Icon {
     display: block; /* Show both images on mobile */
   }
@@ -1351,6 +1375,18 @@
     height: 25vh; /* Much larger height to take up whole page */
     object-fit: cover;
     border-radius: 4px;
+  }
+  
+  /* Ensure images work with relative containers on small mobile */
+  .featuredImageContainer .img2024101415521735Icon,
+  .featuredImageContainer .img2024101415521736Icon,
+  .featuredImageContainer1 .img2024101415521735Icon,
+  .featuredImageContainer2 .img2024101415521736Icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 25vh !important;
   }
   
   .img2024101415521736Icon {
@@ -1743,5 +1779,118 @@
 .textBox2,
 .textBox2Second {
   word-spacing: 0.1em;
+}
+
+/* Featured Image Hover Overlay Styles */
+.featuredImageLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Base container styles */
+.featuredImageContainer {
+  position: absolute;
+  overflow: hidden;
+}
+
+/* Container for first featured image - matches original img2024101415521735Icon positioning */
+.featuredImageContainer1 {
+  top: 7%;
+  left: 58%;
+  width: 32%;
+  height: 52%;
+}
+
+/* Container for second featured image - matches original img2024101415521736Icon positioning */
+.featuredImageContainer2 {
+  top: 7%;
+  left: 4%;
+  width: 40%;
+  height: 64%;
+}
+
+.featuredImageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.featuredImageArrow {
+  opacity: 0;
+  transform: translate(-15px, 10px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  visibility: hidden;
+}
+
+.arrowIcon {
+  width: 120px;
+  height: 120px;
+  filter: brightness(0) invert(1); /* Make arrow white */
+}
+
+/* Hover states for featured images */
+.featuredImageLink:hover .featuredImageOverlay {
+  opacity: 1;
+}
+
+.featuredImageLink:hover .featuredImageArrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  visibility: visible;
+}
+
+/* Mobile responsive adjustments for hover overlay */
+@media (max-width: 768px) {
+  .arrowIcon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .featuredImageOverlay {
+    background: rgba(0, 0, 0, 0.3); /* Lighter overlay on mobile */
+  }
+  
+  /* Revert containers to relative positioning on mobile */
+  .featuredImageContainer,
+  .featuredImageContainer1,
+  .featuredImageContainer2 {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .arrowIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .featuredImageOverlay {
+    background: rgba(0, 0, 0, 0.25); /* Even lighter overlay on small mobile */
+  }
+  
+  /* Ensure containers stay relative on small mobile */
+  .featuredImageContainer,
+  .featuredImageContainer1,
+  .featuredImageContainer2 {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+  }
 }
 

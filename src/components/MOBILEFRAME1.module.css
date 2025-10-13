@@ -71,7 +71,7 @@
 
 .weUseTheContainer {
   position: absolute;
-  top: 9.00%; /* 34px / 844px */
+  top: 15.00%; /* Moved down from 9% to 15% */
   left: 63.18%; /* 19px / 390px */
   letter-spacing: 0.02em;
   line-height: 122.71%;
@@ -86,7 +86,7 @@
 
 .mobileFrame1SubText {
   position: absolute;
-  top: 23%; /* positioned below main text (9% + ~19% for 5 lines) */
+  top: 29%; /* Moved down from 23% to 29% (maintained 14% spacing) */
   left: 63.18%; /* align with main text */
   font-size: clamp(8px, 2vw, 12px);
   letter-spacing: 0.02em;

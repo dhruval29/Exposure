@@ -509,22 +509,76 @@ const Events = () => {
         <div className={styles.img2024101415521735Parent}>
           {featuredEvents.length > 0 && (
             <>
-              <img 
-                className={styles.img2024101415521735Icon} 
-                alt={featuredEvents[0].cover_image?.title || featuredEvents[0].title} 
-                src={featuredEvents[0].cover_image?.public_url || "/assets/images/Sliding Page/1.webp"} 
-              />
+              {(() => {
+                const eventLink = (featuredEvents[0].links && featuredEvents[0].links.length > 0) ? featuredEvents[0].links[0] : '#';
+                const hasValidLink = eventLink !== '#' && eventLink && eventLink.trim() !== '';
+                return hasValidLink ? (
+                  <a href={eventLink} target="_blank" rel="noopener noreferrer" className={styles.featuredImageLink}>
+                    <div className={`${styles.featuredImageContainer} ${styles.featuredImageContainer1}`}>
+                      <img 
+                        className={styles.img2024101415521735Icon} 
+                        alt={featuredEvents[0].cover_image?.title || featuredEvents[0].title} 
+                        src={featuredEvents[0].cover_image?.public_url || "/assets/images/Sliding Page/1.webp"} 
+                      />
+                      <div className={styles.featuredImageOverlay}>
+                        <div className={styles.featuredImageArrow}>
+                          <img
+                            src="/new-arrow.svg"
+                            alt="Arrow"
+                            className={styles.arrowIcon}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                ) : (
+                  <div className={`${styles.featuredImageContainer} ${styles.featuredImageContainer1}`}>
+                    <img 
+                      className={styles.img2024101415521735Icon} 
+                      alt={featuredEvents[0].cover_image?.title || featuredEvents[0].title} 
+                      src={featuredEvents[0].cover_image?.public_url || "/assets/images/Sliding Page/1.webp"} 
+                    />
+                  </div>
+                );
+              })()}
               <div className={styles.textBox1}>{featuredEvents[0].title}</div>
               
             </>
           )}
           {featuredEvents.length > 1 && (
             <>
-              <img 
-                className={styles.img2024101415521736Icon} 
-                alt={featuredEvents[1].cover_image?.title || featuredEvents[1].title} 
-                src={featuredEvents[1].cover_image?.public_url || "/assets/images/Sliding Page/5.webp"} 
-              />
+              {(() => {
+                const eventLink = (featuredEvents[1].links && featuredEvents[1].links.length > 0) ? featuredEvents[1].links[0] : '#';
+                const hasValidLink = eventLink !== '#' && eventLink && eventLink.trim() !== '';
+                return hasValidLink ? (
+                  <a href={eventLink} target="_blank" rel="noopener noreferrer" className={styles.featuredImageLink}>
+                    <div className={`${styles.featuredImageContainer} ${styles.featuredImageContainer2}`}>
+                      <img 
+                        className={styles.img2024101415521736Icon} 
+                        alt={featuredEvents[1].cover_image?.title || featuredEvents[1].title} 
+                        src={featuredEvents[1].cover_image?.public_url || "/assets/images/Sliding Page/5.webp"} 
+                      />
+                      <div className={styles.featuredImageOverlay}>
+                        <div className={styles.featuredImageArrow}>
+                          <img
+                            src="/new-arrow.svg"
+                            alt="Arrow"
+                            className={styles.arrowIcon}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                ) : (
+                  <div className={`${styles.featuredImageContainer} ${styles.featuredImageContainer2}`}>
+                    <img 
+                      className={styles.img2024101415521736Icon} 
+                      alt={featuredEvents[1].cover_image?.title || featuredEvents[1].title} 
+                      src={featuredEvents[1].cover_image?.public_url || "/assets/images/Sliding Page/5.webp"} 
+                    />
+                  </div>
+                );
+              })()}
               <div className={styles.textBox1Second}>{featuredEvents[1].title}</div>
               
             </>

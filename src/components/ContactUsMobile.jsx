@@ -59,7 +59,8 @@ export default function ContactUsMobile() {
       setSubmitMsg('Thanks! We will get back to you soon.');
       setForm({ name: '', phone: '', email: '', eventAbout: '', eventWhen: '' });
     } catch (e) {
-      setSubmitMsg('Submission failed. Please try again.');
+      console.error('Contact form submission failed:', e);
+      setSubmitMsg(`Submission failed: ${e?.message || 'Please try again.'}`);
     } finally {
       setSubmitting(false);
     }
