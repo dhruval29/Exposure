@@ -214,7 +214,7 @@ const MergedFrame = () => {
 				</div>
 				<div className={styles.frame3Section}>
 					<div className={styles.frame3Image2Container}>
-						<img className={styles.frame3Image2} src="/assets/images/Sliding Page/7.webp" alt="Creative inspiration" />
+						<img className={styles.frame3Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.jpg" alt="Creative inspiration" />
 					</div>
                     <div className={styles.frame3Image3Container}>
                         <img className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).webp" alt="Imagination spark" />
@@ -283,7 +283,7 @@ const MergedFrame = () => {
 			{/* Frame 3 Content - Bottom Section (200vh to 300vh) */}
 			<div ref={frame3Ref} className={styles.frame3Section}>
 				<div className={styles.frame3Image2Container}>
-					<img ref={img4Ref} className={styles.frame3Image2} src="/assets/images/Sliding Page/7.webp" alt="Creative inspiration" />
+					<img ref={img4Ref} className={styles.frame3Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.jpg" alt="Creative inspiration" />
 				</div>
                 <div className={styles.frame3Image3Container}>
                     <img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).webp" alt="Imagination spark" />

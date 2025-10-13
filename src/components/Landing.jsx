@@ -25,13 +25,14 @@ const FOOTER_HEIGHT_MOBILE = '25vh'
 // Landing shutter preloader removed
 
 // VideoBackground component to handle continuous video playback
-const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
+const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted }) => {
   const videoRef = useRef(null)
   const [rotatingWord, setRotatingWord] = useState('')
   const rotationRef = useRef({ intervalId: null, startedAt: 0, index: 0, finished: false })
   const subtitleRef = useRef(null)
   const subtitleInnerRef = useRef(null)
   const underlineRef = useRef(null)
+  const startedRef = useRef(false)
 
   useEffect(() => {
     const video = videoRef.current
@@ -45,6 +46,15 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
         }
       } catch (error) {
         console.log('Video play failed:', error)
+      }
+    }
+
+    // Mark started once and notify parent
+    const markStarted = () => {
+      if (startedRef.current) return
+      startedRef.current = true
+      if (typeof onVideoStarted === 'function') {
+        onVideoStarted()
       }
     }
 
@@ -67,6 +77,14 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
     document.addEventListener('visibilitychange', handleVisibilityChange)
     window.addEventListener('focus', handleFocus)
     window.addEventListener('blur', handleBlur)
+    video.addEventListener('playing', markStarted, { once: true })
+    video.addEventListener('play', markStarted, { once: true })
+    video.addEventListener('canplay', markStarted, { once: true })
+    video.addEventListener('canplaythrough', markStarted, { once: true })
+    const onTimeUpdate = () => {
+      if ((video.currentTime || 0) > 0) markStarted()
+    }
+    video.addEventListener('timeupdate', onTimeUpdate)
 
     // Initial play attempt
     ensurePlaying()
@@ -79,6 +97,11 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle }) => {
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('focus', handleFocus)
       window.removeEventListener('blur', handleBlur)
+      video.removeEventListener('playing', markStarted)
+      video.removeEventListener('play', markStarted)
+      video.removeEventListener('canplay', markStarted)
+      video.removeEventListener('canplaythrough', markStarted)
+      video.removeEventListener('timeupdate', onTimeUpdate)
       clearInterval(playInterval)
     }
   }, [])
@@ -978,6 +1001,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const [isMenuSlidingUp, setIsMenuSlidingUp] = useState(false)
   const [isMenuHidden, setIsMenuHidden] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [videoStarted, setVideoStarted] = useState(false)
   const navVisibilityRef = useRef('visible')
   const [showNavTitle, setShowNavTitle] = useState(false)
   // Initial landing overlay matching RouteTransitionLoader style
@@ -1129,6 +1153,8 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   // Initial full-screen overlay styled like RouteTransitionLoader
   useEffect(() => {
     if (!showInitialOverlay) return
+    // Do not lift the shutter until the video has started playing
+    if (!videoStarted) return
     const el = initialOverlayRef.current
     const textEl = initialTextRef.current
     const underlineEl = initialUnderlineRef.current
@@ -1167,7 +1193,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       })
     }, MIN_TEXT_DISPLAY_DURATION * 1000)
     return () => clearTimeout(timeoutId)
-  }, [showInitialOverlay])
+  }, [showInitialOverlay, videoStarted])
 
   // Sliding height: desktop 300vh, mobile/tablet 200vh
   const getSlidingHeight = () => {
@@ -1293,7 +1319,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
 
       {/* All loading screens removed */}
       {/* First landing page section with video background - fixed at 100vh */}
-      <VideoBackground wireframeRef={wireframeRef} isMobile={isMobile} startSubtitle={!showInitialOverlay} />
+      <VideoBackground wireframeRef={wireframeRef} isMobile={isMobile} startSubtitle={!showInitialOverlay} onVideoStarted={() => setVideoStarted(true)} />
 
       {/* Sliding page content - positioned after 100vh */}
       <div
