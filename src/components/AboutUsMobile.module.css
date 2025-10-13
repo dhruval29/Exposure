@@ -11,6 +11,11 @@
   font-family: 'PP Editorial New';
 }
 
+.contentOffset {
+  position: relative;
+  top: 5vh; /* shift all content down by ~5% of viewport height */
+}
+
 .aboutUsMobileChild {
   position: absolute;
   top: 5.28vh; /* 45px at 852px = 5.28vh */
@@ -73,7 +78,8 @@
   left: 14.0vw; /* 55px at 393px = 14.0vw */
   width: 22.9vw; /* 90px at 393px = 22.9vw */
   height: 10.63vh; /* 90.6px at 852px = 10.63vh */
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .aboutUsMobileItem {
@@ -94,7 +100,8 @@
 .dedicatedToCapturing,
 .ourMembersCollaborate,
 .nitgOrignal12,
-.exposureExplorers3 {
+.exposureExplorers3,
+.aboutUsMobileItem {
   opacity: 0;
 }
 
@@ -112,6 +119,7 @@
   transform-origin: left center;
   transform: scaleX(0);
   animation: lineGrow 800ms ease-out forwards;
+  opacity: 1; /* reveal only when animation starts */
 }
 
 .animatedImage {

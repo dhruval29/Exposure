@@ -64,7 +64,8 @@
 .about,
 .exposureExplorers,
 .nitgOrignal11,
-.exposureExplorers2 {
+.exposureExplorers2,
+.aboutUsItem {
   opacity: 0;
 }
 
@@ -82,6 +83,7 @@
   transform-origin: left center;
   transform: scaleX(0);
   animation: lineGrow 800ms ease-out forwards;
+  opacity: 1; /* reveal when animation class is applied */
 }
 
 .animatedImage {

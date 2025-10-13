@@ -174,8 +174,9 @@
 .exposureexplorersnitgoaaci {
   position: absolute;
   top: 85%;
-  left: 95%;
-  transform: translateX(-50%);
+  right: -47%;
+  left: auto;
+  transform: none;
   line-height: 100.58%;
   font-size: clamp(11px, 1.2vw, 20px);
   font-family: 'PP Editorial New';
@@ -187,18 +188,19 @@
   cursor: pointer;
   position: relative;
   transition: color 0.3s ease;
+  display: inline-block;
 }
 
 .clickableEmail::after {
   content: '';
   position: absolute;
   left: 0;
-  right: 0;
   bottom: -2px;
   height: 2px;
   background: currentColor;
   transform-origin: left center;
   transform: scaleX(0);
+  width: 100%;
   transition: transform 0.5s ease;
 }
 
