@@ -19,11 +19,9 @@ export const IMAGES = [
 // Fixed, hand-picked z-indexes to avoid changing on reload
 export const Z_INDEXES = [12, 8, 4, 10, 6, 2, 14, 16, 18, 20]
 
-// Fixed positions and sizes (no randomness)
-// Positions derived from 1536x776 px design, converted to percentages
-// Each has: top %, left %, width % (relative to container width)
-// More images in bottom half, scattered with no initial overlap
-export const POSITIONS = [
+
+// Mobile positions (from previous git version)
+export const MOBILE_POSITIONS = [
   { top: '05%', left: '-40%',   widthPct: 28 },    // Top-left, mostly off
   { top: '-10%', left: '100%', widthPct: 24 },      // Top-right, off right edge
   { top: '110%', left: '-40%', widthPct: 26 },      // Far bottom-left, off bottom
@@ -36,21 +34,18 @@ export const POSITIONS = [
   { top: '105%', left: '10%', widthPct: 23 },       // Bottom-center-right
 ]
 
-// Mobile and below should use the current positions the user adjusted
-export const MOBILE_POSITIONS = POSITIONS
-
-// Desktop positions (original set prior to user adjustments)
+// Desktop positions (current positions from user adjustments)
 export const DESKTOP_POSITIONS = [
-  { top: '-40%', left: '-50%',   widthPct: 28 },
-  { top: '-25%', left: '100%', widthPct: 24 },
-  { top: '140%', left: '-40%', widthPct: 26 },
-  { top: '-35%',  left: '85%', widthPct: 22 },
-  { top: '110%', left: '110%', widthPct: 20 },
-  { top: '-60%',  left: '15%', widthPct: 30 },
-  { top: '80%', left: '-60%', widthPct: 28 },
-  { top: '105%', left: '120%', widthPct: 25 },
-  { top: '90%', left: '25%', widthPct: 18 },
-  { top: '105%', left: '60%', widthPct: 23 },
+  { top: '05%', left: '20%',   widthPct: 28 },    // Top-left, mostly off
+  { top: '-10%', left: '100%', widthPct: 24 },      // Top-right, off right edge
+  { top: '60%', left: '-50%', widthPct: 26 },      // Far bottom-left, off bottom
+  { top: '-35%',  left: '85%', widthPct: 22 },      // Top-right, partially off
+  { top: '80%', left: '110%', widthPct: 20 },      // Bottom-right, off right
+  { top: '-40%',  left: '-25%', widthPct: 30 },      // Far top-center, mostly off
+  { top: '110%', left: '-30%', widthPct: 28 },       // Bottom-left, mostly off
+  { top: '105%', left: '50%', widthPct: 25 },      // Far bottom-right corner
+  { top: '90%', left: '45%', widthPct: 18 },        // Bottom-center-left
+  { top: '75%', left: '10%', widthPct: 23 },       // Bottom-center-right
 ]
 
 // Initial depth tweak per image to bring a few very close initially
@@ -132,8 +127,9 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
 
       const maxZLayer = Math.max(...Z_INDEXES)
       items.forEach((el, i) => {
-        // Base exit direction (toward nearest edge) from fixed positions
-        const { top, left } = POSITIONS[i % POSITIONS.length]
+        // Use different positions based on screen size
+        const positions = isMobile === 'desktop' ? DESKTOP_POSITIONS : MOBILE_POSITIONS
+        const { top, left } = positions[i % positions.length]
         const leftPct = parseFloat(String(left).replace('%', ''))
         const topPct = parseFloat(String(top).replace('%', ''))
         const xOut = leftPct < 50 ? -800 : 800
@@ -181,7 +177,9 @@ const Fly = ({ controlled = false, onItemsReady, containerStyle, zIndex }) => {
   return (
     <div ref={containerRef} className={styles.container} style={{ ...(containerStyle || {}), zIndex }}>
       {IMAGES.map((src, idx) => {
-        const { top, left, widthPct } = POSITIONS[idx % POSITIONS.length]
+        // Use different positions based on screen size
+        const positions = isMobile === 'desktop' ? DESKTOP_POSITIONS : MOBILE_POSITIONS
+        const { top, left, widthPct } = positions[idx % positions.length]
         const z = Z_INDEXES[idx % Z_INDEXES.length]
         // Responsive width scaling
         const responsiveWidth = isMobile === 'small-mobile' ? widthPct * 1.4 : 

@@ -11,7 +11,7 @@ import StorytellingHero from './StorytellingHero'
 import Footer from './Footer'
 import HoverImage from './HoverImage'
 import { responsiveImagePositions } from '../utils/positionConverter'
-import Fly, { Z_INDEXES as FLY_Z_INDEXES, POSITIONS as FLY_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
+import Fly, { Z_INDEXES as FLY_Z_INDEXES, MOBILE_POSITIONS as FLY_MOBILE_POSITIONS, DESKTOP_POSITIONS as FLY_DESKTOP_POSITIONS, START_Z_OFFSETS as FLY_START_Z_OFFSETS } from './Fly'
 import MobileSlidingFrame from './MobileSlidingFrame'
 import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
@@ -504,9 +504,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       const durations = items.map((_, i) => 0.9 + (maxZLayer - (FLY_Z_INDEXES[i % FLY_Z_INDEXES.length])) * 0.12)
       const flyMaxDuration = Math.max(...durations)
 
+      // Use appropriate positions based on screen size
+      const positions = isMobile ? FLY_MOBILE_POSITIONS : FLY_DESKTOP_POSITIONS
+
       // Build tweens starting at time 0
       items.forEach((el, i) => {
-        const { top, left } = FLY_POSITIONS[i % FLY_POSITIONS.length]
+        const { top, left } = positions[i % positions.length]
         const leftPct = parseFloat(String(left).replace('%', ''))
         const topPct = parseFloat(String(top).replace('%', ''))
         const xOut = leftPct < 50 ? -800 : 800
