@@ -95,7 +95,7 @@ const ZoomReveal = ({
       scrollTrigger: {
         trigger: container,
         start: 'top center',
-        end: '+=120%',
+        end: window.innerWidth > 1920 ? '+=180%' : window.innerWidth > 1440 ? '+=150%' : '+=120%', // More scroll distance for larger monitors
         scrub: 1,
         markers: false,
         onUpdate: (self) => {
@@ -136,7 +136,7 @@ const ZoomReveal = ({
       ease: 'power2.out'
     }, 'zoomStart')
     .to(left, {
-      x: -window.innerWidth * 1.2, // Move completely off-screen to eliminate any overlap
+      x: -window.innerWidth * (window.innerWidth > 1920 ? 1.5 : 1.2), // Move further off-screen on larger monitors
       duration: 2.2,
       ease: 'power2.inOut'
     }, 'zoomStart+=0.3')
@@ -146,7 +146,7 @@ const ZoomReveal = ({
       ease: 'power2.out'
     }, 'zoomStart')
     .to(right, {
-      x: window.innerWidth * 1.2, // Move completely off-screen to eliminate any overlap
+      x: window.innerWidth * (window.innerWidth > 1920 ? 1.5 : 1.2), // Move further off-screen on larger monitors
       duration: 2.2,
       ease: 'power2.inOut'
     }, 'zoomStart+=0.3')
@@ -184,7 +184,8 @@ const ZoomReveal = ({
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 1000, // Ensure it's above background elements
-        isolation: 'isolate' // Create new stacking context
+        isolation: 'isolate', // Create new stacking context
+        overflow: 'hidden' // Prevent any text bleeding outside container
       }}
     >
       <div style={{
