@@ -19,14 +19,6 @@ const ZoomReveal = ({
   const rightTextRef = useRef(null);
   const [showNav, setShowNav] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [trackerInfo, setTrackerInfo] = useState({
-    leftTextX: 0,
-    rightTextX: 0,
-    imageWidth: 0,
-    imageHeight: 0,
-    screenWidth: window.innerWidth,
-    screenHeight: window.innerHeight
-  });
 
   // Mobile detection
   useEffect(() => {
@@ -66,52 +58,66 @@ const ZoomReveal = ({
     // Ensure text is visible immediately and above everything
     gsap.set([left, right], { zIndex: 5000, opacity: 1 });
 
-    // Add tracking for real-time position monitoring
-    const updateTracker = () => {
-      if (left && right && img) {
-        const leftRect = left.getBoundingClientRect();
-        const rightRect = right.getBoundingClientRect();
-        const imageRect = img.getBoundingClientRect();
-        
-        setTrackerInfo({
-          leftTextX: Math.round(leftRect.left + leftRect.width / 2),
-          rightTextX: Math.round(rightRect.left + rightRect.width / 2),
-          imageWidth: Math.round(imageRect.width),
-          imageHeight: Math.round(imageRect.height),
-          screenWidth: window.innerWidth,
-          screenHeight: window.innerHeight
-        });
-      }
-    };
-
-    // Update tracker every 100ms during animation
-    const trackerInterval = setInterval(updateTracker, 100);
-
     // Store ScrollTrigger instance to kill it later
     let scrollTriggerInstance = null;
     let animationComplete = false;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top center',
-        end: window.innerWidth > 1920 ? '+=180%' : window.innerWidth > 1440 ? '+=150%' : '+=120%', // More scroll distance for larger monitors
-        scrub: 1,
-        markers: false,
-        onUpdate: (self) => {
+    // Detect iOS devices - specifically target smaller iPhones (iPhone 13 and below)
+    // Larger models like iPhone 13 Pro Max (926px), 14 Plus work fine
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isSmallIOS = isIOS && window.innerHeight <= 844 && window.innerWidth <= 430; // iPhone 13, 12, 11, X, SE, etc.
+    
+    // Build ScrollTrigger config - only apply iOS fixes to small iOS devices
+    const scrollTriggerConfig = {
+      trigger: container,
+      start: 'top center',
+      end: window.innerWidth > 1920 ? '+=180%' : window.innerWidth > 1440 ? '+=150%' : '+=120%', // More scroll distance for larger monitors
+      scrub: isSmallIOS ? 0.5 : 1, // Faster scrub on small iOS devices to reduce momentum issues
+      markers: false,
+      onUpdate: (self) => {
           // Once we reach the end, prevent reversing
-          if (self.progress === 1 && !animationComplete) {
+          if (self.progress >= 0.99 && !animationComplete) {
             animationComplete = true;
             // Kill the ScrollTrigger to prevent reverse animation
             if (scrollTriggerInstance) {
-              scrollTriggerInstance.kill();
+              // Disable ScrollTrigger but keep the final state
+              scrollTriggerInstance.disable();
+              // Set final positions explicitly
+              gsap.set(img, {
+                width: '100vw',
+                height: '100vh',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                x: 0,
+                y: 0,
+                xPercent: -50,
+                yPercent: -50,
+                zIndex: 1000,
+                overwrite: 'auto'
+              });
+              gsap.set(left, { x: -window.innerWidth * (window.innerWidth > 1920 ? 1.5 : 1.2) });
+              gsap.set(right, { x: window.innerWidth * (window.innerWidth > 1920 ? 1.5 : 1.2) });
             }
           }
         },
         onCreate: function() {
           scrollTriggerInstance = this;
         }
-      }
+    };
+    
+    // Add iOS-specific fixes ONLY for small iOS devices
+    if (isSmallIOS) {
+      scrollTriggerConfig.pin = true; // Pin the container during animation
+      scrollTriggerConfig.pinSpacing = true; // Keep spacing for smooth scroll
+      scrollTriggerConfig.anticipatePin = 1; // Helps with iOS performance
+      scrollTriggerConfig.invalidateOnRefresh = true; // Handle viewport changes (iOS address bar)
+      scrollTriggerConfig.fastScrollEnd = true; // Detect fast scroll end on iOS
+      scrollTriggerConfig.toggleActions = 'play none none none'; // Prevent reverse animation
+    }
+    
+    const tl = gsap.timeline({
+      scrollTrigger: scrollTriggerConfig
     });
 
     tl.to(img, {
@@ -155,10 +161,26 @@ const ZoomReveal = ({
     .add(() => {
       // Show nav immediately (scroll-controlled elsewhere if needed)
       setShowNav(true);
-      // Ensure ScrollTrigger is killed when nav shows
+      // Ensure ScrollTrigger is disabled when nav shows
       if (scrollTriggerInstance && !animationComplete) {
         animationComplete = true;
-        scrollTriggerInstance.kill();
+        scrollTriggerInstance.disable();
+        // Lock final positions
+        gsap.set(img, {
+          width: '100vw',
+          height: '100vh',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          x: 0,
+          y: 0,
+          xPercent: -50,
+          yPercent: -50,
+          zIndex: 1000,
+          overwrite: 'auto'
+        });
+        gsap.set(left, { x: -window.innerWidth * (window.innerWidth > 1920 ? 1.5 : 1.2) });
+        gsap.set(right, { x: window.innerWidth * (window.innerWidth > 1920 ? 1.5 : 1.2) });
       }
     });
 
@@ -168,7 +190,6 @@ const ZoomReveal = ({
         scrollTriggerInstance.kill();
       }
       ScrollTrigger.getAll().forEach(t => t.kill());
-      clearInterval(trackerInterval); // Clear interval on cleanup
     };
   }, [isMobile]);
 
@@ -281,46 +302,6 @@ const ZoomReveal = ({
           <NavigationMenu isExiting={false} />
         </div>
       )}
-
-      {/* Text Box Tracker - Always Visible */}
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          left: '20px',
-          background: 'rgba(0, 0, 0, 0.9)',
-          color: 'white',
-          padding: '15px',
-          borderRadius: '8px',
-          fontFamily: 'monospace',
-          fontSize: '12px',
-          zIndex: 9999,
-          minWidth: '300px',
-          border: '1px solid #333'
-        }}
-      >
-        <div style={{ marginBottom: '10px', fontWeight: 'bold', color: '#00ff00' }}>
-          📍 TEXT BOX TRACKER
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#ff6b6b' }}>Left Text X:</span> {trackerInfo.leftTextX}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#4ecdc4' }}>Right Text X:</span> {trackerInfo.rightTextX}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#45b7d1' }}>Image Width:</span> {trackerInfo.imageWidth}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#96ceb4' }}>Image Height:</span> {trackerInfo.imageHeight}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#feca57' }}>Screen:</span> {trackerInfo.screenWidth} × {trackerInfo.screenHeight}
-        </div>
-        <div style={{ marginTop: '10px', fontSize: '10px', color: '#888' }}>
-          Distance from center: {Math.abs(trackerInfo.leftTextX - trackerInfo.screenWidth / 2)}px
-        </div>
-      </div>
     </div>
   );
 };
