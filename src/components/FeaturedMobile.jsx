@@ -520,17 +520,9 @@ const FeaturedMobile = () => {
         className="gallery-container gallery-mobile"
         style={{
           overflowY: 'auto',
-          minHeight: '100vh',
+          height: '100vh',
           opacity: isVisibleUnderCover || isRouteReady ? 1 : 0,
-          transition: 'opacity 300ms ease',
-          WebkitOverflowScrolling: 'touch',
-          overscrollBehavior: 'contain'
-        }}
-        onTouchStart={(e) => {
-          // Prevent touch events from interfering with scrolling
-          if (!showModal) {
-            e.stopPropagation();
-          }
+          transition: 'opacity 300ms ease'
         }}
       >
       {/* Removed component-specific loader and loading page */}
@@ -542,7 +534,6 @@ const FeaturedMobile = () => {
         className="main"
         style={{
           minHeight: '100vh',
-          touchAction: 'pan-y', // Allow vertical scrolling
           overflow: 'visible'
         }}
       >

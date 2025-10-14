@@ -220,11 +220,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 /* Mobile-only Gallery Styles */
 .gallery-mobile {
   background: #ede9e4;
-  height: auto !important;
-  min-height: 100vh;
+  height: 100vh !important;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
-  overscroll-behavior: contain; /* Prevent overscroll bounce */
+  position: relative;
 }
 
 .gallery-mobile::before {
@@ -260,7 +258,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   padding: 20px 10px;
   margin-left: 0;
   justify-content: center;
-  touch-action: pan-y; /* Allow vertical scrolling */
 }
 
 /* Mobile responsive grid adjustments */
@@ -273,7 +270,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     padding: 25px 15px;
-    touch-action: pan-y; /* Allow vertical scrolling */
   }
 }
 
@@ -286,7 +282,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px 10px;
-    touch-action: pan-y; /* Allow vertical scrolling */
   }
   
   .p-home-grid-mode__item-num {
@@ -305,7 +300,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     padding: 15px 8px;
-    touch-action: pan-y; /* Allow vertical scrolling */
   }
 }
 
