@@ -19,14 +19,6 @@ const ZoomReveal = ({
   const rightTextRef = useRef(null);
   const [showNav, setShowNav] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [trackerInfo, setTrackerInfo] = useState({
-    leftTextX: 0,
-    rightTextX: 0,
-    imageWidth: 0,
-    imageHeight: 0,
-    screenWidth: window.innerWidth,
-    screenHeight: window.innerHeight
-  });
 
   // Mobile detection
   useEffect(() => {
@@ -65,27 +57,6 @@ const ZoomReveal = ({
 
     // Ensure text is visible immediately and above everything
     gsap.set([left, right], { zIndex: 5000, opacity: 1 });
-
-    // Add tracking for real-time position monitoring
-    const updateTracker = () => {
-      if (left && right && img) {
-        const leftRect = left.getBoundingClientRect();
-        const rightRect = right.getBoundingClientRect();
-        const imageRect = img.getBoundingClientRect();
-        
-        setTrackerInfo({
-          leftTextX: Math.round(leftRect.left + leftRect.width / 2),
-          rightTextX: Math.round(rightRect.left + rightRect.width / 2),
-          imageWidth: Math.round(imageRect.width),
-          imageHeight: Math.round(imageRect.height),
-          screenWidth: window.innerWidth,
-          screenHeight: window.innerHeight
-        });
-      }
-    };
-
-    // Update tracker every 100ms during animation
-    const trackerInterval = setInterval(updateTracker, 100);
 
     // Store ScrollTrigger instance to kill it later
     let scrollTriggerInstance = null;
@@ -181,7 +152,6 @@ const ZoomReveal = ({
         scrollTriggerInstance.kill();
       }
       ScrollTrigger.getAll().forEach(t => t.kill());
-      clearInterval(trackerInterval); // Clear interval on cleanup
     };
   }, [isMobile]);
 
@@ -293,46 +263,6 @@ const ZoomReveal = ({
           <NavigationMenu isExiting={false} />
         </div>
       )}
-
-      {/* Text Box Tracker - Always Visible */}
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          left: '20px',
-          background: 'rgba(0, 0, 0, 0.9)',
-          color: 'white',
-          padding: '15px',
-          borderRadius: '8px',
-          fontFamily: 'monospace',
-          fontSize: '12px',
-          zIndex: 9999,
-          minWidth: '300px',
-          border: '1px solid #333'
-        }}
-      >
-        <div style={{ marginBottom: '10px', fontWeight: 'bold', color: '#00ff00' }}>
-          📍 TEXT BOX TRACKER
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#ff6b6b' }}>Left Text X:</span> {trackerInfo.leftTextX}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#4ecdc4' }}>Right Text X:</span> {trackerInfo.rightTextX}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#45b7d1' }}>Image Width:</span> {trackerInfo.imageWidth}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#96ceb4' }}>Image Height:</span> {trackerInfo.imageHeight}px
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <span style={{ color: '#feca57' }}>Screen:</span> {trackerInfo.screenWidth} × {trackerInfo.screenHeight}
-        </div>
-        <div style={{ marginTop: '10px', fontSize: '10px', color: '#888' }}>
-          Distance from center: {Math.abs(trackerInfo.leftTextX - trackerInfo.screenWidth / 2)}px
-        </div>
-      </div>
     </div>
   );
 };
