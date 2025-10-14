@@ -192,6 +192,9 @@ const NavigationMenu = ({ isExiting }) => {
 
   const handleClick = (itemId) => {
     switch (itemId) {
+      case 'about-us':
+        startRouteTransition('/about-us');
+        break;
       case 'gallery':
         startRouteTransition('/events');
         break;
