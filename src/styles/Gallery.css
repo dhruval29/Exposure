@@ -223,6 +223,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   height: auto !important;
   min-height: 100vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+  overscroll-behavior: contain; /* Prevent overscroll bounce */
 }
 
 .gallery-mobile::before {
@@ -258,6 +260,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   padding: 20px 10px;
   margin-left: 0;
   justify-content: center;
+  touch-action: pan-y; /* Allow vertical scrolling */
 }
 
 /* Mobile responsive grid adjustments */
@@ -270,6 +273,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     padding: 25px 15px;
+    touch-action: pan-y; /* Allow vertical scrolling */
   }
 }
 
@@ -282,6 +286,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px 10px;
+    touch-action: pan-y; /* Allow vertical scrolling */
   }
   
   .p-home-grid-mode__item-num {
@@ -300,6 +305,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     padding: 15px 8px;
+    touch-action: pan-y; /* Allow vertical scrolling */
   }
 }
 
@@ -912,6 +918,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   transform: translateY(24px);
   animation: titleFadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
   white-space: nowrap;
+  pointer-events: none; /* Prevent touch interference */
+  touch-action: none; /* Disable touch actions on this element */
 }
 
 .pictures-title {
@@ -961,6 +969,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   opacity: 0;
   transform: translateY(20px);
   animation: subtitleFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+  pointer-events: none; /* Prevent touch interference */
+  touch-action: none; /* Disable touch actions on this element */
 }
 
 .pictures-subtitle {
@@ -1005,6 +1015,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     min-width: auto;
     width: auto;
     z-index: 10;
+    pointer-events: none; /* Prevent touch interference */
+    touch-action: none; /* Disable touch actions on this element */
   }
   
   .pictures-subtitle-container {
@@ -1017,6 +1029,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     line-height: 2.181vh;
     color: #6c6a6a;
     z-index: 10;
+    pointer-events: none; /* Prevent touch interference */
+    touch-action: none; /* Disable touch actions on this element */
   }
   
   /* Adjust grid to start below the text boxes */
@@ -1033,6 +1047,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 9.231vw;
     line-height: 3.946vh;
     z-index: 10;
+    pointer-events: none; /* Prevent touch interference */
+    touch-action: none; /* Disable touch actions on this element */
   }
   
   .pictures-subtitle-container {
@@ -1042,6 +1058,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 4.103vw;
     line-height: 2.181vh;
     z-index: 10;
+    pointer-events: none; /* Prevent touch interference */
+    touch-action: none; /* Disable touch actions on this element */
   }
   
   .p-home-grid-mode {
@@ -1057,6 +1075,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 9.231vw;
     line-height: 3.946vh;
     z-index: 10;
+    pointer-events: none; /* Prevent touch interference */
+    touch-action: none; /* Disable touch actions on this element */
   }
   
   .pictures-subtitle-container {
@@ -1066,6 +1086,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 4.103vw;
     line-height: 2.181vh;
     z-index: 10;
+    pointer-events: none; /* Prevent touch interference */
+    touch-action: none; /* Disable touch actions on this element */
   }
   
   .p-home-grid-mode {

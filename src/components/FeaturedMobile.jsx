@@ -319,14 +319,16 @@ const FeaturedMobile = () => {
     markPicturesTutorialSeen();
   };
 
-  const handleTutorialInteraction = () => {
-    if (showTutorial) {
+  const handleTutorialInteraction = (isTargetImage = false) => {
+    if (showTutorial && isTargetImage) {
       handleTutorialComplete();
     }
   };
 
   const handleImageClick = (image, index) => {
-    handleTutorialInteraction();
+    // Check if this is the tutorial target image (first image)
+    const isTutorialTarget = showTutorial && index === 0;
+    handleTutorialInteraction(isTutorialTarget);
     setSelectedImage({ ...image, index });
     setShowModal(true);
   };
@@ -520,9 +522,17 @@ const FeaturedMobile = () => {
           overflowY: 'auto',
           minHeight: '100vh',
           opacity: isVisibleUnderCover || isRouteReady ? 1 : 0,
-          transition: 'opacity 300ms ease'
-      }}
-    >
+          transition: 'opacity 300ms ease',
+          WebkitOverflowScrolling: 'touch',
+          overscrollBehavior: 'contain'
+        }}
+        onTouchStart={(e) => {
+          // Prevent touch events from interfering with scrolling
+          if (!showModal) {
+            e.stopPropagation();
+          }
+        }}
+      >
       {/* Removed component-specific loader and loading page */}
 
       
@@ -531,7 +541,9 @@ const FeaturedMobile = () => {
       <main
         className="main"
         style={{
-          minHeight: '100vh', // Move the entire container up
+          minHeight: '100vh',
+          touchAction: 'pan-y', // Allow vertical scrolling
+          overflow: 'visible'
         }}
       >
         <div className="p-home">
