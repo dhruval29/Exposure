@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import RouteTransitionLoader from './components/RouteTransitionLoader'
 import MobileChromeHider from './components/MobileChromeHider'
 import { Analytics } from "@vercel/analytics/react"
+import { useMediaQuery } from './hooks/useMediaQuery'
 // Import tutorial test helper for development
 import './utils/tutorialTestHelper'
 // Optimized lazy loading with error boundaries and loading states
@@ -30,95 +31,23 @@ const ContactUs = lazy(() => import('./components/ContactUs'))
 const ContactUsMobile = lazy(() => import('./components/ContactUsMobile'))
 
 function ContactRoute() {
-  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches);
-
-  React.useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
-    const handler = (e) => setIsMobile(e.matches);
-    if (mq.addEventListener) {
-      mq.addEventListener('change', handler);
-    } else {
-      mq.addListener(handler);
-    }
-    return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener('change', handler);
-      } else {
-        mq.removeListener(handler);
-      }
-    };
-  }, []);
-
+  const isMobile = useMediaQuery('(max-width: 768px)');
   return isMobile ? <ContactUsMobile /> : <ContactUs />;
 }
 
 function FeaturedRoute() {
-  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 1024px)').matches);
-
-  React.useEffect(() => {
-    const mq = window.matchMedia('(max-width: 1024px)');
-    const handler = (e) => setIsMobile(e.matches);
-    if (mq.addEventListener) {
-      mq.addEventListener('change', handler);
-    } else {
-      mq.addListener(handler);
-    }
-    return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener('change', handler);
-      } else {
-        mq.removeListener(handler);
-      }
-    };
-  }, []);
-
+  const isMobile = useMediaQuery('(max-width: 1024px)');
   return isMobile ? <FeaturedMobile /> : <Featured />;
 }
 
 function TheTeamRoute() {
-  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches)
-
-  React.useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)')
-    const handler = (e) => setIsMobile(e.matches)
-    if (mq.addEventListener) {
-      mq.addEventListener('change', handler)
-    } else {
-      mq.addListener(handler)
-    }
-    return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener('change', handler)
-      } else {
-        mq.removeListener(handler)
-      }
-    }
-  }, [])
-
-  return isMobile ? <TheTeamMobile /> : <TheTeamPage />
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  return isMobile ? <TheTeamMobile /> : <TheTeamPage />;
 }
 
 function AboutUsRoute() {
-  const [isMobile, setIsMobile] = React.useState(() => window.matchMedia('(max-width: 768px)').matches)
-
-  React.useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)')
-    const handler = (e) => setIsMobile(e.matches)
-    if (mq.addEventListener) {
-      mq.addEventListener('change', handler)
-    } else {
-      mq.addListener(handler)
-    }
-    return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener('change', handler)
-      } else {
-        mq.removeListener(handler)
-      }
-    }
-  }, [])
-
-  return isMobile ? <AboutUsMobile /> : <AboutUs />
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  return isMobile ? <AboutUsMobile /> : <AboutUs />;
 }
 
 function App() {
@@ -134,7 +63,6 @@ function App() {
 
 function InnerApp() {
   const location = useLocation();
-  const navigate = useNavigate();
   const showFrame50 = location.pathname === '/';
 
   return (

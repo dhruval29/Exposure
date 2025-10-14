@@ -7,6 +7,8 @@ import App from './App.jsx'
 import { SpeedInsights } from "@vercel/speed-insights/react"
 // Initialize performance monitoring
 import { initPerformanceMonitoring } from './utils/performanceMonitor.js'
+// Import deferred initialization utility
+import { deferToIdle } from './utils/deferredInit.js'
 
 // Hydrate root after main thread settles for a tick
 const mount = () => {
@@ -17,8 +19,10 @@ const mount = () => {
     </StrictMode>,
   )
   
-  // Initialize performance monitoring
-  initPerformanceMonitoring()
+  // Defer non-critical initialization to idle time for better performance
+  deferToIdle(() => {
+    initPerformanceMonitoring()
+  })
   
   // Disable image dragging globally
   document.addEventListener('dragstart', (e) => {

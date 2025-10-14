@@ -7,9 +7,14 @@
     <link rel="apple-touch-icon" href="/assets/icons/bombbomb.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exposure Explorers</title>
-    <!-- Preconnect to Supabase REST and Storage to speed up initial handshakes -->
+    <!-- Preconnect to critical origins for faster resource loading -->
     <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://cpsvnatshfgedqtyaafh.supabase.co">
     <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co/storage" crossorigin>
+    <link rel="dns-prefetch" href="https://cpsvnatshfgedqtyaafh.supabase.co/storage">
+    <!-- Preconnect to Vercel Analytics for performance tracking -->
+    <link rel="preconnect" href="https://vitals.vercel-insights.com" crossorigin>
+    <link rel="dns-prefetch" href="https://vitals.vercel-insights.com">
     <!-- Google Fonts - Helvetica alternatives -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +34,9 @@
     <!-- Boot cover to guarantee initial paint matches loader color -->
     <div id="boot-cover" style="position:fixed;inset:0;background:#F2EAE0;z-index:2147483647"></div>
     <div id="root"></div>
+    <!-- Preload critical JavaScript modules -->
+    <link rel="modulepreload" href="/src/main.jsx">
+    <link rel="modulepreload" href="/src/App.jsx">
     <!-- Early bootstrap to discover and preload the first featured image -->
     <script type="module" src="/src/bootstrap/featuredBoot.js" defer></script>
     <script type="module" src="/src/main.jsx" defer></script>
