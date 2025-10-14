@@ -258,7 +258,7 @@ const TheTeamMobile = () => {
 				<div className={styles.paragraph4}>
 					<div className={styles.ourDedicatedTeam}>Vice President</div>
 				</div>
-				<img className={styles.containerIcon} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
+				<img className={styles.containerIcon} alt="" src="/assets/icons/smile-svgrepo-com.svg" />
 				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftLeft}`} alt="" src="/assets/images/members/IMG_20241227_204306.jpg" />
 			</div>
 		<div className={styles.appTeammember}>

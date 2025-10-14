@@ -258,7 +258,7 @@ const Frame79 = () => {
       			<div className={styles.frameInner} />
       			<div className={styles.photographer}>{`Photographer `}</div>
       			<div className={styles.vicePresident}>Vice President</div>
-      			<img className={styles.instagramSvgrepoCom11} src="/assets/icons/instagram-svgrepo-com (1).svg" alt="" />
+      			<img className={styles.instagramSvgrepoCom11} src="/assets/icons/smile-svgrepo-com.svg" alt="" />
       			<div className={styles.jonathanPaul}>Jonathan Paul</div>
       			<div className={styles.lineDiv} />
       			<div className={styles.rectangleParentPhotographer}>{`Photographer `}</div>
