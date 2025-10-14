@@ -251,10 +251,15 @@ const Events = () => {
       if (searchBar) {
         const searchBarRect = searchBar.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
-        const searchBarCrossed40Percent = searchBarRect.top <= (viewportHeight * 0.4);
+        const scrollY = window.scrollY;
         
-        // Only show pagination if user has scrolled past the featured section
-        setShowPagination(searchBarCrossed40Percent);
+        // Only show pagination if user has scrolled significantly past the search bar
+        // and is not in the initial viewport area where scroll indicator might be active
+        const searchBarCrossed70Percent = searchBarRect.top <= (viewportHeight * 0.3);
+        const hasScrolledPastInitial = scrollY > (viewportHeight * 0.5);
+        
+        // Only show pagination if both conditions are met
+        setShowPagination(searchBarCrossed70Percent && hasScrolledPastInitial);
       }
     };
 
@@ -504,7 +509,7 @@ const Events = () => {
         <p className={styles.pageHeading}>memorable experiences</p>
       </div>
 
-      {/* Featured Events section - moved up */}
+      {/* Featured Events section - mobile only */}
       <div className={styles.eventsSection} ref={eventsSectionRef}>
         <div className={styles.img2024101415521735Parent}>
           {featuredEvents.length > 0 && (
@@ -637,9 +642,58 @@ const Events = () => {
         <div className={styles.eventsList} ref={listRef}>
           {eventsData.length > 0 ? (
             <>
-              <SmoothScrollWrapper>
-                <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
-              </SmoothScrollWrapper>
+              {/* Desktop: Image-based cards layout */}
+              <div className={styles.desktopEventsGrid}>
+                {pagedEvents.map((event, index) => (
+                  <div key={index} className={styles.desktopEventCard}>
+                    {event.image && event.image !== 'https://picsum.photos/600/400?random=1' ? (
+                      <div className={styles.desktopEventImageContainer}>
+                        <img 
+                          src={event.image} 
+                          alt={event.text}
+                          className={styles.desktopEventImage}
+                        />
+                        {event.hasValidLink && (
+                          <div className={styles.desktopEventOverlay}>
+                            <div className={styles.desktopEventArrow}>
+                              <img
+                                src="/new-arrow.svg"
+                                alt="Arrow"
+                                className={styles.desktopArrowIcon}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className={styles.desktopEventNoImageContainer}>
+                        <div className={styles.desktopEventNoImageText}>
+                          {event.text}
+                        </div>
+                      </div>
+                    )}
+                    <div className={styles.desktopEventTitle}>
+                      {event.text}
+                    </div>
+                    {event.hasValidLink && (
+                      <a 
+                        href={event.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={styles.desktopEventLink}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Mobile: Original FlowingMenu layout */}
+              <div className={styles.mobileEventsList}>
+                <SmoothScrollWrapper>
+                  <FlowingMenu items={pagedEvents} onUserInteraction={handleUserInteraction} />
+                </SmoothScrollWrapper>
+              </div>
+              
               {totalPages > 1 && showPagination && (
                 <div className={styles.footerBar}>
                   <div className={styles.pagination}>

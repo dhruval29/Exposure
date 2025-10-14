@@ -457,7 +457,7 @@
 
 .searchContainer {
   position: absolute;
-  top: 114vh !important; /* viewport-based - converted from calc(100vh + 60px) */
+  top: 10vh; /* viewport-based - converted from calc(100vh + 60px) */
   left: 4.5%; /* percentage-based positioning */
   border-radius: 47.78px;
   background-color: #d9d9d9;
@@ -475,6 +475,28 @@
   animation-delay: calc(var(--cu-delay-base) + 200ms); /* appears after Events title */
 }
 
+/* Desktop: Move search container near SimpleNav */
+@media (min-width: 1025px) {
+  .searchContainer {
+    position: absolute !important; /* Use fixed positioning to place it at the top */
+    top: 15vh !important; /* Position below the navigation bar using vh */
+    right: 5.339vw !important; /* Position on the right side */
+    left: auto !important; /* Override left positioning */
+    width: 25% !important;
+    max-width: 400px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important; /* Center content vertically within the container */
+    z-index: 100 !important; /* Ensure it stays above other content */
+    opacity: 1 !important; /* Override the opacity animation */
+    transform: none !important; /* Override the transform animation */
+  }
+  
+  .searchContainer .searchInput {
+    font-size: 22px !important; /* Reduced from 24px by 2px */
+  }
+}
+
 /* 50vh section between search and events list */
 .eventsSection {
   height: 70vh;
@@ -487,9 +509,17 @@
   background: transparent;
 }
 
+/* Hide featured section on desktop */
 @media (min-width: 1025px) {
   .eventsSection {
-    margin: 0 0 20px 0; /* remove margin-based offset on desktop */
+    display: none; /* Hide featured section on desktop */
+  }
+}
+
+/* Keep featured section visible on mobile and tablet */
+@media (max-width: 1024px) {
+  .eventsSection {
+    margin: 0 0 20px 0; /* remove margin-based offset on mobile */
     position: relative; /* move via position rather than padding/margin */
     top: 60px; /* shift the section down literally - reduced from 120px to move up */
   }
@@ -1437,6 +1467,183 @@
   }
 }
 
+/* Desktop Events Grid Layout - Image-based cards like featured section */
+.desktopEventsGrid {
+  display: none; /* Hidden by default, shown only on desktop */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 80px;
+  position: relative;
+  top: -11vh; /* Move the entire section up closer to heading (5% more) */
+}
+
+.desktopEventCard {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: transparent;
+}
+
+.desktopEventImageContainer {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 0px; /* Removed rounded corners for desktop */
+  background: #f5f5f5;
+}
+
+.desktopEventImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.desktopEventImageContainer:hover .desktopEventImage {
+  transform: scale(1.05);
+}
+
+.desktopEventNoImageContainer {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: #f5f5f5;
+  border-radius: 0px; /* Removed rounded corners for desktop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc;
+}
+
+.desktopEventNoImageText {
+  font-family: 'PP Editorial New', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  line-height: 1.3;
+}
+
+.desktopEventOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.desktopEventCard:hover .desktopEventOverlay {
+  opacity: 1;
+}
+
+.desktopEventArrow {
+  opacity: 0;
+  transform: translate(-15px, 10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  visibility: hidden;
+}
+
+.desktopEventCard:hover .desktopEventArrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  visibility: visible;
+}
+
+.desktopArrowIcon {
+  width: 80px;
+  height: 80px;
+  filter: brightness(0) invert(1);
+}
+
+.desktopEventTitle {
+  font-family: 'PP Editorial New', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #000;
+  text-align: left;
+  margin-top: 20px;
+  line-height: 1.2;
+}
+
+.desktopEventLink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  text-decoration: none;
+}
+
+/* Mobile Events List - Hidden on desktop */
+.mobileEventsList {
+  display: block;
+}
+
+/* Mobile and Tablet - Hide desktop grid completely */
+@media (max-width: 1024px) {
+  .desktopEventsGrid {
+    display: none !important;
+  }
+  
+  .mobileEventsList {
+    display: block;
+  }
+}
+
+/* Desktop-only styles */
+@media (min-width: 1025px) {
+  .desktopEventsGrid {
+    display: grid;
+  }
+  
+  .mobileEventsList {
+    display: none;
+  }
+  
+  .desktopEventCard:nth-child(odd) {
+    /* First event in each row - larger image */
+    height: 450px;
+  }
+  
+  .desktopEventCard:nth-child(odd) .desktopEventImageContainer,
+  .desktopEventCard:nth-child(odd) .desktopEventNoImageContainer {
+    height: 370px;
+  }
+  
+  .desktopEventCard:nth-child(even) {
+    /* Second event in each row - smaller image */
+    height: 350px;
+    margin-top: 0px; /* Reduced offset to align image borders horizontally */
+  }
+  
+  .desktopEventCard:nth-child(even) .desktopEventImageContainer,
+  .desktopEventCard:nth-child(even) .desktopEventNoImageContainer {
+    height: 270px;
+  }
+  
+  .desktopEventCard:nth-child(odd) .desktopEventTitle {
+    font-size: 36px;
+  }
+  
+  .desktopEventCard:nth-child(even) .desktopEventTitle {
+    font-size: 28px;
+  }
+}
+
 /* Extra large screens */
 @media (min-width: 1440px) {
   .events {
@@ -1487,6 +1694,40 @@
     position: relative; /* Changed from absolute to relative */
     margin-top: 16%; /* Increased space for extra large screens */
     padding: 0 20px;
+  }
+  
+  .desktopEventsGrid {
+    max-width: 1400px;
+    gap: 60px;
+    margin-top: 100px;
+    top: -15vh; /* Move the entire section up more on large screens (5% more) */
+  }
+  
+  .desktopEventCard:nth-child(odd) {
+    height: 500px;
+  }
+  
+  .desktopEventCard:nth-child(odd) .desktopEventImageContainer,
+  .desktopEventCard:nth-child(odd) .desktopEventNoImageContainer {
+    height: 420px;
+  }
+  
+  .desktopEventCard:nth-child(even) {
+    height: 400px;
+    margin-top: 0px; /* Reduced offset to align image borders horizontally */
+  }
+  
+  .desktopEventCard:nth-child(even) .desktopEventImageContainer,
+  .desktopEventCard:nth-child(even) .desktopEventNoImageContainer {
+    height: 320px;
+  }
+  
+  .desktopEventCard:nth-child(odd) .desktopEventTitle {
+    font-size: 40px;
+  }
+  
+  .desktopEventCard:nth-child(even) .desktopEventTitle {
+    font-size: 32px;
   }
 }
 
