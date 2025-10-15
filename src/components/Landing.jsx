@@ -16,6 +16,7 @@ import MobileSlidingFrame from './MobileSlidingFrame'
 import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
+import useRouteTransitionReady from '../hooks/useRouteTransitionReady'
 import '../styles/Gallery.css'
 
 // Footer height constants (responsive vh units)
@@ -33,6 +34,32 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
   const subtitleInnerRef = useRef(null)
   const underlineRef = useRef(null)
   const startedRef = useRef(false)
+  const [videoSrc, setVideoSrc] = useState(isMobile ? '/videos/vashi smol.mp4' : '/videos/SAAVYAS AFTERMOVIE.mp4')
+
+  // Decide video source based on network conditions (Data Saver/2g/3g -> slow version)
+  useEffect(() => {
+    const computeSrc = () => {
+      if (isMobile) {
+        return '/videos/vashi smol.mp4'
+      }
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+      const saveData = connection && connection.saveData
+      const effectiveType = connection && connection.effectiveType
+      const slowTypes = ['slow-2g', '2g', '3g']
+      const isSlow = Boolean(saveData) || (effectiveType ? slowTypes.includes(String(effectiveType).toLowerCase()) : false)
+      return isSlow ? '/videos/SAAVYAS AFTERMOVIE slow version.mp4' : '/videos/SAAVYAS AFTERMOVIE.mp4'
+    }
+
+    setVideoSrc(computeSrc())
+
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+    if (connection && typeof connection.addEventListener === 'function') {
+      const onChange = () => setVideoSrc(computeSrc())
+      connection.addEventListener('change', onChange)
+      return () => connection.removeEventListener('change', onChange)
+    }
+    return undefined
+  }, [isMobile])
 
   useEffect(() => {
     const video = videoRef.current
@@ -199,7 +226,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
           pointerEvents: 'none'
         }}
       >
-        <source src={isMobile ? "/videos/vashi smol.mp4" : "/videos/SAAVYAS AFTERMOVIE.mp4"} type="video/mp4" />
+        <source src={videoSrc} type="video/mp4" />
       </video>
       {/* Main title removed per request; keep only rotating subtitle */}
       {/* Fast-rotating subtitle that settles on Life */}
@@ -1013,6 +1040,9 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const initialTextRef = useRef(null)
   const initialUnderlineRef = useRef(null)
   // Mouse effect removed - page left blank as requested
+  
+  // Use route transition ready hook to sync with shutter loader
+  const isRouteReady = useRouteTransitionReady()
 
   // Enhanced mobile/tablet detection for different device sizes
   useEffect(() => {
@@ -1247,7 +1277,12 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   }
 
   return (
-    <div className="landing" style={{ width: '100%', height: getTotalPageHeight() }}>
+    <div className="landing" style={{ 
+      width: '100%', 
+      height: getTotalPageHeight(),
+      opacity: isRouteReady ? 1 : 0,
+      transition: 'opacity 0.3s ease-in-out'
+    }}>
       {showInitialOverlay && (
         <div
           ref={initialOverlayRef}

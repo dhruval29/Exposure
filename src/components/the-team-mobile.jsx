@@ -35,24 +35,22 @@ const TheTeamMobile = () => {
 			return (el.textContent || '').trim().length > 0;
 		});
 
-		textElements.forEach((el) => gsap.set(el, { opacity: 0, y: 32 }));
-		const textTriggers = textElements.map((el) =>
-			gsap.to(el, {
-				opacity: 1,
-				y: 0,
-				ease: 'power2.out',
-				duration: 1.2,
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 90%',
-					end: 'bottom 60%',
-					scrub: 1.2,
-					fastScrollEnd: true,
-					markers: false,
-					once: false
-				}
-			})
-		);
+	textElements.forEach((el) => gsap.set(el, { opacity: 0, y: 32 }));
+	const textTriggers = textElements.map((el) =>
+		gsap.to(el, {
+			opacity: 1,
+			y: 0,
+			ease: 'power2.out',
+			duration: 0.6,
+			scrollTrigger: {
+				trigger: el,
+				start: 'top 95%',
+				toggleActions: 'play none none none',
+				once: true,
+				markers: false
+			}
+		})
+	);
 
 		// Line grow-in
 		const lineSelectors = [
@@ -61,21 +59,21 @@ const TheTeamMobile = () => {
 			`.${styles.container9}`
 		].join(',');
 		const lineElements = Array.from(container.querySelectorAll(lineSelectors));
-		lineElements.forEach((el) => gsap.set(el, { transformOrigin: 'left center', scaleX: 0 }));
-		const lineTriggers = lineElements.map((el) =>
-			gsap.to(el, {
-				scaleX: 1,
-				ease: 'power2.out',
-				duration: 0.9,
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 92%',
-					end: 'top 70%',
-					scrub: 1,
-					markers: false
-				}
-			})
-		);
+	lineElements.forEach((el) => gsap.set(el, { transformOrigin: 'left center', scaleX: 0 }));
+	const lineTriggers = lineElements.map((el) =>
+		gsap.to(el, {
+			scaleX: 1,
+			ease: 'power2.out',
+			duration: 0.6,
+			scrollTrigger: {
+				trigger: el,
+				start: 'top 95%',
+				toggleActions: 'play none none none',
+				once: true,
+				markers: false
+			}
+		})
+	);
 
 	// Instagram icon pop-in (including buttons)
 	const instaSelectors = [
@@ -91,21 +89,21 @@ const TheTeamMobile = () => {
 		`.${styles.instagramButton4}`
 	].join(',');
 		const instaElements = Array.from(container.querySelectorAll(instaSelectors));
-		instaElements.forEach((el) => gsap.set(el, { opacity: 0, y: 16, scale: 0.88, transformOrigin: 'center center' }));
-		const instaTriggers = instaElements.map((el) => {
-			const tl = gsap.timeline({
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 90%',
-					end: 'top 65%',
-					scrub: 1,
-					markers: false
-				}
-			});
-			tl.to(el, { opacity: 1, y: 0, scale: 1.06, rotate: 2, duration: 0.6, ease: 'power2.out' });
-			tl.to(el, { scale: 1, rotate: 0, duration: 0.4, ease: 'power2.out' });
-			return tl;
+	instaElements.forEach((el) => gsap.set(el, { opacity: 0, y: 16, scale: 0.88, transformOrigin: 'center center' }));
+	const instaTriggers = instaElements.map((el) => {
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: el,
+				start: 'top 95%',
+				toggleActions: 'play none none none',
+				once: true,
+				markers: false
+			}
 		});
+		tl.to(el, { opacity: 1, y: 0, scale: 1.06, rotate: 2, duration: 0.4, ease: 'power2.out' });
+		tl.to(el, { scale: 1, rotate: 0, duration: 0.3, ease: 'power2.out' });
+		return tl;
+	});
 
 		// About paragraphs fade-up once
 		const aboutContainer = container.querySelector(`.${styles.container2}`);

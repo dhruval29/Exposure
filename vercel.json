@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!assets/).*)",
       "destination": "/index.html"
     }
   ],
@@ -51,10 +51,6 @@
         }
       ]
     }
-  ],
-  "buildCommand": "npm run build",
-  "framework": "vite",
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
 

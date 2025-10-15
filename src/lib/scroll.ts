@@ -14,17 +14,18 @@ gsap.config({
 })
 
 // ScrollTrigger performance optimizations
+// Use a shorter sync interval for better mobile responsiveness
+const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 ScrollTrigger.config({
   limitCallbacks: true, // Limit callbacks per frame for better performance
-  syncInterval: 200, // Sync interval in ms for better performance
+  syncInterval: isMobile ? 50 : 150, // Faster sync on mobile for better responsiveness
   autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load', // Only refresh on these events
 })
 
 // Set sensible global defaults for smoothness without Lenis
 // These act as base values; component-specific ScrollTriggers can still override
+// Don't set scrub globally - let components control their own scrub behavior
 ScrollTrigger.defaults({
-  // A small scrub creates smoothness while keeping responsiveness
-  scrub: 1.5,
   markers: false,
   // Avoid accidental global pin unless explicitly requested by components
   // Note: defaults does not support pin; components should set pin when needed
