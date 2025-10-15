@@ -41,13 +41,15 @@ const TheTeamMobile = () => {
 			opacity: 1,
 			y: 0,
 			ease: 'power2.out',
-			duration: 0.6,
+			duration: 1.2,
 			scrollTrigger: {
 				trigger: el,
-				start: 'top 95%',
-				toggleActions: 'play none none none',
-				once: true,
-				markers: false
+				start: 'top 90%',
+				end: 'bottom 60%',
+				scrub: 1.2,
+				fastScrollEnd: true,
+				markers: false,
+				once: false
 			}
 		})
 	);
@@ -64,12 +66,12 @@ const TheTeamMobile = () => {
 		gsap.to(el, {
 			scaleX: 1,
 			ease: 'power2.out',
-			duration: 0.6,
+			duration: 0.9,
 			scrollTrigger: {
 				trigger: el,
-				start: 'top 95%',
-				toggleActions: 'play none none none',
-				once: true,
+				start: 'top 92%',
+				end: 'top 70%',
+				scrub: 1,
 				markers: false
 			}
 		})
@@ -94,14 +96,14 @@ const TheTeamMobile = () => {
 		const tl = gsap.timeline({
 			scrollTrigger: {
 				trigger: el,
-				start: 'top 95%',
-				toggleActions: 'play none none none',
-				once: true,
+				start: 'top 90%',
+				end: 'top 65%',
+				scrub: 1,
 				markers: false
 			}
 		});
-		tl.to(el, { opacity: 1, y: 0, scale: 1.06, rotate: 2, duration: 0.4, ease: 'power2.out' });
-		tl.to(el, { scale: 1, rotate: 0, duration: 0.3, ease: 'power2.out' });
+		tl.to(el, { opacity: 1, y: 0, scale: 1.06, rotate: 2, duration: 0.6, ease: 'power2.out' });
+		tl.to(el, { scale: 1, rotate: 0, duration: 0.4, ease: 'power2.out' });
 		return tl;
 	});
 

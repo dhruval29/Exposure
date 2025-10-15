@@ -14,11 +14,8 @@ gsap.config({
 })
 
 // ScrollTrigger performance optimizations
-// Use a shorter sync interval for better mobile responsiveness
-const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 ScrollTrigger.config({
   limitCallbacks: true, // Limit callbacks per frame for better performance
-  syncInterval: isMobile ? 50 : 150, // Faster sync on mobile for better responsiveness
   autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load', // Only refresh on these events
 })
 
