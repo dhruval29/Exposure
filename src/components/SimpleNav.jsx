@@ -259,6 +259,8 @@ const SimpleNav = () => {
           className={`${styles.menuText} ${isMenuOpen ? styles.menuOpen : ''}`}
           onClick={handleMenuToggle}
           data-menu-open={isMenuOpen}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
         >
           {/* Desktop - Text version */}
           <span className={`${styles.slotContainer} ${styles.desktopMenuText}`}>

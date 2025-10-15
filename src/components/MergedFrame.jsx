@@ -251,10 +251,18 @@ const MergedFrame = () => {
 					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
 				</div>
                 <div className={styles.frame1Image1Container}>
-                    <img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998.jpg" alt="Storytelling image" />
+                    <picture>
+                        <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998-sm.webp" />
+                        <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998-md.webp" />
+                        <img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998.webp" alt="Storytelling image" />
+                    </picture>
                 </div>
                 <div className={styles.frame1Image2Container}>
-                    <img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).jpg" alt="Inspiration image" />
+                    <picture>
+                        <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2)-sm.webp" />
+                        <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2)-md.webp" />
+                        <img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).webp" alt="Inspiration image" />
+                    </picture>
                 </div>
 			</div>
 
@@ -276,17 +284,29 @@ const MergedFrame = () => {
 					remember, and relive.
 				</div>
                 <div className={styles.frame2Image3Container}>
-                    <img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1).jpg" alt="Creative process" />
+                    <picture>
+                        <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1)-sm.webp" />
+                        <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1)-md.webp" />
+                        <img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1).webp" alt="Creative process" />
+                    </picture>
                 </div>
 			</div>
 
 			{/* Frame 3 Content - Bottom Section (200vh to 300vh) */}
 			<div ref={frame3Ref} className={styles.frame3Section}>
 				<div className={styles.frame3Image2Container}>
-					<img ref={img4Ref} className={styles.frame3Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.jpg" alt="Creative inspiration" />
+					<picture>
+						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324-sm.webp" />
+						<source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324-md.webp" />
+						<img ref={img4Ref} className={styles.frame3Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.webp" alt="Creative inspiration" />
+					</picture>
 				</div>
                 <div className={styles.frame3Image3Container}>
-                    <img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).jpg" alt="Imagination spark" />
+					<picture>
+						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1)-sm.webp" />
+						<source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1)-md.webp" />
+						<img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).webp" alt="Imagination spark" />
+					</picture>
                 </div>
 				<div className={styles.frame3TextContainer}>
 					<p className={styles.weUseThe}>

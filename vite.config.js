@@ -31,14 +31,33 @@ export default defineConfig({
     assetsInlineLimit: 4096, // Inline small assets as base64
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunks for better caching
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          animations: ['framer-motion', 'gsap'],
-          supabase: ['@supabase/supabase-js'],
-          vercel: ['@vercel/analytics', '@vercel/speed-insights'],
-          utils: ['clsx', 'tailwind-merge', 'class-variance-authority']
+        manualChunks: (id) => {
+          // Core React dependencies - loaded on every page
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'vendor';
+          }
+          // Router - needed for navigation
+          if (id.includes('node_modules/react-router-dom')) {
+            return 'router';
+          }
+          // GSAP and animation libraries - used in multiple components
+          if (id.includes('node_modules/gsap') || id.includes('node_modules/framer-motion')) {
+            return 'animations';
+          }
+          // Supabase - separate chunk for better caching
+          if (id.includes('node_modules/@supabase')) {
+            return 'supabase';
+          }
+          // Vercel analytics - async load
+          if (id.includes('node_modules/@vercel')) {
+            return 'vercel';
+          }
+          // Utility libraries
+          if (id.includes('node_modules/clsx') || id.includes('node_modules/tailwind-merge') || id.includes('node_modules/class-variance-authority')) {
+            return 'utils';
+          }
+          // Return undefined for other modules - let Rollup decide
+          return undefined;
         },
         // Optimize asset naming
         assetFileNames: (assetInfo) => {
@@ -60,6 +79,14 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        passes: 2,  // Multiple passes for better optimization
+      },
+      mangle: {
+        safari10: true,  // Fix Safari 10 issues
+      },
+      format: {
+        comments: false,  // Remove all comments
       },
     },
     // Optimize chunk size

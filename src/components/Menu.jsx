@@ -97,6 +97,7 @@ const Menu = ({ onClose }) => {
               handleNavigation('home');
             }}
             onMouseEnter={handleTutorialInteraction}
+            aria-label="Navigate to Home page"
           >
             Home, 
           </button>
@@ -109,6 +110,7 @@ const Menu = ({ onClose }) => {
               handleNavigation('/about-us');
             }}
             onMouseEnter={handleTutorialInteraction}
+            aria-label="Navigate to About Us page"
           >
             About Us, 
           </button>

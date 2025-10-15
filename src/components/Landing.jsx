@@ -34,12 +34,17 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
   const subtitleInnerRef = useRef(null)
   const underlineRef = useRef(null)
   const startedRef = useRef(false)
-  const [videoSrc, setVideoSrc] = useState(isMobile ? '/videos/vashi smol.mp4' : '/videos/SAAVYAS AFTERMOVIE.mp4')
+  const [videoSrc, setVideoSrc] = useState('')
 
   // Decide video source based on network conditions (Data Saver/2g/3g -> slow version)
   useEffect(() => {
     const computeSrc = () => {
-      if (isMobile) {
+      // Determine mobile ASAP to avoid eagerly preloading desktop video
+      const inferredHandheld = typeof window !== 'undefined'
+        ? (window.innerWidth <= 768 || (window.innerWidth <= 1024 && (window.innerHeight / window.innerWidth) > 1.3))
+        : false
+
+      if (isMobile || inferredHandheld) {
         return '/videos/vashi smol.mp4'
       }
       const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
@@ -214,7 +219,8 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
         muted
         loop
         playsInline
-        preload="auto"
+        preload={videoSrc ? 'metadata' : 'none'}
+        key={videoSrc}
         style={{
           position: 'fixed',
           top: 0,
@@ -226,7 +232,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
           pointerEvents: 'none'
         }}
       >
-        <source src={videoSrc} type="video/mp4" />
+        {videoSrc && <source src={videoSrc} type="video/mp4" />}
       </video>
       {/* Main title removed per request; keep only rotating subtitle */}
       {/* Fast-rotating subtitle that settles on Life */}

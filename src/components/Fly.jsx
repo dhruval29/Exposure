@@ -5,11 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export const IMAGES = [
   '/assets/mobile/images/fly-images/1.webp',
-  '/assets/mobile/images/fly-images/2.jpg',
-  '/assets/mobile/images/fly-images/3.jpg',
+  '/assets/mobile/images/fly-images/2.webp',  // Converted from JPG
+  '/assets/mobile/images/fly-images/3.webp',  // Converted from JPG - 81 KB savings!
   '/assets/mobile/images/fly-images/4.webp',
-  '/assets/mobile/images/fly-images/5.jpg',
-  '/assets/mobile/images/fly-images/6.jpg',
+  '/assets/mobile/images/fly-images/5.webp',  // Converted from JPG
+  '/assets/mobile/images/fly-images/6.webp',  // Converted from JPG
   '/assets/mobile/images/fly-images/7.webp',
   '/assets/mobile/images/fly-images/8.webp',
   '/assets/mobile/images/fly-images/9.webp',
