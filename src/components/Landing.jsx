@@ -205,7 +205,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
         position: 'fixed',
         top: 0,
         left: 0,
-        background: '#0066ff',
+        background: `url('/assets/images/Sliding Page/5.webp') center center / cover no-repeat`,
         overflow: 'hidden',
         perspective: '900px',
         transformStyle: 'preserve-3d',
@@ -290,14 +290,14 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
           }}
         />
       </div>
-      {/* Fallback background color in case video fails to load */}
+      {/* Fallback background image in case video fails to load */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        background: '#0066ff',
+        background: `url('/assets/images/Sliding Page/5.webp') center center / cover no-repeat`,
         zIndex: 0
       }} />
     </div>

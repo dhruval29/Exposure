@@ -305,7 +305,7 @@ const TheTeamMobile = () => {
 					<div className={styles.ourDedicatedTeam}>Head of Photography</div>
 				</div>
 				<img className={styles.containerIcon6} alt="" src="/assets/icons/instagram-svgrepo-com (1).svg" />
-				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftUp}`} alt="" src="/assets/images/members/IMG_93521[1].webp" />
+				<img className={`${styles.appContainerIcon} ${styles.appContainerIconShiftUp}`} alt="" src="/assets/images/members/IMG_935211 [1].webp" />
 			</div>
 			<div className={styles.teammember4}>
 				<div className={styles.paragraph14}>
@@ -370,7 +370,7 @@ const TheTeamMobile = () => {
 				<a href="https://www.instagram.com/_pranav.l?igsh=MTVtazV2Y2Y2eGJjOQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className={`${styles.instagramButton} ${styles.instagramButton8}`}>
 					<img alt="Instagram" src="/assets/icons/instagram-svgrepo-com (1).svg" />
 				</a>
-				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_25541[1].JPG" />
+				<img className={styles.appContainerIcon} alt="" src="/assets/images/members/IMG_255411 [1].JPG" />
 			</div>
 			<div className={styles.teammember8}>
 				<div className={styles.paragraph2}>

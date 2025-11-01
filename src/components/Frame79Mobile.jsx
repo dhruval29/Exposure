@@ -14,7 +14,7 @@ const members = [
     name: 'Jonathan Paul',
     role: 'Photographer',
     position: 'Head of Photography',
-    image: '/assets/images/members/IMG_93521[1].webp',
+    image: '/assets/images/members/IMG_935211 [1].webp',
     instagram: '/assets/icons/instagram-svgrepo-com (1).svg',
     link: null
   },
