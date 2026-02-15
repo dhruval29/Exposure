@@ -36,7 +36,7 @@
   --app-gradient: #faf8f2;
   --app-gradient-size: 600% 600%;
   --app-gradient-anim: gradientShift 30s ease-in-out infinite;
-  font-family: 'Inter', 'Roboto', 'Source Sans Pro', 'Open Sans', 'Nunito Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 

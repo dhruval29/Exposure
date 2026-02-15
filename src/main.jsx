@@ -50,8 +50,4 @@ const mount = () => {
   }
 }
 
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(mount)
-} else {
-  setTimeout(mount, 0)
-}
+mount()

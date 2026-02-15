@@ -52,7 +52,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
       const effectiveType = connection && connection.effectiveType
       const slowTypes = ['slow-2g', '2g', '3g']
       const isSlow = Boolean(saveData) || (effectiveType ? slowTypes.includes(String(effectiveType).toLowerCase()) : false)
-      return isSlow ? '/videos/SAAVYAS AFTERMOVIE slow version.mp4' : '/videos/SAAVYAS AFTERMOVIE.mp4'
+      return isSlow ? '/videos/SAAVYAS AFTERMOVIE slow version.mp4' : '/videos/SAAVYAS AFTERMOVIE.webm'
     }
 
     setVideoSrc(computeSrc())
@@ -70,18 +70,16 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
     const video = videoRef.current
     if (!video) return
 
-    // Function to ensure video is playing
-    const ensurePlaying = async () => {
+    const attemptPlay = async () => {
       try {
         if (video.paused) {
           await video.play()
         }
-      } catch (error) {
-        console.log('Video play failed:', error)
+      } catch {
+        // Autoplay may be blocked in some contexts; keep silent to avoid main-thread log churn.
       }
     }
 
-    // Mark started once and notify parent
     const markStarted = () => {
       if (startedRef.current) return
       startedRef.current = true
@@ -90,51 +88,16 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
       }
     }
 
-    // Handle visibility change - ensure video keeps playing when tab becomes hidden
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        // Tab is hidden, but keep video playing
-        ensurePlaying()
-      } else {
-        // Tab is visible again, ensure video is still playing
-        ensurePlaying()
-      }
-    }
-
-    // Handle page focus/blur
-    const handleFocus = () => ensurePlaying()
-    const handleBlur = () => ensurePlaying()
-
-    // Add event listeners
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-    window.addEventListener('focus', handleFocus)
-    window.addEventListener('blur', handleBlur)
     video.addEventListener('playing', markStarted, { once: true })
-    video.addEventListener('play', markStarted, { once: true })
     video.addEventListener('canplay', markStarted, { once: true })
-    video.addEventListener('canplaythrough', markStarted, { once: true })
-    const onTimeUpdate = () => {
-      if ((video.currentTime || 0) > 0) markStarted()
-    }
-    video.addEventListener('timeupdate', onTimeUpdate)
+    video.addEventListener('loadeddata', markStarted, { once: true })
 
-    // Initial play attempt
-    ensurePlaying()
+    attemptPlay()
 
-    // Set up interval to periodically ensure video is playing (every 5 seconds)
-    const playInterval = setInterval(ensurePlaying, 5000)
-
-    // Cleanup
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-      window.removeEventListener('focus', handleFocus)
-      window.removeEventListener('blur', handleBlur)
       video.removeEventListener('playing', markStarted)
-      video.removeEventListener('play', markStarted)
       video.removeEventListener('canplay', markStarted)
-      video.removeEventListener('canplaythrough', markStarted)
-      video.removeEventListener('timeupdate', onTimeUpdate)
-      clearInterval(playInterval)
+      video.removeEventListener('loadeddata', markStarted)
     }
   }, [])
 
@@ -219,8 +182,9 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
         muted
         loop
         playsInline
-        preload={videoSrc ? 'metadata' : 'none'}
+        preload="none"
         key={videoSrc}
+        poster="/assets/images/Sliding Page/5.webp"
         style={{
           position: 'fixed',
           top: 0,
@@ -1192,8 +1156,6 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   // Initial full-screen overlay styled like RouteTransitionLoader
   useEffect(() => {
     if (!showInitialOverlay) return
-    // Do not lift the shutter until the video has started playing
-    if (!videoStarted) return
     const el = initialOverlayRef.current
     const textEl = initialTextRef.current
     const underlineEl = initialUnderlineRef.current

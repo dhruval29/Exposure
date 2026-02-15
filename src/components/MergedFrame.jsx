@@ -46,7 +46,7 @@ const MergedFrame = () => {
 	useEffect(() => {
 		const imageRefs = [img1Ref, img2Ref, img3Ref, img4Ref, img5Ref]
 		const parallaxSpeeds = [0.06, 0.06, 0.06, 0.03, 0.06]
-		const scaleValues = [1.02, 1.02, 1.02, 1.01, 1.02]
+		const scaleValues = [1, 1.02, 1.02, 1.01, 1.02]
 		
 		const imageObservers = imageRefs.map((imgRef, index) => {
 			if (!imgRef.current) return null
@@ -196,7 +196,7 @@ const MergedFrame = () => {
 					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
 				</div>
                     <div className={styles.frame1Image1Container}>
-                        <img className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998.jpg" alt="Storytelling image" />
+                        <img className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" alt="Storytelling image" />
                     </div>
                     <div className={styles.frame1Image2Container}>
                         <img className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).jpg" alt="Inspiration image" />
@@ -252,9 +252,9 @@ const MergedFrame = () => {
 				</div>
                 <div className={styles.frame1Image1Container}>
                     <picture>
-                        <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998-sm.webp" />
-                        <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998-md.webp" />
-                        <img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/Gemini_Generated_Image_j9982tj9982tj998.webp" alt="Storytelling image" />
+                        <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" />
+                        <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" />
+                        <img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" alt="Storytelling image" />
                     </picture>
                 </div>
                 <div className={styles.frame1Image2Container}>
