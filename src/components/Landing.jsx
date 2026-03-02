@@ -17,6 +17,7 @@ import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import useRouteTransitionReady from '../hooks/useRouteTransitionReady'
+import '../styles/Gallery.css'
 
 // Footer height constants (responsive vh units)
 const FOOTER_HEIGHT_DESKTOP = '44vh'
@@ -195,7 +196,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
           pointerEvents: 'none'
         }}
       >
-        {videoSrc && <source src={videoSrc} type={videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}
+        {videoSrc && <source src={videoSrc} type="video/mp4" />}
       </video>
       {/* Main title removed per request; keep only rotating subtitle */}
       {/* Fast-rotating subtitle that settles on Life */}
