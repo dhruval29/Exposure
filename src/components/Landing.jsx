@@ -17,6 +17,7 @@ import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import useRouteTransitionReady from '../hooks/useRouteTransitionReady'
+import '../styles/Gallery.css'
 
 // Footer height constants (responsive vh units)
 const FOOTER_HEIGHT_DESKTOP = '44vh'
@@ -195,7 +196,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
           pointerEvents: 'none'
         }}
       >
-        {videoSrc && <source src={videoSrc} type={videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}
+        {videoSrc && <source src={videoSrc} type="video/mp4" />}
       </video>
       {/* Main title removed per request; keep only rotating subtitle */}
       {/* Fast-rotating subtitle that settles on Life */}
@@ -283,7 +284,7 @@ const DEFAULT_ZR_CONFIG = {
   pinSpacing: true
 }
 
-const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/IMG_20241014_155217-3.jpg', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
+const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
   const containerRef = useRef(null)
   const imageRef = useRef(null)
   const leftTextRef = useRef(null)
@@ -1417,7 +1418,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/IMG_20241014
           zIndex: 998
         }}
       >
-        <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/IMG_20241014_155217-3.jpg" />
+        <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
       </div>
 
       {/* No extra spacer on mobile to prevent scrolling past the footer */}
