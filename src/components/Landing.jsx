@@ -17,7 +17,6 @@ import MobileMarquee from './MobileMarquee'
 import Frame60 from './Frame60'
 import MergedFrame from './MergedFrame'
 import useRouteTransitionReady from '../hooks/useRouteTransitionReady'
-import '../styles/Gallery.css'
 
 // Footer height constants (responsive vh units)
 const FOOTER_HEIGHT_DESKTOP = '44vh'
@@ -196,7 +195,7 @@ const VideoBackground = ({ wireframeRef, isMobile, startSubtitle, onVideoStarted
           pointerEvents: 'none'
         }}
       >
-        {videoSrc && <source src={videoSrc} type="video/mp4" />}
+        {videoSrc && <source src={videoSrc} type={videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}
       </video>
       {/* Main title removed per request; keep only rotating subtitle */}
       {/* Fast-rotating subtitle that settles on Life */}
@@ -284,7 +283,7 @@ const DEFAULT_ZR_CONFIG = {
   pinSpacing: true
 }
 
-const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
+const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/IMG_20241014_155217-3.jpg', leftText = 'Take a closer', rightText = 'look at Life', config = DEFAULT_ZR_CONFIG }) => {
   const containerRef = useRef(null)
   const imageRef = useRef(null)
   const leftTextRef = useRef(null)
@@ -1153,9 +1152,21 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     }
   }, [])
 
-  // Initial full-screen overlay styled like RouteTransitionLoader
+  // Safety valve: if video hasn't fired within MAX_BOOT_WAIT_MS, unblock the overlay anyway.
+  // This covers autoplay-blocked scenarios and very slow connections.
+  const MAX_BOOT_WAIT_MS = 7000
+  useEffect(() => {
+    if (videoStarted) return
+    const id = setTimeout(() => setVideoStarted(true), MAX_BOOT_WAIT_MS)
+    return () => clearTimeout(id)
+  }, [videoStarted])
+
+  // Initial full-screen overlay styled like RouteTransitionLoader.
+  // Held until the video has started playing (videoStarted = true) so the
+  // shutter never lifts to reveal a blank black frame.
   useEffect(() => {
     if (!showInitialOverlay) return
+    if (!videoStarted) return   // wait — video not ready yet
     const el = initialOverlayRef.current
     const textEl = initialTextRef.current
     const underlineEl = initialUnderlineRef.current
@@ -1406,7 +1417,7 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
           zIndex: 998
         }}
       >
-        <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/zoom-reveal.webp" />
+        <ZoomReveal imageSrc="/assets/mobile/images/zoom-reveal/IMG_20241014_155217-3.jpg" />
       </div>
 
       {/* No extra spacer on mobile to prevent scrolling past the footer */}

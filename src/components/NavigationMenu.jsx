@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 import { startRouteTransition } from './RouteTransitionLoader';
+import { prefetchRoutes } from '../utils/prefetch';
 import './NavigationMenu.css';
 
 
@@ -19,10 +20,10 @@ const NavigationMenu = ({ isExiting }) => {
   const ENABLE_HOVER_BG = false;
 
   const menuItems = [
-    { id: 'about-us', label: 'About Us', image: '/assets/mobile/images/navigation/7.webp' },
-    { id: 'gallery', label: 'Events', image: '/assets/mobile/images/navigation/8.webp' },
-    { id: 'team', label: 'Team', image: '/assets/mobile/images/navigation/11.webp' },
-    { id: 'latest-releases', label: 'Featured', image: '/assets/mobile/images/navigation/12.webp' }
+    { id: 'about-us', label: 'About Us', image: '/assets/mobile/images/navigation/7.webp', prefetchPaths: ['/about-us', '/about-us-mobile'] },
+    { id: 'gallery', label: 'Events', image: '/assets/mobile/images/navigation/8.webp', prefetchPaths: ['/events'] },
+    { id: 'team', label: 'Team', image: '/assets/mobile/images/navigation/11.webp', prefetchPaths: ['/the-team', '/the-team-mobile'] },
+    { id: 'latest-releases', label: 'Featured', image: '/assets/mobile/images/navigation/12.webp', prefetchPaths: ['/gallery', '/pictures'] }
   ];
 
   // Enhanced screen size detection
@@ -213,6 +214,9 @@ const NavigationMenu = ({ isExiting }) => {
   };
 
   const handleHover = (index, isHovering) => {
+    if (isHovering && menuItems[index]?.prefetchPaths) {
+      prefetchRoutes(menuItems[index].prefetchPaths);
+    }
     // Kill any existing animations on this element to prevent conflicts
     gsap.killTweensOf(textRefs.current[index]);
     gsap.killTweensOf(borderRefs.current[index]);
@@ -346,6 +350,7 @@ const NavigationMenu = ({ isExiting }) => {
           onClick={() => handleClick(item.id)}
           onMouseEnter={() => handleHover(index, true)}
           onMouseLeave={() => handleHover(index, false)}
+          onTouchStart={() => item.prefetchPaths && prefetchRoutes(item.prefetchPaths)}
           style={{
             position: 'relative',
             height: isMobile === 'small-mobile' ? '50px' : 

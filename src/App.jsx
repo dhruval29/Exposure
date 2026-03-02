@@ -6,8 +6,10 @@ import RouteTransitionLoader from './components/RouteTransitionLoader'
 import MobileChromeHider from './components/MobileChromeHider'
 import { Analytics } from "@vercel/analytics/react"
 import { useMediaQuery } from './hooks/useMediaQuery'
-// Import tutorial test helper for development
-import './utils/tutorialTestHelper'
+// Import tutorial test helper for development only
+if (import.meta.env.DEV) {
+  import('./utils/tutorialTestHelper')
+}
 // Optimized lazy loading with error boundaries and loading states
 const Landing = lazy(() => import('./components/Landing'))
 const TextCursorOverlay = lazy(() => import('./components/TextCursorOverlay'))
