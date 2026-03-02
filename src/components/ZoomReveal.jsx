@@ -9,7 +9,7 @@ const EXTRA_SCROLL_PAD = 0.3; // Extra scroll distance after zoom before nav sho
 const MOBILE_EXTRA_SCROLL_PAD = 0.05; // Nearly instant nav on mobile after zoom
 
 const ZoomReveal = ({
-  imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.webp',
+  imageSrc = '/assets/mobile/images/zoom-reveal/IMG_20241014_155217-3.jpg',
   leftText = 'Take a closer',
   rightText = 'look at Life'
 }) => {
