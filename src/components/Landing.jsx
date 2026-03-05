@@ -1004,8 +1004,10 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
   const [videoStarted, setVideoStarted] = useState(false)
   const navVisibilityRef = useRef('visible')
   const [showNavTitle, setShowNavTitle] = useState(false)
-  // Initial landing overlay matching RouteTransitionLoader style
-  const [showInitialOverlay, setShowInitialOverlay] = useState(true)
+  // Initial landing overlay matching RouteTransitionLoader style.
+  // Skip it on internal navigation — the global RouteTransitionLoader shutter
+  // already covered the transition, so showing a second shutter would double the wait.
+  const [showInitialOverlay, setShowInitialOverlay] = useState(() => !window.__routeTransitionActive)
   const initialOverlayRef = useRef(null)
   const initialTextRef = useRef(null)
   const initialUnderlineRef = useRef(null)
@@ -1153,21 +1155,9 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
     }
   }, [])
 
-  // Safety valve: if video hasn't fired within MAX_BOOT_WAIT_MS, unblock the overlay anyway.
-  // This covers autoplay-blocked scenarios and very slow connections.
-  const MAX_BOOT_WAIT_MS = 7000
-  useEffect(() => {
-    if (videoStarted) return
-    const id = setTimeout(() => setVideoStarted(true), MAX_BOOT_WAIT_MS)
-    return () => clearTimeout(id)
-  }, [videoStarted])
-
   // Initial full-screen overlay styled like RouteTransitionLoader.
-  // Held until the video has started playing (videoStarted = true) so the
-  // shutter never lifts to reveal a blank black frame.
   useEffect(() => {
     if (!showInitialOverlay) return
-    if (!videoStarted) return   // wait — video not ready yet
     const el = initialOverlayRef.current
     const textEl = initialTextRef.current
     const underlineEl = initialUnderlineRef.current
@@ -1182,31 +1172,27 @@ const ZoomReveal = ({ imageSrc = '/assets/mobile/images/zoom-reveal/zoom-reveal.
       gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
       gsap.to(underlineEl, { scaleX: 1, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.5 })
     }
-    const MIN_TEXT_DISPLAY_DURATION = 1.5
     const COVER_OUT_DURATION = 0.9
     const EASE_OUT = 'power4.in'
-    const timeoutId = setTimeout(() => {
-      if (textEl) {
-        gsap.to(textEl, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' })
+    if (textEl) {
+      gsap.to(textEl, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' })
+    }
+    if (underlineEl) {
+      gsap.to(underlineEl, { opacity: 0, scaleX: 0, duration: 0.3, ease: 'power2.in' })
+    }
+    gsap.to(el, {
+      yPercent: -100,
+      duration: COVER_OUT_DURATION,
+      ease: EASE_OUT,
+      delay: 0.2,
+      onComplete: () => {
+        gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
+        if (textEl) gsap.set(textEl, { opacity: 0, y: 20 })
+        if (underlineEl) gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
+        setShowInitialOverlay(false)
       }
-      if (underlineEl) {
-        gsap.to(underlineEl, { opacity: 0, scaleX: 0, duration: 0.3, ease: 'power2.in' })
-      }
-      gsap.to(el, {
-        yPercent: -100,
-        duration: COVER_OUT_DURATION,
-        ease: EASE_OUT,
-        delay: 0.2,
-        onComplete: () => {
-          gsap.set(el, { yPercent: 100, pointerEvents: 'none' })
-          if (textEl) gsap.set(textEl, { opacity: 0, y: 20 })
-          if (underlineEl) gsap.set(underlineEl, { scaleX: 0, opacity: 0 })
-          setShowInitialOverlay(false)
-        }
-      })
-    }, MIN_TEXT_DISPLAY_DURATION * 1000)
-    return () => clearTimeout(timeoutId)
-  }, [showInitialOverlay, videoStarted])
+    })
+  }, [showInitialOverlay])
 
   // Sliding height: desktop 300vh, mobile/tablet 200vh
   const getSlidingHeight = () => {

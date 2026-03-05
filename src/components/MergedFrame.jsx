@@ -187,10 +187,9 @@ const MergedFrame = () => {
 			<div className={styles.mergedFrameParent}>
 				<div className={styles.frame1Section}>
 				<div className={styles.weUseTheContainer}>
-					<p className={styles.weUseThe}>Hola, explorer. Stories worth chasing.</p>
-					<p className={styles.weUseThe}>Places worth losing yourself in.</p>
-					<p className={styles.weUseThe}>Moments that rewrite what you thought</p>
-					<p className={styles.weUseThe}>you knew.</p>
+				<p className={styles.weUseThe}>Chasing the stories worth remembering.</p>
+				<p className={styles.weUseThe}>Living the moments you'll spend</p>
+				<p className={styles.weUseThe}>a lifetime returning to.</p>
 				</div>
 				<div className={styles.frame1SubText}>
 					For the ones who wander with purpose and stumble into magic. We explore what moves us, document what matters, and share what stays with you long after you've returned home.
@@ -235,16 +234,13 @@ const MergedFrame = () => {
 			<div ref={frame1Ref} className={styles.frame1Section}>
 				<div className={styles.weUseTheContainer}>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("Hola, explorer. Stories worth chasing.", 0, 0)}
+						{createAnimatedWords("Chasing the stories worth remembering.", 0, 0)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("Places worth losing yourself in.", 0, 1)}
+						{createAnimatedWords("Living the moments you'll spend", 0, 1)}
 					</p>
 					<p className={styles.weUseThe}>
-						{createAnimatedWords("Moments that rewrite what you thought", 0, 2)}
-					</p>
-					<p className={styles.weUseThe}>
-						{createAnimatedWords("you knew.", 0, 3)}
+						{createAnimatedWords("a lifetime returning to.", 0, 2)}
 					</p>
 				</div>
 				<div ref={frame1SubTextRef} className={styles.frame1SubText}>

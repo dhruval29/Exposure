@@ -65,13 +65,7 @@ const AboutUs = () => {
           className={`${styles.exposureExplorers} ${animationsReady ? styles.animatedText : ''}`}
           style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 600}ms` : '0ms' }}
         >
-          dedicated to capturing life through creative lenses. We explore the art of visual storytelling -from framing campus memories to experimenting with new techniques.  Our members collaborate, learn, and share their passion through workshops,
-        </p>
-        <p 
-          className={`${styles.exposureExplorers} ${animationsReady ? styles.animatedText : ''}`}
-          style={{ animationDelay: animationsReady ? `${BASE_DELAY_MS + 800}ms` : '0ms' }}
-        >
-          photo walks, and projects that celebrate the world of light and perspective.
+          dedicated to capturing life through creative lenses. We explore the art of visual storytelling -from framing campus memories to experimenting with new techniques. Our members collaborate, learn, and share their passion through workshops, photo walks, and projects that celebrate the world of light and perspective.
         </p>
       </div>
       <img 

@@ -328,7 +328,7 @@
 /* Subtext box below frame 1 headline */
 .frame1SubText {
 	position: absolute;
-    top: 45%; /* positioned below the main text */
+    top: 35%; /* positioned below the main text */
 	left: 4.49%; /* align with weUseTheContainer */
 	max-width: 45%; /* wider than frame 2 to accommodate longer text */
 	padding: 0; /* remove inner spacing */

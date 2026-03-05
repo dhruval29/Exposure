@@ -24,7 +24,7 @@ const RouteTransitionLoader = () => {
       '/about-us': 'About Us',
       '/effects': 'Effects',
       '/gallery': 'Gallery',
-      '/pictures': 'Pictures',
+      '/pictures': 'Featured',
       '/the-team': 'The Team',
       '/admin': 'Admin',
       '/fly': 'Fly',

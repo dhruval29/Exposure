@@ -91,7 +91,6 @@ const Footer = () => {
         >
           {emailCopied ? 'Email copied!' : 'exposure.explorers@nitgoa.ac.in'}
         </div>
-        <div className={styles.designedDeveloped}>Designed & Developed by @dhr</div>
       </div>
     </footer>
   );
