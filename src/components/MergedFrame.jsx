@@ -1,19 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './MergedFrame.module.css'
-import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const MergedFrame = () => {
 	const frame1Ref = useRef(null)
 	const frame2Ref = useRef(null)
 	const frame3Ref = useRef(null)
-	const img1Ref = useRef(null)
-	const img2Ref = useRef(null)
-	const img3Ref = useRef(null)
-	const img4Ref = useRef(null)
-	const img5Ref = useRef(null)
 
 	// Text animation refs - now for individual words
 	const textWordRefs = useRef([])
@@ -41,73 +32,6 @@ const MergedFrame = () => {
 			</span>
 		))
 	}
-
-	// Image parallax with Intersection Observer
-	useEffect(() => {
-		const imageRefs = [img1Ref, img2Ref, img3Ref, img4Ref, img5Ref]
-		const parallaxSpeeds = [0.06, 0.06, 0.06, 0.03, 0.06]
-		const scaleValues = [1, 1.02, 1.02, 1.01, 1.02]
-		
-		const imageObservers = imageRefs.map((imgRef, index) => {
-			if (!imgRef.current) return null
-			
-			const observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							// Start parallax animation when image comes into view
-							const startScrollY = window.scrollY
-							const handleScroll = () => {
-								const currentScrollY = window.scrollY
-								const relativeScroll = Math.max(0, currentScrollY - startScrollY)
-								const offset = relativeScroll * parallaxSpeeds[index]
-								
-								gsap.set(imgRef.current, {
-									y: offset,
-									scale: scaleValues[index],
-									transformOrigin: 'center center',
-									force3D: true
-								})
-							}
-							
-							// Add scroll listener for this specific image
-							window.addEventListener('scroll', handleScroll, { passive: true })
-							
-							// Store cleanup function
-							imgRef.current._cleanup = () => {
-								window.removeEventListener('scroll', handleScroll)
-							}
-						} else {
-							// Clean up when image leaves view
-							if (imgRef.current && imgRef.current._cleanup) {
-								imgRef.current._cleanup()
-								imgRef.current._cleanup = null
-							}
-						}
-					})
-				},
-				{
-					threshold: 0.1, // Trigger when 10% visible
-					rootMargin: '0px 0px -100px 0px' // Start before fully visible
-				}
-			)
-			
-			observer.observe(imgRef.current)
-			return observer
-		})
-
-		return () => {
-			imageObservers.forEach(observer => {
-				if (observer) observer.disconnect()
-			})
-			// Clean up any remaining scroll listeners
-			imageRefs.forEach(imgRef => {
-				if (imgRef.current && imgRef.current._cleanup) {
-					imgRef.current._cleanup()
-				}
-			})
-		}
-	}, [])
 
 	// Text animation intersection observer - frame-based timing
 	useEffect(() => {
@@ -208,7 +132,7 @@ const MergedFrame = () => {
 						<p className={styles.weUseThe}>{` the imagination, `}</p>
 					</div>
                     <div className={styles.frame2Image3Container}>
-                        <img className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1).jpg" alt="Creative process" />
+                        <img className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_28041.JPG" alt="Creative process" />
                     </div>
 				</div>
 				<div className={styles.frame3Section}>
@@ -250,14 +174,14 @@ const MergedFrame = () => {
                     <picture>
                         <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" />
                         <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" />
-                        <img ref={img1Ref} className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" alt="Storytelling image" />
+                        <img className={styles.frame1Image1} src="/assets/images/Sliding Page/Desktop Merged Frame/CNV_0557 (1).jpg" alt="Storytelling image" />
                     </picture>
                 </div>
                 <div className={styles.frame1Image2Container}>
                     <picture>
                         <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2)-sm.webp" />
                         <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2)-md.webp" />
-                        <img ref={img2Ref} className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).webp" alt="Inspiration image" />
+                        <img className={styles.frame1Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/RUDR (2).webp" alt="Inspiration image" />
                     </picture>
                 </div>
 			</div>
@@ -281,9 +205,9 @@ const MergedFrame = () => {
 				</div>
                 <div className={styles.frame2Image3Container}>
                     <picture>
-                        <source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1)-sm.webp" />
-                        <source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1)-md.webp" />
-                        <img ref={img3Ref} className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_6125 (1) (1).webp" alt="Creative process" />
+						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/ABC_6161-2 (1).jpg" />
+						<source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/ABC_6161-2 (1).jpg" />
+						<img className={styles.frame2Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/ABC_6161-2 (1).jpg" alt="Creative process" />
                     </picture>
                 </div>
 			</div>
@@ -292,16 +216,16 @@ const MergedFrame = () => {
 			<div ref={frame3Ref} className={styles.frame3Section}>
 				<div className={styles.frame3Image2Container}>
 					<picture>
-						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324-sm.webp" />
-						<source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324-md.webp" />
-						<img ref={img4Ref} className={styles.frame3Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.webp" alt="Creative inspiration" />
+						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.jpg" />
+						<source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.jpg" />
+						<img className={styles.frame3Image2} src="/assets/images/Sliding Page/Desktop Merged Frame/IMG_20241227_151324.jpg" alt="Creative inspiration" />
 					</picture>
 				</div>
                 <div className={styles.frame3Image3Container}>
 					<picture>
-						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1)-sm.webp" />
+						<source media="(max-width: 768px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1)-md.webp" />
 						<source media="(max-width: 1200px)" srcSet="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1)-md.webp" />
-						<img ref={img5Ref} className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1).webp" alt="Imagination spark" />
+						<img className={styles.frame3Image3} src="/assets/images/Sliding Page/Desktop Merged Frame/DSC_8925 (1)-md.webp" alt="Imagination spark" />
 					</picture>
                 </div>
 				<div className={styles.frame3TextContainer}>

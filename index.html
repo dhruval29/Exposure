@@ -9,17 +9,20 @@
     <meta name="description" content="Exposure Explorers - Photography and creative storytelling. We capture moments, freeze time, find beauty, and give memories a timeless home. Explore our portfolio of events, photography, and visual stories." />
     <title>Exposure Explorers - Photography & Creative Storytelling</title>
     <!-- Preconnect to critical origins for faster resource loading -->
-    <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co" crossorigin>
-    <link rel="dns-prefetch" href="https://cpsvnatshfgedqtyaafh.supabase.co">
-    <link rel="preconnect" href="https://cpsvnatshfgedqtyaafh.supabase.co/storage" crossorigin>
-    <link rel="dns-prefetch" href="https://cpsvnatshfgedqtyaafh.supabase.co/storage">
-    <!-- Preconnect to Vercel Analytics for performance tracking -->
-    <link rel="preconnect" href="https://vitals.vercel-insights.com" crossorigin>
-    <link rel="dns-prefetch" href="https://vitals.vercel-insights.com">
+    <!-- Keep critical hints minimal to avoid inflating the critical path -->
     <!-- Google Fonts - Helvetica alternatives -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Google Fonts stylesheet non-blocking (prevents render-blocking requests). -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    >
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
     <!-- Preload critical font files (optimized for performance) -->
     <link rel="preload" as="font" href="/fonts/PPEditorialNew-Regular.woff2" type="font/woff2" crossorigin>
     <link rel="preload" as="font" href="/fonts/PPEditorialNew-Ultralight-BF644b21500d0c0.woff2" type="font/woff2" crossorigin>
